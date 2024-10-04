@@ -3,7 +3,7 @@
 'use client';
 
 import React from 'react';
-import { useStore } from '../stores/useStore';
+import { useStore } from '../lib/stores/useStore';
 import { Button } from '@/components/ui/button';
 
 const Counter: React.FC = () => {

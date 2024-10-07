@@ -11,3 +11,8 @@ export const feather = localFont({
   display: "swap",
   variable: "--font-feather",
 });
+export const groteskText = localFont({
+  src: "../assets/fonts/TestFoundersGroteskText-Regular.otf",
+  display: "swap",
+  variable: "--font-grotesk",
+});

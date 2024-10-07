@@ -1,5 +1,6 @@
 // app/signup/page.tsx
 
+import { AuthPrompt } from "@/components/authPrompt";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -28,10 +29,13 @@ export default function SignupPage() {
             </Button>
           </div>
         </form>
-        <div className="text-center">
-          <Link href="/login" className="text-sm text-blue-600 hover:underline">
-            Already have an account? Login
-          </Link>
+
+        <div>
+          <AuthPrompt
+            text="Already have an account? "
+            link="Login"
+            url="/login"
+          />
         </div>
       </div>
     </div>

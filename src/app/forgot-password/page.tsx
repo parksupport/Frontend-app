@@ -1,8 +1,9 @@
 // app/forgot-password/page.tsx
 
+import { AuthPrompt } from "@/components/authPrompt";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
+
 
 export default function ForgotPasswordPage() {
   return (
@@ -22,10 +23,8 @@ export default function ForgotPasswordPage() {
             </Button>
           </div>
         </form>
-        <div className="text-center">
-          <Link href="/login" className="text-sm text-blue-600 hover:underline">
-            Back to Login
-          </Link>
+        <div>
+          <AuthPrompt link="Back to Login" url="/login" />
         </div>
       </div>
     </div>

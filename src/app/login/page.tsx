@@ -10,9 +10,11 @@ import { FaApple } from "react-icons/fa6";
 import { IoEyeOffOutline, IoEye } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { PiHandWavingFill } from "react-icons/pi";
-import { SignUpText } from "@/components/signUpText";
+import { AuthPrompt } from "@/components/authPrompt";
+import Link from "next/link";
+import { validateEmail, validatePassword } from "@/components/ValidationState";
 
-export default function LoginPage()  {
+export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -32,7 +34,6 @@ export default function LoginPage()  {
   const handleChangePasswordIcon = () => {
     setIsPasswordVisible((prev) => !prev);
   };
-
 
   const handleGoogleLogin = () => {
     // Logic for Google login
@@ -68,20 +69,19 @@ export default function LoginPage()  {
             </div>
             <form onSubmit={handleSubmit}>
               <InputField
-                id="email"
                 value={inputValue}
-                inputType="text"
-                inputText="Email Address"
+                type="text"
+                label="Email Address"
                 placeholder="Enter your email"
                 icon={<CiMail className="text-2xl" />}
                 onChange={(value) => handleInputChange("text", value)}
+                validationRules={validateEmail}
               />
               <div>
                 <InputField
-                  id="password"
                   value={password}
-                  inputType={isPasswordVisible ? "text" : "password"}
-                  inputText="Password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  label="Password"
                   placeholder="Enter your password"
                   icon={
                     isPasswordVisible ? (
@@ -97,6 +97,7 @@ export default function LoginPage()  {
                     )
                   }
                   onChange={(value) => handleInputChange("password", value)}
+                  validationRules={validatePassword}
                 />
                 <div className="flex items-center justify-between -mt-2 mb-10">
                   <div className="flex items-center space-x-1 ">
@@ -110,12 +111,13 @@ export default function LoginPage()  {
                       Remember Me
                     </label>
                   </div>
-                  <div
-                    onClick={() => console.log("forgot password")}
-                    className="cursor-pointer text-[#4169E1] text-xs"
+
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs text-blue-600 hover:underline"
                   >
                     Forgot password
-                  </div>
+                  </Link>
                 </div>
               </div>
 
@@ -145,19 +147,26 @@ export default function LoginPage()  {
             </Button>
 
             <div>
-              <SignUpText text="Are you new? " link="Create an account" />
+              <AuthPrompt
+                text="Are you new? "
+                link="Create an account"
+                url="/signup"
+              />
             </div>
             <div className="px-10 text-sm text-center">
               By signing in or creating an account, you agree with our
-              <span className="font-bold underline">
+              <Link href="/" className="font-bold underline">
                 {" "}
                 Terms & Conditions
-              </span>{" "}
-              and <span className="font-bold underline">Privacy Statement</span>
+              </Link>{" "}
+              and{" "}
+              <Link href="/" className="font-bold underline">
+                Privacy Statement
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}

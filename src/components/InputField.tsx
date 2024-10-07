@@ -1,50 +1,56 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from "react";
 
-type Variant = 'individual' | 'corporate';
+type Variant = "individual" | "corporate";
 
 interface InputFieldProps {
   label: string;
+  value: string;
   type: string;
-  variant: Variant;
-  className: string;
+  variant?: Variant;
+  className?: string;
   placeholder?: string;
   validationRules: (value: string) => string | null;
+  onChange: (value: string) => void;
+  icon?: React.ReactNode;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
+  value,
+  onChange,
   label,
   type,
   variant,
+  icon,
   validationRules,
-  placeholder = '',
-  className
+  placeholder = "",
+  className,
 }) => {
-  const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setValue(newValue);
+    onChange(newValue);
+
     const validationError = validationRules(newValue);
     setError(validationError);
   };
 
   return (
     <div className="flex flex-col mb-4">
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
-      <input
-        type={type}
-        value={value}
-        onChange={handleChange}
-        placeholder={placeholder}
-        className={`w-full  rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185]  text-[14px]  focus:outline-none p-2 ${error ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring focus:ring-opacity-50 ${
-          error ? 'focus:ring-red-500' : 'focus:ring-blue-500'
-        }`}
-      />
+      <label className="mb-1 text-sm font-normal text-base">{label}</label>
+      <div className="flex items-center border border-gray-300 rounded-md p-2 ">
+        <input
+          value={value}
+          type={type}
+          placeholder={placeholder}
+          className="flex-1 text-xs outline-none"
+          onChange={handleChange}
+        />
+        <span className="mr-2 text-gray-500">{icon}</span>
+      </div>
       {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   );
 };
 
 export default InputField;
-

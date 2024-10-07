@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import ButtonText from "@/components/buttonText";
+import ButtonText from "@/components/ButtonText";
 import InputField from "@/components/InputField";
-import TextBlock from "@/components/textBlock";
+import TextBlock from "@/components/TextBlock";
 import { CiMail } from "react-icons/ci";
 import { FaApple } from "react-icons/fa6";
 import { IoEyeOffOutline, IoEye } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { PiHandWavingFill } from "react-icons/pi";
-import { AuthPrompt } from "@/components/authPrompt";
+import { AuthPrompt } from "@/components/AuthPrompt";
 import Link from "next/link";
 import { validateEmail, validatePassword } from "@/components/ValidationState";
 

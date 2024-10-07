@@ -6,6 +6,8 @@ interface InputFieldProps {
   label: string;
   type: string;
   variant: Variant;
+  className: string;
+  placeholder?: string;
   validationRules: (value: string) => string | null;
 }
 
@@ -14,6 +16,8 @@ const InputField: React.FC<InputFieldProps> = ({
   type,
   variant,
   validationRules,
+  placeholder = '',
+  className
 }) => {
   const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -32,7 +36,8 @@ const InputField: React.FC<InputFieldProps> = ({
         type={type}
         value={value}
         onChange={handleChange}
-        className={`mt-1 block w-full p-2 border ${error ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring focus:ring-opacity-50 ${
+        placeholder={placeholder}
+        className={`max-w-[400px] w-full  rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185]  text-[14px]  focus:outline-none px-[16px] py-[16px] ${error ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring focus:ring-opacity-50 ${
           error ? 'focus:ring-red-500' : 'focus:ring-blue-500'
         }`}
       />

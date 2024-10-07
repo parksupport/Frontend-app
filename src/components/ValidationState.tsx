@@ -13,6 +13,10 @@ const validatePassword = (password: string): string | null => {
   return password.length >= 6 ? null : 'Password must be at least 6 characters';
 };
 
+const validateConfirmPassword = (password: string, confirmPassword: string): boolean => {
+  return password === confirmPassword; 
+};
+
 const validateCompanyName = (name: string): string | null => {
   return name.length > 0 ? null : 'Company name is required';
 };
@@ -22,16 +26,17 @@ const App: React.FC = () => {
     <div className="w-full max-w-[400px]">
       <form className="">
         <InputField
-           className={`max-w-[400px] w-full  rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185]  text-[14px]  focus:outline-none px-[16px] py-[16px] ${groteskText.className}`}
+          className={`${groteskText.className}`}
 
           label="Email"
           type="email"
           variant="individual"
+          placeholder='Enter your email'
           validationRules={validateEmail}
         />
         <InputField
-           className={`max-w-[400px] w-full  rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185]  text-[14px]  focus:outline-none px-[16px] py-[16px] ${groteskText.className}`}
-
+          className={` ${groteskText.className}`}
+          placeholder='Enter your password'
           label="Password"
           type="password"
           variant="individual"
@@ -41,9 +46,18 @@ const App: React.FC = () => {
           label="Company Name"
           type="text"
           variant="corporate"
-          className={`max-w-[400px] w-full  rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185]  text-[14px]  focus:outline-none px-[16px] py-[16px] ${groteskText.className}`}
+          className={` ${groteskText.className}`}
 
           validationRules={validateCompanyName}
+        />
+
+        <InputField
+          label="Confirm password"
+          type="password"
+          variant="corporate"
+          className={` ${groteskText.className}`}
+
+          validationRules={validateConfirmPassword}
         />
       </form>
     </div>

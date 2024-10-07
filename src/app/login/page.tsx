@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import ButtonText from "@/components/buttonText";
 import InputField from "@/components/InputField";
 import TextBlock from "@/components/textBlock";
-import { CiMail } from "react-icons/ci";
+ import { CiMail } from "react-icons/ci";
 import { FaApple } from "react-icons/fa6";
 import { IoEyeOffOutline, IoEye } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
@@ -21,6 +21,13 @@ export default function LoginPage()  {
     {}
   );
 
+  const validateEmail = (email: string): string | null => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) ? null : 'Invalid email format';
+  };
+  const validatePassword = (password: string): string | null => {
+    return password.length >= 6 ? null : 'Password must be at least 6 characters';
+  };
   const handleInputChange = (inputType: "text" | "password", value: string) => {
     if (inputType === "text") {
       setInputValue(value);
@@ -57,12 +64,12 @@ export default function LoginPage()  {
                 header={"Welcome! Back"}
                 icon={
                   <PiHandWavingFill
-                    color=" #D2B48C"
+                    color="#D2B48C"
                     className="text-5xl px-1 "
                   />
                 }
                 content={
-                  "  Enter your email and password to access your account"
+                  "Enter your email and password to access your account"
                 }
               />
             </div>
@@ -72,8 +79,9 @@ export default function LoginPage()  {
                 value={inputValue}
                 inputType="text"
                 inputText="Email Address"
+                validationRules={validateEmail}
                 placeholder="Enter your email"
-                icon={<CiMail className="text-2xl" />}
+                // icon={<CiMail className="text-2xl" />}
                 onChange={(value) => handleInputChange("text", value)}
               />
               <div>
@@ -83,6 +91,7 @@ export default function LoginPage()  {
                   inputType={isPasswordVisible ? "text" : "password"}
                   inputText="Password"
                   placeholder="Enter your password"
+                  validationRules={validatePassword}
                   icon={
                     isPasswordVisible ? (
                       <IoEye

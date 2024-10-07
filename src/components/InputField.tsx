@@ -1,45 +1,53 @@
-import React, { useState, ChangeEvent } from 'react';
+"use client"
 
-type Variant = 'individual' | 'corporate';
+import { useState } from "react";
 
 interface InputFieldProps {
-  label: string;
   type: string;
-  variant: Variant;
-  className: string;
-  placeholder?: string;
+  placeholder: string;
   validationRules: (value: string) => string | null;
+  label: string;
+  variant: string;
+  className: string;
+  value: string;
+  name: string;
+  onBlur?: () => void; 
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
-  label,
   type,
-  variant,
+  placeholder,
   validationRules,
-  placeholder = '',
-  className
+  label,
+  variant,
+  className,
+  value,
+  onChange,
+  name,
+  onBlur
 }) => {
-  const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    const validationError = validationRules(newValue);
-    setError(validationError);
+  const handleBlur = () => {
+    const errorMsg = validationRules(value);
+    setError(errorMsg);
   };
 
   return (
-    <div className="flex flex-col mb-4">
-      <label className="block text-sm font-medium text-gray-700">{label}</label>
+    <div className={`input-field ${variant} ${className}`}>
+      <label htmlFor={name}>{label}</label>
       <input
+        id={name} // Associate label with input
         type={type}
-        value={value}
-        onChange={handleChange}
         placeholder={placeholder}
-        className={`w-full  rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185]  text-[14px]  focus:outline-none p-2 ${error ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring focus:ring-opacity-50 ${
-          error ? 'focus:ring-red-500' : 'focus:ring-blue-500'
-        }`}
+        value={value}
+        name={name}
+        onChange={onChange} 
+        onBlur={handleBlur} 
+        className={`w-full rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185] text-[14px] focus:outline-none p-2 ${
+          error ? 'border-red-500' : 'border-gray-300'
+        } ${error ? 'focus:ring-red-500' : 'focus:ring-blue-500'}`}
       />
       {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
@@ -47,4 +55,3 @@ const InputField: React.FC<InputFieldProps> = ({
 };
 
 export default InputField;
-

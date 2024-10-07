@@ -1,26 +1,111 @@
 // app/signup/page.tsx
-
+"use client"
+import InputField from "@/components/InputField";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { groteskText } from "../fonts";
+import { useState } from "react";
 
-export default function SignupPage() {
+
+
+const SignupPage: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedData = {
+        ...prevData,
+        [name]: value,
+      };
+      console.log(updatedData);
+      return updatedData;
+    });
+  };
+
+  const validatePassword = (password: string): string | null => {
+    return password.length >= 6 ? null : 'Password must be at least 6 characters';
+  };
+
+  const validateEmail = (email: string): string | null => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) ? null : 'Invalid email format';
+  };
+
+  const handleConfirmPasswordBlur = () => {
+    if (formData.confirmPassword !== formData.password) {
+      setConfirmPasswordError('Passwords do not match');
+    } else {
+      setConfirmPasswordError(null);
+    }
+  };
+
+
+
+
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="w-full max-w-md p-8 space-y-6">
+    <div className="">
+      <div className="">
         <h1 className="text-2xl font-bold text-center">Sign Up</h1>
         <form className="mt-8 space-y-4">
           <div>
-            <Input type="text" placeholder="Name" required />
+            <InputField
+              type="text"
+              placeholder="Name"
+              label="Name"
+              variant="individual"
+              className=""
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              validationRules={(value) => value ? null : 'Name is required'}
+            />
           </div>
           <div>
-            <Input type="email" placeholder="Email" required />
+            <InputField
+              type="email"
+              placeholder="Enter your email"
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              validationRules={validateEmail}
+              variant="individual"
+              className=""
+            />
           </div>
           <div>
-            <Input type="password" placeholder="Password" required />
+            <InputField
+              type="password"
+              placeholder="Password"
+              label="Password"
+              variant="individual"
+              className=""
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              validationRules={validatePassword}
+            />
           </div>
-          <div>
-            <Input type="password" placeholder="Confirm Password" required />
+          <div className={`input-field individual`}>
+            <InputField
+              type="password"
+              placeholder="Confirm Password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              validationRules={handleConfirmPasswordBlur} 
+              label={"Confirm Password"} 
+              variant={"individual"} 
+              className={""} 
+              />
+            {confirmPasswordError && <span style={{ color: 'red' }}>{confirmPasswordError}</span>}
           </div>
           <div>
             <Button type="submit" className="w-full">
@@ -36,4 +121,7 @@ export default function SignupPage() {
       </div>
     </div>
   );
-}
+};
+
+export default SignupPage;
+

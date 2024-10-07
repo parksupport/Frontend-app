@@ -30,14 +30,14 @@ const InputField: React.FC<InputFieldProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[400px]">
+    <div className="flex flex-col mb-4">
       <label className="block text-sm font-medium text-gray-700">{label}</label>
       <input
         type={type}
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className={`max-w-[400px] w-full  rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185]  text-[14px]  focus:outline-none px-[16px] py-[16px] ${error ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring focus:ring-opacity-50 ${
+        className={`w-full  rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185]  text-[14px]  focus:outline-none p-2 ${error ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring focus:ring-opacity-50 ${
           error ? 'focus:ring-red-500' : 'focus:ring-blue-500'
         }`}
       />
@@ -47,3 +47,4 @@ const InputField: React.FC<InputFieldProps> = ({
 };
 
 export default InputField;
+

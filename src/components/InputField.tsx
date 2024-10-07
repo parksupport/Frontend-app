@@ -19,11 +19,9 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   label,
   type,
-  variant,
   icon,
   validationRules,
   placeholder = "",
-  className,
 }) => {
   const [error, setError] = useState<string | null>(null);
 
@@ -37,7 +35,7 @@ const InputField: React.FC<InputFieldProps> = ({
 
   return (
     <div className="flex flex-col mb-4">
-      <label className="mb-1 text-sm font-normal text-base">{label}</label>
+      <label className="mb-1 font-normal text-base">{label}</label>
       <div className="flex items-center border border-gray-300 rounded-md p-2 ">
         <input
           value={value}

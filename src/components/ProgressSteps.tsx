@@ -7,7 +7,7 @@ import { groteskText } from '@/app/fonts';
 const ProgressSteps = () => {
     const steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
     const [currentStep, setCurrentStep] = useState(1);
-    const [complete, setComplete] = useState(false);
+    const [complete] = useState(false);
     const [step, setStep] = useState(0);
 
     const handleButtonClick = () => {

@@ -19,9 +19,7 @@ export default function LoginPage() {
   const [inputValue, setInputValue] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
-    {}
-  );
+  
 
   const handleInputChange = (inputType: "text" | "password", value: string) => {
     if (inputType === "text") {
@@ -35,13 +33,6 @@ export default function LoginPage() {
     setIsPasswordVisible((prev) => !prev);
   };
 
-  const handleGoogleLogin = () => {
-    // Logic for Google login
-  };
-
-  const handleAppleLogin = () => {
-    // Logic for Apple login
-  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -10,8 +10,9 @@ import { FaApple } from "react-icons/fa6";
 import { IoEyeOffOutline, IoEye } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { PiHandWavingFill } from "react-icons/pi";
-import { SignUpText } from "@/components/signUpText";
+import { AuthPrompt } from "@/components/authPrompt";
 import Link from "next/link";
+import { validateEmail, validatePassword } from "@/components/ValidationState";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
@@ -74,6 +75,7 @@ export default function LoginPage() {
                 placeholder="Enter your email"
                 icon={<CiMail className="text-2xl" />}
                 onChange={(value) => handleInputChange("text", value)}
+                validationRules={validateEmail}
               />
               <div>
                 <InputField
@@ -95,6 +97,7 @@ export default function LoginPage() {
                     )
                   }
                   onChange={(value) => handleInputChange("password", value)}
+                  validationRules={validatePassword}
                 />
                 <div className="flex items-center justify-between -mt-2 mb-10">
                   <div className="flex items-center space-x-1 ">
@@ -108,12 +111,7 @@ export default function LoginPage() {
                       Remember Me
                     </label>
                   </div>
-                  {/* <div
-                    onClick={() => console.log("forgot password")}
-                    className="cursor-pointer text-[#4169E1] text-xs"
-                  >
-                    Forgot password
-                  </div> */}
+
                   <Link
                     href="/forgot-password"
                     className="text-xs text-blue-600 hover:underline"
@@ -149,7 +147,11 @@ export default function LoginPage() {
             </Button>
 
             <div>
-              {/* <SignUpText text="Are you new? " link="Create an account" url="/signup"/> */}
+              <AuthPrompt
+                text="Are you new? "
+                link="Create an account"
+                url="/signup"
+              />
             </div>
             <div className="px-10 text-sm text-center">
               By signing in or creating an account, you agree with our

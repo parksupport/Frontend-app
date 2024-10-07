@@ -4,12 +4,12 @@ import React from 'react';
 import InputField from './InputField';
 import { groteskText } from '@/app/fonts';
 
-const validateEmail = (email: string): string | null => {
+export const validateEmail = (email: string): string | null => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email) ? null : 'Invalid email format';
 };
 
-const validatePassword = (password: string): string | null => {
+export const validatePassword = (password: string): string | null => {
   return password.length >= 6 ? null : 'Password must be at least 6 characters';
 };
 

@@ -1,6 +1,7 @@
+"use client";
 import React, { useState, useEffect } from 'react';
 
-const ImageSlider = ({ images }) => {
+const ImageSlider = ({ images }:any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   

@@ -21,7 +21,7 @@ const InputField = ({
 }: InputFieldProps) => {
   return (
     <div className="flex flex-col mb-4">
-      <label className="mb-1 text-sm font-normal text-base">{inputText}</label>
+      <label className="mb-1 text-sm font-normal ">{inputText}</label>
       <div className="flex items-center border border-gray-300 rounded-md p-2 ">
         <input
           id={id}

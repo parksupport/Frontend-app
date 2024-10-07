@@ -1,7 +1,7 @@
 // app/forgot-password/page.tsx
 
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 export default function ForgotPasswordPage() {

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { useStore } from '../lib/stores/useStore';
-import { Button } from '@/src/components/ui/button';
+import { Button } from '@/components/ui/button';
 
 const Counter: React.FC = () => {
   const { count, increaseCount, resetCount } = useStore();

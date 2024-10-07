@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { bloggerSans } from "./fonts";
 import "./globals.css";
+
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,7 +23,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`antialiased`}
+        className={bloggerSans.className}
       >
         {children}
       </body>

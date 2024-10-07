@@ -1,5 +1,5 @@
-import ImageSlider from "@/src/components/imageSlider";
-import { Logo } from "@/src/components/logo";
+import ImageSlider from "@/components/imageSlider";
+import { Logo } from "@/components/logo";
 
 interface BaseProps {
   children: React.ReactNode;

@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/src/components/ui/button";
-import ButtonText from "@/src/components/buttonText";
-import InputField from "@/src/components/InputField";
-import TextBlock from "@/src/components/textBlock";
+import { Button } from "@/components/ui/button";
+import ButtonText from "@/components/buttonText";
+import InputField from "@/components/InputField";
+import TextBlock from "@/components/textBlock";
 import { CiMail } from "react-icons/ci";
 import { FaApple } from "react-icons/fa6";
 import { IoEyeOffOutline, IoEye } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { PiHandWavingFill } from "react-icons/pi";
-import { SignUpText } from "@/src/components/signUpText";
+import { SignUpText } from "@/components/signUpText";
 
 export default function LoginPage()  {
   const [password, setPassword] = useState("");

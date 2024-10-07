@@ -11,8 +11,9 @@ import { IoEyeOffOutline, IoEye } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { PiHandWavingFill } from "react-icons/pi";
 import { SignUpText } from "@/components/signUpText";
+import Link from "next/link";
 
-export default function LoginPage()  {
+export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -32,7 +33,6 @@ export default function LoginPage()  {
   const handleChangePasswordIcon = () => {
     setIsPasswordVisible((prev) => !prev);
   };
-
 
   const handleGoogleLogin = () => {
     // Logic for Google login
@@ -68,20 +68,18 @@ export default function LoginPage()  {
             </div>
             <form onSubmit={handleSubmit}>
               <InputField
-                id="email"
                 value={inputValue}
-                inputType="text"
-                inputText="Email Address"
+                type="text"
+                label="Email Address"
                 placeholder="Enter your email"
                 icon={<CiMail className="text-2xl" />}
                 onChange={(value) => handleInputChange("text", value)}
               />
               <div>
                 <InputField
-                  id="password"
                   value={password}
-                  inputType={isPasswordVisible ? "text" : "password"}
-                  inputText="Password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  label="Password"
                   placeholder="Enter your password"
                   icon={
                     isPasswordVisible ? (
@@ -110,12 +108,18 @@ export default function LoginPage()  {
                       Remember Me
                     </label>
                   </div>
-                  <div
+                  {/* <div
                     onClick={() => console.log("forgot password")}
                     className="cursor-pointer text-[#4169E1] text-xs"
                   >
                     Forgot password
-                  </div>
+                  </div> */}
+                  <Link
+                    href="/forgot-password"
+                    className="text-xs text-blue-600 hover:underline"
+                  >
+                    Forgot password
+                  </Link>
                 </div>
               </div>
 
@@ -145,19 +149,22 @@ export default function LoginPage()  {
             </Button>
 
             <div>
-              <SignUpText text="Are you new? " link="Create an account" />
+              {/* <SignUpText text="Are you new? " link="Create an account" url="/signup"/> */}
             </div>
             <div className="px-10 text-sm text-center">
               By signing in or creating an account, you agree with our
-              <span className="font-bold underline">
+              <Link href="/" className="font-bold underline">
                 {" "}
                 Terms & Conditions
-              </span>{" "}
-              and <span className="font-bold underline">Privacy Statement</span>
+              </Link>{" "}
+              and{" "}
+              <Link href="/" className="font-bold underline">
+                Privacy Statement
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}

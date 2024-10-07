@@ -4,14 +4,18 @@ type Variant = 'individual' | 'corporate';
 
 interface InputFieldProps {
   label: string;
+  value:string;
   type: string;
   variant: Variant;
   className: string;
   placeholder?: string;
   validationRules: (value: string) => string | null;
+  onChange: (value: string) => void; 
 }
 
 const InputField: React.FC<InputFieldProps> = ({
+  value,
+  onChange,
   label,
   type,
   variant,
@@ -19,12 +23,12 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder = '',
   className
 }) => {
-  const [value, setValue] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setValue(newValue);
+    onChange(newValue);
+
     const validationError = validationRules(newValue);
     setError(validationError);
   };

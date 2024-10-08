@@ -1,7 +1,7 @@
 // app/forgot-password/page.tsx
 
-import { AuthPrompt } from "@/components/authPrompt";
-import Button from "@/components/Buttons";
+import { AuthPrompt } from "@/components/AuthPrompt";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 

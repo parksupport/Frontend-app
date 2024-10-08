@@ -1,11 +1,12 @@
 // app/forgot-password/page.tsx
 
 import { AuthPrompt } from "@/components/authPrompt";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/Buttons";
 import { Input } from "@/components/ui/input";
 
 
 export default function ForgotPasswordPage() {
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md p-8 space-y-6">

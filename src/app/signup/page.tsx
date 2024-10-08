@@ -1,11 +1,6 @@
 // app/signup/page.tsx
 "use client"
 import InputField from "@/components/InputField";
-// import { AuthPrompt } from "@/components/authPrompt";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { groteskText } from "../fonts";
 import { useState } from "react";
 import { AuthPrompt } from "@/components/authPrompt"
 
@@ -111,9 +106,9 @@ const SignupPage: React.FC = () => {
             {confirmPasswordError && <span style={{ color: 'red' }}>{confirmPasswordError}</span>}
           </div>
           <div>
-            <Button type="submit" className="w-full">
+            {/* <Button type="submit" className="w-full">
               Sign Up
-            </Button>
+            </Button> */}
           </div>
         </form>
 

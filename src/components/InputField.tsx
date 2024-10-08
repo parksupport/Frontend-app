@@ -35,18 +35,19 @@ const InputField: React.FC<InputFieldProps> = ({
   };
 
   return (
-    <div className="flex flex-col mb-4">
-      <label className="mb-1 text-sm font-normal text-base">{label}</label>
-      <div className="flex items-center border border-gray-300 rounded-md p-2 ">
-        <input
-          value={value}
-          type={type}
-          placeholder={placeholder}
-          className="flex-1 text-xs outline-none"
-          onChange={handleChange}
-        />
-        <span className="mr-2 text-gray-500">{icon}</span>
-      </div>
+    <div className={`input-field ${variant} ${className}`}>
+      <label htmlFor={name}>{label}</label>
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        name={name}
+        onChange={onChange} 
+        onBlur={handleBlur} 
+        className={`w-full rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185] text-[14px] focus:outline-none p-2 ${
+          error ? 'border-red-500' : 'border-gray-300'
+        } ${error ? 'focus:ring-red-500' : 'focus:ring-blue-500'}`}
+      />
       {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   );

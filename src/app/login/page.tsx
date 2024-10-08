@@ -4,8 +4,7 @@ import { AuthPrompt } from "@/components/AuthPrompt";
 import ButtonText from "@/components/ButtonText";
 import InputField from "@/components/InputField";
 import TextBlock from "@/components/TextBlock";
-import { Button } from "@/components/ui/button";
-import { validateEmail, validatePassword } from "@/components/ValidationState";
+
 import Link from "next/link";
 import { useState } from "react";
 import { CiMail } from "react-icons/ci";

@@ -1,5 +1,6 @@
 "use client"
 
+import { groteskText } from "@/app/fonts";
 import { useState } from "react";
 
 interface InputFieldProps {
@@ -45,7 +46,7 @@ const InputField: React.FC<InputFieldProps> = ({
         name={name}
         onChange={onChange} 
         onBlur={handleBlur} 
-        className={`w-full rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185] text-[14px] focus:outline-none p-2 ${
+        className={`w-full rounded-[6px] border-[#D0D5DD] border-solid border text-[#667185] text-[14px] focus:outline-none p-2 ${groteskText.className} ${
           error ? 'border-red-500' : 'border-gray-300'
         } ${error ? 'focus:ring-red-500' : 'focus:ring-blue-500'}`}
       />

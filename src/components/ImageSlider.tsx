@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const ImageSlider = ({ images }:any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -22,14 +23,24 @@ const ImageSlider = ({ images }:any) => {
   };
 
   return (
-    <div className="relative w-full  mx-auto"   >
-      <div className="overflow-hidden">
-        <img
+    <div className="relative w-full  mx-auto bg-red-200"   >
+      <div className="">
+        {/* <Image
           src={images[currentIndex]}
           alt={`Slide ${currentIndex + 1}`}
-          className="w-full h-64 object-cover rounded-lg"
-          style={{ height: '954px' }}
-        />
+          // className="w-full object-cover rounded-lg"
+          // style={{ height: '954px' }}
+          layout="responsive"
+          // width={600}
+          // height={900}
+          fill
+        /> */}
+        <Image
+      src={images[currentIndex]}
+      alt={`Slide ${currentIndex + 1}`}
+      fill 
+      className="object-cover rounded-lg" // Maintain aspect ratio
+    />
       </div>
 
     </div>

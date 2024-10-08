@@ -52,7 +52,7 @@ export default function LoginPage() {
     <div className="mt-[46px] ">
       <div>
         <div className="flex flex-col lg:flex-row">
-          <div className="w-full max-w-lg flex-1 justify-center items-center lg:mx-36">
+          <div className="w-full max-w-lg flex-1 justify-center items-center mx-auto">
             <div className="pb-14 ">
               <TextBlock
                 header={"Welcome! Back"}

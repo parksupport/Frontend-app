@@ -1,9 +1,6 @@
 import ImageSlider from "@/components/ImageSlider";
 import { Logo } from "@/components/logo";
 
-interface BaseProps {
-  children: React.ReactNode;
-}
 
 export default function BaseLayout({
     children,
@@ -15,12 +12,13 @@ export default function BaseLayout({
     "https://via.placeholder.com/600x400?text=Slide+2",
     "https://via.placeholder.com/600x400?text=Slide+3",
     "https://via.placeholder.com/600x400?text=Slide+4",
+    <Logo/>
   ];
 
   return (
     <div className="">
       <div className="flex flex-col lg:flex-row">
-        <div className="flex-1 mt-32 mx-auto">
+        <div className="flex-1 mt-16 mx-5">
           <Logo />
           {children}
         </div>

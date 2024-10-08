@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from "react";
+import { groteskText } from "@/app/fonts";
 
 type Variant = "individual" | "corporate";
 
@@ -36,7 +37,7 @@ const InputField: React.FC<InputFieldProps> = ({
   };
 
   return (
-    <div className="flex flex-col mb-4">
+    <div className={`flex flex-col mb-4 ${groteskText.className} `}>
       <label className="mb-1 text-sm font-normal text-base">{label}</label>
       <div className="flex items-center border border-gray-300 rounded-md p-2 ">
         <input
@@ -45,6 +46,7 @@ const InputField: React.FC<InputFieldProps> = ({
           placeholder={placeholder}
           className="flex-1 text-xs outline-none"
           onChange={handleChange}
+        
         />
         <span className="mr-2 text-gray-500">{icon}</span>
       </div>

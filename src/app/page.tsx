@@ -1,9 +1,12 @@
 // app/page.tsx
 
+import React from 'react';
+import SignupPage from './signup/page';
+
 export default function Home() {
   return (
-    <main className='justify-center flex flex-col w-full items-center text-xl'>
-      Welcome to the future landing page go to /login to view the login page 
+    <main className='justify-center flex flex-col w-full items-center'>
+      <SignupPage /> 
     </main>
   );
 }

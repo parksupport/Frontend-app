@@ -3,7 +3,6 @@
 import React from 'react';
 import Counter from '../components/Counter';
 import ValidationState from '@/components/ValidationState';
-import LoginPage from './login/page';
 import SignupPage from './signup/page';
 
 export default function Home() {

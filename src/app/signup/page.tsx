@@ -1,12 +1,13 @@
 // app/signup/page.tsx
 "use client"
 import InputField from "@/components/InputField";
+// import { AuthPrompt } from "@/components/authPrompt";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { groteskText } from "../fonts";
 import { useState } from "react";
-
+import { AuthPrompt } from "@/components/authPrompt"
 
 
 const SignupPage: React.FC = () => {
@@ -37,14 +38,16 @@ const SignupPage: React.FC = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email) ? null : 'Invalid email format';
   };
-
-  const handleConfirmPasswordBlur = () => {
+  const handleConfirmPasswordBlur = (value: string): string | null => {
     if (formData.confirmPassword !== formData.password) {
-      setConfirmPasswordError('Passwords do not match');
+        setConfirmPasswordError('Passwords do not match');
+        return 'Passwords do not match';
     } else {
-      setConfirmPasswordError(null);
+        setConfirmPasswordError(null);
+        return null;
     }
-  };
+};
+
 
 
 
@@ -113,10 +116,13 @@ const SignupPage: React.FC = () => {
             </Button>
           </div>
         </form>
-        <div className="text-center">
-          <Link href="/login" className="text-sm text-blue-600 hover:underline">
-            Already have an account? Login
-          </Link>
+
+        <div>
+          <AuthPrompt
+            text="Already have an account? "
+            link="Login"
+            url="/login"
+          />
         </div>
       </div>
     </div>

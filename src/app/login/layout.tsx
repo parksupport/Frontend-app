@@ -1,9 +1,7 @@
 import ImageSlider from "@/components/imageSlider";
 import { Logo } from "@/components/logo";
 
-interface BaseProps {
-  children: React.ReactNode;
-}
+
 
 export default function BaseLayout({
     children,

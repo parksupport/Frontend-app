@@ -2,25 +2,25 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-const ImageSlider = ({ images }) => {
+const ImageSlider = ({ images }:any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   
-  // useEffect(() => {
-  //   const slideInterval = setInterval(() => {
-  //     handleNext();
-  //   }, 5000); 
+  useEffect(() => {
+    const slideInterval = setInterval(() => {
+      handleNext();
+    }, 5000); 
 
-  //   // Cleanup interval on component unmount
-  //   return () => clearInterval(slideInterval);
-  // }, [currentIndex]);
+    // Cleanup interval on component unmount
+    return () => clearInterval(slideInterval);
+  }, [currentIndex]);
 
 
-  // const handleNext = () => {
-  //   const isLastSlide = currentIndex === images.length - 1;
-  //   const newIndex = isLastSlide ? 0 : currentIndex + 1;
-  //   setCurrentIndex(newIndex);
-  // };
+  const handleNext = () => {
+    const isLastSlide = currentIndex === images.length - 1;
+    const newIndex = isLastSlide ? 0 : currentIndex + 1;
+    setCurrentIndex(newIndex);
+  };
 
   return (
     <div className="relative w-full  mx-auto bg-red-200"   >

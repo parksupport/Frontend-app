@@ -1,14 +1,11 @@
-
 import ImageSlider from "@/components/ImageSlider";
 import { Logo } from "@/components/logo";
 
+interface BaseProps {
+  children: React.ReactNode;
+}
 
-
-export default function BaseLayout({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>) {
+export const BaseLayout: React.FC<BaseProps> = ({ children }) => {
   const images = [
     "https://via.placeholder.com/600x400?text=Slide+1",
     "https://via.placeholder.com/600x400?text=Slide+2",

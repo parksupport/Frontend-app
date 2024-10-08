@@ -1,27 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AuthPrompt } from "@/components/AuthPrompt";
 import ButtonText from "@/components/ButtonText";
 import InputField from "@/components/InputField";
 import TextBlock from "@/components/TextBlock";
+import { Button } from "@/components/ui/button";
+import { validateEmail, validatePassword } from "@/components/ValidationState";
+import Link from "next/link";
+import { useState } from "react";
 import { CiMail } from "react-icons/ci";
 import { FaApple } from "react-icons/fa6";
-import { IoEyeOffOutline, IoEye } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
+import { IoEye, IoEyeOffOutline } from "react-icons/io5";
 import { PiHandWavingFill } from "react-icons/pi";
-import { AuthPrompt } from "@/components/AuthPrompt";
-import Link from "next/link";
-import { validateEmail, validatePassword } from "@/components/ValidationState";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
-    {}
-  );
 
   const handleInputChange = (inputType: "text" | "password", value: string) => {
     if (inputType === "text") {
@@ -33,14 +30,6 @@ export default function LoginPage() {
 
   const handleChangePasswordIcon = () => {
     setIsPasswordVisible((prev) => !prev);
-  };
-
-  const handleGoogleLogin = () => {
-    // Logic for Google login
-  };
-
-  const handleAppleLogin = () => {
-    // Logic for Apple login
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

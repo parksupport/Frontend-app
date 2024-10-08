@@ -9,7 +9,7 @@ export default function Home() {
     <main 
     className='justify-center flex flex-col w-full items-center'
     >
-      {/* <ValidationState /> */}
+      <ValidationState />
       <UiCard /> 
       <MyCard />  
       <CarouselDemo />

@@ -1,7 +1,6 @@
 // app/forgot-password/page.tsx
 
 import { AuthPrompt } from "@/components/AuthPrompt";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 
@@ -19,9 +18,9 @@ export default function ForgotPasswordPage() {
             <Input type="email" placeholder="Email" required />
           </div>
           <div>
-            <Button type="submit" className="w-full">
+            {/* <Button type="submit" className="w-full">
               Send Reset Link
-            </Button>
+            </Button> */}
           </div>
         </form>
         <div>

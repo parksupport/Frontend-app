@@ -14,26 +14,38 @@ import { IoEye, IoEyeOffOutline } from "react-icons/io5";
 import { PiHandWavingFill } from "react-icons/pi";
 
 export default function LoginPage() {
-  const [password, setPassword] = useState("");
-  const [inputValue, setInputValue] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleInputChange = (inputType: "text" | "password", value: string) => {
-    if (inputType === "text") {
-      setInputValue(value);
-    } else if (inputType === "password") {
-      setPassword(value);
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedData = {
+        ...prevData,
+        [name]: value,
+      };
+      console.log(updatedData);
+      return updatedData;
+    });
+  };
+
+  const validatePassword = (password: string): string | null => {
+    return password.length >= 6
+      ? null
+      : "Password must be at least 6 characters";
+  };
+
+  const validateEmail = (email: string): string | null => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) ? null : "Invalid email format";
   };
 
   const handleChangePasswordIcon = () => {
     setIsPasswordVisible((prev) => !prev);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(inputValue, password);
   };
 
   return (
@@ -55,61 +67,51 @@ export default function LoginPage() {
                 }
               />
             </div>
-            <form onSubmit={handleSubmit}>
+
+            <InputField
+              type="email"
+              placeholder="Enter your email"
+              label="Email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              validationRules={validateEmail}
+              variant="individual"
+              className=""
+            />
+            <div>
               <InputField
-                value={inputValue}
-                type="text"
-                label="Email Address"
-                placeholder="Enter your email"
-                icon={<CiMail className="text-2xl" />}
-                onChange={(value) => handleInputChange("text", value)}
-                validationRules={validateEmail}
+                type="password"
+                placeholder="Password"
+                label="Password"
+                variant="individual"
+                className=""
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                validationRules={validatePassword}
               />
-              <div>
-                <InputField
-                  value={password}
-                  type={isPasswordVisible ? "text" : "password"}
-                  label="Password"
-                  placeholder="Enter your password"
-                  icon={
-                    isPasswordVisible ? (
-                      <IoEye
-                        className="text-2xl cursor-pointer"
-                        onClick={handleChangePasswordIcon}
-                      />
-                    ) : (
-                      <IoEyeOffOutline
-                        className="text-2xl cursor-pointer"
-                        onClick={handleChangePasswordIcon}
-                      />
-                    )
-                  }
-                  onChange={(value) => handleInputChange("password", value)}
-                  validationRules={validatePassword}
-                />
-                <div className="flex items-center justify-between -mt-2 mb-10">
-                  <div className="flex items-center space-x-1 ">
-                    <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      className="cursor-pointer w-3 h-3 text-[#98A2B3] "
-                    />
-                    <label className="text-[#98A2B3] text-xs">
-                      Remember Me
-                    </label>
-                  </div>
-
-                  <Link
-                    href="/forgot-password"
-                    className="text-xs text-blue-600 hover:underline"
-                  >
-                    Forgot password
-                  </Link>
+              <div className="flex items-center justify-between -mt-2 mb-10">
+                <div className="flex items-center space-x-1 ">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="cursor-pointer w-3 h-3 text-[#98A2B3] "
+                  />
+                  <label className="text-[#98A2B3] text-xs">Remember Me</label>
                 </div>
-              </div>
 
-              <Button variant="default" className="mt-4">
+                <Link
+                  href="/forgot-password"
+                  className="text-xs text-blue-600 hover:underline"
+                >
+                  Forgot password
+                </Link>
+              </div>
+            </div>
+
+            {/* <Button variant="default" className="mt-4">
                 <ButtonText text="Login" />
               </Button>
             </form>
@@ -132,7 +134,7 @@ export default function LoginPage() {
                 icon={<FaApple className="text-3xl" />}
                 text="Login with Apple"
               />
-            </Button>
+            </Button> */}
 
             <div>
               <AuthPrompt

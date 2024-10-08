@@ -1,4 +1,5 @@
-import ImageSlider from "@/components/imageSlider";
+
+import ImageSlider from "@/components/ImageSlider";
 import { Logo } from "@/components/logo";
 
 

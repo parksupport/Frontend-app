@@ -24,7 +24,7 @@ export default function BaseLayout({
         </div>
 
         <div className="hidden lg:flex flex-1 p-4">
-          <ImageSlider key={images} images={images} />
+          <ImageSlider  images={images} />
         </div>
       </div>
     </div>

@@ -1,8 +1,9 @@
 // app/signup/page.tsx
 "use client"
+import { AuthPrompt } from "@/components/AuthPrompt";
 import InputField from "@/components/InputField";
 import { useState } from "react";
-import { AuthPrompt } from "@/components/authPrompt"
+
 
 
 const SignupPage: React.FC = () => {

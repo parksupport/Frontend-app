@@ -18,7 +18,7 @@ export default function BaseLayout({
   ];
 
   return (
-    <div className="bg-red-200 ">
+    <div className="">
       <div className="flex flex-col lg:flex-row">
         <div className="flex-1 mt-32 mx-auto">
           <Logo />

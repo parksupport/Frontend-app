@@ -103,7 +103,7 @@ export default function LoginPage() {
                 </div>
 
                 <Link
-                  href="/forgot-password"
+                  href="/auth/forgot-password"
                   className="text-xs text-blue-600 hover:underline"
                 >
                   Forgot password
@@ -140,7 +140,7 @@ export default function LoginPage() {
               <AuthPrompt
                 text="Are you new? "
                 link="Create an account"
-                url="/signup"
+                url="/auth/signup"
               />
             </div>
             <div className="px-10 text-sm text-center">

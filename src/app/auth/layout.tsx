@@ -1,6 +1,7 @@
 
 import ImageSlider from "@/components/ImageSlider";
 import { Logo } from "@/components/logo";
+import  car_one  from "@/assets/images/car_one.jpg"; 
 
 
 
@@ -10,10 +11,10 @@ export default function BaseLayout({
     children: React.ReactNode;
   }>) {
   const images = [
-    "https://via.placeholder.com/600x400?text=Slide+1",
-    "https://via.placeholder.com/600x400?text=Slide+2",
-    "https://via.placeholder.com/600x400?text=Slide+3",
-    "https://via.placeholder.com/600x400?text=Slide+4",
+   car_one,
+   car_one,
+   car_one,
+   car_one,
   ];
 
   return (

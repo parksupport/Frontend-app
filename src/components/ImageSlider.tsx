@@ -23,13 +23,24 @@ const ImageSlider = ({ images }: any) => {
   return (
     <div className="relative w-full mx-auto bg-red-200">
       <div>
-        <Image
+        {/* <Image
           src={images[currentIndex]}
           alt={`Slide ${currentIndex + 1}`}
           fill
           className="object-cover rounded-lg"
+        /> */}
+             <Image
+          src={images[currentIndex]}
+          alt={`Slide ${currentIndex + 1}`}
+          // className="w-full object-cover rounded-lg"
+          // style={{ height: '954px' }}
+          layout="responsive"
+          width={600}
+          height={900}
+          // fill
         />
       </div>
+      
     </div>
   );
 };

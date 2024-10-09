@@ -24,7 +24,7 @@ export default function ForgotPasswordPage() {
           </div>
         </form>
         <div>
-          <AuthPrompt link="Back to Login" url="/login" />
+          <AuthPrompt link="Back to Login" url="/auth/login" />
         </div>
       </div>
     </div>

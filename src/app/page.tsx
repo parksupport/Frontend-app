@@ -1,7 +1,7 @@
 
 
 import React from "react";
-import SignupPage from "./signup/page";
+import SignupPage from "./auth/signup/page";
 
 export default function Home() {
   return (

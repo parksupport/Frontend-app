@@ -1,0 +1,39 @@
+name: Project Test and Build
+
+on: 
+    pull_request:
+        branches: 
+            - main
+            - develop
+            - staging
+            - production
+    push:
+        branches:
+            - test
+            - develop
+            - main
+            - staging
+            - production
+
+jobs:        
+    build:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+        steps:
+            -   uses: actions/checkout@v2
+            -   name: Install Node.js 
+                uses: actions/setup-node@v2
+                with:
+                    node-version: 20
+            -   name: Install Dependencies
+                run: yarn install
+            -   name:  Build Application
+                run: yarn build
+            -   name: Clean up node_modules and .next folder in MAC and Ubuntu
+                run: rm -rf node_modules && rm -rf .next
+                if: matrix.os == 'macos-latest' || matrix.os == 'ubuntu-latest'
+            -   name: Clean up node_modules and .next folder in windows
+                run: rmdir -r node_modules && rmdir -r .next
+                if: matrix.os == 'windows-latest'

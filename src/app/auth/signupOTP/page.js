@@ -5,8 +5,7 @@ import SignupLayout from '../../SignupLayout'
 import OTPInput from "@/components/OTPInput";
 import CreateAccountText from '@/components/CreateAccountText';
 import Button from '@/components/Buttons';
-import { AuthPrompt } from '@/components/authPrompt';
-
+import { AuthPrompt } from '@/components/AuthPrompt';
 const SignupOTP = () => {
   return (
     <div className='flex flex-col max-w-[400px] w-full'>

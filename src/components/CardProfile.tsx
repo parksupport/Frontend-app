@@ -16,9 +16,9 @@ const CardProfile = ({
   return (
     <div
       onClick={onClick}
-      className={`w-[188px] h-[190px] flex flex-col pl-4 py-2 rounded-[6px] border border-neutral-200 text-neutral-950 shadow-sm cursor-pointer ${
-        selected ? "bg-[#4169E1] text-white" : ""
-      }`}
+      className={`w-[188px] h-[190px] flex flex-col pl-4 py-2 rounded-[6px] border border-neutral-200 text-neutral-950 shadow-sm cursor-pointer transition-shadow duration-300 ease-in-out ${
+        selected ? 'bg-[#4169E1] text-white' : ''
+      } hover:shadow-custom-hover`}
     >
       <div className={`pt-2 text-[#4169E1] ${selected ? "text-white" : ""}`}>
         {type === "user" ? (

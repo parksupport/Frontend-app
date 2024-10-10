@@ -1,4 +1,4 @@
-.step-item {
+/* .step-item {
     @apply relative flex flex-col justify-center items-center w-36;
   }
   .step-item:not(:first-child):after {
@@ -21,4 +21,4 @@
     @apply bg-[#3957D7];
   }
 
-  
+   */

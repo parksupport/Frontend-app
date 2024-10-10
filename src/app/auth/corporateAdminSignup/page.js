@@ -1,24 +1,24 @@
 // app/signup/page.tsx
 "use client"
+import InputField from "@/components/InputField";
 import { useState } from "react";
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
-import InputField from "@/components/InputField";
-import { AuthPrompt } from "@/components/AuthPrompt";
-import SignupLayout from "@/app/SignupLayout";
+import SignupLayout from "../../SignupLayout";
+import { groteskText, groteskTextMedium } from '@/app/fonts'
 
-const SignupPage: React.FC = () => {
+import { AuthPrompt } from "@/components/AuthPrompt";
+
+const CorporateAdminSignupPage = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    number: '',
-    dob: '',
-    homeAddress: '',
+    position: '',
+   
   });
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
       const updatedData = {
@@ -31,54 +31,64 @@ const SignupPage: React.FC = () => {
 
 
 
-  const validateEmail = (email: string): string | null => {
+  const validateEmail = (email)=> {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email) ? null : 'Invalid email format';
   };
 
+ const validatePassword =(value)=>{
+    return password.length >= 6 ? null : 'Password must be at least 6 characters';
 
+ }
 
-  const validateNumber = (value) => {
-    const phoneNumberPattern = /^\d{10}$/;
-    if (!phoneNumberPattern.test(value)) {
-      return 'Phone number must be 10 digits.';
+  const handleConfirmPasswordBlur = (value)=> {
+    if (formData.confirmPassword !== formData.password) {
+        return 'Passwords do not match';
+    } else {
+        return null;
     }
-    return null;
-  };
-  const validateDOB = (value) => {
-    const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dobPattern.test(value)) {
-      return 'Date of Birth must be in the format YYYY-MM-DD.';
-    }
-    // Additional checks can be added, such as checking if the date is a valid date
-    return null;
-  };
-  const validateHomeAddress = (value) => {
-    if (value.trim() === '') {
-      return 'Home address cannot be empty.';
-    }
-    return null;
-  };
+};
 
+const validatePosition = ()=> {
+    return position.length >= 6 ? null : 'Position must be at least 6 characters';
+
+}
 
 
   return (
     <div className="max-w-[400px] w-full">
-      <div className="flex flex-col justify-center w-full">
+      <div className="flex flex-col justify-center w-full lg:mt-[32px]">
     
-        <CreateAccountText />
+      <div className='justify-center items-center flex flex-col'>
+      
+      <h1 className={`text-[28px] text-[#000000] lg:text-[40px] ${groteskTextMedium.className}`}>Create your account</h1>
+      <p className={`text-[#667185] text-[16px] mt-[0] ${groteskText.className} lg:text-[18px] xl:text-[18px] 2xl:text-[18px]` }>Enter the details of an authorized user</p>
+    </div>
         <form className="mt-[24px] lg:mt-[2.5rem] 4 ">
           <div>
             <InputField
               type="text"
               placeholder="Enter your name"
-              label="Name"
+              label="Full Name"
               variant="individual"
               className=""
               name="name"
               value={formData.name}
               onChange={handleChange}
               validationRules={(value) => value ? null : 'Name is required'}
+            />
+          </div>
+          <div>
+            <InputField
+              type="text"
+              placeholder="Enter your current position"
+              label="Position"
+              name="position"
+              value={formData.position}
+              onChange={handleChange}
+              validationRules={validatePosition}
+              variant="individual"
+              className="mt-[16px]"
             />
           </div>
           <div>
@@ -94,42 +104,30 @@ const SignupPage: React.FC = () => {
               className="mt-[16px]"
             />
           </div>
+          
+   
           <div>
             <InputField
-              type="number"
-              placeholder="Enter your phone number"
-              label="Phone Number"
-              name="number"
-              value={formData.number}
+              type="password"
+              placeholder="Enter your password"
+              label="Password"
+              name="password"
+              value={formData.password}
               onChange={handleChange}
-              validationRules={validateNumber}
-              variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
-            />
-          </div>
-
-          <div>
-            <InputField
-              type="number"
-              placeholder="Enter your DOB"
-              label="Date of Birth"
-              name="dob"
-              value={formData.dob}
-              onChange={handleChange}
-              validationRules={validateDOB}
+              validationRules={validatePassword}
               variant="individual"
               className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
             />
           </div>
           <div>
             <InputField
-              type="text"
-              placeholder="Enter your address"
-              label="Address"
-              name="homeAddree"
-              value={formData.homeAddress}
+              type="password"
+              placeholder="Enter your password"
+              label="Confirm Password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
               onChange={handleChange}
-              validationRules={validateHomeAddress}
+              validationRules={handleConfirmPasswordBlur}
               variant="individual"
               className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
             />
@@ -139,7 +137,7 @@ const SignupPage: React.FC = () => {
 
           <Button
             type="submit"
-            className="w-full lg:mt-[40px] "
+            className="w-full lg:mt-[40px]"
             variant='primary'
           >
             Continue
@@ -163,7 +161,7 @@ const SignupPage: React.FC = () => {
 
 const PageWithLayout = () => (
   <SignupLayout>
-    <SignupPage />
+    <CorporateAdminSignupPage />
   </SignupLayout>
 );
 

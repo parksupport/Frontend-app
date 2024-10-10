@@ -1,14 +1,12 @@
-import React from "react";
-import Image from "next/image";
-
+import React from 'react'
+import Image from 'next/image'
 import carAlertImage from '@/assets/images/logo.jpg'
 import diploSVG from '@/assets/svg/diploSVG.svg'
 
-
-export const Logo = () => {
+const HeaderImage = () => {
   return (
-    <div className="flex flex-col items-center ">
-      <Image
+    <div className='flex justify-center'>
+            <Image
        className="hidden self-center lg:flex"
        src={diploSVG}
       
@@ -20,7 +18,8 @@ export const Logo = () => {
       
        alt="signup carAlert"
         />
-  </div>
-  
-  );
-};
+    </div>
+  )
+}
+
+export default HeaderImage

@@ -25,6 +25,15 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        'custom-hover': '-2px 4px 4px 0px #3957D71F, -2px 8px 66px 6px #3957D71A',
+      },
+    },
+    
+  },
+  variants: {
+    extend: {
+      boxShadow: ['hover'],
     },
   },
   plugins: [require("tailwindcss-animate")],

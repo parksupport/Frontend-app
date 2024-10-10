@@ -3,8 +3,11 @@
 import React, { useState } from "react";
 import CardProfile from "@/components/CardProfile";
 import TextBlock from "@/components/TextBlock";
+import SignupLayout from "@/app/SignupLayout";
+import Button from "@/components/Buttons";
+import { FcGoogle } from "react-icons/fc";
 
-export default function CreateProfilePage() {
+const CreateProfilePage =()=> {
   const [selectedType, setSelectedType] = useState<"user" | "corporate" | null>(
     null
   );
@@ -14,7 +17,7 @@ export default function CreateProfilePage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center max-w-[400px] w-full lg:max-w-[637px]" >
       <div>
         <TextBlock
           header="How are you planning to use Car Alert?"
@@ -34,6 +37,27 @@ export default function CreateProfilePage() {
           onClick={() => handleCardClick("corporate")}
         />
       </div>
+      <div className="w-full justify-center flex">
+      <Button
+            type="submit"
+            className="mt-[24px] w-full lg:mt-[40px]"
+            variant='primary'
+         
+          >
+            Continue
+          </Button>
+      </div>
     </div>
   );
+
+ 
+
+
 }
+const PageWithLayout = () => (
+  <SignupLayout>
+    <CreateProfilePage />
+  </SignupLayout>
+);
+
+export default PageWithLayout;

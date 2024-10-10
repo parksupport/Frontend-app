@@ -1,16 +1,12 @@
 
-
-import React from "react";
-import SignupPage from "./auth/signup/page";
-import CardProfile from "@/components/CardProfile";
-import CreateProfilePage from "./auth/create-profile/page";
+import React from 'react';
+import AdminSignup from './auth/adminSignup/page'
 
 export default function Home() {
   return (
-    <main className="justify-center flex flex-col w-full items-center">
-      <SignupPage />
-     <CreateProfilePage/>
-
+    <main className='px-[16px] justify-center flex flex-col w-full items-center'>
+      {/* <SignupPage />  */}
+      <AdminSignup />
     </main>
   );
 }

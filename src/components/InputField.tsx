@@ -9,7 +9,7 @@ interface InputFieldProps {
   validationRules: (value: string) => string | null;
   label: string;
   variant: string;
-  className: string;
+  className?: string;
   value: string;
   name: string;
   icon?: ReactNode;
@@ -38,9 +38,10 @@ const InputField: React.FC<InputFieldProps> = ({
   };
 
   return (
-    <div className={`input-field ${variant} ${className} relative`}>
+    <div className={`input-field ${variant} ${className} `}>
       <label htmlFor={name} className={`text-[#000000] text-[16px] ${groteskText.className} lg`}>{label}</label>
-      <input
+     <div className="relative"> 
+     <input
         type={type}
         placeholder={placeholder}
         value={value}
@@ -52,7 +53,9 @@ const InputField: React.FC<InputFieldProps> = ({
           error ? 'border-red-500' : 'border-gray-300'
         } ${error ? 'focus:ring-red-500' : 'focus:ring-blue-500'}`}
       />
-     {icon && <div className="absolute flex items-center right-2 bottom-5 pointer-events-none">{icon}</div>}
+           {icon && <div className="absolute right-2 bottom-4 pointer-events-none">{icon}</div>}
+
+     </div>
            {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   );

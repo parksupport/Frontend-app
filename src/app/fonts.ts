@@ -16,3 +16,9 @@ export const groteskText = localFont({
   display: "swap",
   variable: "--font-grotesk",
 });
+
+export const groteskTextMedium = localFont({
+  src: "../assets/fonts/TestFoundersGrotesk-Medium.otf",
+  display: "swap",
+  variable: "--font-grotesk",
+});

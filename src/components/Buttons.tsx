@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
+import { groteskText, groteskTextMedium } from '@/app/fonts';
 
 type Variant = 'primary' | 'secondary' | 'success' | 'danger' | 'tertiary' | 'quaternary' | 'quinary';
 type Size = 'sm' | 'md' | 'lg';
@@ -13,6 +14,7 @@ interface ButtonProps {
   variant?: Variant;
   size?: Size;
   loading?: boolean;
+  icon?: ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -23,13 +25,14 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   className = '',
   loading = false,
+  icon,
 }) => {
   const baseStyles = 'px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-opacity-50';
 
   const variantStyles: Record<Variant, string> = {
-    primary: 'bg-[#3957D7] max-w-[400px] w-full px-[16px] py-[16px] rounded-[6px] border-none text-white focus:bg-[#3957D7] active:bg-[#3957D7] justify-center flex"',
-    secondary: 'bg-gray-500 text-white hover:bg-gray-700 focus:ring-gray-500',
-    success: 'bg-green-500 text-white hover:bg-green-700 focus:ring-green-500',
+    primary: 'bg-[#3957D7] mt-[16px] max-w-[400px] w-full px-[16px] py-[16px] rounded-[6px] border-solid text-white focus:bg-[#3957D7] active:bg-[#3957D7] justify-center flex hover:bg-[#6a85e6]',
+    secondary: 'bg-white mt-[16px] max-w-[400px] w-full px-[16px] py-[10px] rounded-[6px] border-[#98A2B3] border-solid border',
+    success: 'bg-green-500 text-white hover:bg-green-700 focus:ring-green-500  px-[16px] py-[14px]',
     danger: 'bg-red-500 text-white hover:bg-red-700 focus:ring-red-500',
     tertiary: 'bg-yellow-500 text-white hover:bg-yellow-700 focus:ring-yellow-500',
     quaternary: 'bg-purple-500 text-white hover:bg-purple-700 focus:ring-purple-500',
@@ -37,8 +40,8 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const textStyles: Record<Variant, string> = {
-    primary: 'text-white text-[18px]',
-    secondary: 'text-white',
+    primary: `text-white text-[16px] ${groteskTextMedium.className} `,
+    secondary: `text-black text-[16px] ${groteskText.className} `,
     success: 'text-white',
     danger: 'text-white',
     tertiary: 'text-white',
@@ -97,8 +100,13 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       className={classes}
       disabled={disabled}
+      
     >
+      <div className='flex items-center justify-center'>
+
+      {icon && <span className="mr-2">{icon}</span>}
       <span className={textStyle}>{children}</span>
+      </div>
     </button>
   );
 };
@@ -112,6 +120,7 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   className: PropTypes.string,
   loading: PropTypes.bool,
+  icon: PropTypes.node, 
 };
 
 export default Button;

@@ -162,11 +162,11 @@ const SignupPage: React.FC = () => {
 
 };
 
-const PageWithLayout = () => (
-  <SignupLayout>
-    <SignupPage />
-  </SignupLayout>
-);
+// const PageWithLayout = () => (
+//   <SignupLayout>
+//     <SignupPage />
+//   </SignupLayout>
+// );
 
-export default PageWithLayout;
+ export default SignupPage;
 

@@ -1,19 +1,24 @@
 import React from "react";
 import Image from "next/image";
-import logo from "@/assets/images/logo.jpg"; // Adjust the path as needed
+
+import carAlertImage from '@/assets/images/logo.jpg'
 
 
-export const Logo = () => {
+
+export const Logo = ({ className, ...props }) => {
   return (
     <div className="flex flex-col items-center ">
-    <Image
-      src={logo}
-      alt="logo"
-      className="object-cover rounded-lg"
-      width={200}
-      height={200}
-    />
+    
+        <Image
+       className="self-center "
+       src={carAlertImage}
+      
+       alt="signup carAlert"
+        />
   </div>
   
   );
 };
+
+// Example usage:
+<Logo className="pt-[138px]" />

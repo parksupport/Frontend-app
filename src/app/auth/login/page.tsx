@@ -1,6 +1,7 @@
 "use client";
 
 import { AuthPrompt } from "@/components/AuthPrompt";
+import Button from "@/components/Buttons";
 import ButtonText from "@/components/ButtonText";
 import InputField from "@/components/InputField";
 import TextBlock from "@/components/TextBlock";
@@ -49,7 +50,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="mt-[46px] ">
+    <div className="max-w-[400px] w-full mx-auto ">
       <div>
         <div className="flex flex-col lg:flex-row">
           <div className="w-full max-w-lg flex-1 justify-center items-center mx-auto">
@@ -70,28 +71,31 @@ export default function LoginPage() {
 
             <InputField
               type="email"
-              placeholder="Enter your email"
-              label="Email"
+              placeholder="Enter your email address"
+              label="Email Address"
               name="email"
               value={formData.email}
               onChange={handleChange}
               validationRules={validateEmail}
               variant="individual"
-              className=""
+              icon={<CiMail className="text-2xl" />}
             />
             <div>
               <InputField
                 type="password"
-                placeholder="Password"
+                placeholder="Enter your password"
+                icon={<IoEyeOffOutline className="text-2xl" />}
+
                 label="Password"
-                variant="individual"
-                className=""
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 validationRules={validatePassword}
+                variant="individual"
+                className="mt-[16px] lg:mt-[20px] xl:mt-[20px] 2xl:mt-[20px]"
+
               />
-              <div className="flex items-center justify-between -mt-2 mb-10">
+              <div className="flex items-center justify-between mt-1 mb-10">
                 <div className="flex items-center space-x-1 ">
                   <input
                     type="checkbox"
@@ -110,6 +114,30 @@ export default function LoginPage() {
                 </Link>
               </div>
             </div>
+
+            <Button
+              type="submit"
+              className="w-full lg:mt-[40px] "
+              variant="primary"
+            >
+              Login
+            </Button>
+            <Button
+              type="submit"
+              className="w-full lg:mt-[16px] "
+              variant="secondary"
+              icon={<FcGoogle className="text-3xl" />}
+            >
+              Login with Google
+            </Button>
+            <Button
+              type="submit"
+              className="w-full lg:mt-[16px] "
+              variant="secondary"
+              icon={<FaApple className="text-3xl" />}
+            >
+              Login with Apple
+            </Button>
 
             {/* <Button variant="default" className="mt-4">
                 <ButtonText text="Login" />

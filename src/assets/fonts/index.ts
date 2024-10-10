@@ -12,7 +12,14 @@ const feather = localFont({
   variable: "--font-feather",
 });
 
+const groteskText= localFont({
+  src: "./feather.ttf",
+  display: "swap",
+  variable: "--font-feather",
+});
+
 export {
     bloggerSans,
-    feather
+    feather,
+    groteskText
 }

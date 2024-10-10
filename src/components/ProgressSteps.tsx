@@ -16,30 +16,30 @@ const ProgressSteps = () => {
 
     return (
       <>
-    <div className={`flex flex-col justify-center max-w-[400px] w-full items-center mt-10 lg:hidden xl:hidden ${groteskText.className}`} >
+    <div className={`flex flex-col justify-center max-w-[400px] w-full items-center mt-[24px] lg:hidden xl:hidden ${groteskText.className}`} >
       <div className='flex justify-center w-full'>
       <div className='w-full justify-center flex flex-col max-w-[400px]'>
 
         
-<div className="flex w-full  mb-4 justify-between">
+<div className="flex w-full  mb-[8px] justify-between">
   <div className={`flex-1 h-[6px] rounded-[21px] max-w-[86px] ${step >= 1 ? 'bg-[#3957D7]' : 'bg-gray-300'}`}></div>
   <div className={`flex-1 h-[6px] rounded-[21px] max-w-[86px] ${step >= 2 ? 'bg-[#3957D7]' : 'bg-gray-300'}`}></div>
   <div className={`flex-1 h-[6px] rounded-[21px] max-w-[86px] ${step >= 3 ? 'bg-[#3957D7]' : 'bg-gray-300'}`}></div>
   <div className={`flex-1 h-[6px] rounded-[21px] max-w-[86px] ${step >= 4 ? 'bg-[#3957D7]' : 'bg-gray-300'}`}></div>
   
 </div>
-<span className="mb-4  text-lg font-medium block">
+<span className="mb-[24px] text-lg font-medium block">
   {step}/4
 </span>
 </div>
       </div>
-      <Button
+      {/* <Button
             className=""
             onClick={handleButtonClick}
             variant='primary'
           >
             Continue
-          </Button>
+          </Button> */}
     </div>
 
 

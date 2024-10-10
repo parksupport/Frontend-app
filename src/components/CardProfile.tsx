@@ -15,11 +15,11 @@ const CardProfile = ({
 }: CardProfileProps) => {
   return (
     <div
-      onClick={onClick}
-      className={`w-[188px] h-[190px] flex flex-col pl-4 py-2 rounded-[6px] border border-neutral-200 text-neutral-950 shadow-sm cursor-pointer ${
-        selected ? "bg-[#4169E1] text-white" : ""
-      }`}
-    >
+    onClick={onClick}
+    className={`w-[188px] h-[190px] flex flex-col pl-4 py-2 rounded-[6px] border border-neutral-200 text-neutral-950 shadow-sm cursor-pointer transition-shadow duration-300 ease-in-out ${
+      selected ? "border-[#4169E1] border border-solid" : ""
+    } hover:shadow-custom-hover`}
+  >
       <div className={`pt-2 text-[#4169E1] ${selected ? "text-white" : ""}`}>
         {type === "user" ? (
           <HiMiniUser className="w-8 h-8" />
@@ -32,7 +32,7 @@ const CardProfile = ({
       </div>
       <div
         className={`text-neutral-500 text-[16px] font-normal pb-14 ${
-          selected ? "text-white" : ""
+          selected ? "text-black" : ""
         }`}
       >
         {type === "user"

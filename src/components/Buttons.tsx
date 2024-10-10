@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
+import { groteskTextMedium } from '@/app/fonts';
 
 type Variant = 'primary' | 'secondary' | 'success' | 'danger' | 'tertiary' | 'quaternary' | 'quinary';
 type Size = 'sm' | 'md' | 'lg';
@@ -27,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-opacity-50';
 
   const variantStyles: Record<Variant, string> = {
-    primary: 'bg-[#3957D7] max-w-[400px] w-full px-[16px] py-[16px] rounded-[6px] border-none text-white focus:bg-[#3957D7] active:bg-[#3957D7] justify-center flex"',
+    primary: 'bg-[#3957D7] mt-[16px] max-w-[400px] w-full px-[16px] py-[16px] rounded-[6px] border-none text-white focus:bg-[#3957D7] active:bg-[#3957D7] justify-center flex hover:bg-[#6a85e6]',
     secondary: 'bg-gray-500 text-white hover:bg-gray-700 focus:ring-gray-500',
     success: 'bg-green-500 text-white hover:bg-green-700 focus:ring-green-500',
     danger: 'bg-red-500 text-white hover:bg-red-700 focus:ring-red-500',
@@ -37,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const textStyles: Record<Variant, string> = {
-    primary: 'text-white text-[18px]',
+    primary: `text-white text-[16px] ${groteskTextMedium.className}`,
     secondary: 'text-white',
     success: 'text-white',
     danger: 'text-white',

@@ -9,18 +9,17 @@ import SignupLayout from "../SignupLayout";
 
 
 
-const SignupPage: React.FC = () => {
+const CorporateSignupPage = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    number: '',
-    dob: '',
-    homeAddress: '',
+    company_name: '',
+    company_email: '',
+  
+    business_address: '',
+    company_number: '',
+    reg_number: '',
+   
   });
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
       const updatedData = {
@@ -33,31 +32,33 @@ const SignupPage: React.FC = () => {
 
 
 
-  const validateEmail = (email: string): string | null => {
+  const validateCompanyEmail = (email)=> {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email) ? null : 'Invalid email format';
   };
 
 
 
-  const validateNumber = (value) => {
+  const validateRegNumber = (value) => {
     const phoneNumberPattern = /^\d{10}$/;
     if (!phoneNumberPattern.test(value)) {
       return 'Phone number must be 10 digits.';
     }
     return null;
   };
-  const validateDOB = (value) => {
-    const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dobPattern.test(value)) {
-      return 'Date of Birth must be in the format YYYY-MM-DD.';
+
+  const validateCompanyNumber = (value) => {
+    const phoneNumberPattern = /^\d{10}$/;
+    if (!phoneNumberPattern.test(value)) {
+      return 'Company number must be 10 digits.';
     }
-    // Additional checks can be added, such as checking if the date is a valid date
     return null;
   };
-  const validateHomeAddress = (value) => {
+
+
+  const validateBusinessAddress = (value) => {
     if (value.trim() === '') {
-      return 'Home address cannot be empty.';
+      return 'Business address cannot be empty.';
     }
     return null;
   };
@@ -73,25 +74,25 @@ const SignupPage: React.FC = () => {
           <div>
             <InputField
               type="text"
-              placeholder="Enter your name"
-              label="Name"
+              placeholder="Enter your company name"
+              label="Company Name"
               variant="individual"
               className=""
-              name="name"
-              value={formData.name}
+              name="company_name"
+              value={formData.company_name}
               onChange={handleChange}
               validationRules={(value) => value ? null : 'Name is required'}
             />
           </div>
           <div>
             <InputField
-              type="email"
-              placeholder="Enter your email address"
-              label="Email Address"
-              name="email"
-              value={formData.email}
+              type="text"
+              placeholder="Enter your business address"
+              label="Business Address"
+              name="business_address"
+              value={formData.business_address}
               onChange={handleChange}
-              validationRules={validateEmail}
+              validationRules={validateBusinessAddress}
               variant="individual"
               className="mt-[16px]"
             />
@@ -99,12 +100,12 @@ const SignupPage: React.FC = () => {
           <div>
             <InputField
               type="number"
-              placeholder="Enter your phone number"
-              label="Phone Number"
-              name="number"
-              value={formData.number}
+              placeholder="Enter your company registration number"
+              label="Company Registration Number"
+              name="reg_number"
+              value={formData.reg_number}
               onChange={handleChange}
-              validationRules={validateNumber}
+              validationRules={validateRegNumber}
               variant="individual"
               className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
             />
@@ -112,28 +113,28 @@ const SignupPage: React.FC = () => {
 
           <div>
             <InputField
-              type="number"
-              placeholder="Enter your DOB"
-              label="Date of Birth"
-              name="dob"
-              value={formData.dob}
+              type="email"
+              placeholder="Enter your general company email"
+              label="General Company Email"
+              name="company_email"
+              value={formData.company_email}
               onChange={handleChange}
-              validationRules={validateDOB}
+              validationRules={validateCompanyEmail}
               variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
+              className="mt-[16px]"
             />
           </div>
           <div>
             <InputField
-              type="text"
-              placeholder="Enter your address"
-              label="Address"
-              name="homeAddree"
-              value={formData.homeAddress}
+              type="number"
+              placeholder="Enter your general company number"
+              label="General Company Number"
+              name="company_number"
+              value={formData.company_number}
               onChange={handleChange}
-              validationRules={validateHomeAddress}
+              validationRules={validateCompanyNumber}
               variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
+              className="mt-[16px]"
             />
           </div>
 
@@ -165,9 +166,10 @@ const SignupPage: React.FC = () => {
 
 const PageWithLayout = () => (
   <SignupLayout>
-    <SignupPage />
+    <CorporateSignupPage />
   </SignupLayout>
 );
 
 export default PageWithLayout;
+
 

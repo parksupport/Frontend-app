@@ -6,7 +6,7 @@ import Image from "next/image";
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
 import ProgressSteps from "@/components/ProgressSteps";
-import SignupLayout from "../../SignupLayout";
+
 import { AuthPrompt } from "@/components/AuthPrompt";
 
 const AdminSignupPage = () => {
@@ -30,15 +30,15 @@ const AdminSignupPage = () => {
   };
 
   const validatePassword = (value)=> {
-    return password.length >= 6 ? null : 'Password must be at least 6 characters';
+    return value.length >= 6 ? null : 'Password must be at least 6 characters';
   };
 
   const handleConfirmPasswordBlur = ()=> {
     if (formData.confirmPassword !== formData.password) {
-        setConfirmPasswordError('Passwords do not match');
+        
         return 'Passwords do not match';
     } else {
-        setConfirmPasswordError(null);
+        
         return null;
     }
 };

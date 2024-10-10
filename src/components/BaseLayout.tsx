@@ -17,7 +17,7 @@ export const BaseLayout: React.FC<BaseProps> = ({ children }) => {
     <div className="">
       <div className="flex flex-col lg:flex-row">
         <div className="flex-1 mt-32 mx-auto">
-          <Logo />
+          <Logo className="pt-[138px] pb-[46px]" />
           {children}
         </div>
 

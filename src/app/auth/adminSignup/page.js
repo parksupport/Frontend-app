@@ -3,14 +3,13 @@
 import InputField from "@/components/InputField";
 import { useState } from "react";
 import Image from "next/image";
-import { AuthPrompt } from "@/components/authPrompt"
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
 import ProgressSteps from "@/components/ProgressSteps";
-import SignupLayout from "../SignupLayout";
+import SignupLayout from "../../SignupLayout";
+import { AuthPrompt } from "@/components/AuthPrompt";
 
-
-const AdminSignup = () => {
+const AdminSignupPage = () => {
   const [formData, setFormData] = useState({
  
     password: '',
@@ -128,7 +127,7 @@ const validatePostalCode = (value)=> {
           <div>
             <Button 
             type="submit" 
-            className="w-full"
+            className="w-full lg:mt-[40px]"
             variant='primary'
             >
               Continue
@@ -150,7 +149,7 @@ const validatePostalCode = (value)=> {
 
 const PageWithLayout = () => (
   <SignupLayout>
-    <AdminSignup />
+    <AdminSignupPage />
   </SignupLayout>
 );
 

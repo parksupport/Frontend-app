@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import SignupLayout from '../SignupLayout'
+import SignupLayout from '../../SignupLayout'
 import OTPInput from "@/components/OTPInput";
 import CreateAccountText from '@/components/CreateAccountText';
 import Button from '@/components/Buttons';
@@ -15,7 +15,7 @@ const SignupOTP = () => {
 <div className='mt-[24px]'>
 <Button
             type="submit"
-            className="w-full"
+            className="w-full lg:mt-[40px]"
             variant='primary'
           >
             Continue

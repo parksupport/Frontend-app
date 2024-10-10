@@ -2,13 +2,12 @@
 "use client"
 import InputField from "@/components/InputField";
 import { useState } from "react";
-import { AuthPrompt } from "@/components/authPrompt"
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
-import SignupLayout from "../SignupLayout";
+import SignupLayout from "../../SignupLayout";
 import { groteskText, groteskTextMedium } from '@/app/fonts'
 
-
+import { AuthPrompt } from "@/components/AuthPrompt";
 
 const CorporateAdminSignupPage = () => {
   const [formData, setFormData] = useState({
@@ -58,19 +57,19 @@ const validatePosition = ()=> {
 
   return (
     <div className="max-w-[400px] w-full">
-      <div className="flex flex-col justify-center w-full">
+      <div className="flex flex-col justify-center w-full lg:mt-[32px]">
     
       <div className='justify-center items-center flex flex-col'>
       
       <h1 className={`text-[28px] text-[#000000] lg:text-[40px] ${groteskTextMedium.className}`}>Create your account</h1>
-      <p className={`text-[#667185] text-[16px] mt-[0] ${groteskText.className} lg:hidden xl:hidden 2xl:hidden` }>Enter the details of an authorized user</p>
+      <p className={`text-[#667185] text-[16px] mt-[0] ${groteskText.className} lg:text-[18px] xl:text-[18px] 2xl:text-[18px]` }>Enter the details of an authorized user</p>
     </div>
         <form className="mt-[24px] lg:mt-[2.5rem] 4 ">
           <div>
             <InputField
               type="text"
               placeholder="Enter your name"
-              label="Name"
+              label="Full Name"
               variant="individual"
               className=""
               name="name"
@@ -138,7 +137,7 @@ const validatePosition = ()=> {
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full lg:mt-[40px]"
             variant='primary'
           >
             Continue

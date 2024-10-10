@@ -2,11 +2,11 @@
 "use client"
 import InputField from "@/components/InputField";
 import { useState } from "react";
-import { AuthPrompt } from "@/components/authPrompt"
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
-import SignupLayout from "../SignupLayout";
-
+import SignupLayout from "../../SignupLayout";
+import { AuthPrompt } from "@/components/AuthPrompt";
+import { FcGoogle } from "react-icons/fc";
 
 
 const CorporateSignupPage = () => {
@@ -66,7 +66,7 @@ const CorporateSignupPage = () => {
 
 
   return (
-    <div className="max-w-[400px] w-full">
+    <div className="max-w-[400px] w-full lg:mt-[32px]">
       <div className="flex flex-col justify-center w-full">
     
         <CreateAccountText />
@@ -86,8 +86,12 @@ const CorporateSignupPage = () => {
           </div>
           <div>
             <InputField
+            
               type="text"
               placeholder="Enter your business address"
+              // icon={
+              //   <FcGoogle />
+              // }
               label="Business Address"
               name="business_address"
               value={formData.business_address}
@@ -95,6 +99,7 @@ const CorporateSignupPage = () => {
               validationRules={validateBusinessAddress}
               variant="individual"
               className="mt-[16px]"
+             
             />
           </div>
           <div>
@@ -142,7 +147,7 @@ const CorporateSignupPage = () => {
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full lg:mt-[40px]"
             variant='primary'
           >
             Continue

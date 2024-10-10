@@ -1,13 +1,11 @@
 // app/signup/page.tsx
 "use client"
-import InputField from "@/components/InputField";
 import { useState } from "react";
-import { AuthPrompt } from "@/components/authPrompt"
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
-import SignupLayout from "../SignupLayout";
-
-
+import InputField from "@/components/InputField";
+import { AuthPrompt } from "@/components/AuthPrompt";
+import SignupLayout from "@/app/SignupLayout";
 
 const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -141,7 +139,7 @@ const SignupPage: React.FC = () => {
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full lg:mt-[40px] "
             variant='primary'
           >
             Continue

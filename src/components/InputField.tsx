@@ -9,7 +9,7 @@ interface InputFieldProps {
   validationRules: (value: string) => string | null;
   label: string;
   variant: string;
-  className: string;
+  className?: string;
   value: string;
   name: string;
   icon?: ReactNode;

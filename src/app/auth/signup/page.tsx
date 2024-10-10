@@ -7,6 +7,7 @@ import InputField from "@/components/InputField";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import SignupLayout from "@/app/SignupLayout";
 
+
 const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',

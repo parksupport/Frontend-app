@@ -4,7 +4,8 @@ import Image from "next/image";
 import carAlertImage from '@/assets/images/logo.jpg'
 
 
-export const Logo = () => {
+
+export const Logo = ({ className, ...props }) => {
   return (
     <div className="flex flex-col items-center ">
     
@@ -18,3 +19,6 @@ export const Logo = () => {
   
   );
 };
+
+// Example usage:
+<Logo className="pt-[138px]" />

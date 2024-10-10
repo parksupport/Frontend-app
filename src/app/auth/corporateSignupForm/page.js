@@ -106,6 +106,7 @@ const CorporateSignupPage = () => {
             <InputField
               type="number"
               placeholder="Enter your company registration number"
+            
               label="Company Registration Number"
               name="reg_number"
               value={formData.reg_number}

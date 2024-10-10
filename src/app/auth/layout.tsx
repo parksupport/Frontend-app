@@ -20,7 +20,7 @@ export default function BaseLayout({
   return (
     <div className="">
       <div className="flex flex-col lg:flex-row">
-        <div className="flex-1 mt-[32px] mx-auto ">
+        <div className="flex-1 mt-32 mx-auto">
           <Logo />
           {children}
         </div>

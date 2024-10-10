@@ -14,3 +14,4 @@ const CreateAccountText = () => {
 }
 
 export default CreateAccountText
+

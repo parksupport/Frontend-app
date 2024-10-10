@@ -4,7 +4,7 @@ const SignupLayout = ({children}) => {
   return (
     <div className='flex flex-col justify-center items-center w-full'>
      {/* <HeaderImage /> */}
-      <ProgressSteps />
+      {/* <ProgressSteps /> */}
       <main className='w-full justify-center items-center flex'>{children}</main>
     </div>
   )

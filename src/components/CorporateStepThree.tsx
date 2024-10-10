@@ -4,7 +4,6 @@ import InputField from "@/components/InputField";
 import { useState } from "react";
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
-import SignupLayout from "../../SignupLayout";
 import { groteskText, groteskTextMedium } from '@/app/fonts'
 
 import { AuthPrompt } from "@/components/AuthPrompt";

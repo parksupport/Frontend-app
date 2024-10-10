@@ -10,7 +10,11 @@ export default function BaseLayout({
   children: React.ReactNode;
 }>) {
   const images = [car_one, carocelCar1, carocelCar2];
-  Password      <div className="flex flex-col lg:flex-row h-full">
+
+  return (
+    <div className="container mx-auto  lg:w-[1440px] px-4 lg:px-0 lg:py-0 overflow-x-hidden">
+
+      <div className="flex flex-col lg:flex-row h-full">
         <div className="flex-1 mx-auto w-full overflow-x-hidden" >
           <Logo className="pt-[138px] pb-[46px]"  />
           {children}

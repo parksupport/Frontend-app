@@ -6,6 +6,7 @@ import Button from "@/components/Buttons";
 import InputField from "@/components/InputField";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import SignupLayout from "@/app/SignupLayout";
+import { registerIndividual } from "@/api/register";
 
 
 const SignupPage: React.FC = () => {
@@ -18,6 +19,8 @@ const SignupPage: React.FC = () => {
     dob: '',
     homeAddress: '',
   });
+
+  console.log("this is the form data" + formData);
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -29,6 +32,8 @@ const SignupPage: React.FC = () => {
       return updatedData;
     });
   };
+
+
 
 
 

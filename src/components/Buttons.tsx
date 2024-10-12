@@ -7,7 +7,7 @@ type Size = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
   children: ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void; // Accepts an event parameter
   className?: string;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   const baseStyles = 'px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-opacity-50';
 
   const variantStyles: Record<Variant, string> = {
-    primary: 'bg-[#3957D7] mt-[16px] max-w-[400px] w-full px-[16px] py-[16px] rounded-[6px] border-solid text-white focus:bg-[#3957D7] active:bg-[#3957D7] justify-center flex hover:bg-[#6a85e6]',
+    primary: 'bg-[#3957D7] mt-[16px] max-w-[400px] w-full px-[16px] py-[16px] rounded-[6px] border-solid text-white focus:bg-[#3957D7] active:bg-[#3957D7] justify-center flex hover:bg-[#6a85e6] transition duration-200 ease-in-out',
     secondary: 'bg-white mt-[16px] max-w-[400px] w-full px-[16px] py-[10px] rounded-[6px] border-[#98A2B3] border-solid border',
     success: 'bg-green-500 text-white hover:bg-green-700 focus:ring-green-500  px-[16px] py-[14px]',
     danger: 'bg-red-500 text-white hover:bg-red-700 focus:ring-red-500',
@@ -90,7 +90,7 @@ const Button: React.FC<ButtonProps> = ({
   const classes = `
     ${baseStyles}
     ${buttonStyle}
-    ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+    ${disabled ? 'opacity-50' : ''}
     ${className}
   `;
 

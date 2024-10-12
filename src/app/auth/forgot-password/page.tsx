@@ -13,7 +13,7 @@ export default function ForgotPasswordPage() {
         <p className="text-center text-gray-600">
           Enter your email to receive password reset instructions.
         </p>
-        <form className="mt-8 space-y-4">
+        <form className="">
           <div>
             <Input type="email" placeholder="Email" required />
           </div>

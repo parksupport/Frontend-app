@@ -5,11 +5,10 @@ import { useState } from "react";
 import Image from "next/image";
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
-import ProgressSteps from "@/components/ProgressSteps";
-import SignupLayout from "../../SignupLayout";
 import { AuthPrompt } from "@/components/AuthPrompt";
 
-const AdminSignupPage = () => {
+
+const AdminSignupPage = ({onContinue}) => {
   const [formData, setFormData] = useState({
  
     password: '',
@@ -93,7 +92,7 @@ const validatePostalCode = (value)=> {
               onChange={handleChange}
               validationRules={validateCarVeriNum}
               variant="individual"
-              className="mt-[16px] lg:mt-[18px] xl:mt-[18px] 2xl:mt-[18px]"
+              className="mt-[16px] "
             />
             </div>
         
@@ -103,7 +102,7 @@ const validatePostalCode = (value)=> {
               placeholder="Password"
               label="Password"
               variant="individual"
-               className="mt-[16px] lg:mt-[18px] xl:mt-[18px] 2xl:mt-[18px]"
+               className="mt-[16px] "
               name="password"
               value={formData.password}
               onChange={handleChange}
@@ -129,6 +128,7 @@ const validatePostalCode = (value)=> {
             type="submit" 
             className="w-full lg:mt-[40px]"
             variant='primary'
+            onClick={onContinue}
             >
               Continue
             </Button> 
@@ -154,4 +154,8 @@ const validatePostalCode = (value)=> {
 // );
 
 export default AdminSignupPage;
+
+function setConfirmPasswordError(arg0: null) {
+  throw new Error("Function not implemented.");
+}
 

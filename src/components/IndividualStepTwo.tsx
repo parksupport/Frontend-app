@@ -7,8 +7,11 @@ import InputField from "@/components/InputField";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import SignupLayout from "@/app/SignupLayout";
 
+interface IndividualStepOneProps {
+  onContinue: () => void; // Define the type for onContinue
+}
 
-const SignupPage: React.FC = () => {
+const SignupPage: React.FC<IndividualStepOneProps>  = ({onContinue}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -105,7 +108,7 @@ const SignupPage: React.FC = () => {
               onChange={handleChange}
               validationRules={validateNumber}
               variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
+              className="mt-[16px] "
             />
           </div>
 
@@ -119,7 +122,7 @@ const SignupPage: React.FC = () => {
               onChange={handleChange}
               validationRules={validateDOB}
               variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
+              className="mt-[16px] "
             />
           </div>
           <div>
@@ -132,7 +135,7 @@ const SignupPage: React.FC = () => {
               onChange={handleChange}
               validationRules={validateHomeAddress}
               variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
+              className="mt-[16px] "
             />
           </div>
 
@@ -142,6 +145,7 @@ const SignupPage: React.FC = () => {
             type="submit"
             className="w-full lg:mt-[40px] "
             variant='primary'
+            onClick={onContinue}
           >
             Continue
           </Button>

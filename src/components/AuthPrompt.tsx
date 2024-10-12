@@ -9,7 +9,7 @@ interface AuthPromptProps {
 
 export const AuthPrompt = ({ text, url, link }: AuthPromptProps) => {
   return (
-    <div className="flex items-center justify-center py-5 text-md">
+    <div className="flex items-center justify-center pt-5 text-md">
       {text}
       <Link href={url} className="font-bold text-customBlue px-1 hover:underline">
         {link}

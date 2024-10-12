@@ -11,7 +11,7 @@ import { useState } from "react";
 import { CiMail } from "react-icons/ci";
 import { FaApple } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import { IoEye, IoEyeOffOutline } from "react-icons/io5";
+import { IoEye, IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { PiHandWavingFill } from "react-icons/pi";
 
 export default function LoginPage() {
@@ -21,6 +21,7 @@ export default function LoginPage() {
   });
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [inputType, setInputType] = useState("password");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -44,9 +45,10 @@ export default function LoginPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email) ? null : "Invalid email format";
   };
-
   const handleChangePasswordIcon = () => {
+    console.log("Icon clicked");
     setIsPasswordVisible((prev) => !prev);
+    setInputType((prev) => (prev === "password" ? "text" : "password"));
   };
 
   return (
@@ -82,10 +84,21 @@ export default function LoginPage() {
             />
             <div>
               <InputField
-                type="password"
+                type={inputType}
                 placeholder="Enter your password"
-                icon={<IoEyeOffOutline className="text-2xl" />}
-
+                icon={
+                  isPasswordVisible ? (
+                    <IoEyeOutline
+                      onClick={handleChangePasswordIcon}
+                      className="text-2xl cursor-pointer"
+                    />
+                  ) : (
+                    <IoEyeOffOutline
+                      onClick={handleChangePasswordIcon}
+                      className="text-2xl cursor-pointer"
+                    />
+                  )
+                }
                 label="Password"
                 name="password"
                 value={formData.password}
@@ -93,7 +106,6 @@ export default function LoginPage() {
                 validationRules={validatePassword}
                 variant="individual"
                 className="mt-[16px] lg:mt-[20px] xl:mt-[20px] 2xl:mt-[20px]"
-
               />
               <div className="flex items-center justify-between mt-1 mb-10">
                 <div className="flex items-center space-x-1 ">

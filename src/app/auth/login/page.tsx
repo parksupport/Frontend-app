@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { loginUser } from "@/api/register";
 
 import { AuthPrompt } from "@/components/AuthPrompt";
@@ -17,6 +17,10 @@ import { FcGoogle } from "react-icons/fc";
 import { IoEye, IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { PiHandWavingFill } from "react-icons/pi";
 
+
+
+
+
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
@@ -27,53 +31,50 @@ export default function LoginPage() {
   const [inputType, setInputType] = useState("password");
   const [error, setError] = useState(null);
 
-
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const userData = {
-      email: formData.email, 
+      email: formData.email,
       password: formData.password,
     };
 
     try {
       const data = await loginUser(userData);
-      console.log('Login successful:', data);
+      console.log("Login successful:", data);
+
+      // Optionally store tokens in cookies or localStorage
+      localStorage.setItem("accessToken", data.access);
+      localStorage.setItem("refreshToken", data.refresh);
+
       // Redirect to profile page after successful login
-      // router.push('/api/accounts/profile/');
+      router.push("/dashboard");
     } catch (error) {
-      console.error('Login failed:', error);
-      setError('Invalid username or password'); // Set error state
+      console.error("Login failed:", error);
+      setError("Invalid email or password"); // Set error state
     }
   };
 
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
-      const updatedData = {
-        ...prevData,
-        [name]: value,
-      };
-      console.log(updatedData);
-      return updatedData;
-    });
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const validatePassword = (password: string): string | null => {
-    return password.length >= 6
-      ? null
-      : "Password must be at least 6 characters";
+  const validatePassword = (password) => {
+    return password.length >= 6 ? null : "Password must be at least 6 characters";
   };
 
-  const validateEmail = (email: string): string | null => {
+  const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email) ? null : "Invalid email format";
   };
+
   const handleChangePasswordIcon = () => {
-    console.log("Icon clicked");
     setIsPasswordVisible((prev) => !prev);
     setInputType((prev) => (prev === "password" ? "text" : "password"));
   };
@@ -98,115 +99,90 @@ export default function LoginPage() {
               />
             </div>
             <form onSubmit={handleSubmit}>
-            <div>
-              <InputField
-                type="email"
-                placeholder="Enter your email address"
-                label="Email Address"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                validationRules={validateEmail}
-                variant="individual"
-                icon={<CiMail className="text-2xl" />}
-              />
               <div>
                 <InputField
-                  type={inputType}
-                  placeholder="Enter your password"
-                  icon={
-                    isPasswordVisible ? (
-                      <IoEyeOutline
-                        onClick={handleChangePasswordIcon}
-                        className="text-2xl cursor-pointer"
-                      />
-                    ) : (
-                      <IoEyeOffOutline
-                        onClick={handleChangePasswordIcon}
-                        className="text-2xl cursor-pointer"
-                      />
-                    )
-                  }
-                  label="Password"
-                  name="password"
-                  value={formData.password}
+                  type="email"
+                  placeholder="Enter your email address"
+                  label="Email Address"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
-                  validationRules={validatePassword}
+                  validationRules={validateEmail}
                   variant="individual"
-                  className="mt-[16px] lg:mt-[20px] xl:mt-[20px] 2xl:mt-[20px]"
+                  icon={<CiMail className="text-2xl" />}
                 />
-                <div className="flex items-center justify-between mt-1 mb-10">
-                  <div className="flex items-center space-x-1 ">
-                    <input
-                      type="checkbox"
-                      checked={rememberMe}
-                      onChange={(e) => setRememberMe(e.target.checked)}
-                      className="cursor-pointer w-3 h-3 text-[#98A2B3] "
-                    />
-                    <label className="text-[#98A2B3] text-xs">
-                      Remember Me
-                    </label>
+                <div>
+                  <InputField
+                    type={inputType}
+                    placeholder="Enter your password"
+                    icon={
+                      isPasswordVisible ? (
+                        <IoEyeOutline
+                          onClick={handleChangePasswordIcon}
+                          className="text-2xl cursor-pointer"
+                        />
+                      ) : (
+                        <IoEyeOffOutline
+                          onClick={handleChangePasswordIcon}
+                          className="text-2xl cursor-pointer"
+                        />
+                      )
+                    }
+                    label="Password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    validationRules={validatePassword}
+                    variant="individual"
+                    className="mt-[16px] lg:mt-[20px] xl:mt-[20px] 2xl:mt-[20px]"
+                  />
+                  <div className="flex items-center justify-between mt-1 mb-10">
+                    <div className="flex items-center space-x-1 ">
+                      <input
+                        type="checkbox"
+                        checked={rememberMe}
+                        onChange={(e) => setRememberMe(e.target.checked)}
+                        className="cursor-pointer w-3 h-3 text-[#98A2B3] "
+                      />
+                      <label className="text-[#98A2B3] text-xs">
+                        Remember Me
+                      </label>
+                    </div>
+
+                    <Link
+                      href="/auth/forgot-password"
+                      className="text-xs text-blue-600 hover:underline"
+                    >
+                      Forgot password
+                    </Link>
                   </div>
-
-                  <Link
-                    href="/auth/forgot-password"
-                    className="text-xs text-blue-600 hover:underline"
-                  >
-                    Forgot password
-                  </Link>
                 </div>
+
+                <Button
+                  type="submit"
+                  className="w-full lg:mt-[40px] "
+                  variant="primary"
+                >
+                  Login
+                </Button>
+                <Button
+                  type="submit"
+                  className="w-full lg:mt-[16px] "
+                  variant="secondary"
+                  icon={<FcGoogle className="text-3xl" />}
+                >
+                  Login with Google
+                </Button>
+                <Button
+                  type="submit"
+                  className="w-full lg:mt-[16px] "
+                  variant="secondary"
+                  icon={<FaApple className="text-3xl" />}
+                >
+                  Login with Apple
+                </Button>
               </div>
-
-              <Button
-                type="submit"
-                className="w-full lg:mt-[40px] "
-                variant="primary"
-              >
-                Login
-              </Button>
-              <Button
-                type="submit"
-                className="w-full lg:mt-[16px] "
-                variant="secondary"
-                icon={<FcGoogle className="text-3xl" />}
-              >
-                Login with Google
-              </Button>
-              <Button
-                type="submit"
-                className="w-full lg:mt-[16px] "
-                variant="secondary"
-                icon={<FaApple className="text-3xl" />}
-              >
-                Login with Apple
-              </Button>
-            </div>
             </form>
-
-            {/* <Button variant="default" className="mt-4">
-                <ButtonText text="Login" />
-              </Button>
-            </form>
-            <Button
-              variant="secondary"
-              className="mt-4"
-              onClick={() => console.log("clicked")}
-            >
-              <ButtonText
-                icon={<FcGoogle className="text-3xl" />}
-                text="Login with Google"
-              />
-            </Button>
-            <Button
-              variant="secondary"
-              className="mt-4"
-              onClick={() => console.log("clicked")}
-            >
-              <ButtonText
-                icon={<FaApple className="text-3xl" />}
-                text="Login with Apple"
-              />
-            </Button> */}
 
             <div>
               <AuthPrompt

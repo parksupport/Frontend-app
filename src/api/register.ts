@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from 'js-cookie'; 
+import Cookies from "js-cookie";
 
 export async function registerIndividual(userData) {
   try {
@@ -25,32 +25,19 @@ export async function registerCorporate(userData) {
   }
 }
 
+// services/auth.js
 
 export async function loginUser(userData) {
-  const csrfToken = Cookies.get('csrftoken'); 
-
-  console.log("userData: " + JSON.stringify(userData));
-
   try {
     const response = await axios.post(
-      'http://localhost:8000/api-auth/login/',
+      "http://localhost:8000/api/token/",
       {
-        email: userData.email,
+        email_address: userData.email,
         password: userData.password,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrfToken, 
-        },
-        withCredentials: true, 
       }
     );
-
-    console.log('Login successful:', response.data);
-    return response.data;
+    return response.data; // { access: 'access_token', refresh: 'refresh_token' }
   } catch (error) {
-    console.error('Login failed:', error.response); 
+    throw error;
   }
 }
-

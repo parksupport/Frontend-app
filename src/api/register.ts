@@ -42,7 +42,9 @@ export async function loginUser(userData) {
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrfToken, 
+        },
         withCredentials: true, 
+      }
     );
 
     console.log('Login successful:', response.data);

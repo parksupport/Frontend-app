@@ -6,7 +6,7 @@ import { ReactNode, useState } from "react";
 interface InputFieldProps {
   type: string;
   placeholder: string;
-  validationRules: (value: string) => string | null;
+  validationRules?: (value: string) => string | null;
   label: string;
   variant: string;
   className?: string;
@@ -32,6 +32,9 @@ const InputField: React.FC<InputFieldProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   const handleBlur = () => {
+    if (!validationRules) {
+      return;
+    }
     const errorMsg = validationRules(value);
     setError(errorMsg);
   };

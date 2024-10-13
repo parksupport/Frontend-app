@@ -35,8 +35,9 @@ const CorporateAdminSignupPage = ({onContinue}) => {
     return emailRegex.test(email) ? null : 'Invalid email format';
   };
 
+
  const validatePassword =(value)=>{
-    return password.length >= 6 ? null : 'Password must be at least 6 characters';
+    return value.length >= 6 ? null : 'Password must be at least 6 characters';
 
  }
 
@@ -48,8 +49,8 @@ const CorporateAdminSignupPage = ({onContinue}) => {
     }
 };
 
-const validatePosition = ()=> {
-    return position.length >= 6 ? null : 'Position must be at least 6 characters';
+const validatePosition = (value)=> {
+    return value.length >= 6 ? null : 'Position must be at least 6 characters';
 
 }
 

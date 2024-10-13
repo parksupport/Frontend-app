@@ -1,5 +1,6 @@
 import { bloggerSans } from "./fonts";
 import "./globals.css";
+import Providers from "./providers";
 
 
 export default function RootLayout({
@@ -12,7 +13,10 @@ export default function RootLayout({
       <body
         className={bloggerSans.className}
       >
-        {children}
+        <Providers>
+          {children}
+        </Providers>
+
       </body>
     </html>
   );

@@ -29,15 +29,15 @@ const AdminSignupPage = ({onContinue}) => {
   };
 
   const validatePassword = (value)=> {
-    return password.length >= 6 ? null : 'Password must be at least 6 characters';
+    return value.length >= 6 ? null : 'Password must be at least 6 characters';
   };
 
   const handleConfirmPasswordBlur = ()=> {
     if (formData.confirmPassword !== formData.password) {
-        setConfirmPasswordError('Passwords do not match');
+        
         return 'Passwords do not match';
     } else {
-        setConfirmPasswordError(null);
+        
         return null;
     }
 };

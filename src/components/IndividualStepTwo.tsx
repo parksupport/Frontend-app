@@ -38,7 +38,6 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
   const handleSubmit = (e):any => {
     e.preventDefault();
     localStorage.setItem('signupFormData', JSON.stringify(formData));
-    console.log('SignupPage Form Data:', formData);
     setEmail(formData.email);
     onContinue(formData)
 
@@ -62,7 +61,6 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
     return null;
   };
   const validateDOB = (value: string): string | null => {
-    console.log("Validating:", value); // Check the input value
     const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
     return dobPattern.test(value.trim()) ? null : 'Date of Birth must be in the format YYYY-MM-DD';
   };

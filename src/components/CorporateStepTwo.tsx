@@ -8,7 +8,7 @@ import { AuthPrompt } from "@/components/AuthPrompt";
 import { FcGoogle } from "react-icons/fc";
 
 
-const CorporateSignupPage = () => {
+const CorporateSignupPage = ({onContinue}) => {
   const [formData, setFormData] = useState({
     company_name: '',
     company_email: '',
@@ -112,7 +112,7 @@ const CorporateSignupPage = () => {
               onChange={handleChange}
               validationRules={validateRegNumber}
               variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
+              className="mt-[16px] "
             />
           </div>
 
@@ -149,6 +149,7 @@ const CorporateSignupPage = () => {
             type="submit"
             className="w-full lg:mt-[40px]"
             variant='primary'
+            onClick={onContinue}
           >
             Continue
           </Button>

@@ -1,15 +1,19 @@
 // app/signup/page.tsx
 "use client"
 import InputField from "@/components/InputField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
-import ProgressSteps from "@/components/ProgressSteps";
-
 import { AuthPrompt } from "@/components/AuthPrompt";
+import { useSignup } from "@/hooks/useRegister";
 
-const AdminSignupPage = () => {
+interface AdminSignupPageProps {
+  onContinue: (formData: any) => void;
+  combinedData: any;
+}
+
+const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
   const [formData, setFormData] = useState({
  
     password: '',
@@ -18,7 +22,20 @@ const AdminSignupPage = () => {
     confirmPassword: '',
  
   });
-  const handleChange = (e) => {
+
+  const [signupFormData, setSignupFormData] = useState(null);
+  const { signup, isError, error } = useSignup();
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
+
+
+  useEffect(() => {
+    const storedFormData = localStorage.getItem('signupFormData');
+    if (storedFormData) {
+      setSignupFormData(JSON.parse(storedFormData));
+    }
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
       const updatedData = {
@@ -29,22 +46,21 @@ const AdminSignupPage = () => {
     });
   };
 
+  const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const combinedFormData = { ...signupFormData, ...formData };
+    console.log('AdminSignupPage Form Data:', combinedFormData);
+    onContinue(formData)
+    signup(combinedFormData)
+  };
+
+
   const validatePassword = (value)=> {
     return value.length >= 6 ? null : 'Password must be at least 6 characters';
   };
 
-  const handleConfirmPasswordBlur = ()=> {
-    if (formData.confirmPassword !== formData.password) {
-        
-        return 'Passwords do not match';
-    } else {
-        
-        return null;
-    }
-};
 
-
-const validatePostalCode = (value)=> {
+const validatePostalCode = (value: string)=> {
     const postalCodePattern = /^\d{5}$/; // Pattern to match exactly 5 digits
     if (!postalCodePattern.test(value)) {
       return "Postal code must be exactly 5 digits.";
@@ -52,7 +68,7 @@ const validatePostalCode = (value)=> {
     return null;
   };
   
-  const validateCarVeriNum = (value)=> {
+  const validateCarVeriNum = (value: string)=> {
     const carVeriNumPattern = /^[A-Za-z0-9]{7,10}$/; // Pattern to match 7 to 10 alphanumeric characters
     if (!carVeriNumPattern.test(value)) {
       return "Car verification number must be 7 to 10 alphanumeric characters.";
@@ -69,7 +85,7 @@ const validatePostalCode = (value)=> {
      
        
         <CreateAccountText />
-        <form className="mt-[24px] lg:mt-[2.5rem]  ">
+        <form onSubmit={handleContinue} className="mt-[24px] lg:mt-[2.5rem]  ">
         <div>
             <InputField
               type="number"
@@ -93,7 +109,7 @@ const validatePostalCode = (value)=> {
               onChange={handleChange}
               validationRules={validateCarVeriNum}
               variant="individual"
-              className="mt-[16px] lg:mt-[18px] xl:mt-[18px] 2xl:mt-[18px]"
+              className="mt-[16px] "
             />
             </div>
         
@@ -103,7 +119,7 @@ const validatePostalCode = (value)=> {
               placeholder="Password"
               label="Password"
               variant="individual"
-               className="mt-[16px] lg:mt-[18px] xl:mt-[18px] 2xl:mt-[18px]"
+               className="mt-[16px] "
               name="password"
               value={formData.password}
               onChange={handleChange}
@@ -111,24 +127,29 @@ const validatePostalCode = (value)=> {
             />
           </div>
           <div className={`input-field individual`}>
-            <InputField
-              type="password"
-              placeholder="Confirm Password"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              validationRules={handleConfirmPasswordBlur} 
-              label={"Confirm Password"} 
-              variant={"individual"} 
-              className="mt-[16px]"
-              />
-            {/* {confirmPasswordError && <span style={{ color: 'red' }}>{confirmPasswordError}</span>} */}
+          <InputField
+            type="password"
+            placeholder="Confirm your password"
+            label="Confirm Password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            validationRules={(value) => value.length >= 6 ? null : 'Password must be at least 6 characters'}
+            variant="individual"
+            className="mt-[16px]"
+          />
+
+          {confirmPasswordError && (
+            <p className="text-red-500 text-sm">{confirmPasswordError}</p>
+          )}
+          {isError && <p>{error?.message || 'An error occurred during signup'}</p>}
           </div>
           <div>
             <Button 
             type="submit" 
             className="w-full lg:mt-[40px]"
             variant='primary'
+            //  onClick={onContinue}
             >
               Continue
             </Button> 
@@ -154,4 +175,8 @@ const validatePostalCode = (value)=> {
 // );
 
 export default AdminSignupPage;
+
+function setConfirmPasswordError(arg0: null) {
+  throw new Error("Function not implemented.");
+}
 

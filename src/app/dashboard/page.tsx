@@ -1,6 +1,10 @@
 // app/dashboard/page.tsx
+"use client";
+import { useAuthStore } from "@/lib/stores/authStore";
 
 export default function DashboardPage() {
+  const user = useAuthStore((state) => state.user);
+  console.log("dashboard page", user);
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}

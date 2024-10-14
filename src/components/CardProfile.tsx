@@ -1,6 +1,10 @@
+"use client";
 import React from "react";
 import { HiUserGroup } from "react-icons/hi2";
 import { HiMiniUser } from "react-icons/hi2";
+import GroupSVG from '@/assets/svg/Group (1).svg'
+import ProfileSVG from '@/assets/svg/profile (2).svg'
+import Image from "next/image";
 
 interface CardProfileProps {
   type: "user" | "corporate";
@@ -16,30 +20,36 @@ const CardProfile = ({
   return (
     <div
     onClick={onClick}
+    
     className={`w-[188px] h-[190px] flex flex-col pl-4 py-2 rounded-[6px] border border-neutral-200 text-neutral-950 shadow-sm cursor-pointer transition-shadow duration-300 ease-in-out ${
-      selected ? "border-[#4169E1] border border-solid" : ""
+      selected ? "border-[#3957D7] border-solid border-2" : ""
     } hover:shadow-custom-hover`}
   >
-      <div className={`pt-2 text-[#4169E1] ${selected ? "text-white" : ""}`}>
-        {type === "user" ? (
-          <HiMiniUser className="w-8 h-8" />
-        ) : (
-          <HiUserGroup className="w-12 h-12" />
-        )}
-      </div>
-      <div className={`text-[22px] pt-1 ${selected ? "text-black" : ""}`}>
-        {type === "user" ? "Individual" : "Corporate"}
-      </div>
-      <div
-        className={`text-neutral-500 text-[16px] font-normal pb-14 ${
-          selected ? "text-black" : ""
-        }`}
-      >
-        {type === "user"
-          ? "Vehicle Fines with Real-Time Notifications"
-          : "I manage a fleet of vehicles for a company"}
-      </div>
+    <div className={`pt-2 ${selected ? "text-white" : "text-[#4169E1]"}`}>
+      {type === "user" ? (
+        <div>
+          <ProfileSVG />
+        </div>
+      ) : (
+        <div className="mb-1">
+          <GroupSVG />
+        </div>
+      )}
     </div>
+    <div className={`text-[22px] pt-1 ${selected ? "text-black" : ""}`}>
+      {type === "user" ? "Individual" : "Corporate"}
+    </div>
+    <div
+      className={`text-neutral-500 text-[16px] font-normal pb-14 ${
+        selected ? "text-black" : ""
+      }`}
+    >
+      {type === "user"
+        ? "Vehicle Fines with Real-Time Notifications"
+        : "I manage a fleet of vehicles for a company"}
+    </div>
+  </div>
+  
   );
 };
 

@@ -5,10 +5,13 @@ import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
 import InputField from "@/components/InputField";
 import { AuthPrompt } from "@/components/AuthPrompt";
-import SignupLayout from "@/app/SignupLayout";
 
 
-const SignupPage: React.FC = () => {
+interface SignupPageProps {
+  onContinue: (formData: any) => void;
+}
+
+const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,7 +21,6 @@ const SignupPage: React.FC = () => {
     dob: '',
     homeAddress: '',
   });
-  const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
@@ -29,6 +31,15 @@ const SignupPage: React.FC = () => {
       return updatedData;
     });
   };
+  const handleSubmit = (e):any => {
+    e.preventDefault();
+    localStorage.setItem('signupFormData', JSON.stringify(formData));
+    console.log('SignupPage Form Data:', formData);
+
+    onContinue(formData)
+
+  };
+
 
 
 
@@ -46,13 +57,9 @@ const SignupPage: React.FC = () => {
     }
     return null;
   };
-  const validateDOB = (value) => {
+  const validateDOB = (value: string): string | null => {
     const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dobPattern.test(value)) {
-      return 'Date of Birth must be in the format YYYY-MM-DD.';
-    }
-    // Additional checks can be added, such as checking if the date is a valid date
-    return null;
+    return dobPattern.test(value) ? null : 'Date of Birth must be in the format YYYY-MM-DD';
   };
   const validateHomeAddress = (value) => {
     if (value.trim() === '') {
@@ -68,7 +75,7 @@ const SignupPage: React.FC = () => {
       <div className="flex flex-col justify-center w-full">
     
         <CreateAccountText />
-        <form className="mt-[24px] lg:mt-[2.5rem] 4 ">
+        <form onSubmit={handleSubmit} className="mt-[24px] lg:mt-[2.5rem] 4 ">
           <div>
             <InputField
               type="text"
@@ -127,7 +134,7 @@ const SignupPage: React.FC = () => {
               type="text"
               placeholder="Enter your address"
               label="Address"
-              name="homeAddree"
+              name="homeAddress"
               value={formData.homeAddress}
               onChange={handleChange}
               validationRules={validateHomeAddress}
@@ -142,6 +149,7 @@ const SignupPage: React.FC = () => {
             type="submit"
             className="w-full lg:mt-[40px] "
             variant='primary'
+            // onClick={onContinue}
           >
             Continue
           </Button>

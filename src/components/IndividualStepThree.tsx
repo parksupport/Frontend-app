@@ -49,7 +49,6 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
   const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const combinedFormData = { ...signupFormData, ...formData };
-    console.log('AdminSignupPage Form Data:', combinedFormData);
     onContinue(formData)
     signup(combinedFormData)
   };

@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import AdminSignupPage from '@/components/IndividualStepThree';
 import React from 'react';
 

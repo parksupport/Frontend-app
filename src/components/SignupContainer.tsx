@@ -21,7 +21,6 @@ const ParentComponent: React.FC = () => {
       ...combinedData,
       ...data,
     };
-    console.log('Combined Form Data:', finalData);
     // Submit finalData to the backend
   };
 

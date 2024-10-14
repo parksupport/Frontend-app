@@ -12,7 +12,7 @@ const CorporateStepFour = () => {
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
-  const [email_address, setEmail] = useState('');
+  const email = useAuthStore((state) => state.email);
 
   const [otp, setOtp] = useState(Array(6).fill(''));
   const isFilled = otp.every((value) => value !== ""); // Check if all fields are filled
@@ -34,7 +34,7 @@ if(isFilled){
   e.preventDefault();
   try {
     const response = await axios.post('http://localhost:8000/api/accounts/verify-otp/', {
-      email_address,
+      email_address: email,
       otp,
     });
     const data = response.data;
@@ -52,7 +52,7 @@ if(isFilled){
      <div className='justify-center flex flex-col items-center mt-8'>
      <h1 className={` text-[40px] text-[#000000]   ${groteskTextMedium.className}`}>Verification required</h1>
       <p className={` text-[18px] text-[#667185] text-center  ${groteskText.className} block`}>Enter 6-digit code sent to your email {''}
-      <span className={` text-[18px] text-[#667185]  ${groteskTextMedium.className}`}>Odiliwisdom2@gmail.com</span></p>
+      <span className={` text-[18px] text-[#667185]  ${groteskTextMedium.className}`}>{email}</span></p>
      </div>
      <div className='mt-[24px] w-full'>
           <form onSubmit={handleSubmit}>

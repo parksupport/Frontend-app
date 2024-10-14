@@ -1,14 +1,15 @@
-"use client"
-import { groteskText, groteskTextMedium } from '@/app/fonts'
-import React, { useState } from 'react'
-import Button from './Buttons'
+"use client";
+import { groteskText, groteskTextMedium } from '@/app/fonts';
+import React, { useState } from 'react';
+import Button from './Buttons';
 import axios from 'axios';
 import { useAuthStore } from '@/lib/stores/authStore';
+import { useSignupStore } from '@/lib/stores/authStore'; // Correct import
 import { useRouter } from 'next/navigation';
 
-
 const IndividualStepFour = () => {
-  const email = useAuthStore((state) => state.email);
+  const { formData } = useSignupStore();
+  const email = formData.email_address;
 
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
@@ -24,73 +25,77 @@ const IndividualStepFour = () => {
       const newOtp = [...otp];
       newOtp[index] = value; // Update OTP value at specific index
       setOtp(newOtp); // Update state
+
+      // Automatically focus the next input field
+      if (value !== "" && index < otp.length - 1) {
+        const nextInput = document.getElementById(`otp-${index + 1}`);
+        if (nextInput) {
+          nextInput.focus();
+        }
+      }
     }
   };
-const handleSubmit =async (e: any) => {
-  e.preventDefault();
-if(isFilled){
-      otp.join('')
-  }
-  e.preventDefault();
-  try {
-    const response = await axios.post('http://localhost:8000/api/accounts/verify-otp/', {
-      email_address: email,
-      otp,
-    });
-    const data = response.data;
-    setToken(data.access);
-    setUser(data.user);
-    router.push('/dashboard');
-  } catch (error) {
-    console.error('OTP Verification failed:', error);
-    // Handle error (e.g., display error message)
-  }
 
- 
-};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isFilled) {
+      const otpCode = otp.join('');
+      try {
+        const response = await axios.post('http://localhost:8000/api/accounts/verify-otp/', {
+          email_address: email,
+          otp: otpCode,
+        });
+        const data = response.data;
+        setToken(data.access);
+        setUser(data.user);
+        router.push('/dashboard');
+      } catch (error) {
+        console.error('OTP Verification failed:', error);
+        // Handle error (e.g., display error message)
+      }
+    } else {
+      console.error('Please enter the full 6-digit OTP.');
+    }
+  };
 
   return (
     <div className='justify-center flex flex-col items-center max-w-[460px] w-full'>
-     <div className='justify-center flex flex-col items-center mt-8'>
-     <h1 className={` text-[40px] text-[#000000]  ${groteskTextMedium.className}`}>Verification required</h1>
-      <p className={` text-[18px] text-[#667185] text-center  ${groteskText.className} block`}>Enter 6-digit code sent to your email {''} <span className={` text-[18px] text-[#667185]  ${groteskTextMedium.className}`}>{email}</span></p>
-     </div>
-     <div className='mt-[24px] w-full'>
-          <form onSubmit={()=> handleSubmit(email)}>
-
-
-              <div className='flex flex-row max-w-[460px] justify-between' >
-                  {otp.map((value, index) => (
-                      <input
-                          key={index}
-                          type="text"
-                          value={value}
-                          onChange={(e) => handleChange(e, index)}
-                          className={`w-[47px] h-[47px] sm:w-[47px] sm:h-[47px] md:w-[60px] md:h-[60px]  rounded-[8px] border-[#98A2B3] border-solid border text-center text-[40px]  focus:outline-none ${groteskText.className}`}
-                          maxLength={1}
-                      />
-                  ))}
-              </div>
-
-              <div className='justify-center flex flex-col items-center'>
-          <Button 
-          type="submit" 
-          className="w-full lg:mt-[40px]"
-          variant='primary'
-          disabled={!isFilled}
-        
-          >
-            Continue
-          </Button> 
-        </div>
-
-          </form>
-     
-   
+      <div className='justify-center flex flex-col items-center mt-8'>
+        <h1 className={` text-[40px] text-[#000000]  ${groteskTextMedium.className}`}>Verification required</h1>
+        <p className={` text-[18px] text-[#667185] text-center  ${groteskText.className} block`}>
+          Enter 6-digit code sent to your email{' '}
+          <span className={` text-[18px] text-[#667185]  ${groteskTextMedium.className}`}>{email}</span>
+        </p>
+      </div>
+      <div className='mt-[24px] w-full'>
+        <form onSubmit={handleSubmit}>
+          <div className='flex flex-row max-w-[460px] justify-between'>
+            {otp.map((value, index) => (
+              <input
+                key={index}
+                id={`otp-${index}`}
+                type="text"
+                value={value}
+                onChange={(e) => handleChange(e, index)}
+                className={`w-[47px] h-[47px] sm:w-[47px] sm:h-[47px] md:w-[60px] md:h-[60px]  rounded-[8px] border-[#98A2B3] border-solid border text-center text-[40px]  focus:outline-none ${groteskText.className}`}
+                maxLength={1}
+              />
+            ))}
+          </div>
+          <div className='justify-center flex flex-col items-center'>
+            <Button
+              type="submit"
+              className="w-full lg:mt-[40px]"
+              variant='primary'
+              disabled={!isFilled}
+            >
+              Continue
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default IndividualStepFour
-
+export default IndividualStepFour;

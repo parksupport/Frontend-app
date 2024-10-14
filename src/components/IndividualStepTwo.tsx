@@ -5,6 +5,8 @@ import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
 import InputField from "@/components/InputField";
 import { AuthPrompt } from "@/components/AuthPrompt";
+import { useAuthStore } from "@/lib/stores/authStore";
+
 
 
 interface SignupPageProps {
@@ -21,6 +23,8 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
     dob: '',
     homeAddress: '',
   });
+  const setEmail = useAuthStore((state) => state.setEmail);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
@@ -35,7 +39,7 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
     e.preventDefault();
     localStorage.setItem('signupFormData', JSON.stringify(formData));
     console.log('SignupPage Form Data:', formData);
-
+    setEmail(formData.email);
     onContinue(formData)
 
   };
@@ -58,9 +62,11 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
     return null;
   };
   const validateDOB = (value: string): string | null => {
+    console.log("Validating:", value); // Check the input value
     const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
-    return dobPattern.test(value) ? null : 'Date of Birth must be in the format YYYY-MM-DD';
+    return dobPattern.test(value.trim()) ? null : 'Date of Birth must be in the format YYYY-MM-DD';
   };
+  
   const validateHomeAddress = (value) => {
     if (value.trim() === '') {
       return 'Home address cannot be empty.';
@@ -118,7 +124,7 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
 
           <div>
             <InputField
-              type="number"
+              type="date"
               placeholder="Enter your DOB"
               label="Date of Birth"
               name="dob"

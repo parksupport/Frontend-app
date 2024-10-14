@@ -14,6 +14,8 @@ interface AuthStoreState {
   setToken: (token: string | null) => void;
   setUser: (user: any) => void; // Use appropriate type instead of 'any' based on your user object
   logout: () => void;
+  email: string;
+  setEmail: (email: string) => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -23,6 +25,8 @@ export const useStore = create<StoreState>((set) => ({
 }));
 
 export const useAuthStore =  create<AuthStoreState>((set) => ({
+  email: '',
+  setEmail: (email) => set({ email }),
   token: null,
   user: null,
   setToken: (token) => set({ token }),

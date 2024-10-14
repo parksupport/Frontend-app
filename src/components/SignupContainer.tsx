@@ -26,11 +26,7 @@ const ParentComponent: React.FC = () => {
 
   return (
     <div>
-      {step === 1 ? (
-        <SignupPage onContinue={handleSignupContinue} />
-      ) : (
-        <AdminSignupPage onContinue={handleAdminSignupContinue}  combinedData={combinedData}  />
-      )}
+     
     </div>
   );
 };

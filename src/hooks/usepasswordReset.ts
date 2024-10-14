@@ -34,13 +34,13 @@ export const useForgotPassword = () => {
     // Destructure the mutation object for return
     const {
       mutate: resetPassword,
-      isLoading: isSending,
+      
       isError,
       error,
       status
     } = mutation;
   
-    return { resetPassword, isSending, isError, error ,status};
+    return { resetPassword,  isError, error ,status};
   };
   
 export const useConfirmPassword = () => {
@@ -56,7 +56,7 @@ export const useConfirmPassword = () => {
     const mutation = useMutation<
     PasswordResetResponse,
       Error,
-      changePasswordInput
+      any
     >({
       mutationFn: async (data) => {
         return await confirmPasswordReset(data);
@@ -77,12 +77,11 @@ export const useConfirmPassword = () => {
     // Destructure the mutation object for return
     const {
       mutate: confirmPassword,
-      isLoading: isSending,
       isError,
       error,
       status
     } = mutation;
   
-    return { confirmPassword, isSending, isError, error ,status};
+    return { confirmPassword, isError, error ,status};
   };
   

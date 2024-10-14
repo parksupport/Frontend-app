@@ -32,10 +32,10 @@ export const useLogin = () => {
     },
   });
 
-  // Destructure the mutation object for return
-  // const { mutate: login, isLoading: isLoggingIn, isError, error } = mutation;
 
-  // return { login, isLoggingIn, isError, error };
+  const { mutate: login,  isError, error } = mutation;
+
+  return { login, isError, error };
 };
 
 

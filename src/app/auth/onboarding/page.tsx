@@ -35,7 +35,7 @@ const steps = [
     label: "Step 3", 
     component: isCorporate 
       ? <CorporateStepThree onContinue={() => handleContinueClick()} /> 
-      : <IndividualStepThree onContinue={() => handleContinueClick()} combinedData={undefined} /> 
+      : <IndividualStepThree onContinue={() => handleContinueClick()} /> 
   },
   { 
     label: "Step 4", 
@@ -100,7 +100,7 @@ const steps = [
         <>{selectedType === "user" && currentStep === 2 && <IndividualStepTwo onContinue={handleContinueClick}  />}
         {selectedType === "corporate" && currentStep === 2 && <CorporateStepTwo onContinue={handleContinueClick}/>}
         
-        {selectedType === "user" && currentStep === 3 && <IndividualStepThree onContinue={handleContinueClick} combinedData={undefined}  />}
+        {selectedType === "user" && currentStep === 3 && <IndividualStepThree onContinue={handleContinueClick}  />}
         {selectedType === "corporate" && currentStep === 3 && <CorporateStepThree onContinue={handleContinueClick}/>}
         {selectedType === "user" && currentStep === 4 && <IndividualStepFour   />}
         {selectedType === "corporate" && currentStep === 4 && <CorporateStepFour   />}

@@ -113,14 +113,8 @@ export default function LoginPage() {
               {isLoggingIn ? 'Logging in...' : 'Login'}
             </Button> */}
             {/* Social login buttons (if applicable) */}
-            <Button type="button" className="w-full mt-4" variant="secondary" icon={<FcGoogle className="text-3xl" />}>
-              Login with Google
-            </Button>
-            <Button type="button" className="w-full mt-4" variant="secondary" icon={<FaApple className="text-3xl" />}>
-              Login with Apple
-            </Button>
           </form>
-          <AuthPrompt text="Are you new? " link="Create an account" url="/auth/signup" />
+          <AuthPrompt text="Are you new? " link="Create an account" url="/auth/onboarding" />
           <div className="px-10 text-sm text-center">
             By signing in or creating an account, you agree with our
             <Link href="/" className="font-bold underline"> Terms & Conditions</Link> and

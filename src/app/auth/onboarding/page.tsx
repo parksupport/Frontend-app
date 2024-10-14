@@ -71,6 +71,7 @@ const steps = [
             index={i + 1}
             currentStep={currentStep}
             setCurrentStep={setCurrentStep}
+           
           />
         ))}
         </div>
@@ -124,12 +125,5 @@ const steps = [
 };
 
 
-
-
-// const PageWithLayout = () => (
-//   <SignupLayout>
-//     <CreateProfilePage />
-//   </SignupLayout>
-// );
 
 export default CreateProfilePage;

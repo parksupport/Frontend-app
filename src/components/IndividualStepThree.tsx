@@ -7,50 +7,40 @@ import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import { useSignup } from "@/hooks/useRegister";
+import { useSignupStore } from "@/lib/stores/authStore";
 
 interface AdminSignupPageProps {
-  onContinue: (formData: any) => void;
-  combinedData: any;
+  onContinue: () => void;
+
 }
 
 const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
-  const [formData, setFormData] = useState({
- 
-    password: '',
-    cvn: '',
-    postalCode: '',
-    confirmPassword: '',
- 
-  });
-
-  const [signupFormData, setSignupFormData] = useState(null);
-  const { signup, isError, error } = useSignup();
+  const { formData, updateFormData } = useSignupStore();
+  const { signup, isError, error } = useSignup("individual");
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
 
-
-  useEffect(() => {
-    const storedFormData = localStorage.getItem('signupFormData');
-    if (storedFormData) {
-      setSignupFormData(JSON.parse(storedFormData));
-    }
-  }, []);
+  const isFormValid =
+    formData.password &&
+    formData.confirmPassword &&
+    formData.car_verification_number &&
+    formData.post_code &&
+    formData.password === formData.confirmPassword;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
-      const updatedData = {
-        ...prevData,
-        [name]: value,
-      };
-      return updatedData;
-    });
+    updateFormData({ [name]: value });
   };
 
-  const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const combinedFormData = { ...signupFormData, ...formData };
-    onContinue(formData)
-    signup(combinedFormData)
+    if (isFormValid) {
+      try {
+        await signup(formData);
+        onContinue(); // Proceed to OTP step
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
 
@@ -84,7 +74,7 @@ const validatePostalCode = (value: string)=> {
      
        
         <CreateAccountText />
-        <form onSubmit={handleContinue} className="mt-[24px] lg:mt-[2.5rem]  ">
+        <form onSubmit={handleSubmit} className="mt-[24px] lg:mt-[2.5rem]  ">
         <div>
             <InputField
               type="number"
@@ -92,8 +82,8 @@ const validatePostalCode = (value: string)=> {
               label="Postal Code"
               variant="individual"
               
-              name="postalCode"
-              value={formData.postalCode}
+              name="post_code"
+              value={formData.post_code}
               onChange={handleChange}
               validationRules={validatePostalCode}
             />
@@ -103,8 +93,8 @@ const validatePostalCode = (value: string)=> {
               type="text"
               placeholder="Enter your car verification number"
               label="Car Verification Number"
-              name="cvn"
-              value={formData.cvn}
+              name="car_verification_number"
+              value={formData.car_verification_number}
               onChange={handleChange}
               validationRules={validateCarVeriNum}
               variant="individual"
@@ -148,6 +138,7 @@ const validatePostalCode = (value: string)=> {
             type="submit" 
             className="w-full lg:mt-[40px]"
             variant='primary'
+            disabled={!isFormValid}
             //  onClick={onContinue}
             >
               Continue

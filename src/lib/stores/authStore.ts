@@ -34,3 +34,20 @@ export const useAuthStore =  create<AuthStoreState>((set) => ({
   logout: () => set({ token: null, user: null }),
 }));
 
+// useSignupStore.ts
+
+interface SignupState {
+  formData: any;
+  updateFormData: (newData: any) => void;
+  resetFormData: () => void;
+}
+
+export const useSignupStore = create<SignupState>((set) => ({
+  formData: {},
+  updateFormData: (newData) =>
+    set((state) => ({
+      formData: { ...state.formData, ...newData },
+    })),
+  resetFormData: () => set({ formData: {} }),
+}));
+

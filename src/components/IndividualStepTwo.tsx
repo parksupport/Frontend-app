@@ -1,76 +1,96 @@
 // app/signup/page.tsx
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
 import InputField from "@/components/InputField";
 import { AuthPrompt } from "@/components/AuthPrompt";
-import { useAuthStore } from "@/lib/stores/authStore";
-
+import { useSignupStore } from "@/lib/stores/authStore";
 
 
 interface SignupPageProps {
-  onContinue: (formData: any) => void;
+  onContinue: () => void;
 }
 
 const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    number: '',
-    dob: '',
-    homeAddress: '',
-  });
-  const setEmail = useAuthStore((state) => state.setEmail);
+  const { formData, updateFormData } = useSignupStore();
+
+  const isFormValid =
+    formData.full_name &&
+    formData.email_address &&
+    formData.phone_number &&
+    formData.date_of_birth &&
+    formData.address;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
-      const updatedData = {
-        ...prevData,
-        [name]: value,
-      };
-      return updatedData;
-    });
+    updateFormData({ [name]: value });
+    console.log(formData,"formdata");
   };
-  const handleSubmit = (e):any => {
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('signupFormData', JSON.stringify(formData));
-    setEmail(formData.email);
-    onContinue(formData)
-
-  };
-
-
-
-
-  const validateEmail = (email: string): string | null => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) ? null : 'Invalid email format';
-  };
-
-
-
-  const validateNumber = (value) => {
-    const phoneNumberPattern = /^\d{10}$/;
-    if (!phoneNumberPattern.test(value)) {
-      return 'Phone number must be 10 digits.';
+    if (isFormValid) {
+      onContinue(); // Proceed to next step
     }
-    return null;
-  };
-  const validateDOB = (value: string): string | null => {
-    const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
-    return dobPattern.test(value.trim()) ? null : 'Date of Birth must be in the format YYYY-MM-DD';
   };
   
-  const validateHomeAddress = (value) => {
-    if (value.trim() === '') {
-      return 'Home address cannot be empty.';
-    }
-    return null;
-  };
+  
+
+
+
+// 1. Validate Email
+const validateEmail = (email: string): string | null => {
+  const emailRegex =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // For stricter validation, consider using a more robust regex
+  // const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+  return emailRegex.test(email?.trim()) ? null : 'Invalid email format';
+};
+
+// 2. Validate Phone Number (assuming 10 digits)
+const validateNumber = (value: string): string | null => {
+  const phoneNumberPattern = /^\d{10}$/;
+  if (!phoneNumberPattern.test(value?.trim())) {
+    return 'Phone number must be exactly 10 digits.';
+  }
+  return null;
+};
+
+// 3. Validate Date of Birth
+const validateDOB = (value: string): string | null => {
+  const trimmedValue = value?.trim();
+  const dobPattern = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dobPattern.test(trimmedValue)) {
+    return 'Date of Birth must be in the format YYYY-MM-DD';
+  }
+
+  // Optional: Validate the date
+  const dateParts = trimmedValue.split('-');
+  const year = parseInt(dateParts[0], 10);
+  const month = parseInt(dateParts[1], 10) - 1; // Months are zero-based in JS Date
+  const day = parseInt(dateParts[2], 10);
+
+  const date = new Date(year, month, day);
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month ||
+    date.getDate() !== day
+  ) {
+    return 'Invalid Date of Birth.';
+  }
+
+  return null;
+};
+
+// 4. Validate Home Address
+const validateHomeAddress = (value: string): string | null => {
+  if (!value || value.trim() === '') {
+    return 'Home address cannot be empty.';
+  }
+  return null;
+};
+
 
 
 
@@ -87,8 +107,8 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
               label="Name"
               variant="individual"
               className=""
-              name="name"
-              value={formData.name}
+              name="full_name"
+              value={formData.full_name}
               onChange={handleChange}
               validationRules={(value) => value ? null : 'Name is required'}
             />
@@ -98,8 +118,8 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
               type="email"
               placeholder="Enter your email address"
               label="Email Address"
-              name="email"
-              value={formData.email}
+              name="email_address"
+              value={formData.email_address}
               onChange={handleChange}
               validationRules={validateEmail}
               variant="individual"
@@ -111,8 +131,8 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
               type="number"
               placeholder="Enter your phone number"
               label="Phone Number"
-              name="number"
-              value={formData.number}
+              name="phone_number"
+              value={formData.phone_number}
               onChange={handleChange}
               validationRules={validateNumber}
               variant="individual"
@@ -125,8 +145,8 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
               type="date"
               placeholder="Enter your DOB"
               label="Date of Birth"
-              name="dob"
-              value={formData.dob}
+              name="date_of_birth"
+              value={formData.date_of_birth}
               onChange={handleChange}
               validationRules={validateDOB}
               variant="individual"
@@ -138,8 +158,8 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
               type="text"
               placeholder="Enter your address"
               label="Address"
-              name="homeAddress"
-              value={formData.homeAddress}
+              name="address"
+              value={formData.address}
               onChange={handleChange}
               validationRules={validateHomeAddress}
               variant="individual"
@@ -153,6 +173,7 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
             type="submit"
             className="w-full lg:mt-[40px] "
             variant='primary'
+            disabled={!isFormValid}
             // onClick={onContinue}
           >
             Continue

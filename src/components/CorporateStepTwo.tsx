@@ -1,32 +1,34 @@
 // app/signup/page.tsx
 "use client"
 import InputField from "@/components/InputField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import { FcGoogle } from "react-icons/fc";
+import { useSignupStore } from "@/lib/stores/authStore";
 
 
 const CorporateSignupPage = ({onContinue}) => {
-  const [formData, setFormData] = useState({
-    company_name: '',
-    company_email: '',
-  
-    business_address: '',
-    company_number: '',
-    reg_number: '',
-   
-  });
+  const { formData, updateFormData } = useSignupStore();
+
+  const isFormValid =
+    formData.company_name &&
+    formData.company_email &&
+    formData.address &&
+    formData.company_phone_number &&
+    formData.company_registration_number;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
-      const updatedData = {
-        ...prevData,
-        [name]: value,
-      };
-      return updatedData;
-    });
+    updateFormData({ [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isFormValid) {
+      onContinue();
+    }
   };
 
 
@@ -40,9 +42,7 @@ const CorporateSignupPage = ({onContinue}) => {
 
   const validateRegNumber = (value) => {
     const phoneNumberPattern = /^\d{10}$/;
-    if (!phoneNumberPattern.test(value)) {
-      return 'Phone number must be 10 digits.';
-    }
+    
     return null;
   };
 
@@ -92,8 +92,8 @@ const CorporateSignupPage = ({onContinue}) => {
               //   <FcGoogle />
               // }
               label="Business Address"
-              name="business_address"
-              value={formData.business_address}
+              name="address"
+              value={formData.address}
               onChange={handleChange}
               validationRules={validateBusinessAddress}
               variant="individual"
@@ -107,8 +107,8 @@ const CorporateSignupPage = ({onContinue}) => {
               placeholder="Enter your company registration number"
             
               label="Company Registration Number"
-              name="reg_number"
-              value={formData.reg_number}
+              name="company_registration_number"
+              value={formData.company_registration_number}
               onChange={handleChange}
               validationRules={validateRegNumber}
               variant="individual"
@@ -134,8 +134,8 @@ const CorporateSignupPage = ({onContinue}) => {
               type="number"
               placeholder="Enter your general company number"
               label="General Company Number"
-              name="company_number"
-              value={formData.company_number}
+              name="company_phone_number"
+              value={formData.company_phone_number}
               onChange={handleChange}
               validationRules={validateCompanyNumber}
               variant="individual"
@@ -150,6 +150,7 @@ const CorporateSignupPage = ({onContinue}) => {
             className="w-full lg:mt-[40px]"
             variant='primary'
             onClick={onContinue}
+            disabled={!isFormValid}
           >
             Continue
           </Button>

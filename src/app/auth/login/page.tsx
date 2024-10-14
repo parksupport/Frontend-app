@@ -12,10 +12,6 @@ import { FcGoogle } from "react-icons/fc";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { PiHandWavingFill } from "react-icons/pi";
 
-
-
-
-
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email_address: "",
@@ -38,12 +34,12 @@ export default function LoginPage() {
       ...prevData,
       [name]: value,
     }));
-
-
   };
 
   const validatePassword = (password) => {
-    return password.length >= 6 ? null : "Password must be at least 6 characters";
+    return password.length >= 6
+      ? null
+      : "Password must be at least 6 characters";
   };
 
   const validateEmail = (email) => {
@@ -63,7 +59,9 @@ export default function LoginPage() {
           <div className="pb-14">
             <TextBlock
               header="Welcome Back!"
-              icon={<PiHandWavingFill color="#D2B48C" className="text-5xl px-1" />}
+              icon={
+                <PiHandWavingFill color="#D2B48C" className="text-5xl px-1" />
+              }
               content="Enter your email and password to access your account"
             />
           </div>
@@ -90,9 +88,15 @@ export default function LoginPage() {
               variant="individual"
               icon={
                 isPasswordVisible ? (
-                  <IoEyeOutline onClick={handleChangePasswordIcon} className="text-2xl cursor-pointer" />
+                  <IoEyeOutline
+                    onClick={handleChangePasswordIcon}
+                    className="text-2xl cursor-pointer"
+                  />
                 ) : (
-                  <IoEyeOffOutline onClick={handleChangePasswordIcon} className="text-2xl cursor-pointer" />
+                  <IoEyeOffOutline
+                    onClick={handleChangePasswordIcon}
+                    className="text-2xl cursor-pointer"
+                  />
                 )
               }
               className="mt-4"
@@ -107,26 +111,55 @@ export default function LoginPage() {
                 />
                 <label className="text-[#98A2B3] text-xs">Remember Me</label>
               </div>
-              <Link href="/auth/forgot-password" className="text-xs text-blue-600 hover:underline">
+              <Link
+                href="/auth/forgot-password"
+                className="text-xs text-blue-600 hover:underline"
+              >
                 Forgot password
               </Link>
             </div>
-            <Button type="submit" className="w-full" variant="primary" disabled={isLoggingIn}>
-              {isLoggingIn ? 'Logging in...' : 'Login'}
+            <Button
+              type="submit"
+              className="w-full"
+              variant="primary"
+              disabled={isLoggingIn}
+            >
+              {isLoggingIn ? "Logging in..." : "Login"}
             </Button>
             {/* Social login buttons (if applicable) */}
-            <Button type="button" className="w-full mt-4" variant="secondary" icon={<FcGoogle className="text-3xl" />}>
+            <Button
+              type="button"
+              className="w-full mt-4"
+              variant="secondary"
+              icon={<FcGoogle className="text-3xl" />}
+            >
               Login with Google
             </Button>
-            <Button type="button" className="w-full mt-4" variant="secondary" icon={<FaApple className="text-3xl" />}>
+            <Button
+              type="button"
+              className="w-full mt-4"
+              variant="secondary"
+              icon={<FaApple className="text-3xl" />}
+            >
               Login with Apple
             </Button>
           </form>
-          <AuthPrompt text="Are you new? " link="Create an account" url="/auth/signup" />
+          <AuthPrompt
+            text="Are you new? "
+            link="Create an account"
+            url="/auth/signup"
+          />
           <div className="px-10 text-sm text-center">
             By signing in or creating an account, you agree with our
-            <Link href="/" className="font-bold underline"> Terms & Conditions</Link> and
-            <Link href="/" className="font-bold underline"> Privacy Statement</Link>
+            <Link href="/" className="font-bold underline">
+              {" "}
+              Terms & Conditions
+            </Link>{" "}
+            and
+            <Link href="/" className="font-bold underline">
+              {" "}
+              Privacy Statement
+            </Link>
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+"use client"
+
 import { groteskText, groteskTextMedium } from '@/app/fonts'
 import React from 'react'
 

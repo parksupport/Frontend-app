@@ -6,6 +6,14 @@ interface StoreState {
   count: number;
   increaseCount: () => void;
   resetCount: () => void;
+  
+}
+interface AuthStoreState {
+  token: string | null;
+  user: any; // Use appropriate type instead of 'any' based on your user object
+  setToken: (token: string | null) => void;
+  setUser: (user: any) => void; // Use appropriate type instead of 'any' based on your user object
+  logout: () => void;
 }
 
 export const useStore = create<StoreState>((set) => ({
@@ -14,7 +22,7 @@ export const useStore = create<StoreState>((set) => ({
   resetCount: () => set({ count: 0 }),
 }));
 
-export const useAuthStore = create((set) => ({
+export const useAuthStore =  create<AuthStoreState>((set) => ({
   token: null,
   user: null,
   setToken: (token) => set({ token }),

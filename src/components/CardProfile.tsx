@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { HiUserGroup } from "react-icons/hi2";
 import { HiMiniUser } from "react-icons/hi2";
@@ -19,8 +20,9 @@ const CardProfile = ({
   return (
     <div
     onClick={onClick}
+    
     className={`w-[188px] h-[190px] flex flex-col pl-4 py-2 rounded-[6px] border border-neutral-200 text-neutral-950 shadow-sm cursor-pointer transition-shadow duration-300 ease-in-out ${
-      selected ? "border-[#3957D7] border-solid border" : ""
+      selected ? "border-[#3957D7] border-solid border-2" : ""
     } hover:shadow-custom-hover`}
   >
     <div className={`pt-2 ${selected ? "text-white" : "text-[#4169E1]"}`}>

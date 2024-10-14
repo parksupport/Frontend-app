@@ -29,7 +29,7 @@ export const useSignup = () => {
   });
 
   // Destructure the mutation object for return
-  const { mutate: signup, isLoading: isSigningUp, isError, error } = mutation;
+  const { mutate: signup, isError, error } = mutation;
 
-  return { signup, isSigningUp, isError, error };
+  return { signup, isError, error };
 };

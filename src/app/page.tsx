@@ -1,12 +1,14 @@
 
+import AdminSignupPage from '@/components/IndividualStepThree';
 import React from 'react';
-import AdminSignup from './auth/adminSignup/page'
 
 export default function Home() {
   return (
     <main className='px-[16px] justify-center flex flex-col w-full items-center'>
       {/* <SignupPage />  */}
-      <AdminSignup />
+      <AdminSignupPage onContinue={function (formData: any): void {
+        throw new Error('Function not implemented.');
+      } } combinedData={undefined} />
     </main>
   );
 }

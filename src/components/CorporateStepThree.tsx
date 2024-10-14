@@ -57,7 +57,7 @@ const validatePosition = (value)=> {
 
   return (
     <div className="max-w-[400px] w-full">
-      <div className="flex flex-col justify-center w-full lg:mt-[32px]">
+      <div className="flex flex-col justify-center w-full ">
     
       <div className='justify-center items-center flex flex-col'>
       

@@ -21,11 +21,11 @@ export default function LoginPage() {
   const [inputType, setInputType] = useState("password");
   const [rememberMe, setRememberMe] = useState(false);
 
-  const { login, isLoggingIn } = useLogin();
+  // const { login, isLoggingIn } = useLogin();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(formData); // Call the mutate function from useMutation
+    // login(formData); // Call the mutate function from useMutation
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,9 +109,9 @@ export default function LoginPage() {
                 Forgot password
               </Link>
             </div>
-            <Button type="submit" className="w-full" variant="primary" disabled={isLoggingIn}>
+            {/* <Button type="submit" className="w-full" variant="primary" disabled={isLoggingIn}>
               {isLoggingIn ? 'Logging in...' : 'Login'}
-            </Button>
+            </Button> */}
             {/* Social login buttons (if applicable) */}
             <Button type="button" className="w-full mt-4" variant="secondary" icon={<FcGoogle className="text-3xl" />}>
               Login with Google

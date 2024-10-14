@@ -1,31 +1,51 @@
-"use client"
+"use client";
+
 import { groteskText, groteskTextMedium } from '@/app/fonts'
 import React, { useState } from 'react'
 import Button from './Buttons'
+import axios from 'axios';
+import { useAuthStore } from '@/lib/stores/authStore';
+import { useRouter } from 'next/navigation';
 
 const CorporateStepFour = () => {
+
+  const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
+  const [email_address, setEmail] = useState('');
+
   const [otp, setOtp] = useState(Array(6).fill(''));
   const isFilled = otp.every((value) => value !== ""); // Check if all fields are filled
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
 
-    // Allow only numbers or empty string
     if (/^[0-9]$/.test(value) || value === "") {
       const newOtp = [...otp];
       newOtp[index] = value; // Update OTP value at specific index
       setOtp(newOtp); // Update state
     }
   };
-const handleSubmit = (e: any) => {
+const handleSubmit =async (e: any) => {
   e.preventDefault();
-
-  if(isFilled){
+if(isFilled){
       otp.join('')
   }
-
- 
-};
+  e.preventDefault();
+  try {
+    const response = await axios.post('http://localhost:8000/api/accounts/verify-otp/', {
+      email_address,
+      otp,
+    });
+    const data = response.data;
+    setToken(data.access);
+    setUser(data.user);
+    router.push('/dashboard');
+  } catch (error) {
+    console.error('OTP Verification failed:', error);
+    // Handle error (e.g., display error message)
+  }
+}
 
   return (
     <div className='justify-center flex flex-col items-center max-w-[460px] w-full'>
@@ -68,6 +88,7 @@ const handleSubmit = (e: any) => {
       </div>
     </div>
   )
+
 }
 
 export default CorporateStepFour

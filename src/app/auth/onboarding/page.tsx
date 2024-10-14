@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import CardProfile from "@/components/CardProfile";
 import TextBlock from "@/components/TextBlock";
-import SignupLayout from "@/app/SignupLayout";
 import Button from "@/components/Buttons";
 import { FcGoogle } from "react-icons/fc";
 import { HiMiniUser, HiUserGroup } from "react-icons/hi2";
@@ -22,14 +21,29 @@ import CorporateStepFour from "@/components/CorporateStepFour";
 const CreateProfilePage = () => {
   const [selectedType, setSelectedType] = useState<"user" | "corporate" | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
-  const steps = [
-    
-    { label: " Step 1", component: ''},
-    { label: " Step 2", component: <CorporateStepTwo onContinue={() => handleContinueClick()} /> ||  <IndividualStepTwo onContinue={() => handleContinueClick()} /> },
-    { label: "Step 3", component: <IndividualStepThree onContinue={() => handleContinueClick()}  /> ||  <CorporateStepThree onContinue={() => handleContinueClick()} /> },
-    { label: "Step 4", component: <IndividualStepFour  /> || <CorporateStepFour /> },
-    
-  ];
+  const isCorporate = true; // Replace this with your actual condition
+
+const steps = [
+  { label: "Step 1", component: '' },
+  { 
+    label: "Step 2", 
+    component: isCorporate 
+      ? <CorporateStepTwo onContinue={() => handleContinueClick()} /> 
+      : <IndividualStepTwo onContinue={() => handleContinueClick()} /> 
+  },
+  { 
+    label: "Step 3", 
+    component: isCorporate 
+      ? <CorporateStepThree onContinue={() => handleContinueClick()} /> 
+      : <IndividualStepThree onContinue={() => handleContinueClick()} combinedData={undefined} /> 
+  },
+  { 
+    label: "Step 4", 
+    component: isCorporate 
+      ? <CorporateStepFour /> 
+      : <IndividualStepFour /> 
+  },
+];
 
   const handleCardClick = (type: "user" | "corporate") => {
     setSelectedType(type);
@@ -85,7 +99,7 @@ const CreateProfilePage = () => {
         <>{selectedType === "user" && currentStep === 2 && <IndividualStepTwo onContinue={handleContinueClick}  />}
         {selectedType === "corporate" && currentStep === 2 && <CorporateStepTwo onContinue={handleContinueClick}/>}
         
-        {selectedType === "user" && currentStep === 3 && <IndividualStepThree onContinue={handleContinueClick}  />}
+        {selectedType === "user" && currentStep === 3 && <IndividualStepThree onContinue={handleContinueClick} combinedData={undefined}  />}
         {selectedType === "corporate" && currentStep === 3 && <CorporateStepThree onContinue={handleContinueClick}/>}
         {selectedType === "user" && currentStep === 4 && <IndividualStepFour   />}
         {selectedType === "corporate" && currentStep === 4 && <CorporateStepFour   />}
@@ -98,7 +112,7 @@ const CreateProfilePage = () => {
          type="button"
          className="mt-[24px] w-full lg:mt-[40px]"
          variant="primary"
-         disabled={!selectedType && currentStep === 1} // Disable button if no type is selected
+         disabled={!selectedType} // Disable button if no type is selected
          onClick={handleContinueClick}
        >
          Continue

@@ -13,3 +13,12 @@ export const useStore = create<StoreState>((set) => ({
   increaseCount: () => set((state) => ({ count: state.count + 1 })),
   resetCount: () => set({ count: 0 }),
 }));
+
+export const useAuthStore = create((set) => ({
+  token: null,
+  user: null,
+  setToken: (token) => set({ token }),
+  setUser: (user) => set({ user }),
+  logout: () => set({ token: null, user: null }),
+}));
+

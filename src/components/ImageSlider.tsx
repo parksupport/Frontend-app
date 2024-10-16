@@ -6,29 +6,34 @@ const ImageSlider = ({ images }: any) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
-    const isLastSlide = currentIndex === images.length - 1;
-    const newIndex = isLastSlide ? 0 : currentIndex + 1;
+    const newIndex = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
 
   useEffect(() => {
     const slideInterval = setInterval(() => {
       handleNext();
-    }, 2000);
+    }, 3000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(slideInterval);
-  }, [images.length, currentIndex]);
+  }, [currentIndex]);
 
   return (
     <div className="relative w-full mx-auto rounded-[32px] overflow-hidden">
-      <div className="relative w-full h-full">
-        <Image
-          src={images[currentIndex]}
-          alt={`Slide ${currentIndex + 1}`}
-          fill
-          className="object-cover"
-        />
+      <div
+        className="flex transition-transform duration-500 ease-in-out relative w-full h-full"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {images.map((image, index) => (
+          <div key={index} className="min-w-full relative">
+            <Image
+              src={image}
+              alt={`Slide ${index + 1}`}
+              fill
+              className="object-cover w-full h-full"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

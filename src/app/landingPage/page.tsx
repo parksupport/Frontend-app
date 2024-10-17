@@ -1,29 +1,43 @@
 "use client";
 
+import ArrowToText from "@/assets/images/ArrowToText.png";
 import landingPageImage1 from "@/assets/images/landingPageImage1.jpg";
 import landingPageImage2 from "@/assets/images/landingPageImage2.jpg";
+import Image from "next/image";
+import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Button, InputField } from "@/components";
 import FAQAccordion from "@/components/Faqquestion";
 import FeatureCard from "@/components/FeaturesCard";
+import {
+  CalenderIcon,
+  DashboardIcon,
+  InstantNoficationIcon,
+} from "@/components/FontIcon";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { TextSection } from "@/components/TextSection";
-import Image from "next/image";
-import { FaBell, FaCalendarAlt, FaTh } from "react-icons/fa";
 
 export default function LandingPage() {
-  const scrollToSection = (id) => {
-    const headerOffset = document.querySelector("header").offsetHeight;
-    const element = document.getElementById(id);
+  const [vehicleNo, setVehicleNo] = useState("");
 
-    if (element) {
-      const elementPosition =
-        element.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - headerOffset;
+  const router = useRouter();
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setVehicleNo(value);
+  };
+
+  const home = useRef(null);
+  const search = useRef(null);
+  const features = useRef(null);
+  const faq = useRef(null);
+
+  const scrollToSection = (elementRef) => {
+    if (elementRef && elementRef.current) {
       window.scrollTo({
-        top: offsetPosition,
+        top: elementRef.current.offsetTop,
         behavior: "smooth",
       });
     }
@@ -34,16 +48,23 @@ export default function LandingPage() {
   );
 
   return (
-    <div className="max-w-[1440px] mx-auto bg-white">
-      <Header scrollToSection={scrollToSection} />
+    <div className="bg-white mx-auto max-w-[1440px] overflow-hidden">
+      <Header
+        scrollToSection={scrollToSection}
+        homeRef={home}
+        searchRef={search}
+        featuresRef={features}
+        faqRef={faq}
+        router={router}
+      />
 
-      <main className="max-w-[1240px] mx-auto pt-4">
+      <main className="pt-4">
         <section
-          id="home-section"
-          className="bg-red-500 flex flex-col md:flex-row items-center px-4"
+          ref={home}
+          className="z-20 max-w-[1240px] mx-auto  flex flex-col md:flex-row items-center px-4"
         >
           <div className="flex flex-col md:flex-row md:h-[573px]">
-            <div className="flex flex-col justify-center p-4">
+            <div className="flex flex-col justify-center px-4">
               <TextSection
                 title={
                   <div className="text-5xl font-bold">
@@ -52,22 +73,35 @@ export default function LandingPage() {
                 }
                 content="Stay ahead of your vehicle's parking and driving fines with instant notifications, easy payments, and seamless appeals – all in one place."
               />
-              <div className="flex space-x-5 mt-4 w-[230px]">
+
+              <div className="z-10 flex space-x-5 mt-4 w-[230px] ">
                 <Button
                   type="button"
                   className="rounded-xl px-6 py-3 whitespace-nowrap"
                   variant="secondary"
-                  onClick={() => scrollToSection("search-section")}
+                  onClick={() => scrollToSection(search)}
                 >
                   Search now
                 </Button>
+
                 <Button
                   type="button"
                   className="rounded-xl px-6 py-3 whitespace-nowrap"
                   variant="primary"
+                  onClick={() => router.push("/auth/login")}
                 >
                   Sign in
                 </Button>
+              </div>
+
+              <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
+                <Image
+                  src={ArrowToText}
+                  alt="car"
+                  width={303}
+                  height={278}
+                  className="object-cover h-full"
+                />
               </div>
             </div>
             <div className=" flex-shrink-0">
@@ -83,8 +117,8 @@ export default function LandingPage() {
         </section>
 
         <section
-          id="search-section"
-          className="bg-green-500 flex flex-col md:flex-row items-center py-9 md:py-[120px] px-4"
+          ref={search}
+          className=" max-w-[1240px] mx-auto  flex flex-col md:flex-row items-center py-9 md:py-[120px] px-4"
         >
           <div className="flex-shrink-0 order-2 md:order-1">
             <Image
@@ -92,10 +126,10 @@ export default function LandingPage() {
               alt={"car"}
               width={600}
               height={642}
-              className="rounded-lg shadow-md object-cover h-full"
+              className="rounded-lg shadow-md object-cover h-full "
             />
           </div>
-          <div className="flex flex-col justify-center p-4 order-1 md:order-2">
+          <div className="  md:pt-[143px] md:pl-24 flex flex-col justify-center p-4 order-1 md:order-2 gap-8">
             <TextSection
               title={
                 <div className="text-5xl font-bold">
@@ -105,8 +139,12 @@ export default function LandingPage() {
               content="Easily search for parking tickets and driving contraventions by entering your vehicle registration number. "
             />
             <InputField
+              type="text"
+              name="search"
               label="Vehicle reg number"
               placeholder="Enter your vehicle registration number"
+              value={vehicleNo}
+              onChange={handleChange}
             />
             <div className="flex space-x-5 mb-9 w-[100px] h-12">
               <Button
@@ -120,8 +158,8 @@ export default function LandingPage() {
           </div>
         </section>
         <section
-          id="features-section"
-          className="bg-pink-500 flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
+          ref={features}
+          className=" max-w-[1240px] mx-auto  flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
         >
           <div className=" text-center md:px-80 pt-2">
             <TextSection
@@ -129,31 +167,31 @@ export default function LandingPage() {
               content="We handle everything from notifications to payments and appeals, so you can focus on the road."
             />
           </div>
-          <div className="flex flex-col md:flex-row item-center md:justify-between md:space-x-18 gap-7 md:py-10  ">
+          <div className="flex flex-col lg:flex-row item-center md:justify-between gap-7 md:py-10  ">
             <div className="flex flex-col ">
               <FeatureCard
-                icon={<FaBell />}
+                icon={<InstantNoficationIcon />}
                 title="Instant Notifications"
                 description="Get real-time alerts for parking tickets, driving fines, and vehicle-related contraventions directly to your phone or email. Never miss a deadline again."
                 button
               />
             </div>
             <FeatureCard
-              icon={<FaCalendarAlt />}
+              icon={<CalenderIcon />}
               title="Calendar Sync"
               description="Automatically sync payment deadlines with your Google, Apple, or Microsoft calendar to avoid missing important due dates."
             />
             <FeatureCard
-              icon={<FaTh />}
+              icon={<DashboardIcon />}
               title="Comprehensive Dashboard"
               description="View all your fines, payment history, appeal status, and notifications in one easy-to-navigate dashboard."
             />
           </div>
         </section>
-        <section id="faq-section" className="pb-8 md:pb-[120px]">
+        <section ref={faq} id="faq-section" className="pb-8 md:pb-[120px]  ">
           <FAQAccordion />
         </section>
-        <section className="">
+        <section>
           <Footer />
         </section>
       </main>

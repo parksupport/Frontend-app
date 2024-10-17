@@ -34,7 +34,7 @@ export default function Faq() {
 
   return (
     <div className="bg-blue-600 flex justify-center items-center ">
-      <div className="w-full max-w-2xl px-2 md:pb-[81px] bg-red-500">
+      <div className="w-full max-w-2xl px-2 md:pb-[81px] pb-7">
         <div className="text-white text-[28px] md:text-[44px] font-bold text-center mt-7 mb-2 md:mt-10">
           Frequently asked questions
         </div>

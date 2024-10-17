@@ -15,8 +15,8 @@ const FeatureCard = ({
   button,
 }: FeatureCardProps) => {
   return (
-    <div className="w-full md:w-[380px]">
-      <div className="border border-[#9EBBF2] rounded-[12px] p-6 shadow-md  h-[300px] flex flex-col ">
+    <div className="w-full w-[380px] ">
+      <div className="border border-[#9EBBF2] rounded-[12px] p-4 shadow-md  h-[258px] flex flex-col ">
         <div className="text-4xl py-1">{icon}</div>
         <h3 className="text-[28px] font-semibold mb-2 ">{title}</h3>
         <p className="text-[20px] text-gray-600">{description}</p>

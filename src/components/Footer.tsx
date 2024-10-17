@@ -8,7 +8,7 @@ import {
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
 import FontIcon from "./FontIcon";
-import NavLinkComponent from "./NavLink";
+import NavLinkComponent from "./NavLinkComponent";
 
 export default function Footer() {
   return (

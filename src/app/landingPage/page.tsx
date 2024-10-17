@@ -1,32 +1,26 @@
 "use client";
 
-import { TextSection } from "@/components/TextSection";
-import React from "react";
-import Image from "next/image";
-import carocelCar1 from "@/assets/images/carocelCar1.jpg";
-import { Button, ButtonText, InputField } from "@/components";
-import { Logo } from "@/components/logo";
-import FeatureCard from "@/components/FeaturesCard";
-import { FaBell, FaCalendarAlt, FaTh } from "react-icons/fa";
-import Header from "@/components/Header";
-import Faq from "@/components/faq";
+import landingPageImage1 from "@/assets/images/landingPageImage1.jpg";
+import landingPageImage2 from "@/assets/images/landingPageImage2.jpg";
+
+import { Button, InputField } from "@/components";
 import FAQAccordion from "@/components/Faqquestion";
-import ComparisonTable from "@/components/ComparisonTable";
+import FeatureCard from "@/components/FeaturesCard";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { TextSection } from "@/components/TextSection";
+import Image from "next/image";
+import { FaBell, FaCalendarAlt, FaTh } from "react-icons/fa";
 
 export default function LandingPage() {
-  const coloredText = (
-    <span className="text-blue-500 font-bold">Contravention</span>
-  );
-
-  const scrollToNextSection = () => {
-    const headerOffset = document.querySelector("header").offsetHeight; // Get the height of the header
-    const element = document.getElementById("next-section");
+  const scrollToSection = (id) => {
+    const headerOffset = document.querySelector("header").offsetHeight;
+    const element = document.getElementById(id);
 
     if (element) {
       const elementPosition =
-        element.getBoundingClientRect().top + window.pageYOffset; // Get the element's position relative to the document
-      const offsetPosition = elementPosition - headerOffset; // Subtract the header height from the position
+        element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - headerOffset;
 
       window.scrollTo({
         top: offsetPosition,
@@ -35,12 +29,19 @@ export default function LandingPage() {
     }
   };
 
+  const coloredText = (
+    <span className="text-blue-500 font-bold">Contravention</span>
+  );
+
   return (
     <div className="max-w-[1440px] mx-auto bg-white">
-      <Header scrollToNextSection={scrollToNextSection} />
+      <Header scrollToSection={scrollToSection} />
 
       <main className="max-w-[1240px] mx-auto pt-4">
-        <section className="flex flex-col md:flex-row items-center  px-4">
+        <section
+          id="home-section"
+          className="bg-red-500 flex flex-col md:flex-row items-center px-4"
+        >
           <div className="flex flex-col md:flex-row md:h-[573px]">
             <div className="flex flex-col justify-center p-4">
               <TextSection
@@ -56,7 +57,7 @@ export default function LandingPage() {
                   type="button"
                   className="rounded-xl px-6 py-3 whitespace-nowrap"
                   variant="secondary"
-                  onClick={scrollToNextSection}
+                  onClick={() => scrollToSection("search-section")}
                 >
                   Search now
                 </Button>
@@ -71,7 +72,7 @@ export default function LandingPage() {
             </div>
             <div className=" flex-shrink-0">
               <Image
-                src={carocelCar1}
+                src={landingPageImage1}
                 alt={"car"}
                 width={553}
                 height={573}
@@ -82,15 +83,15 @@ export default function LandingPage() {
         </section>
 
         <section
-          id="next-section"
-          className="flex flex-col md:flex-row items-center py-9 md:pt-52 px-4"
+          id="search-section"
+          className="bg-green-500 flex flex-col md:flex-row items-center py-9 md:py-[120px] px-4"
         >
-          <div className="md:w-[553px] md:h-[573px] flex-shrink-0 order-2 md:order-1">
+          <div className="flex-shrink-0 order-2 md:order-1">
             <Image
-              src={carocelCar1}
+              src={landingPageImage2}
               alt={"car"}
-              width={553}
-              height={573}
+              width={600}
+              height={642}
               className="rounded-lg shadow-md object-cover h-full"
             />
           </div>
@@ -118,8 +119,11 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-        <section className="flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 md:pt-52  px-4 ">
-          <div className=" text-center md:px-80">
+        <section
+          id="features-section"
+          className="bg-pink-500 flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
+        >
+          <div className=" text-center md:px-80 pt-2">
             <TextSection
               title="All-in-one vehicle contravention solution"
               content="We handle everything from notifications to payments and appeals, so you can focus on the road."
@@ -146,11 +150,11 @@ export default function LandingPage() {
             />
           </div>
         </section>
-        <section className="pb-8 md:pb-[120px]">
+        <section id="faq-section" className="pb-8 md:pb-[120px]">
           <FAQAccordion />
         </section>
         <section className="">
-          <Footer/>
+          <Footer />
         </section>
       </main>
     </div>

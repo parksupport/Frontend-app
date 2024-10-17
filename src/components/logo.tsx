@@ -3,9 +3,13 @@ import Image from "next/image";
 
 import carAlertImage from '@/assets/images/logo.jpg'
 
+interface LogoProps{
+  className?:React.ReactNode;
+}
 
 
-export const Logo = ({ className, ...props }) => {
+
+export const Logo = ({ className, ...props }:LogoProps) => {
   return (
     <div className="flex flex-col items-center ">
     
@@ -20,5 +24,4 @@ export const Logo = ({ className, ...props }) => {
   );
 };
 
-// Example usage:
-<Logo className="pt-[138px]" />
+

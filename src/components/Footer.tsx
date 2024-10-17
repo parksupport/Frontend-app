@@ -1,15 +1,12 @@
-import React from "react";
-import { Logo } from "./logo";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faTwitter,
   faFacebook,
-  faInstagram,
   faGithub,
+  faInstagram,
+  faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-// import FontIcon from "./FontIcon";
-import NavLinkComponent from "./NavLinkComponent";
+import { Logo } from "./logo";
 import { FontIcon } from "./FontIcon";
+import NavLinkComponent from "./NavLinkComponent";
 
 export default function Footer() {
   return (

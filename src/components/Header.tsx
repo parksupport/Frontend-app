@@ -1,9 +1,18 @@
 import { useState } from "react";
-
 import { FaBars } from "react-icons/fa";
 import Button from "./Buttons";
 import { Logo } from "./logo";
 import NavLinkComponent from "./NavLinkComponent";
+
+interface HeaderProps {
+  scrollToSection: any;
+  homeRef: any;
+  searchRef: any;
+  featuresRef: any;
+  faqRef: any;
+  router: any;
+}
+
 
 const Header = ({
   scrollToSection,
@@ -12,7 +21,7 @@ const Header = ({
   featuresRef,
   faqRef,
   router
-}) => {
+}: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {

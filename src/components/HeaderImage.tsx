@@ -6,14 +6,8 @@ import diploSVG from '@/assets/svg/diploSVG.svg'
 const HeaderImage = () => {
   return (
     <div className='flex justify-center'>
-            <Image
-       className="hidden self-center lg:flex"
-       src={diploSVG}
-      
-       alt="signup carAlert"
-        />
         <Image
-       className="self-center lg:hidden xl:hidden 2xl:hidden"
+       className="self-center "
        src={carAlertImage}
       
        alt="signup carAlert"

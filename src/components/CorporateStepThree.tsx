@@ -1,31 +1,43 @@
 // app/signup/page.tsx
 "use client"
 import InputField from "@/components/InputField";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateAccountText from "@/components/CreateAccountText";
 import Button from "@/components/Buttons";
 import { groteskText, groteskTextMedium } from '@/app/fonts'
 
 import { AuthPrompt } from "@/components/AuthPrompt";
+import { useSignupStore } from "@/lib/stores/authStore";
+import { useSignup } from "@/hooks/useRegister";
 
-const CorporateAdminSignupPage = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    position: '',
-   
-  });
+const CorporateAdminSignupPage = ({onContinue}) => {
+  const { formData, updateFormData } = useSignupStore();
+  const { signup, isError, error } = useSignup("register");
+
+  const isFormValid =
+    formData.full_name &&
+    formData.email_address &&
+    formData.password &&
+    formData.confirmPassword &&
+    formData.position &&
+    formData.password === formData.confirmPassword;
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
-      const updatedData = {
-        ...prevData,
-        [name]: value,
-      };
-      return updatedData;
-    });
+    updateFormData({ [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isFormValid) {
+      try {
+        console.log(formData, "formdata");
+        await signup(formData);
+        onContinue(); // Proceed to OTP step
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
 
@@ -57,14 +69,14 @@ const validatePosition = (value)=> {
 
   return (
     <div className="max-w-[400px] w-full">
-      <div className="flex flex-col justify-center w-full lg:mt-[32px]">
+      <div className="flex flex-col justify-center w-full ">
     
       <div className='justify-center items-center flex flex-col'>
       
-      <h1 className={`text-[28px] text-[#000000] lg:text-[40px] ${groteskTextMedium.className}`}>Create your account</h1>
-      <p className={`text-[#667185] text-[16px] mt-[0] ${groteskText.className} lg:text-[18px] xl:text-[18px] 2xl:text-[18px]` }>Enter the details of an authorized user</p>
+      <h1 className={`text-[28px] text-[#000000] lg:text-[40px] ${groteskTextMedium.className} leading-[2.5rem]`}>Create your account</h1>
+      <p className={`text-[#667185] text-[16px] mt-[0] ${groteskText.className} lg:text-[18px] xl:text-[18px] 2xl:text-[18px] leading-[1.25rem] mt-[8px]` }>Enter the details of an authorized user</p>
     </div>
-        <form className="mt-[24px] lg:mt-[2.5rem] 4 ">
+        <form onSubmit={handleSubmit}  className="mt-[24px] lg:mt-[2.5rem] 4 ">
           <div>
             <InputField
               type="text"
@@ -116,7 +128,7 @@ const validatePosition = (value)=> {
               onChange={handleChange}
               validationRules={validatePassword}
               variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
+              className="mt-[16px] "
             />
           </div>
           <div>
@@ -129,7 +141,7 @@ const validatePosition = (value)=> {
               onChange={handleChange}
               validationRules={handleConfirmPasswordBlur}
               variant="individual"
-              className="mt-[16px] lg:mt-[24px] xl:mt-[24px] 2xl:mt-[24px]"
+              className="mt-[16px] "
             />
           </div>
 
@@ -139,6 +151,7 @@ const validatePosition = (value)=> {
             type="submit"
             className="w-full lg:mt-[40px]"
             variant='primary'
+            disabled={!isFormValid}
           >
             Continue
           </Button>

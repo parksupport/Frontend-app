@@ -12,17 +12,17 @@ export default function BaseLayout({
   const images = [car_one, carocelCar1, carocelCar2];
 
   return (
-    <div className="container mx-auto  lg:w-[1440px] px-4 lg:px-0 lg:py-0 overflow-x-hidden">
+  
 
-      <div className="flex flex-col lg:flex-row h-full">
-        <div className="flex-1 mx-auto w-full overflow-x-hidden" >
-          <Logo className="pt-[138px] pb-[46px]"  />
+      <div className="flex flex-col lg:flex-row h-full max-w-[1344px] mx-auto justify-center items-center">
+        <div className="flex-1 mx-auto w-full overflow-x-hidden pt-[1.8125rem]" >
+          {/* <Logo className="pt-[138px] pb-[46px]"  /> */}
           {children}
         </div>
-        <div className="hidden lg:flex flex-1 py-[35px] px-[30px] lg:w-[680px] h-[954px]">
+        <div className="hidden lg:flex flex-1 py-[30px] px-[30px] lg:w-[680px] h-[954px]">
           <ImageSlider images={images} />
         </div>
       </div>
-    </div>
+  
   );
 }

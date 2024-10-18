@@ -6,7 +6,7 @@ import { useConfirmPassword } from "@/hooks/usepasswordReset";
 import { useEffect, useState } from "react";
 
 export default function SetNewPassword() {
-  const { confirmPassword, isSending, isError, error, status } =
+  const { confirmPassword,  isError, error, status } =
     useConfirmPassword();
   const [formData, setFormData] = useState({
     userId: "",

@@ -1,11 +1,13 @@
+
 .step-item {
-    @apply relative flex flex-col justify-center items-center w-36;
+    @apply relative flex flex-col justify-center items-center w-36 ;
   }
   .step-item:not(:first-child):after {
-    @apply content-[''] bg-[#D0D5DD] absolute w-full h-[3px] right-2/4 top-1/3 -translate-y-2/4 flex-row ;
+    @apply content-[''] bg-[#D0D5DD] absolute w-[85%] h-[3px] right-2/4 top-1/3 -translate-y-2/4  transition-all duration-700 flex-row ;
+    transform: translateY(-50%);
   }
   .step {
-    @apply w-10 h-10 flex items-center justify-center z-10 relative border-[#D0D5DD] border-solid border rounded-full text-black ;
+    @apply w-10 h-10 flex items-center justify-center z-10 relative border-[#D0D5DD] border-solid border rounded-full text-black bg-white transition-colors duration-700;
   }
   .active .step {
     @apply bg-[#3957D7] text-black;
@@ -21,4 +23,54 @@
     @apply bg-[#3957D7];
   }
 
-  
+
+  /* ProgressSteps.css 
+
+.step-item {
+  @apply relative flex flex-col items-center flex-1;
+}
+
+.step-item:not(:last-child)::after {
+  @apply content-[''] absolute top-1/2 left-full w-full h-[3px] bg-[#D0D5DD] transition-all duration-300;
+  transform: translateY(-50%);
+}
+
+.step {
+  @apply w-10 h-10 flex items-center justify-center rounded-full z-10 relative transition-colors duration-300;
+  background-color: #D0D5DD; /* Default background color 
+  color: #6B7280; /* Default text color (gray-500) 
+}
+
+.step-item.active .step {
+  background-color: #3957D7; /* Active step background color 
+  color: #FFFFFF; /* Active step text color 
+}
+
+.step-item.complete .step {
+  background-color: #3957D7; /* Completed step background color 
+  color: #FFFFFF; /* Completed step text color 
+}
+
+.step-item .label {
+  @apply mt-2 text-center text-sm;
+}
+
+.step-item.complete:not(:last-child)::after,
+.step-item.active:not(:last-child)::after {
+  background-color: #3957D7;  Connector color for active and completed steps 
+  width: 100%;  Full width when active or complete 
+}
+
+.step-item:not(.complete):not(.active):not(:last-child)::after {
+  width: 0%; /* No width when not complete 
+}
+
+.step-item:not(:last-child)::after {
+  transition: width 0.3s ease-in-out;
+}
+
+/* Hover effect for clickable steps 
+.step:hover {
+  @apply cursor-pointer;
+}
+*/

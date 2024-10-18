@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { registerUser } from '@/api/auth'; // Make sure this is your API function for registration
 import { SignupInput, SignupResponse } from '@/types'; // Define types for signup
 
-export const useSignup = () => {
+export const useSignup = (value:string) => {
   const router = useRouter();
 
   // The mutation function for sign-up
@@ -15,11 +15,10 @@ export const useSignup = () => {
 
   const mutation = useMutation<SignupResponse, Error, SignupInput>({
     mutationFn: async (userData) => {
-      return await registerUser('corporate', userData);
+      return await registerUser(value, userData);
     },
     onSuccess: (data) => {
       // Redirect to OTP page with email as a query param for OTP verification
-      router.push('/auth/verify-otp');
     },
     onError: (error: any) => {
       // Handle error
@@ -29,7 +28,7 @@ export const useSignup = () => {
   });
 
   // Destructure the mutation object for return
-  const { mutate: signup, isLoading: isSigningUp, isError, error } = mutation;
+  const { mutate: signup, isError, error } = mutation;
 
-  return { signup, isSigningUp, isError, error };
+  return { signup, isError, error };
 };

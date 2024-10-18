@@ -7,7 +7,7 @@ type Size = 'sm' | 'md' | 'lg';
 
 interface ButtonProps {
   children: ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void; // Accepts an event parameter
   className?: string;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
@@ -90,7 +90,7 @@ const Button: React.FC<ButtonProps> = ({
   const classes = `
     ${baseStyles}
     ${buttonStyle}
-    ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+    ${disabled ? 'opacity-50' : ''}
     ${className}
   `;
 

@@ -7,7 +7,7 @@ import { useForgotPassword } from "@/hooks/usepasswordReset";
 import { useState } from "react";
 
 export default function ForgotPasswordPage() {
-  const { resetPassword, isSending, isError, error, status } =
+  const { resetPassword,  isError, error, status } =
     useForgotPassword();
   const [email, setEmail] = useState("");
 

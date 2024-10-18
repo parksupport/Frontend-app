@@ -20,8 +20,9 @@ export default function LoginPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [rememberMe, setRememberMe] = useState(false);
+  const { login, isError, error} = useLogin();
 
-  const { login, isLoggingIn } = useLogin();
+  // const { login, isLoggingIn } = useLogin();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -122,33 +123,14 @@ export default function LoginPage() {
               type="submit"
               className="w-full"
               variant="primary"
-              disabled={isLoggingIn}
+              
             >
-              {isLoggingIn ? "Logging in..." : "Login"}
+              Login
             </Button>
             {/* Social login buttons (if applicable) */}
-            <Button
-              type="button"
-              className="w-full mt-4"
-              variant="secondary"
-              icon={<FcGoogle className="text-3xl" />}
-            >
-              Login with Google
-            </Button>
-            <Button
-              type="button"
-              className="w-full mt-4"
-              variant="secondary"
-              icon={<FaApple className="text-3xl" />}
-            >
-              Login with Apple
-            </Button>
+           
           </form>
-          <AuthPrompt
-            text="Are you new? "
-            link="Create an account"
-            url="/auth/signup"
-          />
+          <AuthPrompt text="Are you new? " link="Create an account" url="/auth/onboarding" />
           <div className="px-10 text-sm text-center">
             By signing in or creating an account, you agree with our
             <Link href="/" className="font-bold underline">

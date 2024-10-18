@@ -18,6 +18,7 @@ import {
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { TextSection } from "@/components/TextSection";
+import { groteskText } from "./fonts";
 
 export default function LandingPage() {
   const [vehicleNo, setVehicleNo] = useState("");
@@ -48,7 +49,7 @@ export default function LandingPage() {
   );
 
   return (
-    <div className="bg-white mx-auto w-full overflow-hidden">
+    <div className={`${groteskText.className} "bg-white mx-auto w-full overflow-hidden "`}>
       <Header
         scrollToSection={scrollToSection}
         homeRef={home}
@@ -146,7 +147,7 @@ export default function LandingPage() {
               value={vehicleNo}
               onChange={handleChange}
             />
-            <div className="flex space-x-5 mb-9 w-[100px] h-12">
+            <div className="flex w-[100px] ">
               <Button
                 type="button"
                 className="rounded-xl whitespace-nowrap  "

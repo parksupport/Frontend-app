@@ -3,6 +3,7 @@ import { FaBars } from "react-icons/fa";
 import Button from "./Buttons";
 import { Logo } from "./logo";
 import NavLinkComponent from "./NavLinkComponent";
+import { groteskText, groteskTextMedium } from '@/app/fonts';
 
 interface HeaderProps {
   scrollToSection: any;
@@ -29,11 +30,12 @@ const Header = ({
   };
 
   return (
-    <header className=" w-full py-5 px-4 md:px-[108px] flex justify-between items-center border-b border-gray-300">
+    
+    <header className={`${groteskText.className} w-full py-5 px-4 md:px-[108px] flex justify-between items-center border-b border-gray-300 `}>
       <div className="max-w-[1440px]  mx-auto flex justify-between items-center w-4/5">
         <Logo />
 
-        <nav className={`hidden md:flex space-x-12 text-[#0C0E0F]  text-[16px]`}>
+        <nav className={`hidden md:flex space-x-12 text-[#0C0E0F]  text-base lg:text-lg `}>
           <NavLinkComponent
             name="Home"
             className="cursor-pointer hover:text-blue-500"

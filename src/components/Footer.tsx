@@ -5,8 +5,10 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { Logo } from "./logo";
+import LogoReal from "@/assets/images/Logo2.png"
 import { FontIcon } from "./FontIcon";
 import NavLinkComponent from "./NavLinkComponent";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -14,7 +16,7 @@ export default function Footer() {
       <div className=" container mx-auto pt-6 border-t border-blue-200 flex flex-col md:flex-row items-center justify-between md:space-x-6 md:pb-[15px] md:pt-[100px]">
         <div className="flex flex-col md:flex-row items-center md:space-x-6 w-full justify-between">
           <div className="w-[171px] h-[48px]  order-1 md: ">
-            <Logo />
+            <Image src={LogoReal} alt="logo" />
           </div>
 
           <nav className="flex space-x-20 order-2  pt-8 md:py-0 justify-between md:text-[20px]">

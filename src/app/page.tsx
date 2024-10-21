@@ -4,10 +4,11 @@ import ArrowToText from "@/assets/images/ArrowToText.png";
 import landingPageImage1 from "@/assets/images/landingPageImage1.jpg";
 import landingPageImage2 from "@/assets/images/landingPageImage2.jpg";
 import Image from "next/image";
-import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 
 import { Button, InputField } from "@/components";
+import AniminateButton from "@/components/AniminateButton";
 import FAQAccordion from "@/components/Faqquestion";
 import FeatureCard from "@/components/FeaturesCard";
 import {
@@ -17,17 +18,39 @@ import {
 } from "@/components/FontIcon";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import NotificationBox from "@/components/NotificationBox";
+import TextAnimation from "@/components/TextAnimation";
 import { TextSection } from "@/components/TextSection";
-import { groteskText } from "./fonts";
+import { groteskText, groteskTextMedium } from "./fonts";
+
+
 
 export default function LandingPage() {
+  console.log(TextAnimation)
   const [vehicleNo, setVehicleNo] = useState("");
+  const [searchResult, setSearchResult] = useState(null);
 
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
+    console.log(value);
+
     setVehicleNo(value);
+
+    if (value === "") {
+      setSearchResult(null);
+    }
+  };
+
+  const handleSearch = () => {
+    const hasContraventions = false;
+
+    if (hasContraventions) {
+      setSearchResult(false);
+    } else {
+      setSearchResult(true);
+    }
   };
 
   const home = useRef(null);
@@ -49,7 +72,9 @@ export default function LandingPage() {
   );
 
   return (
-    <div className={`${groteskText.className} "bg-white mx-auto w-full overflow-hidden "`}>
+    <div
+      className={`${groteskText.className} "bg-white mx-auto w-full overflow-hidden "`}
+    >
       <Header
         scrollToSection={scrollToSection}
         homeRef={home}
@@ -62,37 +87,39 @@ export default function LandingPage() {
       <main className="pt-4">
         <section
           ref={home}
-          className="z-20 max-w-[1440px] mx-auto  flex flex-col md:flex-row items-center px-4 w-4/5"
+          className="z-20 max-w-[1440px] mx-auto  flex flex-col md:flex-row items-center px-4 md:w-4/5"
         >
           <div className="flex flex-col md:flex-row md:h-[573px]">
             <div className="flex flex-col justify-center px-4">
               <TextSection
                 title={
-                  <div className="text-5xl font-bold">
-                    Never Forget a {coloredText} Ticket Again!
+                  <div className="text-5xl font-bold flex">
+                  <div className="max-w-[340px] w-full">
+                  <h1> Never Forget a Ticket Again!</h1> 
+                  </div><TextAnimation /> 
                   </div>
                 }
                 content="Stay ahead of your vehicle's parking and driving fines with instant notifications, easy payments, and seamless appeals – all in one place."
               />
 
-              <div className="z-10 flex space-x-5 mt-4 w-[230px] ">
+              <div className=" flex mt-4  ">
                 <Button
-                  type="button"
-                  className="rounded-xl px-6 py-3 whitespace-nowrap"
+                  
+                  className={`max-w-[116px] w-full h-[40px] rounded-[12px] mr-[18px] text-[#000000] text-[18px] ${groteskTextMedium.className} cursor-pointer`} 
                   variant="secondary"
                   onClick={() => scrollToSection(search)}
                 >
                   Search now
                 </Button>
 
-                <Button
-                  type="button"
-                  className="rounded-xl px-6 py-3 whitespace-nowrap"
-                  variant="primary"
+                <AniminateButton
+                
+                  // className="rounded-xl px-6 py-3 whitespace-nowrap"
+                  // variant="primary"
                   onClick={() => router.push("/auth/login")}
-                >
-                  Sign in
-                </Button>
+                
+                 text="Sign in"
+                />
               </div>
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
@@ -130,7 +157,7 @@ export default function LandingPage() {
               className="rounded-lg shadow-md object-cover h-full "
             />
           </div>
-          <div className="  md:pt-[143px] md:pl-24 flex flex-col justify-center p-4 order-1 md:order-2 gap-8">
+          <div className="  md:pt-[143px] md:pl-24 flex flex-col justify-center p-4 order-1 md:order-2 ">
             <TextSection
               title={
                 <div className="text-5xl font-bold">
@@ -146,15 +173,33 @@ export default function LandingPage() {
               placeholder="Enter your vehicle registration number"
               value={vehicleNo}
               onChange={handleChange}
+              className="py-4 md:py-3"
             />
-            <div className="flex w-[100px] ">
-              <Button
-                type="button"
-                className="rounded-xl whitespace-nowrap  "
-                variant="primary"
-              >
-                Search
-              </Button>
+            <div className="flex justify-between  ">
+              <div className=" md:pt-4 ">
+                <Button
+                  type="button"
+                  className="rounded-xl whitespace-nowrap  "
+                  variant="primary"
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+              </div>
+
+              {searchResult === true && vehicleNo && (
+                <NotificationBox
+                  isSuccess={true}
+                  message="No contraventions assigned to this reg number"
+                />
+              )}
+
+              {searchResult === false && vehicleNo && (
+                <NotificationBox
+                  isSuccess={false}
+                  message="An error occurred while fetching the data"
+                />
+              )}
             </div>
           </div>
         </section>

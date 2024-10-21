@@ -184,7 +184,7 @@ const validateHomeAddress = (value: string): string | null => {
           <AuthPrompt
             text="Already have an account? "
             link="Login"
-            url="/login"
+            url="/auth/login"
           />
         </div>
       
@@ -194,12 +194,6 @@ const validateHomeAddress = (value: string): string | null => {
 
 
 };
-
-// const PageWithLayout = () => (
-//   <SignupLayout>
-//     <SignupPage />
-//   </SignupLayout>
-// );
 
  export default SignupPage;
 

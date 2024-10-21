@@ -3,7 +3,7 @@
 import HeaderImage from "@/components/HeaderImage";
 import SearchSVG from "@/assets/svg/search-normal.svg";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { IoNotifications, IoSettings } from "react-icons/io5";
+import { IoNotifications,  } from "react-icons/io5";
 import SettingSVG from '@/assets/svg/setting.svg'
 import ProfileSVG from '@/assets/svg/Ellipse.svg'
 import {  Plus } from "lucide-react";

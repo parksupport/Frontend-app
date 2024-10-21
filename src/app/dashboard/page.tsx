@@ -6,7 +6,7 @@ import { useAuthStore } from "@/lib/stores/authStore";
 import { IoNotifications, IoSettings } from "react-icons/io5";
 import SettingSVG from '@/assets/svg/setting.svg'
 import ProfileSVG from '@/assets/svg/Ellipse.svg'
-import { Group, Plus } from "lucide-react";
+import {  Plus } from "lucide-react";
 import NumberSVG from '@/assets/svg/numbers.svg'
 import UserProfileSVG from '@/assets/svg/exportProfile.svg'
 import GroupUserSVG from '@/assets/svg/profile-2user.svg'

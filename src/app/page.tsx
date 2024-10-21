@@ -83,7 +83,7 @@ export default function LandingPage() {
       <main className="pt-4">
         <section
           ref={home}
-          className="z-20 max-w-[1440px] mx-auto  flex flex-col md:flex-row items-center px-4 w-4/5"
+          className="z-20 max-w-[1440px] mx-auto  flex flex-col md:flex-row items-center px-4 md:w-4/5"
         >
           <div className="flex flex-col md:flex-row md:h-[573px]">
             <div className="flex flex-col justify-center px-4">

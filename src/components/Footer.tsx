@@ -19,7 +19,7 @@ export default function Footer() {
             <Image src={LogoReal} alt="logo" />
           </div>
 
-          <nav className="flex space-x-20 order-2  pt-8 md:py-0 justify-between md:text-[20px]">
+          <nav className="flex space-x-16 md:space-x-20 order-2  pt-8 md:py-0 justify-between md:text-[20px]">
             <NavLinkComponent url="#" name="Home" />
             <NavLinkComponent url="#" name="Search" />
             <NavLinkComponent url="#" name="Features" />

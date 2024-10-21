@@ -1,10 +1,6 @@
 "use client";
-import React from "react";
-import { HiUserGroup } from "react-icons/hi2";
-import { HiMiniUser } from "react-icons/hi2";
-import GroupSVG from '@/assets/svg/Group (1).svg'
-import ProfileSVG from '@/assets/svg/profile (2).svg'
-import Image from "next/image";
+import GroupSVG from '@/assets/svg/Group (1).svg';
+import ProfileSVG from '@/assets/svg/profile (2).svg';
 
 interface CardProfileProps {
   type: "user" | "corporate";

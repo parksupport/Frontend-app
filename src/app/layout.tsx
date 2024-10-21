@@ -11,7 +11,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={bloggerSans.className}
+      className={`${bloggerSans.className} bg-[#F4F4FA] `}
       >
         <Providers>
           {children}

@@ -1,0 +1,36 @@
+.slick-prev,
+.slick-next {
+  width: 13px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: transparent; */
+  z-index: 1;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  content: '';
+}
+
+
+.slick-prev {
+    background-image: url('../assets/svg/chevronleft.svg'); /* Update the path */
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  
+  .slick-next {
+    background-image: url('../assets/svg/chevronRight.svg'); /* Update the path */
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .slick-dots{
+  width: auto;
+  left: 76px;
+  
+  }
+  header{
+    border-bottom: 1px solid #D1D5DB;
+  }

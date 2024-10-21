@@ -25,7 +25,6 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     updateFormData({ [name]: value });
-    console.log(formData,"formdata");
   };
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -27,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({
   loading = false,
   icon,
 }) => {
-  const baseStyles = ' rounded focus:outline-none focus:ring-2 focus:ring-opacity-50';
+  const baseStyles = 'rounded focus:outline-none focus:ring-2 focus:ring-opacity-50';
 
   const variantStyles: Record<Variant, string> = {
 
@@ -38,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
     danger: 'bg-red-500 text-white hover:bg-red-700 focus:ring-red-500',
     tertiary: 'bg-yellow-500 text-white hover:bg-yellow-700 focus:ring-yellow-500',
     quaternary: 'bg-purple-500 text-white hover:bg-purple-700 focus:ring-purple-500',
-    quinary: 'bg-pink-500 text-white hover:bg-pink-700 focus:ring-pink-500',
+    quinary: 'bg-[#3957D7] text-white cursor-pointer rounded-[8px]',
   };
 
   const textStyles: Record<Variant, string> = {
@@ -48,7 +48,7 @@ const Button: React.FC<ButtonProps> = ({
     danger: 'text-white',
     tertiary: 'text-white',
     quaternary: 'text-white',
-    quinary: 'text-white',
+    quinary: 'text-white flex items-center',
   };
 
   let buttonStyle;

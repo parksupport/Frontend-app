@@ -8,7 +8,7 @@ interface InputFieldProps {
   placeholder: string;
   validationRules?: (value: string) => string | null;
   label: string;
-  variant: string;
+  variant?: string;
   className?: string;
   value: string;
   name: string;

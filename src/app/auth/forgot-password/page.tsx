@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { useForgotPassword } from "@/hooks/usepasswordReset";
 import { useState } from "react";
 
+
+
 export default function ForgotPasswordPage() {
   const { resetPassword,  isError, error, status } =
     useForgotPassword();
@@ -59,6 +61,7 @@ export default function ForgotPasswordPage() {
           <AuthPrompt link="Back to Login" url="/auth/login" />
         </div>
       </div>
+
     </div>
   );
 }

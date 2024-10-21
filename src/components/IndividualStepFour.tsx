@@ -39,7 +39,7 @@ const IndividualStepFour = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isFilled) {
-      const otpCode = otp.join('');
+      const otpCode = parseInt(otp.join(''));
       try {
         const response = await axios.post('http://localhost:8000/api/accounts/verify-otp/', {
           email_address: email,

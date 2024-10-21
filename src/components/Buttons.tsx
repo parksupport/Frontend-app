@@ -30,8 +30,10 @@ const Button: React.FC<ButtonProps> = ({
   const baseStyles = ' rounded focus:outline-none focus:ring-2 focus:ring-opacity-50';
 
   const variantStyles: Record<Variant, string> = {
-    primary: 'bg-[#3957D7] mt-2 max-w-[400px] w-full rounded-2 border-solid text-white focus:bg-[#3957D7] active:bg-[#3957D7] justify-center flex hover:bg-[#6a85e6] items-center',
-    secondary: 'bg-white  max-w-[400px] w-full border-[#98A2B3] border-solid border  hover:bg-gray-50 focus:bg-white active:bg-white justify-center flex items-center cursor-pointer',
+
+    primary: 'bg-[#3957D7] mt-[16px] max-w-[400px] w-full px-[16px] py-[16px] rounded-[6px] border-solid text-white focus:bg-[#3957D7] items-center  active:bg-[#3957D7] justify-center flex hover:bg-[#6a85e6] transition duration-200 ease-in-out',
+    secondary: 'bg-white mt-[16px] max-w-[400px] w-full px-[16px] py-[10px] rounded-[6px] border-[#98A2B3] border-solid border items-center ',
+
     success: 'bg-green-500 text-white hover:bg-green-700 focus:ring-green-500  px-[16px] py-[14px]',
     danger: 'bg-red-500 text-white hover:bg-red-700 focus:ring-red-500',
     tertiary: 'bg-yellow-500 text-white hover:bg-yellow-700 focus:ring-yellow-500',

@@ -19,15 +19,34 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { TextSection } from "@/components/TextSection";
 import { groteskText } from "./fonts";
+import SearchResultPopup from "@/components/NotificationBox";
+import NotificationBox from "@/components/NotificationBox";
 
 export default function LandingPage() {
   const [vehicleNo, setVehicleNo] = useState("");
+  const [searchResult, setSearchResult] = useState(null);
 
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
+    console.log(value);
+
     setVehicleNo(value);
+
+    if (value === "") {
+      setSearchResult(null);
+    }
+  };
+
+  const handleSearch = () => {
+    const hasContraventions = false;
+
+    if (hasContraventions) {
+      setSearchResult(false);
+    } else {
+      setSearchResult(true);
+    }
   };
 
   const home = useRef(null);
@@ -49,7 +68,9 @@ export default function LandingPage() {
   );
 
   return (
-    <div className={`${groteskText.className} "bg-white mx-auto w-full overflow-hidden "`}>
+    <div
+      className={`${groteskText.className} "bg-white mx-auto w-full overflow-hidden "`}
+    >
       <Header
         scrollToSection={scrollToSection}
         homeRef={home}
@@ -130,7 +151,7 @@ export default function LandingPage() {
               className="rounded-lg shadow-md object-cover h-full "
             />
           </div>
-          <div className="  md:pt-[143px] md:pl-24 flex flex-col justify-center p-4 order-1 md:order-2 gap-8">
+          <div className="  md:pt-[143px] md:pl-24 flex flex-col justify-center p-4 order-1 md:order-2 ">
             <TextSection
               title={
                 <div className="text-5xl font-bold">
@@ -146,15 +167,33 @@ export default function LandingPage() {
               placeholder="Enter your vehicle registration number"
               value={vehicleNo}
               onChange={handleChange}
+              className="py-4 md:py-3"
             />
-            <div className="flex w-[100px] ">
-              <Button
-                type="button"
-                className="rounded-xl whitespace-nowrap  "
-                variant="primary"
-              >
-                Search
-              </Button>
+            <div className="flex justify-between  ">
+              <div className=" md:pt-4 ">
+                <Button
+                  type="button"
+                  className="rounded-xl whitespace-nowrap  "
+                  variant="primary"
+                  onClick={handleSearch}
+                >
+                  Search
+                </Button>
+              </div>
+
+              {searchResult === true && vehicleNo && (
+                <NotificationBox
+                  isSuccess={true}
+                  message="No contraventions assigned to this reg number"
+                />
+              )}
+
+              {searchResult === false && vehicleNo && (
+                <NotificationBox
+                  isSuccess={false}
+                  message="An error occurred while fetching the data"
+                />
+              )}
             </div>
           </div>
         </section>

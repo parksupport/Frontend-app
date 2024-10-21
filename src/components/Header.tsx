@@ -3,7 +3,7 @@ import { FaBars } from "react-icons/fa";
 import Button from "./Buttons";
 
 import NavLinkComponent from "./NavLinkComponent";
-import { groteskText, groteskTextMedium } from '@/app/fonts';
+import { groteskText, groteskTextMedium } from "@/app/fonts";
 import { Logo } from "./logo";
 
 interface HeaderProps {
@@ -15,14 +15,13 @@ interface HeaderProps {
   router: any;
 }
 
-
 const Header = ({
   scrollToSection,
   homeRef,
   searchRef,
   featuresRef,
   faqRef,
-  router
+  router,
 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -31,12 +30,15 @@ const Header = ({
   };
 
   return (
-    
-    <header className={`${groteskText.className} w-full py-5 px-4 md:px-[108px] flex justify-between items-center border-b border-gray-300 `}>
-      <div className="max-w-[1440px]  mx-auto flex justify-between items-center w-4/5">
-      <Logo className="pt-[138px] pb-[46px]"  />
+    <header
+      className={`${groteskText.className}  w-full py-5 px-2 md:px-[108px] flex justify-between items-center border-b border-gray-300 `}
+    >
+      <div className="max-w-[1440px] mx-auto flex justify-between items-center w-full md:w-4/5">
+        <Logo className="pt-[138px] pb-[46px]" />
 
-        <nav className={`hidden md:flex space-x-12 text-[#0C0E0F]  text-base lg:text-lg `}>
+        <nav
+          className={`hidden md:flex space-x-12 text-[#0C0E0F]  text-base lg:text-lg `}
+        >
           <NavLinkComponent
             name="Home"
             className="cursor-pointer hover:text-blue-500"
@@ -59,7 +61,7 @@ const Header = ({
           />
         </nav>
 
-        <div className=" flex items-center md:hidden space-x-4  ">
+        <div className="pl-[20px] flex items-center  md:hidden space-x-4  ">
           <Button
             type="button"
             className="rounded-xl px-8 py-[8px] whitespace-nowrap mb-3"
@@ -120,9 +122,7 @@ const Header = ({
             Login
           </Button>
         </div>
-
       </div>
-
     </header>
   );
 };

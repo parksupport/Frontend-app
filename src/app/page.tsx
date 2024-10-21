@@ -4,10 +4,11 @@ import ArrowToText from "@/assets/images/ArrowToText.png";
 import landingPageImage1 from "@/assets/images/landingPageImage1.jpg";
 import landingPageImage2 from "@/assets/images/landingPageImage2.jpg";
 import Image from "next/image";
-import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useRef, useState } from "react";
 
 import { Button, InputField } from "@/components";
+import AniminateButton from "@/components/AniminateButton";
 import FAQAccordion from "@/components/Faqquestion";
 import FeatureCard from "@/components/FeaturesCard";
 import {
@@ -17,12 +18,15 @@ import {
 } from "@/components/FontIcon";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { TextSection } from "@/components/TextSection";
-import { groteskText } from "./fonts";
-import SearchResultPopup from "@/components/NotificationBox";
 import NotificationBox from "@/components/NotificationBox";
+import TextAnimation from "@/components/TextAnimation";
+import { TextSection } from "@/components/TextSection";
+import { groteskText, groteskTextMedium } from "./fonts";
+
+
 
 export default function LandingPage() {
+  console.log(TextAnimation)
   const [vehicleNo, setVehicleNo] = useState("");
   const [searchResult, setSearchResult] = useState(null);
 
@@ -89,31 +93,33 @@ export default function LandingPage() {
             <div className="flex flex-col justify-center px-4">
               <TextSection
                 title={
-                  <div className="text-5xl font-bold">
-                    Never Forget a {coloredText} Ticket Again!
+                  <div className="text-5xl font-bold flex">
+                  <div className="max-w-[340px] w-full">
+                  <h1> Never Forget a Ticket Again!</h1> 
+                  </div><TextAnimation /> 
                   </div>
                 }
                 content="Stay ahead of your vehicle's parking and driving fines with instant notifications, easy payments, and seamless appeals – all in one place."
               />
 
-              <div className="z-10 flex space-x-5 mt-4 w-[230px] ">
+              <div className=" flex mt-4  ">
                 <Button
-                  type="button"
-                  className="rounded-xl px-6 py-3 whitespace-nowrap"
+                  
+                  className={`max-w-[116px] w-full h-[40px] rounded-[12px] mr-[18px] text-[#000000] text-[18px] ${groteskTextMedium.className} cursor-pointer`} 
                   variant="secondary"
                   onClick={() => scrollToSection(search)}
                 >
                   Search now
                 </Button>
 
-                <Button
-                  type="button"
-                  className="rounded-xl px-6 py-3 whitespace-nowrap"
-                  variant="primary"
+                <AniminateButton
+                
+                  // className="rounded-xl px-6 py-3 whitespace-nowrap"
+                  // variant="primary"
                   onClick={() => router.push("/auth/login")}
-                >
-                  Sign in
-                </Button>
+                
+                 text="Sign in"
+                />
               </div>
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">

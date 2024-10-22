@@ -107,7 +107,7 @@ const Header = ({
         <div className="hidden md:flex space-x-4">
           <Button
             type="button"
-            className="rounded-xl whitespace-nowrap w-24 h-12"
+            className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[17px]"
             variant="secondary"
             onClick={() => router.push("/auth/onboarding")}
           >
@@ -115,7 +115,7 @@ const Header = ({
           </Button>
           <Button
             type="button"
-            className="rounded-xl whitespace-nowrap w-24 h-12"
+            className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[17px]"
             variant="primary"
             onClick={() => router.push("/auth/login")}
           >

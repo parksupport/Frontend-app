@@ -102,10 +102,10 @@ export default function LandingPage() {
                 content="Stay ahead of your vehicle's parking and driving fines with instant notifications, easy payments, and seamless appeals – all in one place."
               />
 
-              <div className=" flex mt-4  ">
+              <div className=" flex mt-4 items-center ">
                 <Button
-                  
-                  className={`max-w-[116px] w-full h-[40px] rounded-[12px] mr-[18px] text-[#000000] text-[18px] ${groteskTextMedium.className} cursor-pointer`} 
+                  style={{width: '116px'}}
+                  className={`py-0 px-0 w-full mt-0 h-[40px] rounded-[0.75rem] mr-[18px] text-[#000000] text-[18px] ${groteskTextMedium.className} cursor-pointer`} 
                   variant="secondary"
                   onClick={() => scrollToSection(search)}
                 >
@@ -179,7 +179,7 @@ export default function LandingPage() {
               <div className=" md:pt-4 ">
                 <Button
                   type="button"
-                  className="rounded-xl whitespace-nowrap  "
+                  className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
                   variant="primary"
                   onClick={handleSearch}
                 >

@@ -1,23 +1,15 @@
-import React, { Children, useState } from "react";
+import React from "react";
 import { IoArrowBack } from "react-icons/io5";
 
-const Drawer: React.FC = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+interface DrawerProps {
+  children: React.ReactNode;
+  isOpen: boolean;
+  toggleDrawer: () => void;
+}
 
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
-
+const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
   return (
     <div>
-      {/* Button to toggle drawer */}
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded-md"
-        onClick={toggleDrawer}
-      >
-        Open Drawer
-      </button>
-
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
@@ -25,7 +17,6 @@ const Drawer: React.FC = ({ children }) => {
         ></div>
       )}
 
-      {/* Drawer */}
       <div
         className={` fixed top-0 right-0 h-full w-[720px] bg-white shadow-lg z-50 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"

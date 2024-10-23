@@ -190,7 +190,7 @@ const NotificationsTable = ({
             checked={notification.checked || false}
           />
         </td>
-        <td className="px-4 py-2 flex items-center w-2/12 bg-red-500"> 
+        <td className="px-4 py-2 flex items-center"> 
           <div className="w-4 h-4 bg-yellow-400 rounded-full mr-2"></div>
         
           

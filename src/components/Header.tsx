@@ -106,6 +106,7 @@ const Header = ({
 
         <div className="hidden md:flex space-x-4">
           <Button
+          style={{ paddingTop: 0, paddingBottom: 0}}
             type="button"
             className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[17px]"
             variant="secondary"

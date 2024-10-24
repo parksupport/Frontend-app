@@ -104,7 +104,7 @@ export default function LandingPage() {
 
               <div className=" flex mt-4 items-center ">
                 <Button
-                  style={{width: '116px'}}
+                  style={{width: '116px', padding: 0, marginTop: 0}}
                   className={`py-0 px-0 w-full mt-0 h-[40px] rounded-[0.75rem] mr-[18px] text-[#000000] text-[18px] ${groteskTextMedium.className} cursor-pointer`} 
                   variant="secondary"
                   onClick={() => scrollToSection(search)}

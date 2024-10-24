@@ -29,7 +29,7 @@ function DashboardCard({
           </div>
         )}
         <div
-          className={`py-[9px] pl-[12px] pr-[62px] border bg-[#F1F4FD] h-[106px]  rounded-[12px] ${
+          className={`py-[9px] pl-[12px] pr-[35px] border bg-[#F1F4FD] h-[106px]  rounded-[12px] ${
             groteskText.className
           }         ${icon ? "ml-4" : "ml-0"}`}
         >

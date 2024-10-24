@@ -31,7 +31,7 @@ function CarProfile({ openCarProfile }: CarProfileProps) {
     slidesToScroll: 1,
   };
   return (
-    <div className="max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[1.5rem] pr-[2rem] pl-[2rem]">
+    <div className=" bg-[#FFFFFF] rounded-[20px] py-[1.5rem] pr-[2rem] pl-[2rem]">
       <Slider {...settings}>
         {cars.carDetails.map((car, index) => (
           <div key={car.id} className="">
@@ -49,7 +49,6 @@ function CarProfile({ openCarProfile }: CarProfileProps) {
                 <button>
                   <MoveDiagonal onClick={openCarProfile} />
                 </button>
-                {/* <Button></Button> */}
               </div>
             </div>
 

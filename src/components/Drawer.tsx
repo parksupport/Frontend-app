@@ -18,7 +18,7 @@ const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
       )}
 
       <div
-        className={` fixed top-0 right-0 h-full w-[720px] bg-white shadow-lg z-50 transform ${
+        className={`rounded-tl-[40px] rounded-bl-[40px]  fixed top-0 right-0 h-full w-[720px] bg-white shadow-lg z-50 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-300 ease-in-out`}
       >

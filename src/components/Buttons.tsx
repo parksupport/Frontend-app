@@ -103,14 +103,19 @@ const Button: React.FC<ButtonProps> = ({
       type={type}
       onClick={onClick}
       className={classes}
-      disabled={disabled}
+      disabled={disabled || loading}
       style={style}
       
     >
       <div className='flex items-center justify-center'>
-
-      {icon && <span className="mr-2">{icon}</span>}
-      <span className={textStyle}>{children}</span>
+      {loading ? (
+          <div className="loader h-5 w-5 border-2 border-t-2 border-white border-opacity-50 rounded-full animate-spin"></div>
+        ) : (
+          <>
+            {icon && <span className="mr-2">{icon}</span>}
+            <span className={textStyle}>{children}</span>
+          </>
+        )}
       </div>
     </button>
   );

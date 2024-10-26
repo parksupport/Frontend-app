@@ -22,6 +22,7 @@ import ContraventionTable from "@/components/card/Contravention";
 import '@/components/Slider.css'
 import { MoveDiagonal } from "lucide-react";
 import Calendar from "@/components/card/Calendar";
+import FAQ from "@/components/card/FAQ";
 export default function DashboardPage() {
   const user = useAuthStore((state) => state.user);
   var settings = {
@@ -79,14 +80,14 @@ export default function DashboardPage() {
 
         <section className="flex flex-col max-w-[1380px] w-full justify-between pt-[1.5rem] ">
           <div className="mt-p24px] flex self-start"><h1 className={`text-[2rem] text-[#000000] ${groteskTextMedium.className} `}>Welcome Back, Orobosa</h1><button
-            className="rounded-[37px] bg-[#CEFDFF] h-[22px] px-[12px] text-[#039BB7] text-[12px]"
+            className="rounded-[37px] bg-[#CEFDFF] h-[22px] px-[12px] text-[#039BB7] text-[12px] mt-[6px] ml-[4px]"
             >Free plan</button>
           </div>
 
           <div className="flex justify-between mt-[1.5rem]">
             <article >
-              <div className="max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[1.5rem] pr-[1.75rem] pl-[18px]">
-                <Slider {...settings}>
+            <div className="w-full max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-6 px-4 md:py-8 md:px-6 lg:px-8">
+            <Slider {...settings}>
                   {cars.carDetails.map((car, index) => (
                     <div key={car.id} className="">
 
@@ -95,7 +96,7 @@ export default function DashboardPage() {
                         <div className="items-center flex gap-[11px]">
                           <Button
                             variant="quinary"
-                            className=" py-[0.20rem] px-[12px]"
+                            className=" py-[0.5rem] px-[12px]"
                           >Add vehicle<Plus className="inline-block" /></Button>
                           <button><MoveDiagonal /></button>
                           {/* <Button></Button> */}
@@ -152,6 +153,9 @@ export default function DashboardPage() {
  <section className="flex flex-col max-w-[1380px] w-full justify-between pt-[1.5rem] ">
   
 <Calendar />
+ </section>
+ <section className="flex max-w-[1380px] w-full  mt-[20px]">
+  <FAQ />
  </section>
 
       </main>

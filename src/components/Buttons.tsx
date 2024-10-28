@@ -15,6 +15,7 @@ interface ButtonProps {
   size?: Size;
   loading?: boolean;
   icon?: ReactNode;
+  style?: any;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -26,6 +27,7 @@ const Button: React.FC<ButtonProps> = ({
   className = '',
   loading = false,
   icon,
+  style,
 }) => {
   const baseStyles = 'rounded focus:outline-none focus:ring-2 focus:ring-opacity-50';
 
@@ -102,6 +104,7 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       className={classes}
       disabled={disabled}
+      style={style}
       
     >
       <div className='flex items-center justify-center'>

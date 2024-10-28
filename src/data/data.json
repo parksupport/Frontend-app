@@ -2,36 +2,29 @@
     "carDetails": [
       {
         "id": 1,
-        "imageUrl": "car.jpg",
+        "imageUrl": "essentail-car.jpg",
         "registrationNo": "ABC123",
         "ownerName": "John Doe",
-        "contraventionStatus": "No Contraventions",
-        "thirdPartyNominate": false
+        "contraventionStatus": "No existing ticket",
+        "thirdPartyNominate": "Added"
       },
       {
         "id": 2,
         "imageUrl": "car2.jpg",
         "registrationNo": "XYZ789",
         "ownerName": "Jane Smith",
-        "contraventionStatus": "1 Contravention",
-        "thirdPartyNominate": true
+        "contraventionStatus": "No existing ticket",
+        "thirdPartyNominate": "Added"
       },
       {
         "id": 3,
         "imageUrl": "car5.jpg",
         "registrationNo": "LMN456",
         "ownerName": "Alice Johnson",
-        "contraventionStatus": "2 Contraventions",
-        "thirdPartyNominate": false
-      },
-      {
-        "id": 4,
-        "imageUrl": "car4.jpg",
-        "registrationNo": "PQR234",
-        "ownerName": "Bob Brown",
-        "contraventionStatus": "No Contraventions",
-        "thirdPartyNominate": true
+        "contraventionStatus": "No existing ticket",
+        "thirdPartyNominate": "Added"
       }
+   
     ],
     "contravention": [
         {

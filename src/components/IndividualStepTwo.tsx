@@ -25,7 +25,6 @@ const SignupPage: React.FC<SignupPageProps> = ({onContinue}) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     updateFormData({ [name]: value });
-    console.log(formData,"formdata");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -184,7 +183,7 @@ const validateHomeAddress = (value: string): string | null => {
           <AuthPrompt
             text="Already have an account? "
             link="Login"
-            url="/login"
+            url="/auth/login"
           />
         </div>
       
@@ -194,12 +193,6 @@ const validateHomeAddress = (value: string): string | null => {
 
 
 };
-
-// const PageWithLayout = () => (
-//   <SignupLayout>
-//     <SignupPage />
-//   </SignupLayout>
-// );
 
  export default SignupPage;
 

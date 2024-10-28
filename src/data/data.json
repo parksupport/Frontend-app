@@ -1,0 +1,79 @@
+{
+    "carDetails": [
+      {
+        "id": 1,
+        "imageUrl": "essentail-car.jpg",
+        "registrationNo": "ABC123",
+        "ownerName": "John Doe",
+        "contraventionStatus": "No existing ticket",
+        "thirdPartyNominate": "Added"
+      },
+      {
+        "id": 2,
+        "imageUrl": "car2.jpg",
+        "registrationNo": "XYZ789",
+        "ownerName": "Jane Smith",
+        "contraventionStatus": "No existing ticket",
+        "thirdPartyNominate": "Added"
+      },
+      {
+        "id": 3,
+        "imageUrl": "car5.jpg",
+        "registrationNo": "LMN456",
+        "ownerName": "Alice Johnson",
+        "contraventionStatus": "No existing ticket",
+        "thirdPartyNominate": "Added"
+      }
+   
+    ],
+    "contravention": [
+        {
+            "ticket": "Parking Ticket",
+            "reg_num": "16UK567Y",
+            "issuing_auth": "Odili wisdom",
+            "fine_amount": "$50",
+            "status": "paid"
+          },
+          {
+              "ticket": "Parking Ticket",
+              "reg_num": "16UK567Y",
+              "issuing_auth": "Odili wisdom",
+              "fine_amount": "$50",
+              "status": "paid"
+          },
+          {
+              "ticket": "Parking Ticket",
+              "reg_num": "16UK567Y",
+              "issuing_auth": "Odili wisdom",
+              "fine_amount": "$50",
+              "status": "paid"
+          },
+          {
+              "ticket": "Parking Ticket",
+              "reg_num": "16UK567Y",
+              "issuing_auth": "Odili wisdom",
+              "fine_amount": "$50",
+              "status": "paid"
+          },
+          {
+              "ticket": "Parking Ticket",
+              "reg_num": "16UK567Y",
+              "issuing_auth": "Odili wisdom",
+              "status": "paid"
+          },
+          {
+              "ticket": "Parking Ticket",
+              "reg_num": "16UK567Y",
+              "issuing_auth": "Odili wisdom",
+              "fine_amount": "$50",
+              "status": "paid"
+          },
+          {    "ticket": "Parking Ticket",
+              "reg_num": "16UK567Y",
+              "issuing_auth": "Odili wisdom",
+              "fine_amount": "$50",
+              "status": "paid"
+          }
+    ]
+  }
+  

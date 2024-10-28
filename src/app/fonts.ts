@@ -22,3 +22,21 @@ export const groteskTextMedium = localFont({
   display: "swap",
   variable: "--font-grotesk",
 });
+
+export const interSemiBold = localFont({
+  src: "../assets/fonts/Inter_24pt-SemiBold.ttf",
+  display: "swap",
+  variable: "--font-inter",
+});
+
+export const interNormal = localFont({
+  src: "../assets/fonts/Inter_18pt-Regular.ttf",
+  display: "swap",
+  variable: "--font-inter",
+});
+
+export const groteskTextBold = localFont({
+  src: "../assets/fonts/TestFoundersGroteskText-Bold.otf",
+  display: "swap",
+  variable: "--font-inter",
+});

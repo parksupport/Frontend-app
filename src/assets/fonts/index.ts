@@ -18,8 +18,29 @@ const groteskText= localFont({
   variable: "--font-feather",
 });
 
+const interSemiBold= localFont({
+  src: "./feather.ttf",
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const interNormal= localFont({
+  src: "./feather.ttf",
+  display: "swap",
+  variable: "--font-inter",
+});
+
+const groteskTextBold= localFont({
+  src: "./feather.ttf",
+  display: "swap",
+  variable: "--font-feather",
+});
+
 export {
     bloggerSans,
     feather,
-    groteskText
+    groteskText,
+    interSemiBold,
+    interNormal,
+    groteskTextBold
 }

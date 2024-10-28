@@ -2,7 +2,7 @@ import { groteskTextMedium } from "@/app/fonts";
 import React from "react";
 
 interface TextBlockProps {
-  header: string;
+  header: string | React.ReactNode;
   content: string;
   icon?: React.ReactNode;
 }

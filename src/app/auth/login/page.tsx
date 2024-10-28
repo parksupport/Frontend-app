@@ -11,6 +11,8 @@ import { FaApple } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { PiHandWavingFill } from "react-icons/pi";
+import { Logo } from "@/components/logo";
+import Waving from "@/assets/svg/Waving Hand Medium Light Skin Tone.svg";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -20,7 +22,7 @@ export default function LoginPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [rememberMe, setRememberMe] = useState(false);
-  const { login, isError, error} = useLogin();
+  const { login, isError, error } = useLogin();
 
   // const { login, isLoggingIn } = useLogin();
 
@@ -55,14 +57,13 @@ export default function LoginPage() {
 
   return (
     <div className="max-w-[400px] w-full mx-auto">
+      <Logo className="pt-[138px] pb-[46px]" />
       <div className="flex flex-col lg:flex-row">
         <div className="w-full max-w-lg flex-1 justify-center items-center mx-auto">
           <div className="pb-14">
             <TextBlock
               header="Welcome Back!"
-              icon={
-                <PiHandWavingFill color="#D2B48C" className="text-5xl px-1" />
-              }
+              icon={<Waving color="#D2B48C" className="text-5xl" />}
               content="Enter your email and password to access your account"
             />
           </div>
@@ -119,18 +120,16 @@ export default function LoginPage() {
                 Forgot password
               </Link>
             </div>
-            <Button
-              type="submit"
-              className="w-full"
-              variant="primary"
-              
-            >
+            <Button type="submit" className="w-full" variant="primary">
               Login
             </Button>
             {/* Social login buttons (if applicable) */}
-           
           </form>
-          <AuthPrompt text="Are you new? " link="Create an account" url="/auth/onboarding" />
+          <AuthPrompt
+            text="Are you new? "
+            link="Create an account"
+            url="/auth/onboarding"
+          />
           <div className="px-10 text-sm text-center">
             By signing in or creating an account, you agree with our
             <Link href="/" className="font-bold underline">

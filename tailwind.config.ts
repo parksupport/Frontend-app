@@ -14,6 +14,9 @@ const config: Config = {
         // Add your custom font here
         founders: ['"Test Founders Grotesk"', "sans-serif"],
       },
+      lineHeight: {
+        '90px': '90px',
+      },
       colors: {
         customBlue: "#3957D7",
         customText: "#667185",

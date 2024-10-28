@@ -1,6 +1,6 @@
 "use client";
 import { groteskText, groteskTextMedium } from '@/app/fonts';
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Button from './Buttons';
 import axios from 'axios';
 import { useAuthStore } from '@/lib/stores/authStore';
@@ -8,8 +8,23 @@ import { useSignupStore } from '@/lib/stores/authStore'; // Correct import
 import { useRouter } from 'next/navigation';
 
 const IndividualStepFour = () => {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('paste', handlePaste);
+    const inputs = document.querySelectorAll('.code_input');
+  
+    inputs.forEach((input, index, arr) => {
+      (input as HTMLInputElement).addEventListener('input', function (e) {
+        (arr[index + 1] as HTMLInputElement)?.focus();
+      });
+    });
+    console.log(inputs);
+  });
+  
+
+
   const { formData } = useSignupStore();
   const email = formData.email_address;
+  const firstInputRef = useRef(null)
 
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
@@ -36,6 +51,26 @@ const IndividualStepFour = () => {
     }
   };
 
+  useEffect(() => {
+    if (firstInputRef.current) {
+      firstInputRef.current.focus(); 
+    }
+  }, []);
+
+
+  const handlePaste = (e)=>{
+    if(e.target.localName !== 'input') return;
+    e.preventDefault()
+    let pastedData = e.clipboardData.getData('text')
+    pastedData = pastedData.toUpperCase()
+    if (pastedData.length === otp.length) {
+      const newOtp = pastedData.split("").slice(0, otp.length);
+      setOtp(newOtp);
+    }
+
+  }
+
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isFilled) {
@@ -56,6 +91,7 @@ const IndividualStepFour = () => {
     } else {
       console.error('Please enter the full 6-digit OTP.');
     }
+
   };
 
   return (
@@ -73,11 +109,13 @@ const IndividualStepFour = () => {
             {otp.map((value, index) => (
               <input
                 key={index}
+                ref={index === 0 ? firstInputRef : null}
                 id={`otp-${index}`}
                 type="text"
                 value={value}
+                onPaste={handlePaste}
                 onChange={(e) => handleChange(e, index)}
-                className={`w-[47px] h-[47px] sm:w-[47px] sm:h-[47px] md:w-[60px] md:h-[60px]  rounded-[8px] border-[#98A2B3] border-solid border text-center text-[40px]  focus:outline-none ${groteskText.className}`}
+                className={` code_input w-[47px] h-[47px] sm:w-[47px] sm:h-[47px] md:w-[60px] md:h-[60px]  rounded-[8px] border-[#98A2B3] border-solid border text-center text-[40px]  focus:outline-none ${groteskText.className}`}
                 maxLength={1}
               />
             ))}

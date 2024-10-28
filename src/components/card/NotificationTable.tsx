@@ -24,18 +24,19 @@ const NotificationsTable = ({
       type: "Insurance",
       message: "Hooray! You've Joined the Unstoppable Family!",
       date: "26 Sept",
-      read: "true",
+      read: true,
     },
     {
       type: "Contravention",
       message: "Hooray! You've Joined the Unstoppable Family!",
       date: "26 Sept",
+      read: true,
     },
     {
       type: "Login",
       message: "Hooray! You've Joined the Unstoppable Family!",
       date: "26 Sept",
-      read: "true",
+      read: true,
     },
     {
       type: "Insurance",

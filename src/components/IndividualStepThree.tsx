@@ -69,7 +69,7 @@ const validatePostalCode = (value: string)=> {
 
 
   return (
-    <div className="max-w-[400px] w-full">
+    <div className="max-w-[400px] w-full bg-[#FFFFFF]">
       <div className="flex flex-col justify-center">
      
        

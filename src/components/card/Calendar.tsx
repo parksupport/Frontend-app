@@ -10,6 +10,7 @@ const Calendar = () => {
     const monthsOfYear = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
     const currentDate = new Date()
+    console.log(currentDate)
 
     const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth())
     const [currentYear, setCurrenYear] = useState(currentDate.getFullYear())
@@ -110,8 +111,8 @@ const Calendar = () => {
                    <p className={`text-white text-[20px] text-start ${groteskTextMedium.className}`}>Upcoming Events</p>
                     <nav className='items-center'>
                         <ul className={`text-white text-[16px]  ${groteskText.className}`}>
-                            <li>14 days discount window expires</li>
-                            <li>Country court judgment data </li>
+                            <li className='list-disc'>14 days discount window expires</li>
+                            <li className='list-disc'>Country court judgment data </li>
                         </ul>
                     </nav>
                    </div>

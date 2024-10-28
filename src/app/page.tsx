@@ -73,7 +73,7 @@ export default function LandingPage() {
 
   return (
     <div
-      className={`${groteskText.className} "bg-white mx-auto w-full overflow-hidden "`}
+      className={`${groteskText.className} "bg-[#FFFFFF] mx-auto w-full overflow-hidden "`}
     >
       <Header
         scrollToSection={scrollToSection}
@@ -84,7 +84,7 @@ export default function LandingPage() {
         router={router}
       />
 
-      <main className="pt-4">
+      <main className="pt-4 bg-[#FFFFFF]">
         <section
           ref={home}
           className="z-20 max-w-[1440px] mx-auto  flex flex-col md:flex-row items-center px-4 md:w-4/5"

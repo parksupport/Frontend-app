@@ -1,17 +1,18 @@
 import React from 'react'
 import Image from 'next/image'
-import carAlertImage from '@/assets/images/logo.jpg'
+import CarAlertImage from '@/assets/svg/car-alert.svg'
 import diploSVG from '@/assets/svg/diploSVG.svg'
 
 const HeaderImage = () => {
   return (
     <div className='flex justify-center'>
-        <Image
+      <CarAlertImage />
+        {/* <Image
        className="self-center "
        src={carAlertImage}
       
        alt="signup carAlert"
-        />
+        /> */}
     </div>
   )
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+import { useState } from "react";
 import { AiOutlineExpand } from "react-icons/ai";
-import Drawer from "./Drawer";
+import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+
 
 interface NotificationProps {
   type: string;
@@ -124,14 +124,12 @@ const NotificationsTable = ({
   return (
     <div className="bg-white p-4 rounded-[20px] border border-gray-200 w-full">
       {" "}
-      {/* Make the container full width */}
       <div className="flex justify-between py-[12px]">
         <h2 className="text-2xl font-semibold">Notifications</h2>
         <AiOutlineExpand size={24} onClick={openNotificationsTable} />
       </div>
       <div className="rounded-[12px] border border-[#C5D5F8] overflow-hidden w-full">
         {" "}
-        {/* Set full width */}
         <div className="bg-white p-2 flex items-center justify-between bg-gray-100 w-full">
           <div className="flex items-center px-2 py-3">
             <input

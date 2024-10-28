@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "./Buttons";
 import { groteskTextMedium, groteskText } from "@/app/fonts";
+import Button from "../Buttons";
 
 interface DashboardCardProps {
   title: string;

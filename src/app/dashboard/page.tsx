@@ -1,18 +1,19 @@
 "use client";
-import ContraventionTable from "@/components/card/Contravention";
-import CarProfile from "@/components/CarProfile";
-import DashboardCard from "@/components/DashboardCard";
+
 import DashboardHeader from "@/components/DashboardHeader";
 import Drawer from "@/components/Drawer";
-import NotificationsTable from "@/components/NotificationTable";
 import "@/components/Slider.css";
 import { useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { groteskTextMedium } from "../fonts";
-import Calendar from "@/components/Calendar";
 import FAQ from "@/components/card/FAQ";
+import Calendar from "@/components/card/Calendar";
+import NotificationsTable from "@/components/card/NotificationTable";
+import ContraventionTable from "@/components/card/Contravention";
+import CarProfile from "@/components/card/CarProfile";
+import DashboardCard from "@/components/card/DashboardCard";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,10 +60,11 @@ export default function DashboardPage() {
             {/* Column 1 */}
             <div className="max-w-[680px] flex flex-col gap-6 flex-1 ">
               <CarProfile openCarProfile={openCarProfile} />
-              <ContraventionTable
-                invoices={undefined}
-                openConventionTable={openConventionTable}
-              />
+
+              <section className="flex flex-col max-w-[1380px] w-full justify-between pt-[1.5rem] ">
+                <Calendar />
+              </section>
+              <FAQ />
             </div>
 
             {/* Column 2 */}
@@ -74,8 +76,6 @@ export default function DashboardPage() {
               <NotificationsTable
                 openNotificationsTable={openNotificationsTable}
               />
-              <Calendar />
-              <FAQ />
 
               <div className="flex gap-[20px]">
                 <DashboardCard

@@ -50,4 +50,3 @@ export const useSignupStore = create<SignupState>((set) => ({
     })),
   resetFormData: () => set({ formData: {} }),
 }));
-

@@ -39,7 +39,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-[#F4F4FA]">
       <DashboardHeader />
       {/* Main Content */}
       <main className="mx-[30px] flex flex-col justify-center items-center w-full">

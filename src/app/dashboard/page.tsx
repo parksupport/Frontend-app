@@ -1,11 +1,9 @@
 "use client";
 
-import Drawer from "@/components/Drawer";
-import "@/components/Slider.css";
-import { useState } from "react";
-import { RiRobot2Fill } from "react-icons/ri";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import { useState } from "react";
+import { RiRobot2Fill } from "react-icons/ri";
 import { groteskTextMedium } from "../fonts";
 import FAQ from "@/components/card/FAQ";
 import Calendar from "@/components/card/Calendar";
@@ -14,6 +12,8 @@ import DashboardHeader from "@/components/DashboardHeader";
 import DashboardCard from "@/components/card/DashboardCard";
 import CarProfile from "@/components/card/CarProfile";
 import NotificationsTable from "@/components/card/NotificationTable";
+import Drawer from "@/components/Drawer";
+import "@/components/Slider.css";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);

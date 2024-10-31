@@ -14,6 +14,7 @@ import CarProfile from "@/components/card/CarProfile";
 import NotificationsTable from "@/components/card/NotificationTable";
 import Drawer from "@/components/Drawer";
 import "@/components/Slider.css";
+import CarProfileDrawer from "@/components/Drawer/CarProfile";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -105,9 +106,7 @@ export default function DashboardPage() {
   );
 }
 
-function CarProfileDrawer() {
-  return <div>User Profile Content</div>;
-}
+
 
 function NotificationTableDrawer() {
   return <div>Notification List Content</div>;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 
 interface DrawerProps {
@@ -8,6 +8,18 @@ interface DrawerProps {
 }
 
 const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
+  const [pageHeight, setPageHeight] = useState("100vh");
+
+  useEffect(() => {
+    // Set drawer height to match the page height
+    const updateHeight = () => setPageHeight(`${document.documentElement.scrollHeight}px`);
+    
+    updateHeight(); // Set initial height
+    window.addEventListener("resize", updateHeight); // Update on resize
+    
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
+
   return (
     <div>
       {isOpen && (
@@ -18,14 +30,18 @@ const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
       )}
 
       <div
-        className={`rounded-tl-[40px] rounded-bl-[40px]  fixed top-0 right-0 h-full w-[720px] bg-white shadow-lg z-50 transform ${
+        className={` rounded-tl-[40px] rounded-bl-[40px]  absolute top-0 right-0 w-[720px] bg-white shadow-lg z-50 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } transition-transform duration-300 ease-in-out`}
+        } transition-transform duration-300 ease-in-out rounded-tl-[40px] ${
+          isOpen ? "overflow-y-auto" : ""
+        }`}
+        style={{ height: pageHeight }}
       >
-        <div className="pt-[96px] px-6">
+        <div className="pt-[79px] px-6">
           <IoArrowBack size={32} onClick={toggleDrawer} />
         </div>
-        {children}
+
+        <div className="">{children}</div>
       </div>
     </div>
   );

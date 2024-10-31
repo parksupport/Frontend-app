@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AiOutlineExpand } from "react-icons/ai";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 
+
 interface NotificationProps {
   type: string;
   message: string;
@@ -177,7 +178,7 @@ const NotificationsTable = ({
                   notification.read ? "text-gray-400" : "text-black"
                 }`}
               >
-                <td className="px-4 py-2 ">
+                <td className="px-4 py-2 w-1/12">
                   <input
                     type="checkbox"
                     className="form-checkbox"
@@ -192,8 +193,10 @@ const NotificationsTable = ({
 
                   <span>{notification.type}</span>
                 </td>
-                <td className="px-4 py-2  ">{notification.message}</td>
-                <td className="px-4 py-2 text-right ">{notification.date}</td>
+                <td className="px-4 py-2 w-7/12 ">{notification.message}</td>
+                <td className="px-4 py-2 text-right w-2/12">
+                  {notification.date}
+                </td>
               </tr>
             ))}
           </tbody>

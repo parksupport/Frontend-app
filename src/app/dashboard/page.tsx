@@ -15,17 +15,18 @@ import NotificationsTable from "@/components/card/NotificationTable";
 import Drawer from "@/components/Drawer";
 import "@/components/Slider.css";
 import CarProfileDrawer from "@/components/Drawer/CarProfile";
+import VehicleDetailsDrawer from "@/components/Drawer/VehicleDetails";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
 
   const toggleDrawer = () => {
-    setIsOpen(!isOpen);
+    setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
   const openCarProfile = () => {
-    setDrawerContent(<CarProfileDrawer />);
+    setDrawerContent(<CarProfileDrawer  toggleDrawer={toggleDrawer}/>);
     toggleDrawer();
   };
 
@@ -36,6 +37,10 @@ export default function DashboardPage() {
 
   const openConventionTable = () => {
     setDrawerContent(<ConventionTableDrawer />);
+    toggleDrawer();
+  };
+  const openVehicleDetails = () => {
+    setDrawerContent(<VehicleDetailsDrawer toggleDrawer={toggleDrawer} />);
     toggleDrawer();
   };
 
@@ -60,7 +65,10 @@ export default function DashboardPage() {
           <div className="flex justify-between gap-6">
             {/* Column 1 */}
             <div className="max-w-[680px] flex flex-col gap-6 flex-1 ">
-              <CarProfile openCarProfile={openCarProfile} />
+              <CarProfile
+                openCarProfile={openCarProfile}
+                openVehicleDetails={openVehicleDetails}
+              />
 
               <section className="flex flex-col max-w-[1380px] w-full justify-between pt-[1.5rem] ">
                 <Calendar />
@@ -105,8 +113,6 @@ export default function DashboardPage() {
     </div>
   );
 }
-
-
 
 function NotificationTableDrawer() {
   return <div>Notification List Content</div>;

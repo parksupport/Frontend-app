@@ -37,9 +37,7 @@ const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
         }`}
         style={{ height: pageHeight }}
       >
-        <div className="pt-[79px] px-6">
-          <IoArrowBack size={32} onClick={toggleDrawer} />
-        </div>
+ 
 
         <div className="">{children}</div>
       </div>

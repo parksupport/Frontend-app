@@ -19,9 +19,10 @@ import "slick-carousel/slick/slick.css";
 
 interface CarProfileProps {
   openCarProfile: any;
+  openVehicleDetails:any;
 }
 
-function CarProfile({ openCarProfile }: CarProfileProps) {
+function CarProfile({ openCarProfile ,openVehicleDetails}: CarProfileProps) {
   const user = useAuthStore((state) => state.user);
   var settings = {
     dots: true,
@@ -43,7 +44,7 @@ function CarProfile({ openCarProfile }: CarProfileProps) {
                   My Vehicle
                 </h1>
                 <div className="items-center flex gap-[11px]">
-                  <Button variant="quinary" className=" py-[0.5rem] px-[12px]">
+                  <Button variant="quinary" className=" py-[0.5rem] px-[12px]" onClick={openVehicleDetails}>
                     Add vehicle
                     <Plus className="inline-block" />
                   </Button>

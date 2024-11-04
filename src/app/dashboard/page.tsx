@@ -14,6 +14,9 @@ import CarProfile from "@/components/card/CarProfile";
 import NotificationsTable from "@/components/card/NotificationTable";
 import Drawer from "@/components/Drawer";
 import "@/components/Slider.css";
+import CarProfileDrawer from "@/components/CarProfileDrawer";
+import cars from "@/data/data.json";
+
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +26,8 @@ export default function DashboardPage() {
     setIsOpen(!isOpen);
   };
 
-  const openCarProfile = () => {
-    setDrawerContent(<CarProfileDrawer />);
+  const openCarProfile = (car) => {
+    setDrawerContent(<CarProfileDrawer car={car} />);
     toggleDrawer();
   };
 
@@ -59,7 +62,8 @@ export default function DashboardPage() {
           <div className="flex justify-between gap-6">
             {/* Column 1 */}
             <div className="max-w-[680px] flex flex-col gap-6 flex-1 ">
-              <CarProfile openCarProfile={openCarProfile} />
+            <CarProfile openCarProfile={(car) => openCarProfile(car)} />
+
 
               <section className="flex flex-col max-w-[1380px] w-full justify-between pt-[1.5rem] ">
                 <Calendar />
@@ -105,9 +109,6 @@ export default function DashboardPage() {
   );
 }
 
-function CarProfileDrawer() {
-  return <div>User Profile Content</div>;
-}
 
 function NotificationTableDrawer() {
   return <div>Notification List Content</div>;

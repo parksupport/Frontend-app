@@ -85,7 +85,7 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
         </div>
       </div>
       <div className="rounded-[12px] border border-gray-300">
-        <table className="min-w-full bg-white">
+        <table className="overflow-x-auto min-w-full bg-white">
           <thead>
             <tr
               className={`text-gray-600 text-[20px] border-b ${groteskText.className}`}

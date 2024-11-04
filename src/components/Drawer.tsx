@@ -30,7 +30,7 @@ const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
       )}
 
       <div
-        className={` rounded-tl-[40px] rounded-bl-[40px]  absolute top-0 right-0 w-[720px] bg-white shadow-lg z-50 transform ${
+        className={` rounded-tl-[40px] rounded-bl-[40px]  absolute top-0 right-0 w-[30%] bg-white shadow-lg z-50 transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         } transition-transform duration-300 ease-in-out rounded-tl-[40px] ${
           isOpen ? "overflow-y-auto" : ""

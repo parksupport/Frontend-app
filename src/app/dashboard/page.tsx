@@ -52,62 +52,70 @@ export default function DashboardPage() {
     toggleDrawer();
   };
 
-
-
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-    <DashboardHeader />
-    {/* Main Content */}
-    <main className="mx-4 md:mx-[30px] flex flex-col items-center w-full">
-      <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
-        {/* Welcome Section */}
-        <div className="flex items-center space-x-2 mb-4">
-          <h1 className={`text-[2rem] text-[#000000] ${groteskTextMedium.className}`}>
-            Welcome Back, Orobosa
-          </h1>
-          <button className="rounded-[37px] bg-[#CEFDFF] h-[22px] px-[12px] text-[#039BB7] text-[12px] mt-[6px]">
-            Free plan
-          </button>
-        </div>
-      </section>
-  
-        {/* Profile and Table Section */} 
-         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6"> 
-             <div>
-            <CarProfile openVehicleDetails={openVehicleDetails} openCarProfile={openCarProfile} />
-          </div>
-  
-          <div>
-            <ContraventionTable invoices={undefined} openConventionTable={openConventionTable} />
+      <DashboardHeader />
+      {/* Main Content */}
+      <main className="mx-4 md:mx-[30px] flex flex-col items-center w-full">
+        <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
+          {/* Welcome Section */}
+          <div className="flex items-center space-x-2 mb-4">
+            <h1
+              className={`text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
+            >
+              Welcome Back, Orobosa
+            </h1>
+            <button className="rounded-[37px] bg-[#CEFDFF] h-[22px] px-[12px] text-[#039BB7] text-[12px] mt-[6px]">
+              Free plan
+            </button>
           </div>
         </section>
-  
-      {/* Notifications and Calendar Section */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
-        <div>
-          <Calendar />
-        </div>
-        <div className="">
-          <NotificationsTable openNotificationsTable={openNotificationsTable} />
-        </div>
-      </section>
-  
-      {/* FAQ Section */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
-        <div>
-       <EducationalMaterials openEducationalMaterials={openEducationalMaterials}/>
-        </div>
-        <div className="">
- 
-          <FAQComponents  />
-        </div>
-      </section>
-    </main>
-    <Drawer isOpen={isOpen} toggleDrawer={toggleDrawer}>
+
+        {/* Profile and Table Section */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
+          <div>
+            <CarProfile
+              openVehicleDetails={openVehicleDetails}
+              openCarProfile={openCarProfile}
+            />
+          </div>
+
+          <div>
+            <ContraventionTable
+              invoices={undefined}
+              openConventionTable={openConventionTable}
+            />
+          </div>
+        </section>
+
+        {/* Notifications and Calendar Section */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
+          <div>
+            <Calendar />
+          </div>
+          <div className="">
+            <NotificationsTable
+              openNotificationsTable={openNotificationsTable}
+            />
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6 relative">
+          <div className="relative z-10">
+            <EducationalMaterials
+              openEducationalMaterials={openEducationalMaterials}
+            />
+          </div>
+          <div className="relative -mt-[100px] z-20">
+            <FAQComponents />
+          </div>
+        </section>
+      </main>
+      <Drawer isOpen={isOpen} toggleDrawer={toggleDrawer}>
         {drawerContent}
       </Drawer>
-  </div>
-  
+    </div>
   );
 }
 

@@ -55,7 +55,7 @@ export default function DashboardPage() {
 
 
   return (
-    <div className="bg-[#F4F4FA] flex flex-col overflow-hidden">
+    <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
     <DashboardHeader />
     {/* Main Content */}
     <main className="mx-4 md:mx-[30px] flex flex-col items-center w-full">

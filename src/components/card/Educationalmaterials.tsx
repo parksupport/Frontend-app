@@ -1,7 +1,7 @@
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import React, { useState } from "react";
 
-const EducationalMaterials = () => {
+const EducationalMaterials = ({openEducationalMaterials}) => {
   const [selected, setSelected] = useState("Driving rules");
 
   const handleSelect = (topic) => {
@@ -41,8 +41,9 @@ const EducationalMaterials = () => {
 
         <div
           className={`md:w-[53.5%] ${groteskText.className} border py-4 px-3 rounded-[16px] text-black text-[16px]`}
+          
         >
-          <p className="underline text-blue-600 cursor-pointer">
+          <p className="underline text-blue-600 cursor-pointer" onClick={openEducationalMaterials}>
             Access resources on driving rules, road and driving safety, and
             rules for different vehicles. Learn key topics like traffic laws,
             managing violations, and best practices for vehicle and fleet

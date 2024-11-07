@@ -47,6 +47,12 @@ export default function DashboardPage() {
     setDrawerContent(<VehicleDetailsDrawer toggleDrawer={toggleDrawer} />);
     toggleDrawer();
   };
+  const openEducationalMaterials = () => {
+    setDrawerContent(<EducationalMaterialsDrawer />);
+    toggleDrawer();
+  };
+
+
 
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden">
@@ -89,11 +95,11 @@ export default function DashboardPage() {
       {/* FAQ Section */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
         <div>
-       <EducationalMaterials/>
+       <EducationalMaterials openEducationalMaterials={openEducationalMaterials}/>
         </div>
         <div className="">
  
-          <FAQComponents />
+          <FAQComponents  />
         </div>
       </section>
     </main>
@@ -111,4 +117,8 @@ function NotificationTableDrawer() {
 
 function ConventionTableDrawer() {
   return <div>Convention List Content</div>;
+}
+
+function EducationalMaterialsDrawer() {
+  return <div>List of all the materials necessary for tutorials</div>;
 }

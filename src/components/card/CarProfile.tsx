@@ -20,9 +20,10 @@ import "slick-carousel/slick/slick.css";
 interface CarProfileProps {
   openCarProfile: any;
   openVehicleDetails:any;
+  addToVehicle: ()=> void;
 }
 
-function CarProfile({ openCarProfile ,openVehicleDetails}: CarProfileProps) {
+function CarProfile({ openCarProfile ,openVehicleDetails, addToVehicle}: CarProfileProps) {
   const user = useAuthStore((state) => state.user);
   var settings = {
     dots: true,

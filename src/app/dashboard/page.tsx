@@ -25,10 +25,10 @@ import AddToVehicle from "@/components/AddToVehicle";
 
 
  export default function DashboardPage() {
-//   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 //   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
   const [status, setStatus] = useState("failed");
-  const { isOpen, setIsOpen, drawerContent, setDrawerContent } = useDrawerStore();
+  const {  drawerContent, setDrawerContent } = useDrawerStore();
   const toggleDrawer = () => {
     setIsOpen((prev) => !prev);
   };
@@ -44,7 +44,7 @@ import AddToVehicle from "@/components/AddToVehicle";
     toggleDrawer();
   };
 
-  const openCarProfile = () => {
+  const openCarProfile = (car: any) => {
     setDrawerContent(
       <CarProfileDrawer
         car={cars}
@@ -129,7 +129,7 @@ import AddToVehicle from "@/components/AddToVehicle";
         {/* Profile and Table Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
           <div>
-          <CarProfile openCarProfile={(car) => openCarProfile(car)} addToVehicle={addToVehicle}/>
+          <CarProfile openCarProfile={(car) => openCarProfile(car)} addToVehicle={addToVehicle} openVehicleDetails={undefined}/>
           </div>
 
           <div>

@@ -6,8 +6,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { GrDocumentDownload } from "react-icons/gr";
 import DrawerHeader from "./DrawerHeader";
 
-const VehicleDetailsDrawer = ({ toggleDrawer }) => {
-  console.log(toggleDrawer + "toood");
+const VehicleDetailsDrawer = ({ toggleDrawer ,status}) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
     license_number: "",
@@ -106,6 +105,7 @@ const VehicleDetailsDrawer = ({ toggleDrawer }) => {
             className=" py-[10px] px-[12px] w-[60%]  "
             icon={<IoMdCheckmark size={25} />}
             iconPosition="right"
+            onClick={() => status()}
           >
             Save Vehicle
           </Button>

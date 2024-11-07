@@ -22,7 +22,7 @@ const DrawerHeader = ({ toggleDrawer, title, subTitle }) => {
     //   </div>
     // </div>
     <div className=" flex pt-[60px] ">
-    <div> <IoArrowBack size={24} onClick={toggleDrawer} /></div>
+    <div className="cursor-pointer"> <IoArrowBack size={24} onClick={toggleDrawer} /></div>
    <div className="flex justify-center ">
    <div className="flex flex-col justify-center items-center max-w-[451px] w-full mt-[10px]">
        <h1 className={`text-[22px] leading-[25px] ${groteskTextMedium.className}`}>{title}</h1>

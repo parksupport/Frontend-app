@@ -17,39 +17,51 @@ import cars from "@/data/data.json";
 import FAQComponents from "@/components/card/FAQComponents";
 import { Car } from "lucide-react";
 import EducationalMaterials from "@/components/card/Educationalmaterials";
+import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
 
   const toggleDrawer = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
+    setIsOpen(((prev) => !prev));
+  };
+
+  const openDrawer = () => {
+    if (!isOpen) {
+      setIsOpen(true);
+    }
   };
 
   const openCarProfile = () => {
     setDrawerContent(
-      <CarProfileDrawer car={cars} toggleDrawer={toggleDrawer} />
+      <CarProfileDrawer car={cars} toggleDrawer={toggleDrawer} openVehicleDetails={openVehicleDetails} />
     );
-    toggleDrawer();
+    openDrawer();
   };
 
   const openNotificationsTable = () => {
     setDrawerContent(<NotificationTableDrawer />);
-    toggleDrawer();
+    openDrawer();
   };
 
   const openConventionTable = () => {
     setDrawerContent(<ConventionTableDrawer />);
-    toggleDrawer();
+    openDrawer();
   };
 
   const openVehicleDetails = () => {
-    setDrawerContent(<VehicleDetailsDrawer toggleDrawer={toggleDrawer} />);
-    toggleDrawer();
+    setDrawerContent(<VehicleDetailsDrawer toggleDrawer={toggleDrawer} status={openAddVehicleStatus}  />);
+    openDrawer();
   };
   const openEducationalMaterials = () => {
     setDrawerContent(<EducationalMaterialsDrawer />);
-    toggleDrawer();
+    openDrawer();
+  };
+
+  const openAddVehicleStatus = () => {
+    setDrawerContent(<VehicleAddedSuccess toggleDrawer={toggleDrawer} openVehicleDetails={openVehicleDetails} />);
+    openDrawer();
   };
 
   return (

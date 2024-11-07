@@ -105,7 +105,7 @@ const VehicleDetailsDrawer = ({ toggleDrawer ,status}) => {
             className=" py-[10px] px-[12px] w-[60%]  "
             icon={<IoMdCheckmark size={25} />}
             iconPosition="right"
-            onClick={() => status()}
+            onClick={status}
           >
             Save Vehicle
           </Button>

@@ -18,13 +18,15 @@ import FAQComponents from "@/components/card/FAQComponents";
 import { Car } from "lucide-react";
 import EducationalMaterials from "@/components/card/Educationalmaterials";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
+import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
+  const [status, setStatus] = useState("failed");
 
   const toggleDrawer = () => {
-    setIsOpen(((prev) => !prev));
+    setIsOpen((prev) => !prev);
   };
 
   const openDrawer = () => {
@@ -35,7 +37,11 @@ export default function DashboardPage() {
 
   const openCarProfile = () => {
     setDrawerContent(
-      <CarProfileDrawer car={cars} toggleDrawer={toggleDrawer} openVehicleDetails={openVehicleDetails} />
+      <CarProfileDrawer
+        car={cars}
+        toggleDrawer={toggleDrawer}
+        openVehicleDetails={openVehicleDetails}
+      />
     );
     openDrawer();
   };
@@ -51,7 +57,12 @@ export default function DashboardPage() {
   };
 
   const openVehicleDetails = () => {
-    setDrawerContent(<VehicleDetailsDrawer toggleDrawer={toggleDrawer} status={openAddVehicleStatus}  />);
+    setDrawerContent(
+      <VehicleDetailsDrawer
+        toggleDrawer={toggleDrawer}
+        status={openAddVehicleStatus}
+      />
+    );
     openDrawer();
   };
   const openEducationalMaterials = () => {
@@ -60,7 +71,30 @@ export default function DashboardPage() {
   };
 
   const openAddVehicleStatus = () => {
-    setDrawerContent(<VehicleAddedSuccess toggleDrawer={toggleDrawer} openVehicleDetails={openVehicleDetails} />);
+    const handleSuccess = () => {
+      setDrawerContent(
+        <VehicleAddedSuccess
+          toggleDrawer={toggleDrawer}
+          openVehicleDetails={openVehicleDetails}
+        />
+      );
+      openDrawer();
+    };
+  
+    setDrawerContent(
+      status === "success" ? (
+        <VehicleAddedSuccess
+          toggleDrawer={toggleDrawer}
+          openVehicleDetails={openVehicleDetails}
+        />
+      ) : (
+        <VehicleAddedFailed
+          toggleDrawer={toggleDrawer}
+          openVehicleDetails={openVehicleDetails}
+          Success={handleSuccess}  
+        />
+      )
+    );
     openDrawer();
   };
 

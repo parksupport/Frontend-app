@@ -20,11 +20,15 @@ import EducationalMaterials from "@/components/card/Educationalmaterials";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
 import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 
-export default function DashboardPage() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
-  const [status, setStatus] = useState("failed");
+import { useDrawerStore } from "@/lib/stores/useStore";
+import AddToVehicle from "@/components/AddToVehicle";
 
+
+ export default function DashboardPage() {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
+  const [status, setStatus] = useState("failed");
+  const { isOpen, setIsOpen, drawerContent, setDrawerContent } = useDrawerStore();
   const toggleDrawer = () => {
     setIsOpen((prev) => !prev);
   };
@@ -33,6 +37,11 @@ export default function DashboardPage() {
     if (!isOpen) {
       setIsOpen(true);
     }
+  };
+
+  const addToVehicle = () => {
+    setDrawerContent(<AddToVehicle />);
+    toggleDrawer();
   };
 
   const openCarProfile = () => {
@@ -120,10 +129,7 @@ export default function DashboardPage() {
         {/* Profile and Table Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
           <div>
-            <CarProfile
-              openVehicleDetails={openVehicleDetails}
-              openCarProfile={openCarProfile}
-            />
+          <CarProfile openCarProfile={(car) => openCarProfile(car)} addToVehicle={addToVehicle}/>
           </div>
 
           <div>

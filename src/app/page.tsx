@@ -239,9 +239,6 @@ export default function LandingPage() {
         <section>
           <Footer />
         </section>
-        <NotificationsTable
-          openNotificationsTable={() => console.log("hello")}
-        />
       </main>
     </div>
   );

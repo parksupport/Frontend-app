@@ -40,9 +40,8 @@ export default function NotificationBox({
         <div className="absolute top-[56px] right-[24px]">
           <Button
             type="button"
-            className="rounded-xl whitespace-nowrap  "
+            className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
             variant="primary"
-            onClick={() => router.push("/auth/login")}
           >
             Sign In
           </Button>

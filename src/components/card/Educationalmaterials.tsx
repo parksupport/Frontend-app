@@ -42,7 +42,7 @@ const EducationalMaterials = () => {
         <div
           className={`md:w-[53.5%] ${groteskText.className} border py-4 px-3 rounded-[16px] text-black text-[16px]`}
         >
-          <p>
+          <p className="underline text-blue-600 cursor-pointer">
             Access resources on driving rules, road and driving safety, and
             rules for different vehicles. Learn key topics like traffic laws,
             managing violations, and best practices for vehicle and fleet

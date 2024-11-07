@@ -16,7 +16,7 @@ const ImageSlider = ({ images }: any) => {
     }, 3000);
 
     return () => clearInterval(slideInterval);
-  }, [currentIndex]);
+  }, [currentIndex,handleNext]);
 
   return (
     <div className="relative w-full mx-auto rounded-[32px] overflow-hidden">

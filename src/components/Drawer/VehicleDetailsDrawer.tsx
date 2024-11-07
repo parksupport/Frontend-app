@@ -51,8 +51,7 @@ const VehicleDetailsDrawer = ({ toggleDrawer }) => {
             <p
               className={`text-[12px] text-[#98A2B3] w-[63%]   ${groteskText.className} `}
             >
-              We'll use your registration number to pull any available
-              contravention information and keep you updated
+             {' We will use your registration number to pull any available contravention information and keep you updated'}
             </p>
           </div>
           <InputField

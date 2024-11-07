@@ -16,6 +16,8 @@ const config: Config = {
       },
       lineHeight: {
         '90px': '90px',
+        '44px': '44px',
+        '18px': '18px',
       },
       colors: {
         customBlue: "#3957D7",

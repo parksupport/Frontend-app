@@ -2,7 +2,7 @@
 .slick-next {
   width: 13px;
   height: 12px;
-  position: absolute;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,10 +32,10 @@ height: 12px;
     background-image: url('../assets/svg/chevronleft2.svg'); /* Update the path */
     background-size: contain;
     background-repeat: no-repeat; 
-   top: 97%;
+   top: 96%;
    left: 5px;
   
-
+   position: absolute;
    color: #000000;
   }
   
@@ -43,21 +43,22 @@ height: 12px;
     background-image: url('../assets/svg/chevronRight2.svg'); /* Update the path */
     background-size: contain;
     background-repeat: no-repeat;
-    /* top: 95.2%;
-    right: 396px; */
+    top: 96%;
+    
     color: #000000;
-    bottom: 14px;
+    bottom: 1px;
     left: 238px;
-    position: inherit;
+    position: absolute;
   }
   .slick-dots{
   width: auto;
-  left: 76px;
-position: static;
+  /* left: 76px; */
+  position: absolute;
  margin-bottom: 0;
- margin-top: -44px;
+ margin-top: -26px;
  text-align: start;
  margin-left: 103px;
+ bottom: 0;
   
   }
   .slick-dots li {

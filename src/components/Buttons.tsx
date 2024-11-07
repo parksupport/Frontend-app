@@ -47,24 +47,21 @@ const Button: React.FC<ButtonProps> = ({
     secondary:
       "bg-white mt-[16px] max-w-[400px] w-full px-[16px] py-[10px] rounded-[6px] border-[#98A2B3] border-solid border items-center ",
 
-    success:
-      "bg-green-500 text-white hover:bg-green-700 focus:ring-green-500  px-[16px] py-[14px]",
-    danger: "bg-red-500 text-white hover:bg-red-700 focus:ring-red-500",
-    tertiary:
-      "bg-yellow-500 text-white hover:bg-yellow-700 focus:ring-yellow-500",
-    quaternary:
-      "bg-purple-500 text-white hover:bg-purple-700 focus:ring-purple-500",
-    quinary: "bg-[#3957D7] text-white cursor-pointer rounded-[8px]",
+    success: 'bg-green-500 text-white hover:bg-green-700 focus:ring-green-500  px-[16px] py-[14px]',
+    danger: 'bg-red-500 text-white hover:bg-red-700 focus:ring-red-500',
+    tertiary: 'bg-yellow-500 text-white hover:bg-yellow-700 focus:ring-yellow-500',
+    quaternary: 'bg-purple-500 text-white hover:bg-purple-700 focus:ring-purple-500',
+    quinary: 'bg-[#3957D7] text-white cursor-pointer rounded-[8px] ',
   };
 
   const textStyles: Record<Variant, string> = {
     primary: `text-white text-base lg:text-lg ${groteskText.className}  pb-1`,
     secondary: `text-black text-base lg:text-lg ${groteskText.className} pb-1`,
-    success: "text-white",
-    danger: "text-white",
-    tertiary: "text-white",
-    quaternary: "text-white",
-    quinary: "text-white flex items-center",
+    success: 'text-white',
+    danger: 'text-white',
+    tertiary: 'text-white',
+    quaternary: 'text-white',
+    quinary: 'text-white flex items-center ',
   };
 
   let buttonStyle;

@@ -2,11 +2,7 @@
 
 import { create } from 'zustand';
 
-interface StoreState {
-  count: number;
-  increaseCount: () => void;
-  resetCount: () => void;
-}
+
 interface AuthState {
   user: {
     id: string;
@@ -17,11 +13,12 @@ interface AuthState {
   // other state properties if any
 }
 
-export const useStore = create<StoreState>((set) => ({
-  count: 0,
-  increaseCount: () => set((state) => ({ count: state.count + 1 })),
-  resetCount: () => set({ count: 0 }),
-}));
+interface StoreState {
+  isOpen: boolean;
+  drawerContent: JSX.Element | null;
+  // setDrawerContent: (content: JSX.Element | null) => void;
+  // toggleDrawer: () => void;
+}
 
 export const useAuthStore = create<AuthState>((set) => ({  token: null,
   user: null,
@@ -29,3 +26,12 @@ export const useAuthStore = create<AuthState>((set) => ({  token: null,
   setUser: (user) => set({ user }),
   logout: () => set({ token: null, user: null }),
 }));
+
+
+const useStore = create<StoreState>((set) => ({
+  isOpen: false,
+  drawerContent: null,
+  // toggleDrawer: () => set((state) => ({ isOpen: !state.isOpen })),
+}));
+
+export default useStore;

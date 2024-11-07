@@ -33,7 +33,7 @@ function CarProfile({ openCarProfile ,openVehicleDetails}: CarProfileProps) {
   };
   return (
     <article>
-      <div className="w-full max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-6 px-4 md:py-8 md:px-6 lg:px-8">
+      <div className="w-full max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[24px] px-4 ">
         <Slider {...settings}>
           {cars.carDetails.map((car, index) => (
             <div key={car.id} className="">
@@ -49,7 +49,7 @@ function CarProfile({ openCarProfile ,openVehicleDetails}: CarProfileProps) {
                     <Plus className="inline-block" />
                   </Button>
                   <button>
-                    <AiOutlineExpand size={24} onClick={openCarProfile} />
+                    <AiOutlineExpand size={24} onClick={()=> openCarProfile(car)} />
                   </button>
                 </div>
               </div>
@@ -87,7 +87,7 @@ function CarProfile({ openCarProfile ,openVehicleDetails}: CarProfileProps) {
                         <span>
                           <NumberSVG />
                         </span>
-                        <span className="text-[16px]">Registration No: </span>
+                        <span className="text-[16px]">Registration number: </span>
                       </div>
                       <span className="text-[#212121] text-[13px] self-end">
                         {car.registrationNo}
@@ -100,7 +100,7 @@ function CarProfile({ openCarProfile ,openVehicleDetails}: CarProfileProps) {
                         <span>
                           <UserProfileSVG />
                         </span>
-                        <span className="text-[16px]">Owner Name: </span>
+                        <span className="text-[16px]">Owner: </span>
                       </div>
                       <span className="text-[#212121] text-[13px] self-end">
                         {car.ownerName}

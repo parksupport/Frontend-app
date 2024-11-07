@@ -70,7 +70,7 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
   };
 
   return (
-    <div className="p-4">
+    <div className="py-12 mb-[300px] ">
       <div className="flex items-center justify-center gap-10 mb-4">
         <h1
           className={`text-2xl font-semibold text-[26px] ${groteskText.className}`}
@@ -85,17 +85,17 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
         </div>
       </div>
       <div className="rounded-[12px] border border-gray-300">
-        <table className="overflow-x-auto min-w-full bg-white">
+        <table className="min-w-full bg-white">
           <thead>
             <tr
               className={`text-gray-600 text-[20px] border-b ${groteskText.className}`}
             >
-              <th className="whitespace-nowrap py-2 px-4 text-left">Name</th>
-              <th className="whitespace-nowrap px-5 text-left">
+              <th className="whitespace-nowrap py-2 px-2 text-left">Name</th>
+              <th className="whitespace-nowrap px-2 text-left">
                 Email Address
               </th>
               <th className="whitespace-nowrap text-left">Phone Number</th>
-              <th className="whitespace-nowrap pl-12 text-left">Car</th>
+              <th className="whitespace-nowrap pl-5 text-left">Car</th>
               <th className="text-end w-[99px]"></th>
             </tr>
           </thead>
@@ -103,12 +103,12 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
             {nominees.map((nominee, index) => (
               <tr key={index} className="hover:bg-gray-50 relative">
                 <td
-                  className={`pt-2 px-4 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
                 >
                   {nominee.name}
                 </td>
                 <td
-                  className={`pt-2 px-5 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
                 >
                   {nominee.email}
                 </td>
@@ -118,7 +118,7 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
                   {nominee.phone}
                 </td>
                 <td
-                  className={`pt-2 pl-12 text-[15px] whitespace-nowrap ${groteskText.className}`}
+                  className={`pt-2 pl-4 text-[15px] whitespace-nowrap ${groteskText.className}`}
                 >
                   {nominee.car}
                 </td>
@@ -199,11 +199,11 @@ export function AddThirdPartyNominee({ handleFormState }: any) {
   };
 
   return (
-    <>
-      <div className="flex flex-col ">
-        <div className="flex items-center justify-center gap-10 mb-4 ">
+    <div className="py-12 mb-[300px] ">
+      <div className="flex flex-col  ">
+        <div className="flex items-center justify-center gap-10 mb-4  pl-14 ">
           <h1
-            className={`text-2xl font-semibold text-[26px] ${groteskText.className}`}
+            className={`text-2xl font-semibold text-[26px]  ${groteskText.className}`}
           >
             Add Third Party Nominees
           </h1>
@@ -216,7 +216,7 @@ export function AddThirdPartyNominee({ handleFormState }: any) {
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-4 px-[161px]">
+          <div className="flex flex-col gap-4  items-center">
             <InputField
               type="text"
               placeholder="Enter your full name"
@@ -224,9 +224,8 @@ export function AddThirdPartyNominee({ handleFormState }: any) {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              validationRules={validateEmail}
               variant="individual"
-              className={`  ${groteskText.className} `}
+              className={`  ${groteskText.className}  w-[60%]`}
             />
             <InputField
               type="email"
@@ -237,7 +236,7 @@ export function AddThirdPartyNominee({ handleFormState }: any) {
               onChange={handleChange}
               validationRules={validateEmail}
               variant="individual"
-              className={`  ${groteskText.className} `}
+              className={`  ${groteskText.className}  w-[60%] `}
             />
             <InputField
               type="text"
@@ -247,29 +246,28 @@ export function AddThirdPartyNominee({ handleFormState }: any) {
               value={formData.phone_number}
               onChange={handleChange}
               variant="individual"
-              className={`  ${groteskText.className} `}
+              className={`  ${groteskText.className}  w-[60%] `}
             />
             <InputField
               type="text"
               placeholder="Choose your Vehicle"
               label="Choose Vehicle"
-              name="name"
+              name="vehicle"
               value={formData.vehicle}
               onChange={handleChange}
-              validationRules={validateEmail}
               variant="individual"
-              className={`  ${groteskText.className} pb-2 `}
+              className={`  ${groteskText.className} pb-2  w-[60%]`}
             />
             <Button
               type="submit"
               variant="quinary"
-              className=" py-[10px] px-[12px] w-full"
+              className=" py-[10px] px-[12px]  w-[60%]  "
             >
               Add Vehicle
             </Button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }

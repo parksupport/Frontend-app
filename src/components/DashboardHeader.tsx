@@ -11,40 +11,46 @@ import "slick-carousel/slick/slick.css";
 
 function DashboardHeader() {
   return (
-    <header className="w-full flex bg-[#FFFFFF] h-[75px] border-solid pl-[44px] pr-[18px] pt-[11px] items-center justify-between">
-      <div className="self-start flex">
+    <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex items-center justify-between w-full">
+
+      <div className="flex items-center">
         <HeaderImage />
       </div>
 
-      <form className="relative max-w-[600px] w-full h-[36px] rounded-[6px]">
+      <form className="hidden sm:flex sm:flex-grow sm:justify-center relative max-w-[600px] w-full h-[36px] rounded-[6px]">
         <input
           type="text"
-          placeholder="Find contravention "
-          className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0]"
+          placeholder="Find contravention"
+          className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
         />
-
         <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
       </form>
 
-      <div className="max-w-[250px] w-full flex justify-between items-center ">
-        <div>
-          <button className="cursor-pointer">
-            <IoNotifications size={24} color="grey" />
-          </button>
-        </div>
-        <div>
-          <button className="cursor-pointer">
-            <SettingSVG size={24} color="grey" />
-          </button>
-        </div>
-        <div className=" ">|</div>
-        <div>
-          <button className="cursor-pointer">
-            <ProfileSVG />
-          </button>
-        </div>
+
+      <div className="flex items-center space-x-4">
+        <button className="cursor-pointer">
+          <IoNotifications size={24} color="grey" />
+        </button>
+        <button className="cursor-pointer">
+          <SettingSVG size={24} color="grey" />
+        </button>
+        <div className="hidden sm:block">|</div>
+        <button className="cursor-pointer">
+          <ProfileSVG />
+        </button>
       </div>
-    </header>
+    </div>
+
+    <form className="block sm:hidden relative max-w-full w-full h-[36px] mt-4 rounded-[6px]">
+      <input
+        type="text"
+        placeholder="Find contravention"
+        className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
+      />
+      <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
+    </form>
+  </header>
   );
 }
 

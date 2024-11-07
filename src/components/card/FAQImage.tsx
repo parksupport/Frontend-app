@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import FaqImage from '@/assets/images/amico.png'
 
-const FAQ = () => {
+const FAQImage = () => {
   return (
     <div>
       <Image
@@ -13,4 +13,4 @@ const FAQ = () => {
   )
 }
 
-export default FAQ
+export default FAQImage

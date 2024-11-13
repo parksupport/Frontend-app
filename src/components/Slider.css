@@ -62,8 +62,23 @@ height: 12px;
   
   }
   .slick-dots li {
-    width: 10px;
+    width: 2px;
   }
   header{
     border-bottom: 1px solid #D1D5DB;
+  }
+  @media (max-width: 640px){
+    .slick-prev{
+      top: 95%;
+    }
+    .slick-next{
+      top: 95%;
+      right: 3px;
+      left: 352px;
+
+    }
+    .slick-dots{
+      margin-left: 151px;
+      bottom: 15px;
+    }
   }

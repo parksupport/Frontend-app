@@ -10,7 +10,7 @@
       },
       {
         "id": 2,
-        "imageUrl": "car2.jpg",
+        "imageUrl": "bike.jpg",
         "registrationNo": "XYZ789",
         "ownerName": "Jane Smith",
         "contraventionStatus": "No existing ticket",
@@ -18,7 +18,23 @@
       },
       {
         "id": 3,
-        "imageUrl": "car5.jpg",
+        "imageUrl": "bus.jpg",
+        "registrationNo": "LMN456",
+        "ownerName": "Alice Johnson",
+        "contraventionStatus": "No existing ticket",
+        "thirdPartyNominate": "Added"
+      },
+      {
+        "id": 4,
+        "imageUrl": "jeep.jpg",
+        "registrationNo": "LMN456",
+        "ownerName": "Alice Johnson",
+        "contraventionStatus": "No existing ticket",
+        "thirdPartyNominate": "Added"
+      },
+      {
+        "id": 5,
+        "imageUrl": "truck.jpg",
         "registrationNo": "LMN456",
         "ownerName": "Alice Johnson",
         "contraventionStatus": "No existing ticket",
@@ -28,52 +44,54 @@
     ],
     "contravention": [
         {
-            "ticket": "Parking Ticket",
+            "ticket": "Parking Violation",
             "reg_num": "16UK567Y",
             "issuing_auth": "Odili wisdom",
             "fine_amount": "$50",
-            "status": "paid"
+            "status": "paid",
+            "date": "in 5 days"
+          },
+          {
+              "ticket": "Speeding Violation",
+              "reg_num": "16UK567Y",
+              "issuing_auth": "Odili wisdom",
+              "fine_amount": "$50",
+              "status": "paid",
+               "date": "in 5 days"
+          },
+          {
+              "ticket": "DUI Violaion",
+              "reg_num": "16UK567Y",
+              "issuing_auth": "Odili wisdom",
+              "fine_amount": "$50",
+              "status": "paid",
+               "date": "in 5 days"
           },
           {
               "ticket": "Parking Ticket",
               "reg_num": "16UK567Y",
               "issuing_auth": "Odili wisdom",
               "fine_amount": "$50",
-              "status": "paid"
+              "status": "paid",
+               "date": "in 5 days"
           },
           {
-              "ticket": "Parking Ticket",
+              "ticket": "Parking Violation",
               "reg_num": "16UK567Y",
               "issuing_auth": "Odili wisdom",
+              "status": "paid",
               "fine_amount": "$50",
-              "status": "paid"
+               "date": "in 5 days"
           },
           {
-              "ticket": "Parking Ticket",
-              "reg_num": "16UK567Y",
+              "ticket": "Parking Violation",
+              "reg_num": "12/12/2023",
               "issuing_auth": "Odili wisdom",
               "fine_amount": "$50",
-              "status": "paid"
-          },
-          {
-              "ticket": "Parking Ticket",
-              "reg_num": "16UK567Y",
-              "issuing_auth": "Odili wisdom",
-              "status": "paid"
-          },
-          {
-              "ticket": "Parking Ticket",
-              "reg_num": "16UK567Y",
-              "issuing_auth": "Odili wisdom",
-              "fine_amount": "$50",
-              "status": "paid"
-          },
-          {    "ticket": "Parking Ticket",
-              "reg_num": "16UK567Y",
-              "issuing_auth": "Odili wisdom",
-              "fine_amount": "$50",
-              "status": "paid"
+              "status": "paid",
+               "date": "in 5 days"
           }
+       
     ]
   }
   

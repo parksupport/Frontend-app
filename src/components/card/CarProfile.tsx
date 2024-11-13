@@ -33,7 +33,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
   };
   return (
     <article>
-      <div className="w-full max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[24px] px-4 ">
+      <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[24px] px-4 ">
         <Slider {...settings}>
           {cars.carDetails.map((car, index) => (
             <div key={car.id} className="">
@@ -54,15 +54,18 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                 </div>
               </div>
 
-              <div className="flex justify-between mt-[14px]">
-                <div className="flex flex-col max-w-[253px] w-full">
+              <div className="flex flex-col  lg:flex lg:flex-row justify-between mt-[14px] items-center">
+              <div className="order-2 w-full lg:order-1 flex flex-col">
+              <div className=" self-center flex flex-col max-w-[253px] w-full">
                   <Image
                     src={require(`@/assets/images/${car.imageUrl}`).default}
                     alt=""
                     sizes="max-width: 222px"
                     className="max-w-[222px] "
                   />
-                  <div className="flex justify-between mt-auto">
+                
+                </div>
+                <div className="flex justify-between mt-auto lg:hidden">
                     <button className=" w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
                       Previous
                     </button>
@@ -70,8 +73,9 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                       Next
                     </button>
                   </div>
-                </div>
-                <div className="border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px]">
+              </div>
+              
+                <div className="order-1 lg:order-2 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px]">
                   <div className="border border-b-[#C5D5F8] py-[12px] px-[16px]">
                     <h1
                       className={`text-[#212121] text-[20px] ${groteskTextMedium.className}`}
@@ -154,9 +158,20 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                   </div>
                 </div>
               </div>
+              <div className="hidden lg:flex justify-between mt-[-28px] w-[250px] ">
+                    <button className=" w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+                      Previous
+                    </button>
+                    <button className="w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+                      Next
+                    </button>
+                  </div>
             </div>
+            
           ))}
+     
         </Slider>
+        
       </div>
     </article>
   );

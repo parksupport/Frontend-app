@@ -43,7 +43,7 @@ const Calendar = () => {
     }
 
     return (
-        <div className='bg-[#FFFFFF] rounded-[1.25rem] max-w-[680px] pt-[1.75rem] px-[1rem]'>
+        <div className='bg-[#FFFFFF] rounded-[1.25rem] max-w-[396px] lg:max-w-[680px] pt-[1.75rem] px-[1rem]'>
             <section className="flex justify-between">
                 <h1 className={`text-[2rem] text-[#000000] ${groteskTextMedium.className} `}>Calendar</h1>
                 <div className={`items-center flex gap-[11px] `}>
@@ -56,7 +56,7 @@ const Calendar = () => {
                 </div>
 
             </section>
-            <section className='rounded-[0.75rem] bg-[#FFFFFF]  mt-[1rem] mb-[1.875rem] flex flex-row'>
+            <section className='flex flex-col justify-center items-center lg:flex lg:flex-row rounded-[0.75rem] bg-[#FFFFFF]  mt-[1rem] mb-[1.875rem] '>
                 <div className='bg-transparent h-[300px] max-w-[300px] w-full flex flex-col mr-[1.4375rem]'>
                     <div className="flex items-center justify-between">
                        <div className='flex gap-[5px]'>
@@ -100,7 +100,7 @@ const Calendar = () => {
                 </div>
                 </div>
 
-                <div className="bg-[#4169E1]  w-full flex flex-col  " style={{ borderTopRightRadius: '12px', borderBottomRightRadius: '12px' }}>
+                <div className="bg-[#4169E1] pb-[63px] w-full flex flex-col  " style={{ borderTopRightRadius: '12px', borderBottomRightRadius: '12px' }}>
 
                     <h1 className={`text-white text-[5.625rem] leading-[58px] text-center mt-[4rem] ${groteskTextBold.className}` }>{currentDayOfMonth}</h1>
                     <h1 className={`text-white text-[24px] mx-auto  ${groteskText.className}`}>

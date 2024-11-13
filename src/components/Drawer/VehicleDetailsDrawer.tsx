@@ -6,7 +6,7 @@ import { IoMdCheckmark } from "react-icons/io";
 import { GrDocumentDownload } from "react-icons/gr";
 import DrawerHeader from "./DrawerHeader";
 
-const VehicleDetailsDrawer = ({ toggleDrawer ,status}) => {
+const VehicleDetailsDrawer = ({ toggleDrawer, status }) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
     license_number: "",

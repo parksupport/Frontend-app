@@ -8,7 +8,7 @@ import CarProfileSlider from "../CarProfileSlider";
 const CarProfileDrawer = ({ car, toggleDrawer, addVehicleDetails }) => {
   const [form, setForm] = useState(false);
   return (
-    <div className="">
+    <div className="w-full max-w-[580px]">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Vehicle Overview"

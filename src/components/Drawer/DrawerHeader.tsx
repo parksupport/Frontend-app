@@ -16,30 +16,32 @@ const DrawerHeader = ({
   className,
 }: DrawerHeaderProps) => {
   return (
-    <div className={`flex flex-col pt-[60px] items-start`}>
-      <div className="flex items-start md:items-center justify-center w-full ">
-      <div
-          className="cursor-pointer"
-          onClick={toggleDrawer}
-        >
-          <IoArrowBack className="w-6 h-6 md:w-8 md:h-8" />
-        </div>
-        <div className="flex flex-col items-center md:mx-[50px]">
-          <h1
-            className={`text-[24px] md:text-[32px] text-center leading-[25px] ${className} ${groteskTextMedium.className}`}
-          >
-            {title}
-          </h1>
-          {subTitle && (
-            <p
-              className={`text-[#667185] text-center leading-[18px] ${groteskText.className}`}
-            >
-              {subTitle}
-            </p>
-          )}
-        </div>
-      </div>
-    </div>
+    // <div className="flex items-center pt-[60px] pb-[48px] px-6">
+    //   <button onClick={toggleDrawer} >
+    //     <IoArrowBack size={24} />
+    //   </button>
+    //   <div className="px-[38px] flex flex-col  items-center max-w-[451px] w-full mt-[10px] flex-grow space-y-1">
+    //     <h1
+    //       className={`text-[22px] leading-[25px]  ${groteskTextMedium.className}`}
+    //     >
+    //       {title}
+    //     </h1>
+    //     <p
+    //       className={` text-[#667185] text-center leading-[18px]  ${groteskText.className}`}
+    //     >
+    //       {subTitle}
+    //     </p>
+    //   </div>
+    // </div>
+    <div className="w-full flex  lg:w-[72%] justify-between">
+    <div className="cursor-pointer"> <IoArrowBack size={24} onClick={toggleDrawer} /></div>
+   <div className="flex justify-center ">
+   <div className="flex flex-col justify-center items-center max-w-[451px] w-full mt-[10px]">
+       <h1 className={`text-[22px] leading-[25px] ${groteskTextMedium.className}`}>{title}</h1>
+       <p className={`text-[#667185] text-center leading-[18px]  ${groteskText.className}`}>{subTitle}</p>
+     </div>
+   </div>
+   </div>
   );
 };
 

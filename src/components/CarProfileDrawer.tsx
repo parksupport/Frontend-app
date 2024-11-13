@@ -25,7 +25,6 @@ import CarMake from '@/assets/svg/carMake.svg'
 import UndoDelete from '@/assets/svg/undoDelete.svg'
 import ConfirmDeleteSVG from '@/assets/svg/confirmDelete.svg'
 import { IoArrowBack } from "react-icons/io5";
-// import useDeleteCar from "@/lib/tanstack-query/useDelete";
 interface CarProfileDrawerProps {
     car: {
         imageUrl: string;
@@ -42,7 +41,6 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
     const [isOpenVehicle, setIsOpenVehicle] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
     const { isOpen, setIsOpen } = useDrawerStore()
-    // const mutation = useDeleteCar()
     var settings = {
         dots: true,
         infinite: true,
@@ -152,7 +150,7 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
                                    <UndoDelete />
                                </div>
                                <div className="flex items-center cursor-pointer">
-                                   <ConfirmDeleteSVG />
+                                   <ConfirmDeleteSVG  />
                                </div>
                            </div>
                      )}

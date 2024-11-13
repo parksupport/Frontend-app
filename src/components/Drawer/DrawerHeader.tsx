@@ -21,7 +21,7 @@ const DrawerHeader = ({ toggleDrawer, title, subTitle }) => {
     //     </p>
     //   </div>
     // </div>
-    <div className=" flex pt-[60px] ">
+    <div className="w-full flex  lg:w-[72%] justify-between">
     <div className="cursor-pointer"> <IoArrowBack size={24} onClick={toggleDrawer} /></div>
    <div className="flex justify-center ">
    <div className="flex flex-col justify-center items-center max-w-[451px] w-full mt-[10px]">

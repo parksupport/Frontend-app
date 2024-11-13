@@ -24,6 +24,9 @@ import CarFilter from '@/assets/svg/colorfilter.svg'
 import CarMake from '@/assets/svg/carMake.svg'
 import UndoDelete from '@/assets/svg/undoDelete.svg'
 import ConfirmDeleteSVG from '@/assets/svg/confirmDelete.svg'
+import queryClient from "@/lib/tanstack-query/queryClient";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 interface CarProfileSliderProps {
   car: {
     imageUrl: string;
@@ -35,6 +38,10 @@ interface CarProfileSliderProps {
   };
   addVehicle: () => void;
 }
+
+// const deleteCar = async (carId: string): Promise<void> => {
+//   // await axios.delete(`/api/cars/${carId}`);
+// };
 
 const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
   car,
@@ -58,16 +65,30 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
   const handleConfirmDelete = () => {
     setConfirmDelete((prevDelete) => !prevDelete)
 }
+// const mutation = useMutation<void, Error, string>({
+//   mutationFn: deleteCar,
+//   onSuccess: () => {
+//     // Invalidate and refetch the cars query to ensure data is up-to-date
+//     queryClient.invalidateQueries(['cars']);
+//   },
+//   onError: (error) => {
+//     console.error('Error deleting car:', error);
+//   }
+// });
 
+
+// const handleDelete = (carId) => {
+//     mutation.mutate(carId);
+//   };
   
 
   return (
-    <article>
-      <div className="w-full max-w-[580px] bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[40px] ">
+    <article className="max-w-[428px] w-full md:max-w-[580px]">
+      <div className=" bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[40px] ">
         <Slider {...settings}>
           {cars.carDetails.map((car, index) => (
             <div key={car.id} className="">
-              <div className="flex justify-between ">
+              <div className="flex justify-between  ">
                 <h1
                   className={`text-[20px] text-[#000000] ${groteskTextMedium.className} `}
                 >
@@ -79,7 +100,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                       className="items-center flex gap-[11px]"
                       onClick={addVehicle}
                     >
-                      <button className="bg-[#3957D7] text-white cursor-pointer rounded-[8px]  py-[0.2rem] px-[8px] text-[16px]">
+                      <button className="bg-[#3957D7] items-center flex text-white cursor-pointer rounded-[8px]  py-[0.2rem] px-[8px] text-[16px]">
                         Add vehicle
                         <Plus className="inline-block " size={20} />
                       </button>
@@ -119,9 +140,9 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                 </div>
               </div>
 
-              <div className="flex  mt-[14px] items-center">
-                                <div className="flex flex-col max-w-[253px] w-full order-2">
-                                <div className="flex flex-col w-full max-w-[140px] self-end mt-[-14px]">
+              <div className="flex-col flex md:flex md:flex-row  mt-[14px] items-center relative">
+                                <div className="order-2 flex flex-col max-w-[253px] w-full md:order-2">
+                                <div className="flex flex-col w-full max-w-[140px] self-end mt-[-14px] absolute right-0 top-0">
                            
                          {
                             isOpenVehicle && (
@@ -153,7 +174,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                                    <UndoDelete />
                                </div>
                                <div className="flex items-center cursor-pointer">
-                                   <ConfirmDeleteSVG />
+                                   <ConfirmDeleteSVG  />
                                </div>
                            </div>
                      )}
@@ -168,7 +189,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
 
                                 </div>
                              
-                                <div className="border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px] order-1 ">
+                                <div className="order-1 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px] md:order-1 ">
                                     <div className="border border-b-[#C5D5F8] py-[8px] px-[8px]">
                                         <h1
                                             className={`text-[#212121] text-[20px] ${groteskTextMedium.className}`}

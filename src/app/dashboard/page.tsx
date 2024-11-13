@@ -22,6 +22,7 @@ import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 
 import { useDrawerStore } from "@/lib/stores/useStore";
 import AddToVehicle from "@/components/AddToVehicle";
+import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 
 
  export default function DashboardPage() {
@@ -40,9 +41,14 @@ import AddToVehicle from "@/components/AddToVehicle";
   };
 
   const addToVehicle = () => {
-    setDrawerContent(<AddToVehicle />);
+    setDrawerContent(<AddToVehicle
+      toggleDrawer={toggleDrawer}
+       status={openAddVehicleStatus}
+        />
+      );
     toggleDrawer();
   };
+ 
 
   const openCarProfile = (car: any) => {
     setDrawerContent(
@@ -61,13 +67,17 @@ import AddToVehicle from "@/components/AddToVehicle";
   };
 
   const openConventionTable = () => {
-    setDrawerContent(<ConventionTableDrawer />);
+    setDrawerContent(<ConventionTableDrawer
+    
+      toggleDrawer={toggleDrawer} handleRowClick={function (): void {
+        throw new Error("Function not implemented.");
+      } }       />);
     openDrawer();
   };
 
   const openVehicleDetails = () => {
     setDrawerContent(
-      <VehicleDetailsDrawer
+      <AddToVehicle
         toggleDrawer={toggleDrawer}
         status={openAddVehicleStatus}
       />
@@ -175,9 +185,7 @@ function NotificationTableDrawer() {
   return <div>Notification List Content</div>;
 }
 
-function ConventionTableDrawer() {
-  return <div>Convention List Content</div>;
-}
+
 
 function EducationalMaterialsDrawer() {
   return <div>List of all the materials necessary for tutorials</div>;

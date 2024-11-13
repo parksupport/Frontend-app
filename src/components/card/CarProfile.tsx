@@ -1,5 +1,8 @@
 "use client";
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import UserProfileSVG from "@/assets/svg/exportProfile.svg";
 import NumberSVG from "@/assets/svg/numbers.svg";
@@ -13,16 +16,13 @@ import { useAuthStore } from "@/lib/stores/useStore";
 import { Plus } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 
 interface CarProfileProps {
   openCarProfile: any;
-  openVehicleDetails:any;
+  addVehicleDetails:any;
 }
 
-function CarProfile({ openCarProfile ,openVehicleDetails}: CarProfileProps) {
+function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
   const user = useAuthStore((state) => state.user);
   var settings = {
     dots: true,
@@ -44,7 +44,7 @@ function CarProfile({ openCarProfile ,openVehicleDetails}: CarProfileProps) {
                   My Vehicle
                 </h1>
                 <div className="items-center flex gap-[11px]">
-                  <Button variant="quinary" className=" py-[0.5rem] px-[12px]" onClick={openVehicleDetails}>
+                  <Button variant="quinary" className=" py-[0.5rem] px-[12px]" onClick={addVehicleDetails}>
                     Add vehicle
                     <Plus className="inline-block" />
                   </Button>

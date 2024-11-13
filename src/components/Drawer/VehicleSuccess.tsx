@@ -1,21 +1,28 @@
-import React from "react";
-import { BsCheckCircle } from "react-icons/bs"; // You can install react-icons for the check icon
+import successMark from "@/assets/images/successMark.png";
+import Image from "next/image";
 import DrawerHeader from "./DrawerHeader";
 
-const VehicleAddedSuccess = ({ toggleDrawer, openVehicleDetails }) => {
+const VehicleAddedSuccess = ({ toggleDrawer, addVehicleDetails }) => {
   return (
     <div className="flex flex-col items-center justify-center bg-white p-4">
-      <DrawerHeader
-        toggleDrawer={toggleDrawer}
-        title="Vehicle Added Successfully"
-        subTitle="You can now track contraventions, manage fines, and receive notifications for Vehicle Make/Model/Registration Number."
-      />
+<DrawerHeader
+  toggleDrawer={toggleDrawer}
+  title="Vehicle Added Successfully"
+  subTitle={
+    <>
+      You can now track contraventions, manage fines, and receive notifications for{" "}
+      <strong>Vehicle Make/Model/Registration Number</strong>.
+    </>
+  }
+/>
 
-      <div className="relative mt-8 w-[300px] h-[300px]  flex items-center justify-center ">
-        <div className="absolute top-0 left-0 w-24 h-24 bg-gradient-to-br from-purple-300 to-blue-300 rounded-full blur-xl"></div>
-        <BsCheckCircle
-          size={145}
-          className="text-6xl text-blue-600 relative z-10"
+      <div>
+        <Image
+          src={successMark}
+          alt={"success"}
+          width={344}
+          height={344}
+          className="rounded-lg object-cover h-full "
         />
       </div>
 
@@ -27,7 +34,7 @@ const VehicleAddedSuccess = ({ toggleDrawer, openVehicleDetails }) => {
           View Vehicle Dashboard
         </button>
         <button
-          onClick={openVehicleDetails}
+          onClick={addVehicleDetails}
           className="px-4 py-2 text-blue-600 font-medium  hover:bg-blue-700 hover:text-white  transition"
         >
           Add Another Vehicle

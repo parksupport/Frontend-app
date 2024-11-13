@@ -2,28 +2,28 @@
 
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
+import "@/components/Slider.css";
+import Calendar from "@/components/card/Calendar";
+import CarProfile from "@/components/card/CarProfile";
+import ContraventionTable from "@/components/card/Contravention";
+import EducationalMaterials from "@/components/card/Educationalmaterials";
+import FAQComponents from "@/components/card/FAQComponents";
+import NotificationsTable from "@/components/card/NotificationTable";
+import DashboardHeader from "@/components/DashboardHeader";
+import AddVehicleDetailsDrawer from "@/components/Drawer/AddVehicleDetailsDrawer";
+import CarProfileDrawer from "@/components/Drawer/CarProfileDrawer";
+import Drawer from "@/components/Drawer/Drawer";
+import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
+import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
+import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
+import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
+import cars from "@/data/data.json";
 import { useState } from "react";
 import { groteskTextMedium } from "../fonts";
-import Calendar from "@/components/card/Calendar";
-import ContraventionTable from "@/components/card/Contravention";
-import DashboardHeader from "@/components/DashboardHeader";
-import CarProfile from "@/components/card/CarProfile";
-import NotificationsTable from "@/components/card/NotificationTable";
-import Drawer from "@/components/Drawer/Drawer";
-import "@/components/Slider.css";
-import CarProfileDrawer from "@/components/Drawer/CarProfileDrawer";
-import VehicleDetailsDrawer from "@/components/Drawer/VehicleDetailsDrawer";
-import cars from "@/data/data.json";
-import FAQComponents from "@/components/card/FAQComponents";
-import { Car } from "lucide-react";
-import EducationalMaterials from "@/components/card/Educationalmaterials";
-import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
-import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
-  const [status, setStatus] = useState("failed");
 
   const toggleDrawer = () => {
     setIsOpen((prev) => !prev);
@@ -40,7 +40,7 @@ export default function DashboardPage() {
       <CarProfileDrawer
         car={cars}
         toggleDrawer={toggleDrawer}
-        openVehicleDetails={openVehicleDetails}
+        addVehicleDetails={addVehicleDetails}
       />
     );
     openDrawer();
@@ -56,11 +56,11 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openVehicleDetails = () => {
+  const addVehicleDetails = () => {
     setDrawerContent(
-      <VehicleDetailsDrawer
+      <AddVehicleDetailsDrawer
+        CheckVehicleOwner={CheckVehicleOwner}
         toggleDrawer={toggleDrawer}
-        status={openAddVehicleStatus}
       />
     );
     openDrawer();
@@ -70,32 +70,60 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openAddVehicleStatus = () => {
-    const handleSuccess = () => {
-      setDrawerContent(
-        <VehicleAddedSuccess
-          toggleDrawer={toggleDrawer}
-          openVehicleDetails={openVehicleDetails}
-        />
-      );
-      openDrawer();
-    };
-  
+  const CheckVehicleOwner = () => {
     setDrawerContent(
-      status === "success" ? (
-        <VehicleAddedSuccess
-          toggleDrawer={toggleDrawer}
-          openVehicleDetails={openVehicleDetails}
-        />
-      ) : (
-        <VehicleAddedFailed
-          toggleDrawer={toggleDrawer}
-          openVehicleDetails={openVehicleDetails}
-          Success={handleSuccess}  
-        />
-      )
+      <VehicleOwnerCheck
+        back={addVehicleDetails}
+        OwnerInfoDrawer={OwnerInfoDrawer}
+        vehicleStatus={VehicleStatus}
+      />
     );
     openDrawer();
+  };
+  const OwnerInfoDrawer = () => {
+    setDrawerContent(
+      <VehicleOwnerDetails
+        toggleDrawer={toggleDrawer}
+        VehicleStatus={VehicleStatus}
+      />
+    );
+    openDrawer();
+  };
+
+  const handleSuccess = () => {
+    setDrawerContent(
+      <VehicleAddedSuccess
+        toggleDrawer={toggleDrawer}
+        addVehicleDetails={addVehicleDetails}
+      />
+    );
+    openDrawer();
+  };
+
+  const handleFailed = () => {
+    setDrawerContent(
+      <VehicleAddedFailed
+        toggleDrawer={toggleDrawer}
+        Success={handleSuccess}
+        back={addVehicleDetails}
+      />
+    );
+    openDrawer();
+  };
+
+  const VehicleStatus = () => {
+    const status = checkVehicleStatus();
+    if (status === "failed") {
+      handleFailed();
+    } else if (status === "success") {
+      handleSuccess();
+    }
+  };
+
+  const checkVehicleStatus = () => {
+    // Replace this with actual conditions or API call
+    const randomOutcome = Math.random() > 0.5 ? "success" : "failed";
+    return randomOutcome;
   };
 
   return (
@@ -121,7 +149,7 @@ export default function DashboardPage() {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
           <div>
             <CarProfile
-              openVehicleDetails={openVehicleDetails}
+              addVehicleDetails={addVehicleDetails}
               openCarProfile={openCarProfile}
             />
           </div>
@@ -148,12 +176,12 @@ export default function DashboardPage() {
 
         {/* FAQ Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6 relative">
-          <div className="relative z-10">
+          <div className="relative md:-mt-[30px] md:z-10">
             <EducationalMaterials
               openEducationalMaterials={openEducationalMaterials}
             />
           </div>
-          <div className="relative -mt-[100px] z-20">
+          <div className="relative md:-mt-[100px] md:z-20">
             <FAQComponents />
           </div>
         </section>

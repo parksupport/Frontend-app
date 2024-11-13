@@ -140,14 +140,14 @@
 // };
 
 // export default DropdownInputField;
+
 import { ReactNode } from 'react';
 import { PiPlaceholder } from 'react-icons/pi';
-import Select from 'react-select';
-
+import Select, { SingleValue } from 'react-select';
 
 interface DropdownInputFieldProps {
   label: string;
-  placeholder?:string;
+  placeholder?: string;
   className?: string;
   value: string;
   name: string;
@@ -155,19 +155,28 @@ interface DropdownInputFieldProps {
   options: { value: string; label: string }[];
   selectedValue?: string;
 
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // Adjusted to handle react-select's option type
+  onChange: (selected: SingleValue<{ value: string; label: string }>) => void;
 }
 
-const DropdownInputField = ({ options, label, onChange, selectedValue,placeholder, className, icon }:DropdownInputFieldProps) => {
+const DropdownInputField = ({
+  options,
+  label,
+  onChange,
+  selectedValue,
+  placeholder,
+  className,
+  icon,
+}: DropdownInputFieldProps) => {
   const customStyles = {
-    control: (provided,state) => ({
+    control: (provided, state) => ({
       ...provided,
       borderRadius: '6px',
       borderColor: '#D0D5DD',
       padding: '8px',
-      boxShadow: state.isFocused ? 'none' : provided.boxShadow, 
+      boxShadow: state.isFocused ? 'none' : provided.boxShadow,
       "&:hover": {
-        borderColor: '#D0D5DD', 
+        borderColor: '#D0D5DD',
       },
     }),
     option: (provided) => ({
@@ -192,10 +201,9 @@ const DropdownInputField = ({ options, label, onChange, selectedValue,placeholde
         <Select
           options={options}
           styles={customStyles}
-          value={options.find(option => option.value === selectedValue)}
-          onChange={(selected) => onChange({ target: { value: selected.value } })}
-          placeholder={placeholder} 
-      
+          value={options.find((option) => option.value === selectedValue)}
+          onChange={(selected) => onChange(selected)}
+          placeholder={placeholder}
         />
         {icon && (
           <div className="absolute right-2 bottom-4 cursor-pointer">
@@ -208,3 +216,4 @@ const DropdownInputField = ({ options, label, onChange, selectedValue,placeholde
 };
 
 export default DropdownInputField;
+

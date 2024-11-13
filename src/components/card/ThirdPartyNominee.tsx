@@ -2,15 +2,13 @@ import { groteskText } from "@/app/fonts";
 import React, { useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
-import {
-  IoEllipsisVertical
-} from "react-icons/io5";
+import { IoEllipsisVertical } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
 import Button from "../Buttons";
 import InputField from "../InputField";
 
 import useIsMobile from "@/hooks/useIsMobile";
-import DropdownInputField from "../ui/DropdownInputField";
+import DropdownInputField from "../DropdownInputField";
 
 export default function ThirdPartyNominees({ handleFormState }: any) {
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
@@ -214,7 +212,7 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
   );
 }
 
-export function AddThirdPartyNominee({vehicle, handleFormState }: any) {
+export function AddThirdPartyNominee({ vehicle, handleFormState }: any) {
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
@@ -301,19 +299,18 @@ export function AddThirdPartyNominee({vehicle, handleFormState }: any) {
               className={`  ${groteskText.className} pb-2 w-[80%]   md:w-[60%]`}
             />
             <DropdownInputField
-            name="vehicle"
-            value={formData.vehicle}
-            options={[
-              { value: 'option1', label: 'Option 1' },
-              { value: 'option2', label: 'Option 2' },
-              { value: 'option3', label: 'Option 3' },
-            ]}
-            label="Choose Vehicle"
-            placeholder="Enter your Vehicle"
-            onChange={handleChange}
-            selectedValue=''
-          
-            className={`  ${groteskText.className} w-[80%]   md:w-[60%]`}
+              name="vehicle"
+              value={formData.vehicle}
+              options={[
+                { value: "option1", label: "Option 1" },
+                { value: "option2", label: "Option 2" },
+                { value: "option3", label: "Option 3" },
+              ]}
+              label="Choose Vehicle"
+              placeholder="Enter your Vehicle"
+              onChange={() => handleChange}
+              selectedValue=""
+              className={`  ${groteskText.className} w-[80%]   md:w-[60%]`}
             />
             <Button
               type="submit"
@@ -426,8 +423,6 @@ const NomineeDesktop = ({
   );
 };
 
-
-
 const NomineeMobile = ({
   nominees,
   showDeleteConfirmation,
@@ -470,7 +465,7 @@ const NomineeMobile = ({
         {showActions && (
           <div className="absolute right-4 top-10 bg-white shadow-lg border border-gray-200 z-10 p-1 rounded-[8px]">
             <button className="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-100 py-2 rounded">
-            <FiEdit className="text-gray-600" /> Edit Nominee
+              <FiEdit className="text-gray-600" /> Edit Nominee
             </button>
             <button
               className="flex items-center gap-2 text-sm text-red-500 hover:bg-gray-100 py-2 rounded"
@@ -478,7 +473,7 @@ const NomineeMobile = ({
                 showDeleteConfirmation(currentIndex);
               }}
             >
-            <FiTrash2 className="text-red-500" /> Remove Nominee
+              <FiTrash2 className="text-red-500" /> Remove Nominee
             </button>
 
             {showConfirmButton && selectedNomineeIndex === currentIndex && (
@@ -490,7 +485,7 @@ const NomineeMobile = ({
                     setShowActions(false);
                   }}
                 >
-                  <MdClose size={25}   />
+                  <MdClose size={25} />
                 </button>
                 <button
                   className="bg-white border border-gray-200 rounded-[8px] p-1 text-green-700 hover:bg-gray-100"
@@ -499,7 +494,7 @@ const NomineeMobile = ({
                     setShowActions(false);
                   }}
                 >
-                  <IoMdCheckmark size={25}  />
+                  <IoMdCheckmark size={25} />
                 </button>
               </div>
             )}
@@ -530,11 +525,13 @@ const NomineeMobile = ({
           <button
             onClick={goToPrevious}
             className={`w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem]  ${
-              currentIndex === 0 ? "text-gray-400 cursor-not-allowed" : "text-[#1C1B1B]"
+              currentIndex === 0
+                ? "text-gray-400 cursor-not-allowed"
+                : "text-[#1C1B1B]"
             }`}
             disabled={currentIndex === 0}
           >
-            &lt;  Previous
+            &lt; Previous
           </button>
 
           {/* Pagination Dots */}
@@ -552,7 +549,9 @@ const NomineeMobile = ({
           <button
             onClick={goToNext}
             className={`w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
-              currentIndex === nominees.length - 1 ? "text-gray-400 cursor-not-allowed" : "text-[#1C1B1B]"
+              currentIndex === nominees.length - 1
+                ? "text-gray-400 cursor-not-allowed"
+                : "text-[#1C1B1B]"
             }`}
             disabled={currentIndex === nominees.length - 1}
           >
@@ -563,6 +562,3 @@ const NomineeMobile = ({
     </div>
   );
 };
-
-
-

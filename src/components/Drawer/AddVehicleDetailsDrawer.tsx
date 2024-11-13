@@ -9,12 +9,12 @@ import DrawerHeader from "./DrawerHeader";
 
 type VehicleDetailsDrawerProps = {
   toggleDrawer: () => void;
-  CheckVehicleOwner:any;
+  CheckVehicleOwner: () => void;
 };
 
 const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   toggleDrawer,
-  CheckVehicleOwner
+  CheckVehicleOwner,
 }) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
@@ -23,15 +23,14 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     car_color: "",
   });
 
-  const user = "corpxorate";
+  const userRole = "corporate"; // Update as necessary or make it a prop if dynamic
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Call your save function here or handle form submit logic
-
+    // Add form submission logic here
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -39,27 +38,20 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     }));
   };
 
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState("");
 
   const handleButtonClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    fileInputRef.current?.click();
   };
 
-  // Function to handle file selection
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setFileName(file.name);
-    }
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) setFileName(file.name);
   };
 
   const handleImageClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    fileInputRef.current?.click();
   };
 
   return (
@@ -71,7 +63,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
       />
       <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[70px]">
         <div className="flex flex-col gap-4 items-center">
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center w-full">
             <InputField
               type="text"
               placeholder="Enter your vehicle registration number"
@@ -80,19 +72,19 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
               value={formData.vegRegNumber}
               onChange={handleChange}
               variant="individual"
-              className={`  ${groteskText.className} w-full `}
+              className={`${groteskText.className} w-full`}
             />
             <p
               className={`text-[12px] text-[#98A2B3] w-full ${groteskText.className}`}
             >
               We will use your registration number to pull any available
-              contravention information and keep you updated
+              contravention information and keep you updated.
             </p>
           </div>
           <InputField
             type="text"
             placeholder="Enter your driver's license number"
-            label="Driver's license number"
+            label="Driver's License Number"
             name="license_number"
             value={formData.license_number}
             onChange={handleChange}
@@ -111,8 +103,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           />
           <InputField
             type="text"
-            placeholder="Color"
-            label="Enter your vehicle color"
+            placeholder="Enter your vehicle color"
+            label="Vehicle Color"
             name="car_color"
             value={formData.car_color}
             onChange={handleChange}
@@ -120,37 +112,38 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             className={`${groteskText.className} pb-4 w-full`}
           />
 
-          {user !== "corporate" && <Button
-            variant="quinary"
-            className="py-[10px] px-[12px] w-full"
-            icon={<IoMdCheckmark size={25} />}
-            iconPosition="right"
-            onClick={CheckVehicleOwner}
-          >
-            Save Vehicle
-          </Button>}
-
-          {user === "corporate" && (
-            <div className="flex flex-col gap-4 items-center pb-[200px] cursor-pointer">
+          {userRole !== "corporate" ? (
+            <Button
+              variant="quinary"
+              className="py-[10px] px-[12px] w-full"
+              icon={<IoMdCheckmark size={25} />}
+              iconPosition="right"
+              onClick={CheckVehicleOwner}
+            >
+              Save Vehicle
+            </Button>
+          ) : (
+            <div className="flex flex-col gap-4 items-center pb-[200px] cursor-pointer w-full">
               <div className="w-[60%]">
                 <div className="flex-shrink-0">
                   <Image
                     src={DownloadTemplate}
-                    alt={"car"}
+                    alt="Download Template for CSV"
                     width={600}
                     height={642}
                     className="rounded-lg object-cover h-full cursor-pointer"
                     onClick={handleImageClick}
                   />
                 </div>
-
-                <div className="cursor-pointer text-[#039BB7] underline self-start mt-2">
+                <div
+                  className="cursor-pointer text-[#039BB7] underline self-start mt-2"
+                  onClick={handleButtonClick}
+                >
                   Download CSV template
                 </div>
                 {fileName && (
                   <div className="mt-2 text-gray-700 text-sm">
-                    Selected file:{" "}
-                    <span className="font-medium">{fileName}</span>
+                    Selected file: <span className="font-medium">{fileName}</span>
                   </div>
                 )}
               </div>
@@ -174,7 +167,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           )}
         </div>
       </form>
-
     </div>
   );
 };

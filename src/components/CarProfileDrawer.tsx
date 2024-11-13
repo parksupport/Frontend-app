@@ -9,14 +9,14 @@ import { Button } from "@/components";
 
 import "@/components/Slider.css";
 import cars from "@/data/data.json";
-import { useAuthStore } from "@/lib/stores/useStore";
+import { useAuthStore, useDrawerStore } from "@/lib/stores/useStore";
 import { Plus } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import Outline from "@/assets/svg/outlined.svg";
+import Outline from '@/assets/svg/outlined.svg'
 import { useState } from "react";
 import EditSVG from '@/assets/svg/edit-vehicle.svg'
 import DeleteSVG from '@/assets/svg/delete-vehicle.svg'
@@ -24,125 +24,101 @@ import CarFilter from '@/assets/svg/colorfilter.svg'
 import CarMake from '@/assets/svg/carMake.svg'
 import UndoDelete from '@/assets/svg/undoDelete.svg'
 import ConfirmDeleteSVG from '@/assets/svg/confirmDelete.svg'
-import queryClient from "@/lib/tanstack-query/queryClient";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-interface CarProfileSliderProps {
-  car: {
-    imageUrl: string;
-    registrationNo: string;
-    ownerName: string;
-    contraventionStatus: string;
-    thirdPartyNominate: string;
-    // Add any other properties you need from the car object
-  };
-  addVehicle: () => void;
+import { IoArrowBack } from "react-icons/io5";
+interface CarProfileDrawerProps {
+    car: {
+        imageUrl: string;
+        registrationNo: string;
+        ownerName: string;
+        contraventionStatus: string;
+        thirdPartyNominate: string;
+        // Add any other properties you need from the car object
+    };
 }
 
-// const deleteCar = async (carId: string): Promise<void> => {
-//   // await axios.delete(`/api/cars/${carId}`);
-// };
+const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
+    // const [isOpen, setIsOpen] = useState(false)
+    const [isOpenVehicle, setIsOpenVehicle] = useState(false)
+    const [confirmDelete, setConfirmDelete] = useState(false)
+    const { isOpen, setIsOpen } = useDrawerStore()
+    var settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
 
-const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
-  car,
-  addVehicle,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  const [isOpenVehicle, setIsOpenVehicle] = useState(false)
-  const [confirmDelete, setConfirmDelete] = useState(false)
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+    // const handleDelete = (carId) => {
+    //     mutation.mutate(carId);
+    //   };
 
-  const removeVehicle = () => {
-    setIsOpenVehicle((prevOpen) => !prevOpen)
-  };
-  const handleConfirmDelete = () => {
-    setConfirmDelete((prevDelete) => !prevDelete)
-}
-// const mutation = useMutation<void, Error, string>({
-//   mutationFn: deleteCar,
-//   onSuccess: () => {
-//     // Invalidate and refetch the cars query to ensure data is up-to-date
-//     queryClient.invalidateQueries(['cars']);
-//   },
-//   onError: (error) => {
-//     console.error('Error deleting car:', error);
-//   }
-// });
+    const removeVehicle = () => {
+        setIsOpenVehicle((prevOpen) => !prevOpen)
+    }
 
+    const handleConfirmDelete = () => {
+        setConfirmDelete((prevDelete) => !prevDelete)
+    }
+    const toggleDrawer = () => {
+        setIsOpen(!isOpen);
+    };
 
-// const handleDelete = (carId) => {
-//     mutation.mutate(carId);
-//   };
-  
+    return (
+        <article>
+            {isOpen && (
+                <div
+                    className="fixed "
+                    onClick={toggleDrawer}
+                ></div>
+            )}
+            <div className=" flex  ">
+                <div className=" flex flex-row ">
+                    <div className='cursor-pointer'> <IoArrowBack size={24} onClick={toggleDrawer} /></div>
+                    <div className="flex justify-center ">
+                        <div className="flex flex-col justify-center items-center max-w-[451px] w-full ">
+                            <h1 className={`text-[22px] leading-[25px] ${groteskTextMedium.className}`}>Vehicle Overview</h1>
+                            <p className={`text-[#667185] text-center leading-[18px]  ${groteskText.className}`}>Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account.</p>
+                        </div>
+                    </div>
+                </div>
 
-  return (
-    <article className="max-w-[428px] w-full md:max-w-[580px]">
-      <div className=" bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[40px] ">
-        <Slider {...settings}>
-          {cars.carDetails.map((car, index) => (
-            <div key={car.id} className="">
-              <div className="flex justify-between  ">
-                <h1
-                  className={`text-[20px] text-[#000000] ${groteskTextMedium.className} `}
-                >
-                  My Vehicle
-                </h1>
-                <div className="flex flex-col">
-                  <div className="flex items-center">
-                    <div
-                      className="items-center flex gap-[11px]"
-                      onClick={addVehicle}
-                    >
-                      <button className="bg-[#3957D7] items-center flex text-white cursor-pointer rounded-[8px]  py-[0.2rem] px-[8px] text-[16px]">
-                        Add vehicle
-                        <Plus className="inline-block " size={20} />
-                      </button>
+            </div>
+            <div className="w-full max-w-[580px] bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[40px] ">
+                <Slider {...settings}>
+                    {cars.carDetails.map((car, index) => (
+                        <div key={car.id} className="">
+                            <div className="flex justify-between ">
+                                <h1
+                                    className={`text-[20px] text-[#000000] ${groteskTextMedium.className} `}
+                                >
+                                    My Vehicle
+                                </h1>
+                                <div className="flex flex-col">
+                                    <div className="flex items-center">
+                                        <div className="items-center flex gap-[11px]">
+                                            <button className="bg-[#3957D7] text-white cursor-pointer rounded-[8px]  py-[0.2rem] px-[8px] text-[16px]">
+                                                Add vehicle
+                                                <Plus className="inline-block " size={20} />
+                                            </button>
 
-                      {/* <button>
+                                            {/* <button>
                       <AiOutlineExpand size={24} onClick={()=> openCarProfile(car)} />
                     </button> */}
-                    </div>
-                    <div className="cursor-pointer">
-                      <Outline onClick={removeVehicle} />
-                    </div>
-                  </div>
-                  {/* {isOpen && (
-                    <div
-                      className={`rounded-[8px] bg-[#FFFFFF] pl-[4px] py-[8px] border border-[#D0D5DD] mt-[-1px] transition-all duration-500 ease-in-out transform ${
-                        isOpen
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 -translate-y-2"
-                      }`}
-                    >
-                      <div className="flex items-center cursor-pointer">
-                        <EditSVG />
-                        <span className={`${groteskText.className}`}>
-                          Edit Vehicle
-                        </span>
-                      </div>
-                      <div className="flex items-center mt-[10px] cursor-pointer">
-                        <DeleteSVG />
-                        <span
-                          className={`text-[#D42620] text-[1rem] ${groteskText.className}`}
-                        >
-                          Remove Vehicle
-                        </span>
-                      </div>
-                    </div>
-                  )} */}
-                </div>
-              </div>
+                                        </div>
+                                        <div className="cursor-pointer">
+                                            <Outline onClick={removeVehicle} />
 
-              <div className="flex-col flex md:flex md:flex-row  mt-[14px] items-center relative">
-                                <div className="order-2 flex flex-col max-w-[253px] w-full md:order-2">
-                                <div className="flex flex-col w-full max-w-[140px] self-end mt-[-14px] absolute right-0 top-0">
+                                        </div>
+                                    </div>
+                              
+                                </div>
+                            </div>
+
+
+                            <div className="flex  mt-[14px] items-center">
+                                <div className="flex flex-col max-w-[253px] w-full order-2">
+                                <div className="flex flex-col w-full max-w-[140px] self-end mt-[-14px]">
                            
                          {
                             isOpenVehicle && (
@@ -189,7 +165,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
 
                                 </div>
                              
-                                <div className="order-1 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px] md:order-1 ">
+                                <div className="border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px] order-1 ">
                                     <div className="border border-b-[#C5D5F8] py-[8px] px-[8px]">
                                         <h1
                                             className={`text-[#212121] text-[20px] ${groteskTextMedium.className}`}
@@ -305,20 +281,20 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
 
                                 </div>
                             </div>
-              <div className="flex justify-between mt-[11px] w-[250px]">
-                <button className=" w-[87px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
-                  Previous
-                </button>
-                <button className="w-[64px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
-                  Next
-                </button>
-              </div>
+                            <div className="flex justify-between mt-[11px] w-[250px]">
+                                <button className=" w-[87px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+                                    Previous
+                                </button>
+                                <button className="w-[64px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+                                    Next
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
             </div>
-          ))}
-        </Slider>
-      </div>
-    </article>
-  );
-};
+        </article>
+    );
+}
 
-export default CarProfileSlider;
+export default CarProfileDrawer

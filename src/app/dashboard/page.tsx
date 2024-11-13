@@ -20,10 +20,12 @@ import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
 import cars from "@/data/data.json";
 import { useState } from "react";
 import { groteskTextMedium } from "../fonts";
+import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 
-export default function DashboardPage() {
+ export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
+  const [status, setStatus] = useState("failed");
 
   const toggleDrawer = () => {
     setIsOpen((prev) => !prev);
@@ -35,7 +37,17 @@ export default function DashboardPage() {
     }
   };
 
-  const openCarProfile = () => {
+  // const addToVehicle = () => {
+  //   setDrawerContent(<AddToVehicle
+  //     toggleDrawer={toggleDrawer}
+  //      status={openAddVehicleStatus}
+  //       />
+  //     );
+  //   toggleDrawer();
+  // };
+ 
+
+  const openCarProfile = (car: any) => {
     setDrawerContent(
       <CarProfileDrawer
         car={cars}
@@ -52,7 +64,11 @@ export default function DashboardPage() {
   };
 
   const openConventionTable = () => {
-    setDrawerContent(<ConventionTableDrawer />);
+    setDrawerContent(<ConventionTableDrawer
+    
+      toggleDrawer={toggleDrawer} handleRowClick={function (): void {
+        throw new Error("Function not implemented.");
+      } }       />);
     openDrawer();
   };
 
@@ -197,9 +213,7 @@ function NotificationTableDrawer() {
   return <div>Notification List Content</div>;
 }
 
-function ConventionTableDrawer() {
-  return <div>Convention List Content</div>;
-}
+
 
 function EducationalMaterialsDrawer() {
   return <div>List of all the materials necessary for tutorials</div>;

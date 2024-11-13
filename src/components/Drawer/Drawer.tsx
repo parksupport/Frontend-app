@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { groteskText, groteskTextMedium } from "@/app/fonts";
-import { IoArrowBack } from "react-icons/io5";
 
 interface DrawerProps {
   children: React.ReactNode;
@@ -27,7 +25,9 @@ const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const target = event.currentTarget;
     setIsAtTop(target.scrollTop === 0);
-    setIsAtBottom(target.scrollHeight - target.scrollTop === target.clientHeight);
+    setIsAtBottom(
+      target.scrollHeight - target.scrollTop === target.clientHeight
+    );
   };
 
   return (
@@ -40,11 +40,19 @@ const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
       )}
 
       <div
-        className={`fixed top-0 right-0 w-[32%] h-full bg-white shadow-lg z-50 transform px-[10px] transition-transform duration-300 ease-in-out overflow-y-auto ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        } ${isAtTop ? "rounded-tl-[40px]" : ""} ${
-          isAtBottom ? "rounded-bl-[40px]" : ""
-        }`}
+        className={`fixed h-full md:h-auto w-full md:w-[32%] bg-white shadow-lg z-50 transform px-[10px] transition-transform duration-300 ease-in-out overflow-y-auto 
+          ${
+            isOpen
+              ? "translate-y-0 md:translate-x-0"
+              : "translate-y-full md:translate-x-full"
+          } 
+          ${
+            isAtTop
+              ? " rounded-tl-[20px] rounded-tr-[20px] md:rounded-tl-[40px]"
+              : ""
+          } 
+          ${isAtBottom ? "rounded-bl-none md:rounded-bl-[40px]" : ""}
+          bottom-0 md:top-0 right-0 md:right-0`}
         onScroll={handleScroll}
       >
         {children}

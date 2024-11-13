@@ -5,7 +5,7 @@ import ThirdPartyNominees, {
 import DrawerHeader from "./DrawerHeader";
 import CarProfileSlider from "../CarProfileSlider";
 
-const CarProfileDrawer = ({car,toggleDrawer,openVehicleDetails}) => {
+const CarProfileDrawer = ({ car, toggleDrawer, addVehicleDetails }) => {
   const [form, setForm] = useState(false);
   return (
     <div className="">
@@ -14,7 +14,7 @@ const CarProfileDrawer = ({car,toggleDrawer,openVehicleDetails}) => {
         title="Vehicle Overview"
         subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account.."
       />
-     <CarProfileSlider car={car} addVehicle={openVehicleDetails} />
+      <CarProfileSlider car={car} addVehicle={addVehicleDetails} />
       {form ? (
         <AddThirdPartyNominee handleFormState={setForm} />
       ) : (

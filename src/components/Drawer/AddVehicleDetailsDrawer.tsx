@@ -24,6 +24,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   });
 
   const userRole = "corporate"; // Update as necessary or make it a prop if dynamic
+  // const userRole = "individual"; // Update as necessary or make it a prop if dynamic
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,7 +63,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
         subTitle="Let’s get your vehicle set up for tracking contraventions and staying on top of payments."
       />
       <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[70px]">
-        <div className="flex flex-col gap-4 items-center">
+        <div className="flex flex-col gap-4 items-center  md:mx-[55px]">
           <div className="flex flex-col items-center w-full">
             <InputField
               type="text"
@@ -120,11 +121,11 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
               iconPosition="right"
               onClick={CheckVehicleOwner}
             >
-              Save Vehicle
+              Save Vehicled
             </Button>
           ) : (
             <div className="flex flex-col gap-4 items-center pb-[200px] cursor-pointer w-full">
-              <div className="w-[60%]">
+              <div className="w-[100%]">
                 <div className="flex-shrink-0">
                   <Image
                     src={DownloadTemplate}
@@ -149,7 +150,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
               </div>
               <Button
                 variant="quinary"
-                className="py-[10px] px-[12px] w-[60%]"
+                className="py-[10px] px-[12px] w-full"
                 icon={<IoMdCheckmark size={25} />}
                 iconPosition="right"
                 onClick={CheckVehicleOwner}

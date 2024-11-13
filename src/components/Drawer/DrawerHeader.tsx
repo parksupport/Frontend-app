@@ -17,14 +17,14 @@ const DrawerHeader = ({
 }: DrawerHeaderProps) => {
   return (
     <div className={`flex flex-col pt-[60px] items-start`}>
-      <div className="flex items-start md:items-center justify-center gap-20 md:gap-3  w-full ">
+      <div className="flex items-start md:items-center justify-center w-full ">
       <div
           className="cursor-pointer"
           onClick={toggleDrawer}
         >
           <IoArrowBack className="w-6 h-6 md:w-8 md:h-8" />
         </div>
-        <div className="flex flex-col items-center mx-[50px]">
+        <div className="flex flex-col items-center md:mx-[50px]">
           <h1
             className={`text-[24px] md:text-[32px] text-center leading-[25px] ${className} ${groteskTextMedium.className}`}
           >

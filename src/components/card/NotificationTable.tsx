@@ -1,7 +1,9 @@
 "use client";
 
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import { useEffect, useState } from "react";
+import LabelImportantSVG from "@/assets/svg/label_important.svg";
+import useIsMobile from "@/hooks/useIsMobile";
+import { useState } from "react";
 import { AiOutlineExpand } from "react-icons/ai";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 
@@ -93,11 +95,10 @@ const NotificationsTable = ({
     },
   ];
 
-  const [isMobile, setIsMobile] = useState(false);
-
   const [notifications, setNotifications] = useState(notificationsData);
   const [currentPage, setCurrentPage] = useState(0);
   const [selectAll, setSelectAll] = useState(false);
+  const isMobile = useIsMobile();
 
   const itemsPerPage = 5;
   const totalNotifications = notifications.length;
@@ -135,14 +136,6 @@ const NotificationsTable = ({
     setNotifications(updatedNotifications);
   };
 
-  // Detect mobile view
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    handleResize(); // Check on mount
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   return isMobile ? (
     // <div className="md:hidden bg-white flex flex-col px-2  py-2 rounded-[20px] border border-gray-200 ">
     <div className="bg-white px-1 py-2 md:p-4 rounded-[16px] shadow-md max-w-[396px] sm:max-w-md w-full">
@@ -173,28 +166,31 @@ const NotificationsTable = ({
             >
               {notification.type.charAt(0)}
             </div>
-            <div className={  ` ${
-                  notification.read ? "text-gray-400" : "text-gray-800"
-                }`}>
+            <div
+              className={` ${
+                notification.read ? "text-gray-400" : "text-gray-800"
+              }`}
+            >
               <div className="flex items-center space-x-1">
-                <div className="w-4 h-4 bg-yellow-400 rounded-full mr-2"></div>
+                <div>
+                  {/* <label_important color="#D2B48C" className="text-5xl" /> */}
+                  <LabelImportantSVG className="text-5xl" />
+                </div>
                 <p
                   className={`text-[16px] font-semibold  ${groteskText.className}`}
                 >
                   {notification.type}
                 </p>
               </div>
-              <p
-                className={`text-[16px]   ${groteskTextMedium.className}`}
-              >
+              <p className={`text-[16px]   ${groteskTextMedium.className}`}>
                 {notification.message}
               </p>
             </div>
             <div className="flex flex-col items-center ">
               <span
-                className={`text-xs text-gray-500 ${groteskTextMedium.className}  ${
-                  notification.read ? "text-gray-400" : "text-gray-800"
-                } `}
+                className={`text-xs text-gray-500 ${
+                  groteskTextMedium.className
+                }  ${notification.read ? "text-gray-400" : "text-gray-800"} `}
               >
                 {notification.date}
               </span>
@@ -278,7 +274,7 @@ const NotificationsTable = ({
             </div>
           </div>
         </div>
-        <table className="min-w-full w-full text-left table-fixed">
+        <table className="min-w-full w-full text-left ">
           <tbody>
             {currentNotifications.map((notification, index) => (
               <tr
@@ -287,7 +283,7 @@ const NotificationsTable = ({
                   notification.read ? "text-gray-400" : "text-black"
                 }`}
               >
-                <td className="px-4 py-2">
+                <td className="pl-4 py-2">
                   <input
                     type="checkbox"
                     className="form-checkbox"
@@ -295,11 +291,14 @@ const NotificationsTable = ({
                     checked={notification.checked || false}
                   />
                 </td>
-                <td className="px-4 py-2 flex items-center">
-                  <div className="w-4 h-4 bg-yellow-400 rounded-full mr-2"></div>
+                <td className="px-2 py-2 flex items-center">
+                  <div className=" px-2">
+                    <LabelImportantSVG className="text-5xl" />
+                  </div>
+
                   <span>{notification.type}</span>
                 </td>
-                <td className="px-4 py-2 ">{notification.message}</td>
+                <td className="px-4 py-2 w-[60%] ">{notification.message}</td>
                 <td className="px-4 py-2 text-right">{notification.date}</td>
               </tr>
             ))}

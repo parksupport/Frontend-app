@@ -1,13 +1,37 @@
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import React, { useState } from "react";
+import { useState } from "react";
 
-const EducationalMaterials = ({openEducationalMaterials}) => {
-  const [selected, setSelected] = useState("Driving rules");
+const TopicList = [
+  {
+    id: 1,
+    topic: "Driving rules",
+    description: "Learn the basics of road safety and driving rules.",
+  },
+  {
+    id: 2,
+    topic: "Road and driving safety",
+    description: "Understand the importance of road safety and driving safety.",
+  },
+  {
+    id: 3,
+    topic: "Rules for different vehicles",
+    description:
+      "Learn about different types of vehicles and their safety standards.",
+  },
+];
 
-  const handleSelect = (topic) => {
-    setSelected(topic);
+interface EducationalMaterialsProps {
+  openEducationalMaterials: (educationalMaterials: any) => void;
+}
+
+const EducationalMaterials = ({
+  openEducationalMaterials,
+}: EducationalMaterialsProps) => {
+  const [selected, setSelected] = useState(TopicList[0].id);
+
+  const handleSelect = (topic: { id: number }) => {
+    setSelected(topic.id);
   };
-
   return (
     <div className="bg-white p-6  md:p-4 rounded-[16px] shadow-md max-w-[396px] sm:max-w-md md:max-w-[680px] w-full">
       <h1 className={`text-[24px] ${groteskTextMedium.className} mb-4"`}>
@@ -16,38 +40,29 @@ const EducationalMaterials = ({openEducationalMaterials}) => {
 
       <div className="md:flex md:gap-8 ">
         {" "}
-
-        <div className="flex flex-wrap gap-2 mb-4 md:flex-col md:w-[38%]">
-          {[
-            "Driving rules",
-            "Road and driving safety",
-            "Rules for different vehicles",
-          ].map((topic) => (
+        <div className="flex flex-wrap md:flex-col items-start gap-2 mb-4 md:flex-col md:w-[38%]">
+          {TopicList.map((topic) => (
             <button
-              key={topic}
+              key={topic.id}
               onClick={() => handleSelect(topic)}
               className={`inline-flex items-center md:justify-start ${
                 groteskText.className
               } px-4 py-2 border rounded-[12px] text-sm font-medium ${
-                selected === topic
-                  ? "bg-[#CEFDFF] text-[#039BB7]"
-                  : "bg-white text-black"
+                selected === topic.id ? "border-[#4169E1]" : "border-[#D0D5DD]"
               }`}
             >
-              {topic}
+              {topic.topic}
             </button>
           ))}
         </div>
-
         <div
           className={`md:w-[53.5%] ${groteskText.className} border py-4 px-3 rounded-[16px] text-black text-[16px]`}
-          
         >
-          <p className="underline text-blue-600 cursor-pointer" onClick={openEducationalMaterials}>
-            Access resources on driving rules, road and driving safety, and
-            rules for different vehicles. Learn key topics like traffic laws,
-            managing violations, and best practices for vehicle and fleet
-            management.
+          <p
+            className="underline text-blue-600 cursor-pointer"
+            onClick={openEducationalMaterials}
+          >
+            {TopicList.find((topic) => topic.id === selected)?.description}
           </p>
         </div>
       </div>

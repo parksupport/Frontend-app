@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { groteskText, groteskTextMedium } from "@/app/fonts";
-import { IoArrowBack } from "react-icons/io5";
 
 interface DrawerProps {
   children: React.ReactNode;

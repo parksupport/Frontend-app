@@ -80,39 +80,46 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
             </th>
           </tr>
         </thead>
-        <tbody className="lg:w-full" >
-          {itemDetails.contravention.slice(0, visibleCount).map((invoice) => (
-            <tr key={invoice.ticket} className="flex flex-col px-[1rem] lg:flex lg:flex-row">
-              <td
-                className={`py-[0.75rem] self-end text-[#212121] pl-[17px] lg:pl-0 ${groteskText.className}`}
-              >
-                {invoice.ticket}
-              </td>
-              <td
-                className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[4.4rem]  ${groteskText.className}`}
-              >
-                {invoice.reg_num}
-              </td>
-              <td
-                className={`text-[#212121] self-end text-center py-[0.75rem]  lg:pl-[4.8rem]  ${groteskText.className}`}
-              >
-                {invoice.issuing_auth}
-              </td>
-              <td
-                className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[1rem]   ${groteskText.className}`}
-              >
-                {invoice.fine_amount}
-              </td>
-              <span className="bg-[#B5E3C4] self-end ml-auto lg:mr-[3px] rounded-[22px]   my-[0.75rem] flex justify-center w-[44px] h-[22px] ">
-                <td
-                  className={`text-center text-[#099137] text-[13px]    ${groteskText.className}`}
-                >
-                  {invoice.status}
-                </td>
-              </span>
-            </tr>
-          ))}
-        </tbody>
+        <tbody className="lg:w-full">
+  {itemDetails.contravention.slice(0, visibleCount).map((invoice) => (
+    <tr key={invoice.ticket} className="flex flex-col px-[1rem] lg:flex lg:flex-row">
+      <td
+        className={`py-[0.75rem] self-end text-[#212121] pl-[17px] lg:pl-0 lg:w-[28%] ${groteskText.className}`}
+      
+      >
+        {invoice.ticket}
+      </td>
+      <td
+        className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[3.4rem] lg:w-[20%] ${groteskText.className}`}
+       
+      >
+        {invoice.reg_num}
+      </td>
+      <td
+        className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[4.8rem] lg:w-[33%] ${groteskText.className}`}
+      
+      >
+        {invoice.issuing_auth}
+      </td>
+      <td
+        className={`text-[#212121] self-end text-center py-[0.75rem] lg:w-[20%]  lg:text-start ${groteskText.className}`}
+     
+      >
+        {invoice.fine_amount}
+      </td>
+      <span className="bg-[#B5E3C4] self-end rounded-[22px] my-[0.75rem] flex justify-center w-[65px] h-[22px]">
+        <td
+          className={`text-center text-[#099137] text-[13px] ${groteskText.className}`}
+         
+        >
+          {invoice.status}
+        </td>
+      </span>
+    </tr>
+  ))}
+</tbody>
+
+
         <div className="hidden lg:flex  items-center flex-row justify-end mb-[1.25rem] mr-[8px] lg:self-end">
           {visibleCount < itemDetails.contravention.length && (
             <Button

@@ -10,14 +10,14 @@ import { Button } from "@/components";
 import "@/components/Slider.css";
 import cars from "@/data/data.json";
 import { useAuthStore } from "@/lib/stores/useStore";
-import { Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Outline from "@/assets/svg/outlined.svg";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import EditSVG from '@/assets/svg/edit-vehicle.svg'
 import DeleteSVG from '@/assets/svg/delete-vehicle.svg'
 import CarFilter from '@/assets/svg/colorfilter.svg'
@@ -27,6 +27,7 @@ import ConfirmDeleteSVG from '@/assets/svg/confirmDelete.svg'
 import queryClient from "@/lib/tanstack-query/queryClient";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useDeleteCar } from "@/lib/tanstack-query/useDelete";
 interface CarProfileSliderProps {
   car: {
     imageUrl: string;
@@ -51,13 +52,32 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
   
   const [isOpenVehicle, setIsOpenVehicle] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
+  const [items, setItems] = useState(cars.carDetails)
+ const mutation = useDeleteCar()
+ const [currentSlide, setCurrentSlide] = useState(0);
+ const sliderRef = useRef(null);
+const totalPages = cars.carDetails.length
+ const settings = {
+   dots: true,
+   infinite: true,
+   speed: 500,
+   slidesToShow: 1,
+   slidesToScroll: 1,
+   beforeChange: (current) => setCurrentSlide(current),
+ };
+
+ const goToPrevious = () => {
+   if (sliderRef.current) {
+    sliderRef.current.slickNext();
+   }
+   console.log('next')
+ };
+
+ const goToNext = () => {
+   if (sliderRef.current) {
+    sliderRef.current.slickPrev();
+   }
+ };
 
   const removeVehicle = () => {
     setIsOpenVehicle((prevOpen) => !prevOpen)
@@ -65,28 +85,21 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
   const handleConfirmDelete = () => {
     setConfirmDelete((prevDelete) => !prevDelete)
 }
-// const mutation = useMutation<void, Error, string>({
-//   mutationFn: deleteCar,
-//   onSuccess: () => {
-//     // Invalidate and refetch the cars query to ensure data is up-to-date
-//     queryClient.invalidateQueries(['cars']);
-//   },
-//   onError: (error) => {
-//     console.error('Error deleting car:', error);
-//   }
-// });
 
-
-// const handleDelete = (carId) => {
-//     mutation.mutate(carId);
-//   };
+const handleUndoConfirm =()=>{
+  setConfirmDelete(false)
+}
+const handleDelete = (carId: any) => {
+  setItems(items.filter((item)=> item.id !== carId))
+  console.log('item deleted')
+};
   
 
   return (
     <article className="max-w-[428px] w-full md:max-w-[580px]">
       <div className=" bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[40px] ">
-        <Slider {...settings}>
-          {cars.carDetails.map((car, index) => (
+        <Slider ref={sliderRef} {...settings}>
+          {items.map((car, index) => (
             <div key={car.id} className="">
               <div className="flex justify-between  ">
                 <h1
@@ -171,10 +184,10 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                                className="flex flex-row items-center justify-between"
                            >
                                <div className="flex items-center cursor-pointer">
-                                   <UndoDelete />
+                                   <UndoDelete onClick={() => handleUndoConfirm()}  />
                                </div>
                                <div className="flex items-center cursor-pointer">
-                                   <ConfirmDeleteSVG  />
+                                   <ConfirmDeleteSVG onClick={() => handleDelete(car.id)} />
                                </div>
                            </div>
                      )}
@@ -305,12 +318,26 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
 
                                 </div>
                             </div>
-              <div className="flex justify-between mt-[11px] w-[250px]">
-                <button className=" w-[87px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+              <div className="w-full flex justify-between mt-[11px] lg:w-[250px]">
+                <button className=" w-[87px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                 onClick={goToPrevious}
+                >
+                    <ChevronLeft size={20} style={{display: 'inline-flex', marginBottom: 3}} />
                   Previous
                 </button>
-                <button className="w-[64px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+                <div className="flex items-center space-x-2  ">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <span
+              key={index}
+              className={`w-[8px] h-[8px] rounded-full ${currentSlide === index ? 'bg-gray-500' : 'bg-gray-200'}`}
+            ></span>
+          ))}
+        </div>
+                <button className="w-[64px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                 onClick={goToNext}
+                >
                   Next
+                  <ChevronRight size={20} style={{display: 'inline-flex', marginBottom: 3}} />
                 </button>
               </div>
             </div>

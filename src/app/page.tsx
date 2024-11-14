@@ -22,8 +22,7 @@ import NotificationBox from "@/components/NotificationBox";
 import TextAnimation from "@/components/TextAnimation";
 import { TextSection } from "@/components/TextSection";
 import { groteskText, groteskTextMedium } from "./fonts";
-import NotificationsTable from "@/components/card/NotificationTable";
-import NotificationSlider from "@/components/card/NotificationSlider";
+
 
 export default function LandingPage() {
   console.log(TextAnimation);

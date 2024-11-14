@@ -5,16 +5,17 @@ import DrawerHeader from "./DrawerHeader";
 const VehicleAddedSuccess = ({ toggleDrawer, addVehicleDetails }) => {
   return (
     <div className="flex flex-col items-center justify-center bg-white p-4">
-<DrawerHeader
-  toggleDrawer={toggleDrawer}
-  title="Vehicle Added Successfully"
-  subTitle={
-    <>
-      You can now track contraventions, manage fines, and receive notifications for{" "}
-      <strong>Vehicle Make/Model/Registration Number</strong>.
-    </>
-  }
-/>
+      <DrawerHeader
+        toggleDrawer={toggleDrawer}
+        title="Vehicle Added Successfully"
+        subTitle={
+          <>
+            You can now track contraventions, manage fines, and receive
+            notifications for{" "}
+            <strong>Vehicle Make/Model/Registration Number</strong>.
+          </>
+        }
+      />
 
       <div>
         <Image

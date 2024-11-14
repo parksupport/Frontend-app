@@ -26,6 +26,8 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
   const [status, setStatus] = useState("failed");
+  const [isWide, setIsWide] = useState(false); 
+
 
   const toggleDrawer = () => {
     setIsOpen((prev) => !prev);
@@ -55,11 +57,13 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         addVehicleDetails={addVehicleDetails}
       />
     );
+    setIsWide(false);
     openDrawer();
   };
 
   const openNotificationsTable = () => {
     setDrawerContent(<NotificationTableDrawer />);
+    setIsWide(false);
     openDrawer();
   };
 
@@ -69,20 +73,26 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
       toggleDrawer={toggleDrawer} handleRowClick={function (): void {
         throw new Error("Function not implemented.");
       } }       />);
+      setIsWide(true);
     openDrawer();
   };
+
+
+  
 
   const addVehicleDetails = () => {
     setDrawerContent(
       <AddVehicleDetailsDrawer
         CheckVehicleOwner={CheckVehicleOwner}
-        toggleDrawer={toggleDrawer}
+        back={openCarProfile}
       />
     );
+    setIsWide(false);
     openDrawer();
   };
   const openEducationalMaterials = () => {
     setDrawerContent(<EducationalMaterialsDrawer />);
+    setIsWide(false);
     openDrawer();
   };
 
@@ -94,6 +104,7 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         vehicleStatus={VehicleStatus}
       />
     );
+    setIsWide(false);
     openDrawer();
   };
   const OwnerInfoDrawer = () => {
@@ -103,6 +114,7 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         VehicleStatus={VehicleStatus}
       />
     );
+    setIsWide(false);
     openDrawer();
   };
 
@@ -113,6 +125,7 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         addVehicleDetails={addVehicleDetails}
       />
     );
+    setIsWide(false);
     openDrawer();
   };
 
@@ -124,6 +137,7 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         back={addVehicleDetails}
       />
     );
+    setIsWide(false);
     openDrawer();
   };
 
@@ -202,9 +216,10 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
           </div>
         </section>
       </main>
-      <Drawer isOpen={isOpen} toggleDrawer={toggleDrawer}>
-        {drawerContent}
-      </Drawer>
+      <Drawer isOpen={isOpen} toggleDrawer={toggleDrawer} isWide={isWide}>
+  {drawerContent}
+</Drawer>
+
     </div>
   );
 }

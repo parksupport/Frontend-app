@@ -1,5 +1,5 @@
 import { groteskText } from "@/app/fonts";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -9,6 +9,8 @@ import InputField from "../InputField";
 
 import useIsMobile from "@/hooks/useIsMobile";
 import DropdownInputField from "../DropdownInputField";
+
+import Slider from "react-slick";
 
 export default function ThirdPartyNominees({ handleFormState }: any) {
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
@@ -194,6 +196,7 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
           toggleDropdown={toggleDropdown}
           handleDelete={handleDelete}
           selectedNomineeIndex={selectedNomineeIndex}
+          setShowConfirmButton={setShowConfirmButton}
         />
       ) : (
         <NomineeDesktop
@@ -397,7 +400,7 @@ const NomineeDesktop = ({
                       </button>
                     </div>
                     {showConfirmButton && selectedNomineeIndex === index && (
-                      <div className="flex justify-between gap-2">
+                      <div className="flex  justify-between gap-2">
                         <button
                           className="bg-white border border-gray-200 rounded-[8px] p-1 text-red-600 hover:bg-gray-100"
                           onClick={cancelDelete}
@@ -433,62 +436,77 @@ const NomineeMobile = ({
   toggleDropdown,
   handleDelete,
   selectedNomineeIndex,
+  setShowConfirmButton,
 }) => {
-  const [showActions, setShowActions] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [showActions, setShowActions] = useState(false);
+  const sliderRef = useRef(null);
 
   const toggleActions = () => setShowActions((prev) => !prev);
 
-  const goToPrevious = () => {
+  const settings = {
+    arrows: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    afterChange: (index) => setCurrentIndex(index), // Update state when slide changes
+  };
+
+  const handlePrevious = () => {
     if (currentIndex > 0) {
-      setCurrentIndex((prevIndex) => prevIndex - 1);
+      setCurrentIndex(currentIndex - 1);
+      sliderRef.current.slickGoTo(currentIndex - 1); // Programmatically move to the previous slide
     }
   };
 
-  const goToNext = () => {
+  const handleNext = () => {
     if (currentIndex < nominees.length - 1) {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+      setCurrentIndex(currentIndex + 1);
+      sliderRef.current.slickGoTo(currentIndex + 1); // Programmatically move to the next slide
     }
   };
-
-  const currentNominee = nominees[currentIndex];
 
   return (
     <div className="flex flex-col items-center py-4">
       <div className="relative w-full max-w-md p-4 bg-white rounded-[12px] border-[#D0D5DD] border mb-4">
         <div className="flex justify-end items-center">
-          <button onClick={toggleActions} className="text-gray-600">
+          <button
+            onClick={() => {
+              toggleActions();
+              setShowConfirmButton(false);
+            }}
+            className="text-gray-600"
+          >
             <IoEllipsisVertical size={20} />
           </button>
         </div>
 
         {showActions && (
-          <div className="absolute right-4 top-10 bg-white shadow-lg border border-gray-200 z-10 p-1 rounded-[8px]">
-            <button className="flex items-center gap-2 text-sm text-gray-700 hover:bg-gray-100 py-2 rounded">
-              <FiEdit className="text-gray-600" /> Edit Nominee
-            </button>
-            <button
-              className="flex items-center gap-2 text-sm text-red-500 hover:bg-gray-100 py-2 rounded"
-              onClick={() => {
-                showDeleteConfirmation(currentIndex);
-              }}
-            >
-              <FiTrash2 className="text-red-500" /> Remove Nominee
-            </button>
-
+          <div className="rounded-[8px] bg-white absolute right-4  z-10">
+            <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
+              <button className="w-full flex items-center px-[1px] py-2 text-sm text-gray-700 hover:bg-gray-100">
+                <FiEdit className="mr-2" />
+                Edit Nominee
+              </button>
+              <button
+                className="w-full flex items-center px-[1px] py-2 text-sm text-red-600 hover:bg-gray-100"
+                onClick={() => showDeleteConfirmation(currentIndex)}
+              >
+                <FiTrash2 className="mr-2" />
+                Remove Nominee
+              </button>
+            </div>
             {showConfirmButton && selectedNomineeIndex === currentIndex && (
-              <div className="flex justify-between gap-2 mt-2">
+              <div className="flex justify-between gap-2 mt-1">
                 <button
-                  className="bg-white border border-gray-200 rounded-[8px] p-1 text-red-600 hover:bg-gray-100"
-                  onClick={() => {
-                    cancelDelete();
-                    setShowActions(false);
-                  }}
+                  className="absolute bg-white border border-red-400 rounded-[8px] p-1 text-red-600 hover:bg-gray-100"
+                  onClick={cancelDelete}
                 >
                   <MdClose size={25} />
                 </button>
                 <button
-                  className="bg-white border border-gray-200 rounded-[8px] p-1 text-green-700 hover:bg-gray-100"
+                  className="absolute left-[96px] bg-white border border-green-400 rounded-[8px] p-1 text-green-700 hover:bg-gray-100"
                   onClick={() => {
                     handleDelete(currentIndex);
                     setShowActions(false);
@@ -501,30 +519,39 @@ const NomineeMobile = ({
           </div>
         )}
 
-        <div className="border p-4 rounded-[12px] bg-[#F9FAFB] mt-4 space-y-2">
-          <div className="flex justify-between">
-            <span className="text-gray-500">Name</span>
-            <span>{currentNominee.name}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-500">Email Address</span>
-            <span>{currentNominee.email}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-500">Phone Number</span>
-            <span>{currentNominee.phone}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-500">Car</span>
-            <span>{currentNominee.car}</span>
-          </div>
-        </div>
+        {/* Slider Component */}
+        <Slider ref={sliderRef} {...settings}>
+          {nominees.map((nominee, index) => (
+            <div
+              key={index}
+              className="border p-4 rounded-[12px] bg-[#F9FAFB] space-y-2"
+            >
+              <div className="flex justify-between">
+                <span className="text-gray-500">Name</span>
+                <span>{nominee.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Email Address</span>
+                <span>{nominee.email}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Phone Number</span>
+                <span>{nominee.phone}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-500">Car</span>
+                <span>{nominee.car}</span>
+              </div>
+            </div>
+          ))}
+        </Slider>
 
         {/* Slider Navigation Controls */}
+        {/* Navigation Buttons */}
         <div className="flex justify-between items-center mt-4">
           <button
-            onClick={goToPrevious}
-            className={`w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem]  ${
+            onClick={handlePrevious}
+            className={`w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
               currentIndex === 0
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-[#1C1B1B]"
@@ -534,7 +561,6 @@ const NomineeMobile = ({
             &lt; Previous
           </button>
 
-          {/* Pagination Dots */}
           <div className="flex space-x-1">
             {nominees.map((_, index) => (
               <span
@@ -547,7 +573,7 @@ const NomineeMobile = ({
           </div>
 
           <button
-            onClick={goToNext}
+            onClick={handleNext}
             className={`w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
               currentIndex === nominees.length - 1
                 ? "text-gray-400 cursor-not-allowed"

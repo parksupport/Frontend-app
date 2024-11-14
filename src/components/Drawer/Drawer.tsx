@@ -4,43 +4,25 @@ interface DrawerProps {
   children: React.ReactNode;
   isOpen: boolean;
   toggleDrawer: () => void;
+  isWide: boolean; 
 }
 
-const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
+const Drawer = ({ children, isOpen, toggleDrawer, isWide }: DrawerProps) => {
   const [isAtTop, setIsAtTop] = useState(true);
   const [isAtBottom, setIsAtBottom] = useState(false);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   useEffect(() => {
-    // Handle body overflow based on drawer state
     if (isOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-
-    // Clean up on component unmount
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = ""; // Clean up on component unmount
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 640);
-    };
-
-    // Set initial screen size
-    handleResize();
-
-    // Add event listener to update screen size on resize
-    window.addEventListener("resize", handleResize);
-
-    // Clean up event listener on component unmount
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const handleScroll = (event) => {
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const target = event.currentTarget;
     setIsAtTop(target.scrollTop === 0);
     setIsAtBottom(
@@ -49,22 +31,20 @@ const Drawer = ({ children, isOpen, toggleDrawer }: DrawerProps) => {
   };
 
   return (
-    <div className="bg-[#FFFFFF] ">
-   
- <div
-        className={`fixed py-[5.625rem] ${ 
-          isSmallScreen ? "bottom-0 left-0 right-0 h-[90%]" : "top-0 right-0 w-auto h-full "
-        } bg-[#FFFFFF] shadow-lg z-50 transform px-[10px] transition-transform duration-300 ease-in-out overflow-y-auto ${
-          isOpen
-            ? isSmallScreen
-              ? "translate-y-0"
-              : "translate-x-0"
-            : isSmallScreen
-            ? "translate-y-full"
-            : "translate-x-full"
-        } ${isAtTop ? (isSmallScreen ? "" : "rounded-tl-[40px]") : ""} ${
-          isAtBottom ? (isSmallScreen ? "" : "rounded-bl-[40px]") : ""
-        }`}
+    <div>
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={toggleDrawer}
+        ></div>
+      )}
+      <div
+        className={`fixed h-full md:h-auto w-full ${isWide ? "md:w-[55%]" : "md:w-[32%]"} 
+          bg-white shadow-lg z-50 transform px-[10px] transition-transform duration-300 ease-in-out overflow-y-auto 
+          ${isOpen ? "translate-y-0 md:translate-x-0" : "translate-y-full md:translate-x-full"}
+          ${isAtTop ? "rounded-tl-[20px] rounded-tr-[20px] md:rounded-tl-[40px]" : ""} 
+          ${isAtBottom ? "rounded-bl-none md:rounded-bl-[40px]" : ""}
+          bottom-0 md:top-0 right-0 md:right-0`}
         onScroll={handleScroll}
       >
         {children}

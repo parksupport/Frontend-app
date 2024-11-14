@@ -6,5 +6,5 @@ const deleteCar = (car: any) => {
 };
 
 export const useDeleteCar = () => {
-  return useMutation(deleteCar);
+  return 
 };

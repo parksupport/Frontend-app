@@ -72,7 +72,7 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
       <DrawerHeader
       
         toggleDrawer={toggleDrawer}
-        title="Contravention Summary"
+        title="Ticket Summary"
         subTitle="Keep an eye on any active contraventions. You can pay fines or file an appeal directly from here."
       />
 <div className="flex mx-0 flex-col mt-[2rem] w-full border border-solid border-[#C5D5F8] rounded-[12px]  lg:w-[1021px] lg:mx-[20px]">

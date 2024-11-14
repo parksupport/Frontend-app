@@ -46,7 +46,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
         <h1
           className={`text-[2rem] text-[#000000] ${groteskTextMedium.className} `}
         >
-          Contravention
+          Ticket
         </h1>{" "}
        
       </div>
@@ -120,7 +120,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
               onClick={handleButtonClick}
               className="items-center flex-row flex py-[0.53125rem] px-[12px]"
             >
-              Expand all contraventions
+              Expand tickets
             </Button>
           )}
         </div>
@@ -132,7 +132,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
               onClick={handleButtonClick}
               className="items-center flex-row flex py-[0.53125rem] px-[12px]"
             >
-              Expand all contraventions
+              Expand tickets
             </Button>
           )}
         </div>

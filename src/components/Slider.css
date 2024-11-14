@@ -1,55 +1,14 @@
-.slick-prev,
-.slick-next {
-  width: 13px;
-  height: 12px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* background-color: transparent; */
-  z-index: 1;
-  /* color: black;
-  font-size: 20px;
-  border: 1px solid #D0D5DD;
-  border-radius: 4px;
-  width: 97px; */
-width: 10px;
-height: 12px;
- 
-}
 
 .slick-prev:before,
 .slick-next:before {
   content: '';
-  height: 12px;
+  height: 12px;  
+  display: none;
+
+
 }
-.slick-arrow{
 
-}
-
-
-.slick-prev {
-    background-image: url('../assets/svg/chevronleft2.svg'); /* Update the path */
-    background-size: contain;
-    background-repeat: no-repeat; 
-   top: 96%;
-   left: 5px;
-  
-   position: absolute;
-   color: #000000;
-  }
-  
-  .slick-next {
-    background-image: url('../assets/svg/chevronRight2.svg'); /* Update the path */
-    background-size: contain;
-    background-repeat: no-repeat;
-    top: 96%;
-    
-    color: #000000;
-    bottom: 1px;
-    left: 238px;
-    position: absolute;
-  }
   .slick-dots{
   width: auto;
   /* left: 76px; */
@@ -59,26 +18,21 @@ height: 12px;
  text-align: start;
  margin-left: 103px;
  bottom: 0;
+ display: none;
   
   }
   .slick-dots li {
     width: 2px;
+    display: none;
   }
   header{
     border-bottom: 1px solid #D1D5DB;
   }
   @media (max-width: 640px){
-    .slick-prev{
-      top: 95%;
-    }
-    .slick-next{
-      top: 95%;
-      right: 3px;
-      left: 352px;
-
-    }
+  
     .slick-dots{
       margin-left: 151px;
-      bottom: 15px;
+      bottom: 14px;
+      display: none;
     }
   }

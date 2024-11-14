@@ -8,12 +8,12 @@ import InputField from "../InputField";
 import DrawerHeader from "./DrawerHeader";
 
 type VehicleDetailsDrawerProps = {
-  toggleDrawer: () => void;
+  back: any;
   CheckVehicleOwner: () => void;
 };
 
 const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
-  toggleDrawer,
+  back,
   CheckVehicleOwner,
 }) => {
   const [formData, setFormData] = useState({
@@ -56,13 +56,13 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   };
 
   return (
-    <div>
+    <div className="">
       <DrawerHeader
-        toggleDrawer={toggleDrawer}
+        toggleDrawer={back}
         title="Add Your Vehicle Details"
         subTitle="Let’s get your vehicle set up for tracking contraventions and staying on top of payments."
       />
-      <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[70px]">
+      <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[70px] ">
         <div className="flex flex-col gap-4 items-center  md:mx-[55px]">
           <div className="flex flex-col items-center w-full">
             <InputField
@@ -113,17 +113,16 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             className={`${groteskText.className} pb-4 w-full`}
           />
 
-          {userRole !== "corporate" ? (
-            <Button
-              variant="quinary"
-              className="py-[10px] px-[12px] w-full"
-              icon={<IoMdCheckmark size={25} />}
-              iconPosition="right"
-              onClick={CheckVehicleOwner}
-            >
-              Save Vehicled
-            </Button>
-          ) : (
+          <Button
+            variant="quinary"
+            className="py-[10px] px-[12px] w-full"
+            icon={<IoMdCheckmark size={25} />}
+            iconPosition="right"
+            onClick={CheckVehicleOwner}
+          >
+            Save Vehicle
+          </Button>
+          {userRole === "corporate" && (
             <div className="flex flex-col gap-4 items-center pb-[200px] cursor-pointer w-full">
               <div className="w-[100%]">
                 <div className="flex-shrink-0">
@@ -144,7 +143,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
                 </div>
                 {fileName && (
                   <div className="mt-2 text-gray-700 text-sm">
-                    Selected file: <span className="font-medium">{fileName}</span>
+                    Selected file:{" "}
+                    <span className="font-medium">{fileName}</span>
                   </div>
                 )}
               </div>

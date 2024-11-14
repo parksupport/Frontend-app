@@ -27,10 +27,10 @@ const FAQComponents = () => {
   ];
 
   return (
-    // <div className="flex flex-col    bg-white rounded-[12px] pb-8 px-2 mx-4 ">
     <div className="bg-white p-4  md:p-4 rounded-[16px] shadow-md max-w-[396px] sm:max-w-md md:max-w-[680px] w-full">
-
-           <h2 className={`pt-5 text-[30px]  ${groteskTextMedium.className}`}>FAQs</h2>
+      <h2 className={`pt-5 text-[30px]  ${groteskTextMedium.className}`}>
+        FAQs
+      </h2>
       <Questions faqs={faqs} />
     </div>
   );

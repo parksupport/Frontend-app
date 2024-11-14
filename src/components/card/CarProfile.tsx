@@ -13,9 +13,10 @@ import { Button } from "@/components";
 import "@/components/Slider.css";
 import cars from "@/data/data.json";
 import { useAuthStore } from "@/lib/stores/useStore";
-import { Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
+import { useRef, useState } from "react";
 
 interface CarProfileProps {
   openCarProfile: any;
@@ -24,17 +25,35 @@ interface CarProfileProps {
 
 function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
   const user = useAuthStore((state) => state.user);
-  var settings = {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const sliderRef = useRef(null);
+  const totalPages = cars.carDetails.length;
+
+  const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    beforeChange: (current) => setCurrentSlide(current),
+  };
+
+  const goToPrevious = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickNext();
+    }
+    console.log('next')
+  };
+
+  const goToNext = () => {
+    if (sliderRef.current) {
+      sliderRef.current.slickPrev();
+    }
   };
   return (
     <article>
       <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[24px] px-4 ">
-        <Slider {...settings}>
+        <Slider ref={sliderRef} {...settings}>
           {cars.carDetails.map((car, index) => (
             <div key={car.id} className="">
               <div className="flex justify-between">
@@ -65,12 +84,27 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                   />
                 
                 </div>
-                <div className="flex justify-between mt-auto lg:hidden">
-                    <button className=" w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+                <div className="flex justify-between mt-auto items-center lg:hidden">
+                    <button className=" w-[97px] h-[28px] rounded-[0.25rem] items-center border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                    onClick={goToPrevious}
+                    >
+                      <ChevronLeft size={20} style={{display: 'inline-flex', marginBottom: 3}} />
                       Previous
                     </button>
-                    <button className="w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+                    <div className="flex items-center space-x-2  ">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <span
+              key={index}
+              className={`w-[8px] h-[8px] rounded-full ${currentSlide === index ? 'bg-gray-500' : 'bg-gray-200'}`}
+            ></span>
+          ))}
+        </div>
+                    <button className="w-[74px] h-[28px] items-center rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                     onClick={goToNext}
+                    >
+                       
                       Next
+                      <ChevronRight size={20} style={{display: 'inline-flex', marginBottom: 3}} />
                     </button>
                   </div>
               </div>
@@ -83,7 +117,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                       Car Details
                     </h1>
                   </div>
-                  <div className="py-[12px] px-[16px]">
+                  <div className="py-[12px] px-[13px]">
                     <h2
                       className={`flex items-center gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
@@ -93,7 +127,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         </span>
                         <span className="text-[16px]">Registration number: </span>
                       </div>
-                      <span className="text-[#212121] text-[13px] self-end">
+                      <span className="text-[#212121] text-[11px] self-end">
                         {car.registrationNo}
                       </span>
                     </h2>
@@ -106,7 +140,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         </span>
                         <span className="text-[16px]">Owner: </span>
                       </div>
-                      <span className="text-[#212121] text-[13px] self-end">
+                      <span className="text-[#212121] text-[11px] self-end">
                         {car.ownerName}
                       </span>
                     </h2>
@@ -119,7 +153,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         </span>
                         <span className="text-[16px]">Ownership status: </span>
                       </div>
-                      <button className="text-[#099137] text-[13px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
                         Verified
                       </button>
                     </h2>
@@ -135,7 +169,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                           Contravention Status:{" "}
                         </span>
                       </div>
-                      <button className="text-[#099137] text-[13px] bg-[#B5E3C4] rounded-[2rem] w-[120px]  h-[28px] self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[28px] self-end">
                         {car.contraventionStatus}
                       </button>
                     </h2>
@@ -151,19 +185,33 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                           Third Party Nominate:{" "}
                         </span>
                       </div>
-                      <button className="text-[#099137] text-[13px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[28px]  self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[28px]  self-end">
                         {car.thirdPartyNominate}
                       </button>
                     </h2>
                   </div>
                 </div>
               </div>
-              <div className="hidden lg:flex justify-between mt-[-28px] w-[250px] ">
-                    <button className=" w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center">
+                    <button className=" w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                     onClick={goToPrevious}
+                    >
+                        <ChevronLeft size={20} style={{display: 'inline-flex', marginBottom: 3}} />
                       Previous
                     </button>
-                    <button className="w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]">
+                    <div className="flex items-center space-x-2  ">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <span
+              key={index}
+              className={`w-[8px] h-[8px] rounded-full ${currentSlide === index ? 'bg-gray-500' : 'bg-gray-200'}`}
+            ></span>
+          ))}
+        </div>
+                    <button className="w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                     onClick={goToNext}
+                    >
                       Next
+                      <ChevronRight size={20} style={{display: 'inline-flex', marginBottom: 3}} />
                     </button>
                   </div>
             </div>

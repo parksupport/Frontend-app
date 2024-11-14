@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DrawerHeader from './DrawerHeader'
 import { groteskText, groteskTextMedium } from '@/app/fonts'
 import itemDetails from "@/data/data.json";
@@ -21,10 +21,27 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
 
-
-
-  // Calculate the total number of pages
+  const sliderRef = useRef(null);
   const totalPages = Math.ceil(itemDetails.contravention.length / itemsPerPage);
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const sliderSettings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: itemsPerPage,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    beforeChange: (oldIndex, newIndex) => setCurrentPage(newIndex + 1),
+  };
+
 
   // Function to handle going to the next page
   useEffect(() => {
@@ -43,18 +60,18 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
   }, []);
 
   // Function to handle going to the next page
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+  // const handleNextPage = () => {
+  //   if (currentPage < totalPages) {
+  //     setCurrentPage(currentPage + 1);
+  //   }
+  // };
 
   // Function to handle going to the previous page
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
+  // const handlePreviousPage = () => {
+  //   if (currentPage > 1) {
+  //     setCurrentPage(currentPage - 1);
+  //   }
+  // };
 
   const handleRowClick =(invoice: { ticket: string; reg_num: string; issuing_auth: string; fine_amount: string; status: string; date: string; })=>{
     setSelectedInvoice(invoice)
@@ -75,7 +92,11 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
         title="Contravention Summary"
         subTitle="Keep an eye on any active contraventions. You can pay fines or file an appeal directly from here."
       />
-<div className="flex mx-0 flex-col mt-[2rem] w-full border border-solid border-[#C5D5F8] rounded-[12px]  lg:w-[1021px] lg:mx-[20px]">
+    
+
+    <Slider {...sliderSettings}>
+<div className="flex mx-0 flex-col  mt-[2rem] w-full border border-solid border-[#C5D5F8] rounded-[12px]  lg:w-[1021px] lg:mx-[20px]">
+
 <table className="flex items-center justify-between lg:flex lg:flex-col w-full">
           <thead className="border-b border-b-[#C5D5F8] w-full">
             <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
@@ -99,18 +120,20 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
               </th>
             </tr>
           </thead>
+        
           <tbody className="w-full lg:w-full lg:bg-[#F9FAFB]">
+         
             {(isSmallScreen ? currentItems : itemDetails.contravention).map((invoice) => (
-               <tr key={invoice.ticket} className="flex flex-col px-[1rem] lg:flex lg:flex-row lg:border-b-[#D0D5DD] lg:border cursor-pointer hover:bg-[#FFFFFF]"
+               <tr key={invoice.ticket} className="flex flex-col px-[1rem] lg:flex lg:flex-row lg:border-b-[#D0D5DD] lg:border cursor-pointer hover:bg-[#FFFFFF] "
                onClick={() => handleRowClick(invoice)}
                >
                <td
-                 className={`py-[0.75rem] self-end text-[#212121] pl-[17px] lg:pl-0 cursor-pointer   ${groteskText.className}`}
+                 className={`py-[0.75rem] self-end text-[#212121] pl-[17px] lg:pl-0 cursor-pointer lg:w-[14%]  ${groteskText.className}`}
                >
                  {invoice.ticket}
                </td>
                <td
-                 className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[8rem]  ${groteskText.className}`}
+                 className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[6rem]  ${groteskText.className}`}
                >
                  {invoice.reg_num}
                </td>
@@ -138,8 +161,12 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
                </span>
              </tr>
             ))}
+            
           </tbody>
+       
         </table>
+       
+
         {isSmallScreen  && (
           <div className="flex justify-between mt-4 px-[1rem] lg:hidden">
             <button
@@ -155,7 +182,7 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
                 <span
                   key={index}
                   className={`w-3 h-3 rounded-full ${
-                    currentPage === index + 1 ? 'bg-blue-500' : 'bg-gray-400'
+                    currentPage === index + 1 ? 'bg-gray-500' : 'bg-gray-200'
                   }`}
                 ></span>
               ))}
@@ -170,7 +197,9 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
             </button>
           </div>
         )}
+    
       </div>
+      </Slider>
       {selectedInvoice && (
         <div className={`flex flex-col ${isSmallScreen ? 'w-full mt-[32px]' : 'hidden lg:flex lg:w-[1021px] mt-[44px] mx-[20px]'}`}>
     <h1 className={`text-[24px] self-center text-[#000000] lg:text-[32px] ${groteskTextMedium.className}`}>Contravention Detailed Breakdown</h1>
@@ -263,7 +292,12 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
     <h1 className={`text-[#000000] text-[24px] ${groteskTextMedium.className}`}>Photo Evidence</h1>
     <div className='mt-[24px]'>
         <Image
-         src={ContraImage.src} alt="des" />
+
+         src={ContraImage.src} alt="des"
+         width={396}
+         height={268}
+          />
+        
          </div>
   </section>
   </div>

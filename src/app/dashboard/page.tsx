@@ -18,16 +18,22 @@ import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
 import cars from "@/data/data.json";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
+import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDrawer";
 
- export default function DashboardPage() {
+export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
-  const [status, setStatus] = useState("failed");
-  const [isWide, setIsWide] = useState(false); 
 
+  const drawerRef = useRef<any>(null);
+
+  const scrollToTopFromParent = () => {
+    if (drawerRef.current) {
+      drawerRef.current.handleButtonClick(); // Call the method exposed by the Drawer
+    }
+  };
 
   const toggleDrawer = () => {
     setIsOpen((prev) => !prev);
@@ -39,46 +45,48 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
     }
   };
 
-  // const addToVehicle = () => {
-  //   setDrawerContent(<AddToVehicle
-  //     toggleDrawer={toggleDrawer}
-  //      status={openAddVehicleStatus}
-  //       />
-  //     );
-  //   toggleDrawer();
-  // };
- 
+
+  ///Corporate
+  // const userRole = "individual";
+  const userRole = "corporate";
 
   const openCarProfile = (car: any) => {
-    setDrawerContent(
-      <CarProfileDrawer
-        car={cars}
-        toggleDrawer={toggleDrawer}
-        addVehicleDetails={addVehicleDetails}
-      />
-    );
-    setIsWide(false);
+    if (userRole === "individual") {
+      setDrawerContent(
+        <CarProfileDrawer
+          car={car}
+          toggleDrawer={toggleDrawer}
+          addVehicleDetails={addVehicleDetails}
+        />
+      );
+    } else {
+      setDrawerContent(
+        <CorporateCarProfileDrawer
+          toggleDrawer={toggleDrawer}
+          addVehicleDetails={addVehicleDetails}
+        />
+      );
+    }
+
     openDrawer();
   };
 
   const openNotificationsTable = () => {
     setDrawerContent(<NotificationTableDrawer />);
-    setIsWide(false);
     openDrawer();
   };
 
   const openConventionTable = () => {
-    setDrawerContent(<ConventionTableDrawer
-    
-      toggleDrawer={toggleDrawer} handleRowClick={function (): void {
-        throw new Error("Function not implemented.");
-      } }       />);
-      setIsWide(true);
+    setDrawerContent(
+      <ConventionTableDrawer
+        toggleDrawer={toggleDrawer}
+        handleRowClick={function (): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+    );
     openDrawer();
   };
-
-
-  
 
   const addVehicleDetails = () => {
     setDrawerContent(
@@ -87,12 +95,12 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         back={openCarProfile}
       />
     );
-    setIsWide(false);
+    scrollToTopFromParent();
+    
     openDrawer();
   };
   const openEducationalMaterials = () => {
     setDrawerContent(<EducationalMaterialsDrawer />);
-    setIsWide(false);
     openDrawer();
   };
 
@@ -104,7 +112,6 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         vehicleStatus={VehicleStatus}
       />
     );
-    setIsWide(false);
     openDrawer();
   };
   const OwnerInfoDrawer = () => {
@@ -114,7 +121,6 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         VehicleStatus={VehicleStatus}
       />
     );
-    setIsWide(false);
     openDrawer();
   };
 
@@ -122,10 +128,9 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
     setDrawerContent(
       <VehicleAddedSuccess
         toggleDrawer={toggleDrawer}
-        addVehicleDetails={addVehicleDetails}
+        openCarProfile={openCarProfile}
       />
     );
-    setIsWide(false);
     openDrawer();
   };
 
@@ -137,7 +142,6 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
         back={addVehicleDetails}
       />
     );
-    setIsWide(false);
     openDrawer();
   };
 
@@ -216,10 +220,13 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
           </div>
         </section>
       </main>
-      <Drawer isOpen={isOpen} toggleDrawer={toggleDrawer} isWide={isWide}>
-  {drawerContent}
-</Drawer>
-
+      <Drawer
+        ref={drawerRef} 
+        isOpen={isOpen}
+        toggleDrawer={toggleDrawer}
+      >
+        {drawerContent}
+      </Drawer>
     </div>
   );
 }
@@ -227,8 +234,6 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 function NotificationTableDrawer() {
   return <div>Notification List Content</div>;
 }
-
-
 
 function EducationalMaterialsDrawer() {
   return <div>List of all the materials necessary for tutorials</div>;

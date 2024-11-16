@@ -13,7 +13,7 @@ const VehicleAddedFailed = ({ back, toggleDrawer, Success }) => {
         subTitle="We couldn't add your vehicle at the moment. Please check the following"
       />
 
-      <div className={`mt-12 space-y-4 text-center ${groteskText.className} `}>
+      <div className={`mt-12 space-y-4 text-left ${groteskText.className} md:mx-[100px]`}>
         <p className="text-red-600 font-medium">
           Correct Information:
           <span className="text-black  ml-1">
@@ -38,7 +38,7 @@ const VehicleAddedFailed = ({ back, toggleDrawer, Success }) => {
         />
       </div>
 
-      <h2 className={`text-xl  mt-8 ${groteskTextMedium.className} `}>
+      <h2 className={`md:text-[40px] text-[28px] mt-8 ${groteskTextMedium.className} `}>
         Uh-oh, Something Went Wrong!
       </h2>
       <p className="mt-2 text-gray-600">

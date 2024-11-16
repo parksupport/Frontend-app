@@ -1,7 +1,7 @@
 import { groteskText } from "@/app/fonts";
 import DownloadTemplate from "@/assets/images/DownloadTemplate.png";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import Button from "../Buttons";
 import InputField from "../InputField";
@@ -22,6 +22,11 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     car_model: "",
     car_color: "",
   });
+
+  useEffect(() => {
+    // Scroll to top after this component is mounted/rendered
+    window.scrollTo(0, 0);
+  }, []); // This ensures it runs only once when the component is mounted.
 
   const userRole = "corporate"; // Update as necessary or make it a prop if dynamic
   // const userRole = "individual"; // Update as necessary or make it a prop if dynamic
@@ -62,7 +67,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
         title="Add Your Vehicle Details"
         subTitle="Let’s get your vehicle set up for tracking contraventions and staying on top of payments."
       />
-      <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[70px] ">
+      <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[170px] ">
         <div className="flex flex-col gap-4 items-center  md:mx-[55px]">
           <div className="flex flex-col items-center w-full">
             <InputField

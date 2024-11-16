@@ -122,7 +122,7 @@ function DynamicForm({ formType, status }) {
   const formConfig = formConfigurations[formType];
 
   return (
-    <div>
+    <div className="">
       <h1
         className={`${groteskTextMedium.className} text-[24px] md:text-[32px] text-wrap`}
       >
@@ -161,46 +161,21 @@ function DynamicForm({ formType, status }) {
 }
 
 const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus }) => {
-  const [selectedKey, setSelectedKey] = useState("0"); 
-  const [confirmedKey, setConfirmedKey] = useState(null); 
+  const [selectedKey, setSelectedKey] = useState("0");
 
-  // const VehicleStatus = () => {
-  //   const status = checkVehicleStatus();
-  //   if (status === "failed") {
-  //     handleFailed();
-  //   } else if (status === "success") {
-  //     handleSuccess();
-  //   }
-  // };
-
-  // const checkVehicleStatus = () => {
-  //   // Replace this with actual conditions or API call
-  //   const randomOutcome = Math.random() > 0.5 ? "success" : "failed";
-  //   return randomOutcome;
-  // };
-
-  // Update selectedKey when an owner is selected
+  // Handle owner selection
   const handleSelect = (key) => {
     setSelectedKey(key);
+    console.log("Form confirmed for:", owners[key]);
   };
 
-  // Confirm selected option and update confirmedKey to display the form
-  const handleContinue = () => {
-    setConfirmedKey(selectedKey);
-    console.log("Form confirmed for:", owners[selectedKey]);
-  };
-
-  // Render the form based on the confirmed owner
+  // Render the dynamic form based on selectedKey
   const renderForm = () => {
-    if (confirmedKey !== null) {
-      return <DynamicForm formType={confirmedKey} status={VehicleStatus} />;
-    }
-    return null;
+    return <DynamicForm formType={selectedKey} status={VehicleStatus} />;
   };
 
   const icons = {
     0: <ProfileSVG color="#3957D7" size={24} className="mx-2" />,
-
     1: <BuildingSVG color="#3957D7" size={24} className="mx-2" />,
     2: <GroupSVG color="#3957D7" size={50} className="mx-2" />,
   };
@@ -212,7 +187,7 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus }) => {
         title="Which of these best describes your ownership of the vehicle?"
         className="text-[24px]"
       />
-      <div className="flex flex-wrap flex-col items-start gap-5 mb-4 mt-[44px] mx-2  md:mx-[50px] ">
+      <div className="flex flex-wrap flex-col items-start gap-5 mb-4 mt-[44px] mx-2  md:mx-[150px] ">
         {Object.entries(owners).map(([key, topic]) => (
           <button
             key={key}
@@ -227,19 +202,9 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus }) => {
             {topic}
           </button>
         ))}
-        <div className="ml-0 md:ml:0   pt-[20px] pb-[60px] w-full">
-          <Button
-            onClick={handleContinue}
-            variant="quinary"
-            className="py-[10px] px-[12px] w-full md:w-[80%]"
-            iconPosition="right"
-          >
-            Continue
-          </Button>
-        </div>
       </div>
 
-      <div className=" mx-[16px]  md:ml-[50px] ">{renderForm()}</div>
+      <div className=" my-[94px] mx-[16px] md:mx-[150px]  ">{renderForm()}</div>
     </>
   );
 };

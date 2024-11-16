@@ -21,6 +21,9 @@ import cars from "@/data/data.json";
 import { useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
+import SettingsDrawer from "@/components/Drawer/SettingsDrawer";
+import AddBillingMethodDrawer from "@/components/Drawer/AddBillingMethodDrawer";
+import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer";
 
  export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,8 +64,13 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
     openDrawer();
   };
 
+  const handleOpenNotificationsTable = () => {
+    // Your logic to open the notifications table
+    console.log("Notifications table expanded");
+  };
+
   const openNotificationsTable = () => {
-    setDrawerContent(<NotificationTableDrawer />);
+    setDrawerContent(<NotificationTableDrawer openNotificationsTable={handleOpenNotificationsTable}/>);
     setIsWide(false);
     openDrawer();
   };
@@ -150,6 +158,25 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
     }
   };
 
+  const openSettingsDrawer = () => {
+    setDrawerContent(
+      <SettingsDrawer
+        toggleDrawer={toggleDrawer}
+        openAddBillingMethod={openAddBillingMethod}
+      />
+    );
+    setIsWide(false);
+    openDrawer();
+  };
+
+  const openAddBillingMethod = () => {
+    setDrawerContent(
+      <AddBillingMethodDrawer back={openSettingsDrawer} toggleDrawer={toggleDrawer} />
+    );
+    setIsWide(false);
+    openDrawer();
+  };
+
   const checkVehicleStatus = () => {
     // Replace this with actual conditions or API call
     const randomOutcome = Math.random() > 0.5 ? "success" : "failed";
@@ -158,7 +185,7 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-      <DashboardHeader />
+      <DashboardHeader openSettingsDrawer={openSettingsDrawer} />
       {/* Main Content */}
       <main className="mx-4 md:mx-[30px] flex flex-col items-center w-full">
         <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
@@ -224,9 +251,7 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
   );
 }
 
-function NotificationTableDrawer() {
-  return <div>Notification List Content</div>;
-}
+
 
 
 

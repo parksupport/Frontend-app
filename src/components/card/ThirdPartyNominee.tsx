@@ -1,6 +1,6 @@
 import { groteskText } from "@/app/fonts";
 import React, { useRef, useState } from "react";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import {  FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
@@ -11,6 +11,7 @@ import DropdownInputField from "../DropdownInputField";
 import useDeleteRow from "@/hooks/useDeleteRow";
 import Slider from "react-slick";
 import DeleteRowModal from "../DeleteRowModal";
+import { CiEdit } from "react-icons/ci";
 
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;

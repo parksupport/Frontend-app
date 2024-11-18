@@ -7,6 +7,7 @@ import Calendar from "@/components/card/Calendar";
 import CarProfile from "@/components/card/CarProfile";
 import ContraventionTable from "@/components/card/Contravention";
 import EducationalMaterials from "@/components/card/Educationalmaterials";
+import EducationalMaterialsDrawer from "@/components/Drawer/EducationMaterialsDrawer";
 import FAQComponents from "@/components/card/FAQComponents";
 import NotificationsTable from "@/components/card/NotificationTable";
 import DashboardHeader from "@/components/DashboardHeader";
@@ -105,9 +106,7 @@ export default function DashboardPage() {
     setDrawerContent(
       <ConventionTableDrawer
         toggleDrawer={toggleDrawer}
-        handleRowClick={function (): void {
-          throw new Error("Function not implemented.");
-        }}
+        
       />
     );
     openDrawer();
@@ -126,7 +125,7 @@ export default function DashboardPage() {
     openDrawer();
   };
   const openEducationalMaterials = () => {
-    setDrawerContent(<EducationalMaterialsDrawer />);
+    setDrawerContent(<EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />);
     openDrawer();
   };
 
@@ -282,6 +281,3 @@ export default function DashboardPage() {
   );
 }
 
-function EducationalMaterialsDrawer() {
-  return <div>List of all the materials necessary for tutorials</div>;
-}

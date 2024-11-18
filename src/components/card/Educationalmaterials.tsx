@@ -40,7 +40,7 @@ const EducationalMaterials = ({
 
       <div className="md:flex md:gap-8 ">
         {" "}
-        <div className="flex flex-wrap md:flex-col items-start gap-2 mb-4 md:flex-col md:w-[38%]">
+        <div className="flex flex-wrap  items-start gap-2 mb-4 md:flex-col md:w-[38%]">
           {TopicList.map((topic) => (
             <button
               key={topic.id}

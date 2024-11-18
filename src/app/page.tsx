@@ -22,6 +22,7 @@ import NotificationBox from "@/components/NotificationBox";
 import TextAnimation from "@/components/TextAnimation";
 import { TextSection } from "@/components/TextSection";
 import { groteskText, groteskTextMedium } from "./fonts";
+import SubscriptionPlans from "@/components/Subscription";
 
 
 export default function LandingPage() {
@@ -235,6 +236,9 @@ export default function LandingPage() {
         <section ref={faq} id="faq-section" className="pb-8 md:pb-[120px]  ">
           <FAQAccordion />
         </section>
+        {/* Subscription Plans Section */}
+        
+        <SubscriptionPlans /> 
         <section>
           <Footer />
         </section>

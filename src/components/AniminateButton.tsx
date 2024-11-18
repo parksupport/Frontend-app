@@ -1,54 +1,55 @@
-"use client"
+"use client";
+import React, { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import './AnimateButton.css'
-
-import React, { useEffect } from 'react'
+import "./AnimateButton.css";
 
 interface ButtonProps {
-    text: string;
-    onClick?: ()=> void
-    className: string;
-  }
-const AniminateButton: React.FC<ButtonProps> = ({ text, onClick,  }) => {
-      const router = useRouter()
+  text: string;
+  onClick?: () => void;
+  className?: string;
+}
 
-        useEffect(() => {
-      
-          const createSlidingOverlay = () => {
-            const overlay = document.createElement('span');
-            overlay.classList.add('overlay');
-            button?.appendChild(overlay);
-      
-            overlay.addEventListener('animationend', () => {
-              overlay.remove();
-            });
-          };
-      
-          const interval = setInterval(createSlidingOverlay, 2000); // Adjust interval time as needed
-      
-          return () => clearInterval(interval);
-        }, []);
-        const button = document.querySelector('.buttons');
+const AnimateButton: React.FC<ButtonProps> = ({ text, onClick, className }) => {
+  const router = useRouter();
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-        const handleClick = () => {
-          router.push("/auth/onboarding");
-        };
-    
-        if (button) {
-          button.addEventListener('click', handleClick);
-        }
+  useEffect(() => {
+    const button = buttonRef.current;
 
+    if (!button) return;
 
-        return (
-          <button className="buttons cursor-pointer"
+    const createSlidingOverlay = () => {
+      const overlay = document.createElement("span");
+      overlay.classList.add("overlay");
+      button.appendChild(overlay);
 
-          >
-            <a className="button cursor-pointer" href="#">
-              {text}
-            </a>
-          </button>
-        );
+      overlay.addEventListener("animationend", () => {
+        overlay.remove();
+      });
     };
 
+    const interval = setInterval(createSlidingOverlay, 2000); // Adjust interval time as needed
 
-export default AniminateButton
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      router.push("/auth/onboarding");
+    }
+  };
+
+  return (
+    <button
+      ref={buttonRef}
+      className={`buttons cursor-pointer ${className || ""}`}
+      onClick={handleClick}
+    >
+      {text}
+    </button>
+  );
+};
+
+export default AnimateButton;

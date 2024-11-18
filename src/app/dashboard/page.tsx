@@ -182,7 +182,7 @@ import OpenNotification from "@/components/notification-popup/OpenNotification";
 
   const openAddBillingMethod = () => {
     setDrawerContent(
-      <AddBillingMethodDrawer toggleDrawer={toggleDrawer}  openAddBillingMethod={openAddBillingMethod}/>
+      <AddBillingMethodDrawer toggleDrawer={toggleDrawer}  back={openSettingsDrawer}/>
     );
     setIsWide(false);
     openDrawer();

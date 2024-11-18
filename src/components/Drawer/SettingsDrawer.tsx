@@ -6,8 +6,6 @@ import Button from "../Buttons";
 import PlusButtonSVG from '@/assets/svg/normal.svg'
 import { Switch } from "@/components/ui/switch"
 import InputField from "../InputField";
-import AddBillingMethodDrawer from "./AddBillingMethodDrawer";
-import Subscription from "../Subscription";
 import { useRouter } from "next/navigation";
 
 
@@ -32,10 +30,8 @@ import { useRouter } from "next/navigation";
   }
 
   const handleSubcription =()=> {
-router.push('/subscription')
+    console.log('subscribed')
   }
-
-
 
   return (
     <div className="mt-[70px]">

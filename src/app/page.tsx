@@ -25,7 +25,6 @@ import { groteskText, groteskTextMedium } from "./fonts";
 
 
 export default function LandingPage() {
-  console.log(TextAnimation);
   const [vehicleNo, setVehicleNo] = useState("");
   const [searchResult, setSearchResult] = useState(null);
 
@@ -148,7 +147,7 @@ export default function LandingPage() {
 
         <section
           ref={search}
-          className="flex flex-col max-w-[1440px] mx-auto  flex flex-col  items-center py-9 md:py-[120px] px-4 lg:flex lg:flex-row "
+          className="max-w-[1440px] mx-auto  flex flex-col  items-center py-9 md:py-[120px] px-4 lg:flex lg:flex-row "
         >
           <div className="order-2 flex-shrink-0 lg:order-1">
             <Image

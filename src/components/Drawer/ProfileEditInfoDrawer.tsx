@@ -137,7 +137,7 @@ export function ProfileEditInfoDrawer({ back ,userRole}: ProfileEditInfoDrawerPr
     <div className=" mb-[300px] ">
       <DrawerHeader
         toggleDrawer={back}
-        title="Edit Profile"
+        title={userRole === "User" ? "Edit Information" : "Edit Corporate Information"}
         subTitle="Put in the same details that exist with DVLA"
       />
 

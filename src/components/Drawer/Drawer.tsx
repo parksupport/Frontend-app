@@ -84,4 +84,7 @@ const Drawer = forwardRef(
   }
 );
 
+Drawer.displayName = "Drawer";
+
+
 export default Drawer;

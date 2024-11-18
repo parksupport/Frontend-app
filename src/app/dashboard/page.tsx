@@ -22,6 +22,12 @@ import { useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDrawer";
+import SettingsDrawer from "@/components/Drawer/SettingsDrawer";
+import AddBillingMethodDrawer from "@/components/Drawer/AddBillingMethodDrawer";
+import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer";
+import UserInfo from "@/components/Drawer/UserInfoDrawer";
+import UserInfoDrawer from "@/components/Drawer/UserInfoDrawer";
+import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +37,7 @@ export default function DashboardPage() {
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
-      drawerRef.current.handleButtonClick(); // Call the method exposed by the Drawer
+      drawerRef.current.handleButtonClick();
     }
   };
 
@@ -45,10 +51,9 @@ export default function DashboardPage() {
     }
   };
 
+  let userRole: "corporate" | "individual" = "corporate";
 
-  ///Corporate
-  // const userRole = "individual";
-  const userRole = "corporate";
+  userRole = Math.random() > 0.5 ? "corporate" : "individual";
 
   const openCarProfile = (car: any) => {
     if (userRole === "individual") {
@@ -71,8 +76,28 @@ export default function DashboardPage() {
     openDrawer();
   };
 
+  const openProfileDrawer = () => {
+    setDrawerContent(<UserInfoDrawer back={toggleDrawer} onEdit={openProfileEditDrawer} />);
+    openDrawer();
+  };
+
+  const openProfileEditDrawer = () => {
+    setDrawerContent(<ProfileEditInfoDrawer back={openProfileDrawer} />);
+
+    openDrawer();
+  };
+
+  const handleOpenNotificationsTable = () => {
+    // Your logic to open the notifications table
+    console.log("Notifications table expanded");
+  };
+
   const openNotificationsTable = () => {
-    setDrawerContent(<NotificationTableDrawer />);
+    setDrawerContent(
+      <NotificationTableDrawer
+        openNotificationsTable={handleOpenNotificationsTable}
+      />
+    );
     openDrawer();
   };
 
@@ -96,7 +121,7 @@ export default function DashboardPage() {
       />
     );
     scrollToTopFromParent();
-    
+
     openDrawer();
   };
   const openEducationalMaterials = () => {
@@ -154,6 +179,26 @@ export default function DashboardPage() {
     }
   };
 
+  const openSettingsDrawer = () => {
+    setDrawerContent(
+      <SettingsDrawer
+        toggleDrawer={toggleDrawer}
+        openAddBillingMethod={openAddBillingMethod}
+      />
+    );
+    openDrawer();
+  };
+
+  const openAddBillingMethod = () => {
+    setDrawerContent(
+      <AddBillingMethodDrawer
+        back={openSettingsDrawer}
+        toggleDrawer={toggleDrawer}
+      />
+    );
+    openDrawer();
+  };
+
   const checkVehicleStatus = () => {
     // Replace this with actual conditions or API call
     const randomOutcome = Math.random() > 0.5 ? "success" : "failed";
@@ -162,7 +207,10 @@ export default function DashboardPage() {
 
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-      <DashboardHeader />
+      <DashboardHeader
+        openSettingsDrawer={openSettingsDrawer}
+        openProfileDrawer={openProfileDrawer}
+      />
       {/* Main Content */}
       <main className="mx-4 md:mx-[30px] flex flex-col items-center w-full">
         <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
@@ -220,19 +268,11 @@ export default function DashboardPage() {
           </div>
         </section>
       </main>
-      <Drawer
-        ref={drawerRef} 
-        isOpen={isOpen}
-        toggleDrawer={toggleDrawer}
-      >
+      <Drawer ref={drawerRef} isOpen={isOpen} toggleDrawer={toggleDrawer}>
         {drawerContent}
       </Drawer>
     </div>
   );
-}
-
-function NotificationTableDrawer() {
-  return <div>Notification List Content</div>;
 }
 
 function EducationalMaterialsDrawer() {

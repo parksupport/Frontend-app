@@ -9,7 +9,7 @@ import { IoNotifications } from "react-icons/io5";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 
-function DashboardHeader() {
+function DashboardHeader({ openSettingsDrawer ,openProfileDrawer}) {
   return (
     <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
     <div className="flex items-center justify-between w-full">
@@ -32,11 +32,11 @@ function DashboardHeader() {
         <button className="cursor-pointer">
           <IoNotifications size={24} color="grey" />
         </button>
-        <button className="cursor-pointer">
+        <button className="cursor-pointer" onClick={openSettingsDrawer}>
           <SettingSVG size={24} color="grey" />
         </button>
         <div className="hidden sm:block">|</div>
-        <button className="cursor-pointer">
+        <button className="cursor-pointer"onClick={openProfileDrawer}>
           <ProfileSVG />
         </button>
       </div>

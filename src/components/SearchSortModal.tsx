@@ -58,7 +58,10 @@ const SearchSortModal = ({ data, setData }) => {
         sortedData.sort((a, b) => a.color.localeCompare(b.color));
         break;
       case "Date added":
-        sortedData.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
+        sortedData.sort(
+          (a, b) =>
+            new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime()
+        );
         break;
       case "Make":
         sortedData.sort((a, b) => a.make.localeCompare(b.make));

@@ -242,6 +242,15 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
     }));
   };
 
+  const handleDropdownChange = (selected: { value: string; label: string }) => {
+    const { value } = selected;
+    setFormData((prevData) => ({
+      ...prevData,
+      vehicle: value,
+    }));
+  };
+  
+
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email) ? null : "Invalid email format";
@@ -303,7 +312,7 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
                 ]}
                 label="Choose Vehicle"
                 placeholder="Enter your Vehicle"
-                onChange={handleChange}
+                onChange={handleDropdownChange}
                 selectedValue=""
                 className={`${groteskText.className} w-[300px]`}
               />

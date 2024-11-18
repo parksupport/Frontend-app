@@ -456,7 +456,7 @@ export const NomineeMobile = ({
           <div className="rounded-[8px] bg-white absolute right-4  z-10">
             <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
               <button className="w-full flex items-center px-[1px] py-2 text-sm text-gray-700 hover:bg-gray-100">
-                <FiEdit className="mr-2" />
+                <CiEdit  className="mr-2" />
                 Edit Nominee
               </button>
               <button

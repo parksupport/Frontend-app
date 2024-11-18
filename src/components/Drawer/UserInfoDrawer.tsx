@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import { FiEdit } from "react-icons/fi";
+import useIsMobile from "@/hooks/useIsMobile";
+import { CiEdit } from "react-icons/ci";
 
 
 const UserInfoDrawer = ({ back, onEdit }) => {
-  
+  const isMobile = useIsMobile();
   const [user, setUser] = useState({
     profileImage: "https://via.placeholder.com/80",
     name: "Wisdom Odili",
@@ -28,7 +29,6 @@ const UserInfoDrawer = ({ back, onEdit }) => {
       fields: [
         { label: "First name", value: user?.firstName },
         { label: "Last name", value: user?.lastName },
-        { label: " ", value: "" },
         { label: "Email address", value: user?.email },
         { label: "Phone", value: user?.phone },
       ],
@@ -103,7 +103,7 @@ const UserInfoDrawer = ({ back, onEdit }) => {
     },
   ];
 
-  const isUserInfo = true; // Toggle between user or company info sections
+  const isUserInfo = false; // Toggle between user or company info sections
 
   return (
     <>
@@ -144,7 +144,7 @@ const UserInfoDrawer = ({ back, onEdit }) => {
             onClick={onEdit}
           >
             <span>Edit</span>
-            <FiEdit color="black" size={20} />
+            <CiEdit  color="black" size={20} />
           </button>
         </div>
 
@@ -161,16 +161,16 @@ const UserInfoDrawer = ({ back, onEdit }) => {
                 {section.title}
               </h2>
               <div
-                className={`grid ${
+                className={`grid   ${
                   section.fields.length <= 4
-                    ? "grid-cols-2 "
+                    ? "grid-cols-2 gap-x-6 md:gap-x-0 md:w-[78%] "
                     : "grid-cols-2 md:grid-cols-3 gap-x-4 "
                 } gap-y-4 text-gray-700`}
               >
                 {section.fields.map((field, fieldIndex) => (
                   <div key={fieldIndex}>
                     <p
-                      className={`${groteskText.className} text-[16px] md:text-[20px] text-[#667185]`}
+                      className={`${groteskText.className} text-[16px] md:text-[20px] text-[#667185] text-wrap `}
                     >
                       {field.label}
                     </p>

@@ -28,10 +28,12 @@ import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer
 import UserInfo from "@/components/Drawer/UserInfoDrawer";
 import UserInfoDrawer from "@/components/Drawer/UserInfoDrawer";
 import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer";
+import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
+  const [User ,setUser] = useState("")
 
   const drawerRef = useRef<any>(null);
 
@@ -51,12 +53,10 @@ export default function DashboardPage() {
     }
   };
 
-  let userRole: "corporate" | "individual" = "corporate";
 
-  userRole = Math.random() > 0.5 ? "corporate" : "individual";
 
   const openCarProfile = (car: any) => {
-    if (userRole === "individual") {
+    if (User === "User") {
       setDrawerContent(
         <CarProfileDrawer
           car={car}
@@ -77,12 +77,12 @@ export default function DashboardPage() {
   };
 
   const openProfileDrawer = () => {
-    setDrawerContent(<UserInfoDrawer back={toggleDrawer} onEdit={openProfileEditDrawer} />);
+    setDrawerContent(<UserInfoDrawer back={toggleDrawer} onEdit={openProfileEditDrawer} userInfo={User} />);
     openDrawer();
   };
 
   const openProfileEditDrawer = () => {
-    setDrawerContent(<ProfileEditInfoDrawer back={openProfileDrawer} />);
+    setDrawerContent(<ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />);
 
     openDrawer();
   };
@@ -118,6 +118,7 @@ export default function DashboardPage() {
       <AddVehicleDetailsDrawer
         CheckVehicleOwner={CheckVehicleOwner}
         back={openCarProfile}
+        userRole={User}
       />
     );
     scrollToTopFromParent();
@@ -205,6 +206,11 @@ export default function DashboardPage() {
     return randomOutcome;
   };
 
+  const handleToggle = (newState) => {
+    console.log("Current State:", newState);
+    setUser(newState)
+  };
+
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
       <DashboardHeader
@@ -225,6 +231,7 @@ export default function DashboardPage() {
               Free plan
             </button>
           </div>
+          <ToggleButton initialState="User" onToggle={handleToggle} />
         </section>
 
         {/* Profile and Table Section */}

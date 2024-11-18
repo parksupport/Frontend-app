@@ -1,7 +1,7 @@
 import { groteskText } from "@/app/fonts";
 import DownloadTemplate from "@/assets/images/DownloadTemplate.png";
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { IoMdCheckmark } from "react-icons/io";
 import Button from "../Buttons";
 import InputField from "../InputField";
@@ -10,11 +10,13 @@ import DrawerHeader from "./DrawerHeader";
 type VehicleDetailsDrawerProps = {
   back: any;
   CheckVehicleOwner: () => void;
+  userRole?: any
 };
 
 const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   back,
   CheckVehicleOwner,
+  userRole,
 }) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
@@ -23,13 +25,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     car_color: "",
   });
 
-  useEffect(() => {
-    // Scroll to top after this component is mounted/rendered
-    window.scrollTo(0, 0);
-  }, []); // This ensures it runs only once when the component is mounted.
-
-  const userRole = "corporate"; // Update as necessary or make it a prop if dynamic
-  // const userRole = "individual"; // Update as necessary or make it a prop if dynamic
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -127,7 +122,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           >
             Save Vehicle
           </Button>
-          {userRole === "corporate" && (
+          {userRole === "Corporate" && (
             <div className="flex flex-col gap-4 items-center pb-[200px] cursor-pointer w-full">
               <div className="w-[100%]">
                 <div className="flex-shrink-0">

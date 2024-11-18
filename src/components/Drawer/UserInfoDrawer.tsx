@@ -5,7 +5,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { CiEdit } from "react-icons/ci";
 
 
-const UserInfoDrawer = ({ back, onEdit }) => {
+const UserInfoDrawer = ({ back, onEdit,userInfo }) => {
   const isMobile = useIsMobile();
   const [user, setUser] = useState({
     profileImage: "https://via.placeholder.com/80",
@@ -103,7 +103,6 @@ const UserInfoDrawer = ({ back, onEdit }) => {
     },
   ];
 
-  const isUserInfo = false; // Toggle between user or company info sections
 
   return (
     <>
@@ -149,7 +148,7 @@ const UserInfoDrawer = ({ back, onEdit }) => {
         </div>
 
         {/* Dynamic Sections */}
-        {(isUserInfo ? userInfoSections : conmpanyInfoSections).map(
+        {(userInfo ==="User" ? userInfoSections : conmpanyInfoSections).map(
           (section, index) => (
             <div
               key={index}

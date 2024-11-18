@@ -7,9 +7,10 @@ import { IoMdCheckmark } from "react-icons/io";
 
 interface ProfileEditInfoDrawerProps {
   back?: () => void;
+  userRole?: any;
 }
 
-export function ProfileEditInfoDrawer({ back }: ProfileEditInfoDrawerProps) {
+export function ProfileEditInfoDrawer({ back ,userRole}: ProfileEditInfoDrawerProps) {
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
@@ -130,7 +131,7 @@ export function ProfileEditInfoDrawer({ back }: ProfileEditInfoDrawerProps) {
     },
   ];
 
-  const userRole = false;
+
 
   return (
     <div className=" mb-[300px] ">
@@ -143,7 +144,7 @@ export function ProfileEditInfoDrawer({ back }: ProfileEditInfoDrawerProps) {
       <form className="pt-5 md:pt-10 px-[20px] md:mx-auto ">
         <div className="flex flex-col gap-4 items-center  md:mx-[55px]">
           {/* Map through the inputFields array */}
-          {(userRole ? UserInputFields : CompanyInputFields).map((field) => (
+          {(userRole === "User" ? UserInputFields : CompanyInputFields).map((field) => (
             <InputField
               key={field.name} // Unique key for each input field
               type={field.type}

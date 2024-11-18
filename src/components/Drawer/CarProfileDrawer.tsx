@@ -5,20 +5,27 @@ import ThirdPartyNominees, {
 import DrawerHeader from "./DrawerHeader";
 import CarProfileSlider from "../CarProfileSlider";
 
-const CarProfileDrawer = ({ car, toggleDrawer, addVehicleDetails }) => {
+
+interface CarProfileDrawerProps{
+  car:any;
+  toggleDrawer:any;
+  addVehicleDetails:any
+}
+
+const CarProfileDrawer = ({ car, toggleDrawer, addVehicleDetails }: CarProfileDrawerProps) => {
   const [form, setForm] = useState(false);
   return (
-    <div className="w-full max-w-[580px]">
+    <div className="w-full">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Vehicle Overview"
         subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account.."
       />
-      <CarProfileSlider car={car} addVehicle={addVehicleDetails} />
+      <CarProfileSlider car={car} addVehicle={addVehicleDetails}   />
       {form ? (
-        <AddThirdPartyNominee handleFormState={setForm} />
+        <AddThirdPartyNominee vehicle={car} toggleForm={setForm} addVehicle={addVehicleDetails} />
       ) : (
-        <ThirdPartyNominees handleFormState={setForm} />
+        <ThirdPartyNominees toggleForm={setForm} />
       )}
     </div>
   );

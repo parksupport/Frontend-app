@@ -1,22 +1,26 @@
 import { groteskText } from "@/app/fonts";
 import React, { useRef, useState } from "react";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import {  FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
 import Button from "../Buttons";
 import InputField from "../InputField";
-
 import useIsMobile from "@/hooks/useIsMobile";
 import DropdownInputField from "../DropdownInputField";
-
+import useDeleteRow from "@/hooks/useDeleteRow";
 import Slider from "react-slick";
+import DeleteRowModal from "../DeleteRowModal";
+import { CiEdit } from "react-icons/ci";
 
-export default function ThirdPartyNominees({ handleFormState }: any) {
-  const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
-    null
-  );
-  const [nominees, setNominees] = useState([
+interface ThirdPartyNomineesProps {
+  toggleForm: (state: boolean) => void;
+}
+
+export default function ThirdPartyNominees({
+  toggleForm,
+}: ThirdPartyNomineesProps) {
+  const datafromAPI = [
     {
       name: "Wisdom Odili",
       email: "Odiliwisdom5@gmail.com",
@@ -138,33 +142,19 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
     //   phone: "+44 5641 464 4484",
     //   car: "Jeep Cherokee",
     // },
-  ]);
-  const [showConfirmButton, setShowConfirmButton] = useState(false);
-  const [selectedNomineeIndex, setSelectedNomineeIndex] = useState<
-    number | null
-  >(null);
+  ];
 
-  const toggleDropdown = (index: number) => {
-    setOpenDropdownIndex(openDropdownIndex === index ? null : index);
-    setShowConfirmButton(false);
-  };
-
-  const handleDelete = (index: number) => {
-    setNominees(nominees.filter((_, nomineeIndex) => nomineeIndex !== index));
-    setShowConfirmButton(false);
-    setOpenDropdownIndex(null);
-  };
-
-  const showDeleteConfirmation = (index: number) => {
-    setShowConfirmButton(true);
-    setSelectedNomineeIndex(index);
-  };
-
-  const cancelDelete = () => {
-    setShowConfirmButton(false);
-    setSelectedNomineeIndex(null);
-    setOpenDropdownIndex(null);
-  };
+  const {
+    openDropdownIndex,
+    data,
+    showConfirmButton,
+    selectedDataIndex,
+    toggleDropdown,
+    handleDelete,
+    showDeleteConfirmation,
+    cancelDelete,
+    setShowConfirmButton,
+  } = useDeleteRow(datafromAPI);
 
   const isMobile = useIsMobile();
 
@@ -179,7 +169,7 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
         </h1>
         <div
           className={`text-[#4169E1] font-semibold hover:underline ${groteskText.className}`}
-          onClick={() => handleFormState(true)}
+          onClick={() => toggleForm(true)}
         >
           Go back
         </div>
@@ -187,35 +177,41 @@ export default function ThirdPartyNominees({ handleFormState }: any) {
 
       {isMobile ? (
         <NomineeMobile
-          nominees={nominees}
+          nominees={data}
           showDeleteConfirmation={showDeleteConfirmation}
           showConfirmButton={showConfirmButton}
           cancelDelete={cancelDelete}
-          openDeleteConfirmation={showDeleteConfirmation}
-          openDropdownIndex={openDropdownIndex}
-          toggleDropdown={toggleDropdown}
           handleDelete={handleDelete}
-          selectedNomineeIndex={selectedNomineeIndex}
+          selectedDataIndex={selectedDataIndex}
           setShowConfirmButton={setShowConfirmButton}
         />
       ) : (
         <NomineeDesktop
-          nominees={nominees}
+          nominees={data}
           showDeleteConfirmation={showDeleteConfirmation}
           showConfirmButton={showConfirmButton}
           cancelDelete={cancelDelete}
-          openDeleteConfirmation={showDeleteConfirmation}
           openDropdownIndex={openDropdownIndex}
           toggleDropdown={toggleDropdown}
           handleDelete={handleDelete}
-          selectedNomineeIndex={selectedNomineeIndex}
+          selectedDataIndex={selectedDataIndex}
         />
       )}
     </div>
   );
 }
 
-export function AddThirdPartyNominee({ vehicle, handleFormState }: any) {
+interface AddThirdPartyNomineeProps {
+  vehicle: any;
+  toggleForm?: (state: boolean) => void;
+  addVehicle?: () => void;
+}
+
+export function AddThirdPartyNominee({
+  vehicle,
+  toggleForm,
+  addVehicle,
+}: AddThirdPartyNomineeProps) {
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
@@ -244,7 +240,7 @@ export function AddThirdPartyNominee({ vehicle, handleFormState }: any) {
   return (
     <div className="py-12 mb-[300px] ">
       <div className="flex flex-col  ">
-        <div className="flex items-center justify-center gap-10 mb-4  md:pl-14 ">
+        <div className="flex items-center justify-center gap-4 mb-4  md:gap-10 ">
           <h1
             className={`text-wrap text-2xl text font-semibold text-[22px] md:text-[26px]  ${groteskText.className}`}
           >
@@ -252,7 +248,7 @@ export function AddThirdPartyNominee({ vehicle, handleFormState }: any) {
           </h1>
           <div
             className={`text-[#4169E1] font-semibold hover:underline ${groteskText.className}`}
-            onClick={() => handleFormState(false)}
+            onClick={() => toggleForm(false)}
           >
             View all
           </div>
@@ -268,7 +264,7 @@ export function AddThirdPartyNominee({ vehicle, handleFormState }: any) {
               value={formData.name}
               onChange={handleChange}
               variant="individual"
-              className={`  ${groteskText.className} w-[80%]  md:w-[60%]`}
+              className={`  ${groteskText.className} w-[90%]  md:w-[50%]`}
             />
             <InputField
               type="email"
@@ -279,7 +275,7 @@ export function AddThirdPartyNominee({ vehicle, handleFormState }: any) {
               onChange={handleChange}
               validationRules={validateEmail}
               variant="individual"
-              className={`  ${groteskText.className} w-[80%]  md:w-[60%] `}
+              className={`  ${groteskText.className} w-[90%]  md:w-[50%] `}
             />
             <InputField
               type="text"
@@ -289,17 +285,7 @@ export function AddThirdPartyNominee({ vehicle, handleFormState }: any) {
               value={formData.phone_number}
               onChange={handleChange}
               variant="individual"
-              className={`  ${groteskText.className} w-[80%]  md:w-[60%] `}
-            />
-            <InputField
-              type="text"
-              placeholder="Choose your Vehicle"
-              label="Choose Vehicle"
-              name="vehicle"
-              value={formData.vehicle}
-              onChange={handleChange}
-              variant="individual"
-              className={`  ${groteskText.className} pb-2 w-[80%]   md:w-[60%]`}
+              className={`  ${groteskText.className} w-[90%]  md:w-[50%] `}
             />
             <DropdownInputField
               name="vehicle"
@@ -313,12 +299,14 @@ export function AddThirdPartyNominee({ vehicle, handleFormState }: any) {
               placeholder="Enter your Vehicle"
               onChange={() => handleChange}
               selectedValue=""
-              className={`  ${groteskText.className} w-[80%]   md:w-[60%]`}
+              className={`  ${groteskText.className} w-[90%] pb-4  md:w-[50%]`}
             />
+
             <Button
               type="submit"
               variant="quinary"
-              className=" py-[10px] px-[12px] w-[80%]   md:w-[60%]  "
+              className=" py-[10px] px-[12px] w-[80%]   md:w-[50%]  "
+              onClick={addVehicle}
             >
               Add Vehicle
             </Button>
@@ -334,88 +322,74 @@ const NomineeDesktop = ({
   showDeleteConfirmation,
   showConfirmButton,
   cancelDelete,
-  openDeleteConfirmation,
   openDropdownIndex,
   toggleDropdown,
   handleDelete,
-  selectedNomineeIndex,
+  selectedDataIndex,
 }) => {
   return (
-    <div className="rounded-[12px] border border-gray-300">
-      <table className="overflow-auto-y min-w-full bg-white">
+    <div className="rounded-[12px] border border-gray-300 ">
+      <table className="overflow-auto-y min-w-full bg-white ">
         <thead>
           <tr
             className={`text-gray-600 text-[20px] border-b ${groteskText.className}`}
           >
-            <th className="whitespace-nowrap py-2 px-2 text-left">Name</th>
-            <th className="whitespace-nowrap px-2 text-left">Email Address</th>
-            <th className="whitespace-nowrap text-left">Phone Number</th>
-            <th className="whitespace-nowrap pl-5 text-left">Car</th>
-            <th className="text-end w-[99px]"></th>
+            <th className="whitespace-nowrap py-2 px-4 text-left w-[20%] ">
+              Name
+            </th>
+            <th className="whitespace-nowrap px-4 text-left  w-[30%]  ">
+              Email Address
+            </th>
+            <th className="whitespace-nowrap  px-4  text-left  w-[25%] ">
+              Phone Number
+            </th>
+            <th className="whitespace-nowrap px-4   text-left  w-[20%] ">
+              Car
+            </th>
+            <th className="text-end  w-[5%] "></th>
           </tr>
         </thead>
         <tbody>
           {nominees.map((nominee, index) => (
             <tr key={index} className="hover:bg-gray-50 relative">
               <td
-                className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                className={`pt-2 px-4 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
                 {nominee.name}
               </td>
               <td
-                className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                className={`pt-2 px-4 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
                 {nominee.email}
               </td>
               <td
-                className={`pt-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                className={`pt-2 px-4 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
                 {nominee.phone}
               </td>
               <td
-                className={`pt-2 pl-4 text-[15px] whitespace-nowrap ${groteskText.className}`}
+                className={`pt-2 px-4  text-[15px] whitespace-nowrap ${groteskText.className}`}
               >
                 {nominee.car}
               </td>
-              <td className="pt-2 text-end pr-4 whitespace-nowrap relative max-w-[99px]">
+              <td className="cursor-pointer pt-2 text-end pr-6 whitespace-nowrap relative">
                 <button
-                  className="text-gray-500 hover:text-gray-700"
+                  className=" text-gray-500 px-2 hover:text-gray-900 hover:font-bold"
                   onClick={() => toggleDropdown(index)}
                 >
                   &#8942;
                 </button>
                 {openDropdownIndex === index && (
-                  <div className="rounded-[8px] bg-white absolute right-0 -mt-1 z-10">
-                    <div className="border border-gray-200 rounded-[8px] p-[1px]">
-                      <button className="w-full flex items-center px-[1px] py-2 text-sm text-gray-700 hover:bg-gray-100">
-                        <FiEdit className="mr-2" />
-                        Edit Nominee
-                      </button>
-                      <button
-                        className="w-full flex items-center px-[1px] py-2 text-sm text-red-600 hover:bg-gray-100"
-                        onClick={() => showDeleteConfirmation(index)}
-                      >
-                        <FiTrash2 className="mr-2" />
-                        Remove Nominee
-                      </button>
-                    </div>
-                    {showConfirmButton && selectedNomineeIndex === index && (
-                      <div className="flex  justify-between gap-2">
-                        <button
-                          className="bg-white border border-gray-200 rounded-[8px] p-1 text-red-600 hover:bg-gray-100"
-                          onClick={cancelDelete}
-                        >
-                          <MdClose size={25} />
-                        </button>
-                        <button
-                          className="bg-white border border-gray-200 rounded-[8px] p-1 text-green-700 hover:bg-gray-100"
-                          onClick={() => handleDelete(index)}
-                        >
-                          <IoMdCheckmark size={25} />
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                  <DeleteRowModal
+                    showConfirmButton={showConfirmButton}
+                    onEdit={() => {}}
+                    onRemove={() => showDeleteConfirmation(index)}
+                    onCancelDelete={cancelDelete}
+                    onConfirmDelete={() => handleDelete(index)}
+                    selectedDataIndex={selectedDataIndex}
+                    index={index}
+                    customStyles=""
+                  />
                 )}
               </td>
             </tr>
@@ -426,16 +400,13 @@ const NomineeDesktop = ({
   );
 };
 
-const NomineeMobile = ({
+export const NomineeMobile = ({
   nominees,
   showDeleteConfirmation,
   showConfirmButton,
   cancelDelete,
-  openDeleteConfirmation,
-  openDropdownIndex,
-  toggleDropdown,
   handleDelete,
-  selectedNomineeIndex,
+  selectedDataIndex,
   setShowConfirmButton,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -486,7 +457,7 @@ const NomineeMobile = ({
           <div className="rounded-[8px] bg-white absolute right-4  z-10">
             <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
               <button className="w-full flex items-center px-[1px] py-2 text-sm text-gray-700 hover:bg-gray-100">
-                <FiEdit className="mr-2" />
+                <CiEdit  className="mr-2" />
                 Edit Nominee
               </button>
               <button
@@ -497,7 +468,7 @@ const NomineeMobile = ({
                 Remove Nominee
               </button>
             </div>
-            {showConfirmButton && selectedNomineeIndex === currentIndex && (
+            {showConfirmButton && selectedDataIndex === currentIndex && (
               <div className="flex justify-between gap-2 mt-1">
                 <button
                   className="absolute bg-white border border-red-400 rounded-[8px] p-1 text-red-600 hover:bg-gray-100"

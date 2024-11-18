@@ -49,11 +49,11 @@ const AddToVehicle = ({ toggleDrawer, status }) => {
   
     return (
       <div className='w-full max-w-[400px]'>
-        <DrawerHeader
+        {/* <DrawerHeader
           toggleDrawer={toggleDrawer}
           title="Add Your Vehicle Details"
           subTitle="Let’s get your vehicle set up for tracking contraventions and staying on top of payments."
-        />
+        /> */}
   
         <form onSubmit={handleSubmit} className='mt-[48px]'>
           <InputField

@@ -9,7 +9,7 @@ import NumberSVG from "@/assets/svg/numbers.svg";
 import GroupUserSVG from "@/assets/svg/profile-2user.svg";
 import TicketSVG from "@/assets/svg/ticket.svg";
 import { Button } from "@/components";
-
+import VehiclceInfoSVG from '@/assets/svg/infoOutline.svg'
 import "@/components/Slider.css";
 import cars from "@/data/data.json";
 import { useAuthStore } from "@/lib/stores/useStore";
@@ -17,6 +17,7 @@ import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
 import { useRef, useState } from "react";
+import { MoveDiagonal } from "lucide-react";
 
 interface CarProfileProps {
   openCarProfile: any;
@@ -68,14 +69,14 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                     <Plus className="inline-block" />
                   </Button>
                   <button>
-                    <AiOutlineExpand size={24} onClick={()=> openCarProfile(car)} />
+                    <MoveDiagonal size={24} onClick={()=> openCarProfile(car)} />
                   </button>
                 </div>
               </div>
 
-              <div className="flex flex-col  lg:flex lg:flex-row justify-between mt-[14px] items-center">
-              <div className="order-2 w-full lg:order-1 flex flex-col">
-              <div className=" self-center flex flex-col max-w-[253px] w-full">
+              <div className="flex flex-col  lg:flex lg:flex-row justify-center  mt-[14px] items-center">
+              <div className="order-2 w-full lg:order-1 flex flex-col lg:w-[257px]">
+              <div className=" self-center flex flex-col max-w-[253px] ">
                   <Image
                     src={require(`@/assets/images/${car.imageUrl}`).default}
                     alt=""
@@ -109,7 +110,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                   </div>
               </div>
               
-                <div className="order-1 lg:order-2 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px]">
+                <div className="order-1 lg:order-2 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] lg:w-[359px] ">
                   <div className="border border-b-[#C5D5F8] py-[12px] px-[16px]">
                     <h1
                       className={`text-[#212121] text-[20px] ${groteskTextMedium.className}`}
@@ -125,7 +126,9 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <NumberSVG />
                         </span>
-                        <span className="text-[16px]">Registration number: </span>
+                        <span className="text-[16px] text-[#667185]">Registration number: </span>
+                       
+
                       </div>
                       <span className="text-[#212121] text-[11px] self-end">
                         {car.registrationNo}
@@ -138,7 +141,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <UserProfileSVG />
                         </span>
-                        <span className="text-[16px]">Owner: </span>
+                        <span className="text-[16px] text-[#667185]">Owner: </span>
                       </div>
                       <span className="text-[#212121] text-[11px] self-end">
                         {car.ownerName}
@@ -151,7 +154,8 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <GroupUserSVG />
                         </span>
-                        <span className="text-[16px]">Ownership status: </span>
+                        <span className="text-[16px] text-[#667185] mr-[5px]">Ownership status: </span>
+                        <VehiclceInfoSVG />
                       </div>
                       <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
                         Verified
@@ -165,9 +169,10 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <TicketSVG />
                         </span>
-                        <span className="text-[16px]">
+                        <span className="text-[16px] text-[#667185] mr-[5px]">
                           Contravention Status:{" "}
                         </span>
+                        <VehiclceInfoSVG />
                       </div>
                       <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[28px] self-end">
                         {car.contraventionStatus}
@@ -181,9 +186,10 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <GroupUserSVG />
                         </span>
-                        <span className="text-[16px]">
+                        <span className="text-[16px] text-[#667185] mr-[5px]">
                           Third Party Nominate:{" "}
                         </span>
+                        <VehiclceInfoSVG />
                       </div>
                       <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[28px]  self-end">
                         {car.thirdPartyNominate}

@@ -10,11 +10,13 @@ import DrawerHeader from "./DrawerHeader";
 type VehicleDetailsDrawerProps = {
   back: any;
   CheckVehicleOwner: () => void;
+  userRole?: any
 };
 
 const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   back,
   CheckVehicleOwner,
+  userRole,
 }) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
@@ -23,8 +25,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     car_color: "",
   });
 
-  const userRole = "corporate"; // Update as necessary or make it a prop if dynamic
-  // const userRole = "individual"; // Update as necessary or make it a prop if dynamic
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,7 +62,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
         title="Add Your Vehicle Details"
         subTitle="Let’s get your vehicle set up for tracking contraventions and staying on top of payments."
       />
-      <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[70px] ">
+      <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[170px] ">
         <div className="flex flex-col gap-4 items-center  md:mx-[55px]">
           <div className="flex flex-col items-center w-full">
             <InputField
@@ -122,7 +122,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           >
             Save Vehicle
           </Button>
-          {userRole === "corporate" && (
+          {userRole === "Corporate" && (
             <div className="flex flex-col gap-4 items-center pb-[200px] cursor-pointer w-full">
               <div className="w-[100%]">
                 <div className="flex-shrink-0">

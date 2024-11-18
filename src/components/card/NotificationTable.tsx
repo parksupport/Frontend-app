@@ -9,6 +9,7 @@ import LabelImportantSVG from "@/assets/svg/label_important.svg";
 import { groteskTextMedium, groteskText } from "@/app/fonts";
 import useIsMobile from "@/hooks/useIsMobile";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+import { MoveDiagonal } from "lucide-react";
 
 
 
@@ -112,7 +113,7 @@ const NotificationsTable = ({ openNotificationsTable }) => {
               checked={selectAll}
             />
           </div>
-          <AiOutlineExpand size={24} onClick={() => console.log("expand")} />
+          <MoveDiagonal size={24} onClick={() => console.log("expand")} />
         </div>
       </div>
       <Slider {...settings}>

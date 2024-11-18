@@ -2,7 +2,7 @@ import successMark from "@/assets/images/successMark.png";
 import Image from "next/image";
 import DrawerHeader from "./DrawerHeader";
 
-const VehicleAddedSuccess = ({ toggleDrawer, addVehicleDetails }) => {
+const VehicleAddedSuccess = ({ toggleDrawer, openCarProfile, }) => {
   return (
     <div className="flex flex-col items-center justify-center bg-white p-4">
       <DrawerHeader
@@ -35,7 +35,7 @@ const VehicleAddedSuccess = ({ toggleDrawer, addVehicleDetails }) => {
           View Vehicle Dashboard
         </button>
         <button
-          onClick={addVehicleDetails}
+          onClick={openCarProfile}
           className="px-4 py-2 text-blue-600 font-medium  hover:bg-blue-700 hover:text-white  transition"
         >
           Add Another Vehicle

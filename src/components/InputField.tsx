@@ -13,6 +13,10 @@ interface InputFieldProps {
   value: string;
   name: string;
   icon?: ReactNode | (() => ReactNode);
+  iconLeft?: any;
+  iconRight?: any;
+  textRight?: string;
+  textLeft?: string;
 
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -28,6 +32,10 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   name,
   icon,
+  iconLeft,
+  iconRight,
+  textLeft,
+  textRight,
 }) => {
   const [error, setError] = useState<string | null>(null);
 
@@ -55,6 +63,16 @@ const InputField: React.FC<InputFieldProps> = ({
         {label}
       </label>
       <div className="relative">
+        {iconLeft && (
+          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
+            {iconLeft}
+          </div>
+        )}
+        {textLeft && (
+          <div className="absolute left-10 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
+            {textLeft}
+          </div>
+        )}
         <input
           type={type}
           placeholder={placeholder}
@@ -62,13 +80,18 @@ const InputField: React.FC<InputFieldProps> = ({
           name={name}
           onChange={onChange}
           onBlur={handleBlur}
-          className={`w-full h-full px-[16px] py-[16px] rounded-[6px] mt-[4px] border-[#D0D5DD] border-solid border text-[#667185] text-[14px] focus:outline-none ${
+          className={`w-full h-full px-12 py-4 rounded-6 mt-1 border border-solid text-gray-500 text-14 focus:outline-none ${
             error ? "border-red-500" : "border-gray-300"
           } ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
         />
-        {icon && (
-          <div className="absolute right-2 bottom-4 cursor-pointer">
-            {renderIcon()}
+        {textRight && (
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
+            {textRight}
+          </div>
+        )}
+        {iconRight && (
+          <div className="absolute right-[132px] top-1/2 transform -translate-y-1/2 cursor-pointer">
+            {iconRight}
           </div>
         )}
       </div>

@@ -95,27 +95,27 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
     
 
     <Slider {...sliderSettings}>
-<div className="flex mx-0 flex-col  mt-[2rem] w-full border border-solid border-[#C5D5F8] rounded-[12px]  lg:w-[1021px] lg:mx-[20px]">
+<div className="flex mx-0 flex-col  mt-[2rem] w-full border border-solid border-[#C5D5F8] rounded-[12px]  lg:w-[1021px] ">
 
 <table className="flex items-center justify-between lg:flex lg:flex-col w-full">
           <thead className="border-b border-b-[#C5D5F8] w-full">
             <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
-              <th className={`text-[#667185] self-start lg:px-[17px] py-[0.75rem] lg:text-left groteskText`}>
+              <th className={`text-[#667185] self-start lg:pl-[17px] pb-[1rem] pt-[10px] lg:text-left text-[20px] ${groteskText.className}`}>
                 Contravention Type
               </th>
-              <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] groteskText`}>
+              <th className={`text-[#667185] self-start px-[4px] pb-[1rem] pt-[10px] text-[20px] ${groteskText.className}`}>
                 Date Issued
               </th>
-              <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] groteskText`}>
+              <th className={`text-[#667185] self-start px-[4px] pb-[1rem] pt-[10px] text-[20px] ${groteskText.className}`}>
                 Issuing Authority
               </th>
-              <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] groteskText`}>
+              <th className={`text-[#667185] self-start px-[4px] pb-[1rem] pt-[10px] text-[20px] ${groteskText.className}`}>
                 Fine Amount
               </th>
-              <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] groteskText`}>
+              <th className={`text-[#667185] self-start px-[4px] pb-[1rem] pt-[10px] text-[20px] ${groteskText.className}`}>
                 Due Date
               </th>
-              <th className={`text-[#667185] self-start py-[0.75rem] groteskText lg:pr-[1rem]`}>
+              <th className={`text-[#667185] self-start pb-[1rem] pt-[10px] text-[20px] ${groteskText.className} lg:pr-[1rem]`}>
                 Status
               </th>
             </tr>
@@ -128,12 +128,12 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
                onClick={() => handleRowClick(invoice)}
                >
                <td
-                 className={`py-[0.75rem] self-end text-[#212121] pl-[17px] lg:pl-0 cursor-pointer lg:w-[14%]  ${groteskText.className}`}
+                 className={`py-[0.75rem] self-end text-[#212121] pl-[17px] lg:pl-0 cursor-pointer lg:w-[18%]  ${groteskText.className}`}
                >
                  {invoice.ticket}
                </td>
                <td
-                 className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[6rem]  ${groteskText.className}`}
+                 className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[3.7rem]  ${groteskText.className}`}
                >
                  {invoice.reg_num}
                </td>
@@ -143,16 +143,16 @@ const ConventionTableDrawer: React.FC<ConventionDrawer>  = ({ toggleDrawer,  }) 
                  {invoice.issuing_auth}
                </td>
                <td
-                 className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[7.8rem]   ${groteskText.className}`}
+                 className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[8rem]   ${groteskText.className}`}
                >
                  {invoice.fine_amount}
                </td>
                <td
-                 className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[8.8rem]   ${groteskText.className}`}
+                 className={`text-[#212121] self-end text-center py-[0.75rem] lg:pl-[8.7rem]   ${groteskText.className}`}
                >
                  {invoice.date}
                </td>
-               <span className="bg-[#B5E3C4] self-end ml-auto lg:mr-[3px] rounded-[22px]   my-[0.75rem] flex justify-center w-[44px] h-[22px] ">
+               <span className="bg-[#B5E3C4] self-end ml-auto  rounded-[22px]   my-[0.75rem] flex justify-center w-[50px] h-[22px] ">
                  <td
                    className={`text-center text-[#099137] text-[13px]    ${groteskText.className}`}
                  >

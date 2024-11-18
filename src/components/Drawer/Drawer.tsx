@@ -39,8 +39,8 @@ const Drawer = ({ children, isOpen, toggleDrawer, isWide }: DrawerProps) => {
         ></div>
       )}
       <div
-        className={`fixed h-full md:h-auto w-full ${isWide ? "md:w-[55%]" : "md:w-[32%]"} 
-          bg-white shadow-lg z-50 transform px-[10px] transition-transform duration-300 ease-in-out overflow-y-auto 
+        className={`fixed h-full md:h-auto w-full ${isWide ? "md:w-[45%]" : "md:w-[32%]"} 
+          bg-white shadow-lg z-50 transform px-[10px] transition-transform flex flex-col justify-center duration-300 ease-in-out overflow-y-auto 
           ${isOpen ? "translate-y-0 md:translate-x-0" : "translate-y-full md:translate-x-full"}
           ${isAtTop ? "rounded-tl-[20px] rounded-tr-[20px] md:rounded-tl-[40px]" : ""} 
           ${isAtBottom ? "rounded-bl-none md:rounded-bl-[40px]" : ""}

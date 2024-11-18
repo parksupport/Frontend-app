@@ -9,7 +9,7 @@ interface LogoProps {
 
 export const Logo = ({ className, ...props }: LogoProps) => {
   return (
-    <div className="flex flex-col items-center ">
+    <div className="flex flex-col items-center ml-[11px]">
       <Image
         className="self-center "
         src={carAlertImage}

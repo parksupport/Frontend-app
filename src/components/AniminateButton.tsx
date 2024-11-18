@@ -1,4 +1,5 @@
 "use client"
+import { useRouter } from "next/navigation";
 import './AnimateButton.css'
 
 import React, { useEffect } from 'react'
@@ -6,12 +7,12 @@ import React, { useEffect } from 'react'
 interface ButtonProps {
     text: string;
     onClick?: ()=> void
+    className: string;
   }
-const AniminateButton: React.FC<ButtonProps> = ({ text, onClick }) => {
-      
-      
+const AniminateButton: React.FC<ButtonProps> = ({ text, onClick,  }) => {
+      const router = useRouter()
+
         useEffect(() => {
-          const button = document.querySelector('.button');
       
           const createSlidingOverlay = () => {
             const overlay = document.createElement('span');
@@ -23,14 +24,26 @@ const AniminateButton: React.FC<ButtonProps> = ({ text, onClick }) => {
             });
           };
       
-          const interval = setInterval(createSlidingOverlay, 1000); // Adjust interval time as needed
+          const interval = setInterval(createSlidingOverlay, 2000); // Adjust interval time as needed
       
           return () => clearInterval(interval);
         }, []);
-      
+        const button = document.querySelector('.buttons');
+
+        const handleClick = () => {
+          router.push("/auth/onboarding");
+        };
+    
+        if (button) {
+          button.addEventListener('click', handleClick);
+        }
+
+
         return (
-          <button className="buttons">
-            <a className="button" href="#">
+          <button className="buttons cursor-pointer"
+
+          >
+            <a className="button cursor-pointer" href="#">
               {text}
             </a>
           </button>

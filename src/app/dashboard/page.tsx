@@ -24,6 +24,8 @@ import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 import SettingsDrawer from "@/components/Drawer/SettingsDrawer";
 import AddBillingMethodDrawer from "@/components/Drawer/AddBillingMethodDrawer";
 import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer";
+import ProfileSlider from "@/components/Drawer/ProfileSlider";
+import OpenNotification from "@/components/notification-popup/OpenNotification";
 
  export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -159,6 +161,7 @@ import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer
   };
 
   const openSettingsDrawer = () => {
+
     setDrawerContent(
       <SettingsDrawer
         toggleDrawer={toggleDrawer}
@@ -169,9 +172,17 @@ import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer
     openDrawer();
   };
 
+  const openProfileSlider =()=>{
+    console.log('great')
+    setDrawerContent(
+      <ProfileSlider toggleDrawer={toggleDrawer} />
+    )
+    openDrawer()
+  }
+
   const openAddBillingMethod = () => {
     setDrawerContent(
-      <AddBillingMethodDrawer back={openSettingsDrawer} toggleDrawer={toggleDrawer} />
+      <AddBillingMethodDrawer toggleDrawer={toggleDrawer}  openAddBillingMethod={openAddBillingMethod}/>
     );
     setIsWide(false);
     openDrawer();
@@ -185,33 +196,35 @@ import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer
 
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-      <DashboardHeader openSettingsDrawer={openSettingsDrawer} />
+      <DashboardHeader openSettingsDrawer={openSettingsDrawer} openProfileSlider={openProfileSlider} openNotificationsTable={openNotificationsTable} openNotification={OpenNotification}
+      />
+
       {/* Main Content */}
       <main className="mx-4 md:mx-[30px] flex flex-col items-center w-full">
         <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
           {/* Welcome Section */}
-          <div className="flex items-center space-x-2 mb-4">
+          <div className="flex items-center space-x-2 ">
             <h1
-              className={`text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
+              className={` text-[24px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
             >
               Welcome Back, Orobosa
             </h1>
-            <button className="rounded-[37px] bg-[#CEFDFF] h-[22px] px-[12px] text-[#039BB7] text-[12px] mt-[6px]">
+            <button className="rounded-[37px] bg-[#CEFDFF] py-[5px] mb-[13px] px-[12px] text-[#039BB7] text-[12px] ">
               Free plan
             </button>
           </div>
         </section>
 
         {/* Profile and Table Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
-          <div>
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] place-items-center">
+          <div className="w-full">
             <CarProfile
               addVehicleDetails={addVehicleDetails}
               openCarProfile={openCarProfile}
             />
           </div>
 
-          <div>
+          <div className="w-full">
             <ContraventionTable
               invoices={undefined}
               openConventionTable={openConventionTable}

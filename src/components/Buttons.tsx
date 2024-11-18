@@ -56,7 +56,7 @@ const Button: React.FC<ButtonProps> = ({
     quaternary:
       "bg-purple-500 text-white hover:bg-purple-700 focus:ring-purple-500 px-[16px] py-[14px]",
     quinary: "bg-[#3957D7] text-white cursor-pointer rounded-[8px] px-[16px] py-[14px]",
-    link: "bg-transparent text-blue-500 underline hover:text-blue-700",
+    link: "bg-transparent ",
   };
 
   const textStyles: Record<Variant, string> = {
@@ -67,7 +67,7 @@ const Button: React.FC<ButtonProps> = ({
     tertiary: "text-white",
     quaternary: "text-white",
     quinary: "text-white flex items-center",
-    link: `text-blue-500 underline ${groteskText.className}`,
+    link: `  ${groteskText.className}`,
   };
 
   const buttonStyle = variantStyles[variant];

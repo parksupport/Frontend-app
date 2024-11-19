@@ -26,9 +26,7 @@ import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDr
 import SettingsDrawer from "@/components/Drawer/SettingsDrawer";
 import AddBillingMethodDrawer from "@/components/Drawer/AddBillingMethodDrawer";
 import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer";
-import ProfileSlider from "@/components/Drawer/ProfileSlider";
 import OpenNotification from "@/components/notification-popup/OpenNotification";
-import UserInfo from "@/components/Drawer/UserInfoDrawer";
 import UserInfoDrawer from "@/components/Drawer/UserInfoDrawer";
 import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer";
 import ToggleButton from "@/components/ToggleComponent/ToggleComponent";

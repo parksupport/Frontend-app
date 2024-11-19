@@ -3,9 +3,9 @@ import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import useIsMobile from "@/hooks/useIsMobile";
 import { CiEdit } from "react-icons/ci";
+import TruncatedText from "../ToggleComponent/TruncatedText";
 
-
-const UserInfoDrawer = ({ back, onEdit,userInfo }) => {
+const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
   const isMobile = useIsMobile();
   const [user, setUser] = useState({
     profileImage: "https://via.placeholder.com/80",
@@ -103,7 +103,6 @@ const UserInfoDrawer = ({ back, onEdit,userInfo }) => {
     },
   ];
 
-
   return (
     <>
       {/* Drawer Header */}
@@ -114,12 +113,12 @@ const UserInfoDrawer = ({ back, onEdit,userInfo }) => {
       />
 
       <div
-        className={`${groteskText.className} flex flex-col items-center justify-center gap-5 mt-12 md:mx-5 mb-[150px]`}
+        className={`${groteskText.className} flex flex-col items-center justify-center gap-5 mt-12 md:mx-2 mb-[150px]`}
       >
         {/* Header Section */}
         <div className="border border-[#D0D5DD] rounded-[16px] flex items-center justify-between bg-white p-4 w-full">
           {/* User Info */}
-          <div className="flex items-center space-x-4 py-2 md:p-[15px]">
+          <div className="flex items-center space-x-4 py-2 md:p-2">
             <img
               src={user?.profileImage || "https://via.placeholder.com/80"}
               alt="Profile"
@@ -127,11 +126,13 @@ const UserInfoDrawer = ({ back, onEdit,userInfo }) => {
             />
             <div>
               <h1
-                className={`${groteskTextMedium.className} text-[16px] md:text-[28px]`}
+                className={`${groteskTextMedium.className} text-black text-[16px] md:text-[24px]`}
               >
                 {user?.name || "User Name"}
               </h1>
-              <p className="text-[16px] md:text-[20px] text-gray-500">
+              <p
+                className={` ${groteskText.className} text-[16px] md:text-[20px] text-gray-500`}
+              >
                 {user?.role || "User Role"}
               </p>
             </div>
@@ -142,41 +143,49 @@ const UserInfoDrawer = ({ back, onEdit,userInfo }) => {
             className="  -mt-[30px]   md:-mt-[60px] flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
             onClick={onEdit}
           >
-            <span>Edit</span>
-            <CiEdit  color="black" size={20} />
+            <span className={` text-black ${groteskText.className}`}>Edit</span>
+            <CiEdit color="black" size={20} />
           </button>
         </div>
 
         {/* Dynamic Sections */}
-        {(userInfo ==="User" ? userInfoSections : conmpanyInfoSections).map(
+        {(userInfo === "User" ? userInfoSections : conmpanyInfoSections).map(
           (section, index) => (
             <div
               key={index}
-              className="bg-white border border-[#D0D5DD] rounded-[16px] px-3 py-2 md:p-6 w-full"
+              className=" border border-[#D0D5DD] rounded-[16px] px-3 py-5 md:p-2 w-full"
             >
               <h2
-                className={`${groteskTextMedium.className} text-[20px] md:text-[28px] mb-4`}
+                className={`${groteskTextMedium.className} text-black text-[20px] md:text-[24px] mb-4`}
               >
                 {section.title}
               </h2>
               <div
                 className={`grid   ${
                   section.fields.length <= 4
-                    ? "grid-cols-2 gap-x-6 md:gap-x-0 md:w-[78%] "
-                    : "grid-cols-2 md:grid-cols-3 gap-x-4 "
+                    ? "grid-cols-2 "
+                    : "grid-cols-2 md:grid-cols-3 gap-x-8"
                 } gap-y-4 text-gray-700`}
               >
                 {section.fields.map((field, fieldIndex) => (
-                  <div key={fieldIndex}>
+                  <div key={fieldIndex} className="py-1">
                     <p
-                      className={`${groteskText.className} text-[16px] md:text-[20px] text-[#667185] text-wrap `}
+                      className={`${groteskText.className} text-[16px] md:text-[18px] text-[#667185] text-wrap`}
                     >
                       {field.label}
                     </p>
                     <p
                       className={`${groteskText.className} text-black text-[16px] md:text-[18px]`}
                     >
-                      {field.value || field.label}
+                      {userInfo === "User" ? (
+                        field.value || field.label
+                      ) : (
+                        <TruncatedText
+                          text={field.value || field.label}
+                          maxLength={15}
+                          className={`${groteskText.className}`}
+                        />
+                      )}
                     </p>
                   </div>
                 ))}

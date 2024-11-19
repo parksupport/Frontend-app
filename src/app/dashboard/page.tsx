@@ -30,6 +30,7 @@ import OpenNotification from "@/components/notification-popup/OpenNotification";
 import UserInfoDrawer from "@/components/Drawer/UserInfoDrawer";
 import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer";
 import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
+import FAQAccordion from "@/components/Faqquestion";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -273,7 +274,8 @@ export default function DashboardPage() {
             />
           </div>
           <div className="relative md:-mt-[100px] md:z-20">
-            <FAQComponents />
+          {/* <FAQAccordion /> */}
+          <FAQComponents/>
           </div>
         </section>
       </main>

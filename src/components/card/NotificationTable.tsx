@@ -174,6 +174,7 @@ const NotificationsTable = ({ openNotificationsTable }) => {
             />
           </div>
           <MoveDiagonal size={24} onClick={() => console.log("expand")} />
+            
         </div>
       </div>
       <Slider {...settings}>
@@ -264,10 +265,10 @@ const NotificationsTable = ({ openNotificationsTable }) => {
   ) : (
     <div className="hidden md:block bg-white p-4 rounded-[20px] border border-gray-200 w-full">
       <div className="flex justify-between py-[12px]">
-        <h2 className={` ${groteskTextMedium.className} text-2xl text-black `}>
+        <h2 className={` ${groteskTextMedium.className} text-[32px] text-black `}>
           Notifications
         </h2>
-        <AiOutlineExpand size={24} onClick={openNotificationsTable} />
+        <MoveDiagonal size={24} onClick={openNotificationsTable} className="cursor-pointer"/>
       </div>
       <div className="rounded-[12px] border border-gray-200 overflow-hidden w-full">
         <div className="bg-white px-2 flex items-center justify-between bg-gray-100 w-full">

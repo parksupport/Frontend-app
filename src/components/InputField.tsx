@@ -80,7 +80,7 @@ const InputField: React.FC<InputFieldProps> = ({
           name={name}
           onChange={onChange}
           onBlur={handleBlur}
-          className={`w-full h-full px-12 py-4 rounded-6 mt-1 border border-solid text-gray-500 text-14 focus:outline-none ${
+          className={`${groteskText.className} w-full  h-full px-4 py-4 rounded-[6px] text-[14px] mt-1 border border-solid text-gray-500 focus:outline-none ${
             error ? "border-red-500" : "border-gray-300"
           } ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
         />

@@ -65,8 +65,8 @@ const Button: React.FC<ButtonProps> = ({
     success: "text-white",
     danger: "text-white",
     tertiary: "text-white",
-    quaternary: "text-white",
-    quinary: "text-white flex items-center",
+    quaternary: `text-white ${groteskText.className}`,
+    quinary: `text-white flex items-center text-[16px] ${groteskText.className}`,
     link: `  ${groteskText.className}`,
   };
 

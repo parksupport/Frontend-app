@@ -126,11 +126,11 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <NumberSVG />
                         </span>
-                        <span className="text-[16px] text-[#667185]">Registration number: </span>
+                        <span className={`${groteskText.className} text-[16px] text-[#667185]`}>Registration number: </span>
                        
 
                       </div>
-                      <span className="text-[#212121] text-[11px] self-end">
+                      <span className={`${groteskText.className}text-[#212121] text-[11px] self-end`}>
                         {car.registrationNo}
                       </span>
                     </h2>
@@ -141,9 +141,9 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <UserProfileSVG />
                         </span>
-                        <span className="text-[16px] text-[#667185]">Owner: </span>
+                        <span className={`${groteskText.className} text-[16px] text-[#667185]`}>Owner: </span>
                       </div>
-                      <span className="text-[#212121] text-[11px] self-end">
+                      <span className={`${groteskText.className}text-[#212121] text-[11px] self-end`}>
                         {car.ownerName}
                       </span>
                     </h2>
@@ -154,7 +154,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <GroupUserSVG />
                         </span>
-                        <span className="text-[16px] text-[#667185] mr-[5px]">Ownership status: </span>
+                       <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}>Ownership status: </span>
                         <VehiclceInfoSVG />
                       </div>
                       <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
@@ -169,7 +169,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <TicketSVG />
                         </span>
-                        <span className="text-[16px] text-[#667185] mr-[5px]">
+                       <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}>
                           Contravention Status:{" "}
                         </span>
                         <VehiclceInfoSVG />
@@ -186,7 +186,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         <span>
                           <GroupUserSVG />
                         </span>
-                        <span className="text-[16px] text-[#667185] mr-[5px]">
+                        <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}>
                           Third Party Nominate:{" "}
                         </span>
                         <VehiclceInfoSVG />
@@ -199,7 +199,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                 </div>
               </div>
               <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center">
-                    <button className=" w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                    <button className={`${groteskText.className} w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
                      onClick={goToPrevious}
                     >
                         <ChevronLeft size={20} style={{display: 'inline-flex', marginBottom: 3}} />
@@ -213,7 +213,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
             ></span>
           ))}
         </div>
-                    <button className="w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                    <button className={`${groteskText.className} w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
                      onClick={goToNext}
                     >
                       Next

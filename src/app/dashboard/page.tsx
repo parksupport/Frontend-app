@@ -36,7 +36,7 @@ import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
-  const [User ,setUser] = useState("")
+  const [User ,setUser] = useState("User")
 
   const drawerRef = useRef<any>(null);
 
@@ -59,6 +59,7 @@ export default function DashboardPage() {
 
 
   const openCarProfile = (car: any) => {
+    console.log("Opening car profile for:", User);
     if (User === "User") {
       setDrawerContent(
         <CarProfileDrawer
@@ -192,13 +193,7 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openProfileSlider =()=>{
-    console.log('great')
-    setDrawerContent(
-      <ProfileSlider toggleDrawer={toggleDrawer} />
-    )
-    openDrawer()
-  }
+
 
   const openAddBillingMethod = () => {
     setDrawerContent(
@@ -223,7 +218,7 @@ export default function DashboardPage() {
 
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-      <DashboardHeader openSettingsDrawer={openSettingsDrawer} openProfileSlider={openProfileSlider} openNotificationsTable={openNotificationsTable} openNotification={OpenNotification}
+      <DashboardHeader openSettingsDrawer={openSettingsDrawer} openProfileSlider={openProfileDrawer} openNotificationsTable={openNotificationsTable} openNotification={OpenNotification}
       />
 
       {/* Main Content */}

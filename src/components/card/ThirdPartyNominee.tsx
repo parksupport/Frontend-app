@@ -1,6 +1,6 @@
-import { groteskText } from "@/app/fonts";
+import { groteskText, groteskTextMedium } from "@/app/fonts";
 import React, { useRef, useState } from "react";
-import {  FiTrash2 } from "react-icons/fi";
+import { FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoEllipsisVertical } from "react-icons/io5";
 import { MdClose } from "react-icons/md";
@@ -12,6 +12,7 @@ import useDeleteRow from "@/hooks/useDeleteRow";
 import Slider from "react-slick";
 import DeleteRowModal from "../DeleteRowModal";
 import { CiEdit } from "react-icons/ci";
+import TruncatedText from "../ToggleComponent/TruncatedText";
 
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
@@ -161,14 +162,14 @@ export default function ThirdPartyNominees({
   return (
     <div className="py-12 mb-[300px]">
       {/* Header */}
-      <div className="flex items-center justify-center gap-10 mb-4">
+      <div className="flex items-center justify-center gap-10 mb-2">
         <h1
-          className={`text-2xl font-semibold text-[26px] ${groteskText.className}`}
+          className={`text-[22px]  md:text-[28px] text-black ${groteskTextMedium.className}`}
         >
           Third Party Nominees
         </h1>
         <div
-          className={`text-[#4169E1] font-semibold hover:underline ${groteskText.className}`}
+          className={` hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
           onClick={() => toggleForm(true)}
         >
           Go back
@@ -219,6 +220,31 @@ export function AddThirdPartyNominee({
     phone_number: "",
   });
 
+  const UserInputFields = [
+    {
+      type: "text",
+      placeholder: "Enter your full name",
+      label: "Name",
+      name: "name",
+      value: formData.name,
+    },
+    {
+      type: "email",
+      placeholder: "Enter your email address",
+      label: "Email Address",
+      name: "email_address",
+      value: formData.email_address,
+      // validationRules: validateEmail,
+    },
+    {
+      type: "text",
+      placeholder: "Enter your phone number",
+      label: "Phone Number",
+      name: "phone_number",
+      value: formData.phone_number,
+    },
+  ];
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // login(formData);
@@ -242,12 +268,12 @@ export function AddThirdPartyNominee({
       <div className="flex flex-col  ">
         <div className="flex items-center justify-center gap-4 mb-4  md:gap-10 ">
           <h1
-            className={`text-wrap text-2xl text font-semibold text-[22px] md:text-[26px]  ${groteskText.className}`}
+            className={`text-wrap text-black text-[22px] md:text-[28px]  ${groteskTextMedium.className}`}
           >
             Add Third Party Nominees
           </h1>
           <div
-            className={`text-[#4169E1] font-semibold hover:underline ${groteskText.className}`}
+            className={`text-[#4169E1] text-[18px] hover:underline ${groteskTextMedium.className}`}
             onClick={() => toggleForm(false)}
           >
             View all
@@ -256,7 +282,7 @@ export function AddThirdPartyNominee({
 
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4  items-center">
-            <InputField
+            {/* <InputField
               type="text"
               placeholder="Enter your full name"
               label="Name"
@@ -286,7 +312,21 @@ export function AddThirdPartyNominee({
               onChange={handleChange}
               variant="individual"
               className={`  ${groteskText.className} w-[90%]  md:w-[50%] `}
-            />
+            /> */}
+            {UserInputFields.map((field) => (
+              <InputField
+                key={field.name} // Unique key for each input field
+                type={field.type}
+                placeholder={field.placeholder}
+                label={field.label}
+                name={field.name}
+                value={field.value}
+                onChange={handleChange}
+                // validationRules={field.validationRules}
+                variant="individual"
+                className={` ${groteskText.className} w-[90%] md:w-[65%] `}
+              />
+            ))}
             <DropdownInputField
               name="vehicle"
               value={formData.vehicle}
@@ -299,13 +339,13 @@ export function AddThirdPartyNominee({
               placeholder="Enter your Vehicle"
               onChange={() => handleChange}
               selectedValue=""
-              className={`  ${groteskText.className} w-[90%] pb-4  md:w-[50%]`}
+              className={`text-[14px] text-[black]  ${groteskText.className} w-[90%] pb-4  md:w-[65%]`}
             />
 
             <Button
               type="submit"
               variant="quinary"
-              className=" py-[10px] px-[12px] w-[80%]   md:w-[50%]  "
+              className=" py-[10px] px-[12px] w-[80%]   md:w-[65%]  "
               onClick={addVehicle}
             >
               Add Vehicle
@@ -328,22 +368,22 @@ const NomineeDesktop = ({
   selectedDataIndex,
 }) => {
   return (
-    <div className="rounded-[12px] border border-gray-300 ">
-      <table className="overflow-auto-y min-w-full bg-white ">
+    <div className="rounded-[12px] border border-gray-300 pb-2 ">
+      <table className="overflow-auto-y min-w-full bg-white text-black ">
         <thead>
           <tr
-            className={`text-gray-600 text-[20px] border-b ${groteskText.className}`}
+            className={`text-[#667185] text-[18px] border-b ${groteskText.className}`}
           >
-            <th className="whitespace-nowrap py-2 px-4 text-left w-[20%] ">
+            <th className="whitespace-nowrap py-2 px-2 text-left w-[20%] ">
               Name
             </th>
-            <th className="whitespace-nowrap px-4 text-left  w-[30%]  ">
+            <th className="whitespace-nowrap px-2 text-left  w-[30%]  ">
               Email Address
             </th>
-            <th className="whitespace-nowrap  px-4  text-left  w-[25%] ">
+            <th className="whitespace-nowrap  px-2  text-left  w-[25%] ">
               Phone Number
             </th>
-            <th className="whitespace-nowrap px-4   text-left  w-[20%] ">
+            <th className="whitespace-nowrap px-2   text-left  w-[20%] ">
               Car
             </th>
             <th className="text-end  w-[5%] "></th>
@@ -353,28 +393,32 @@ const NomineeDesktop = ({
           {nominees.map((nominee, index) => (
             <tr key={index} className="hover:bg-gray-50 relative">
               <td
-                className={`pt-2 px-4 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                className={`pt-2 px-2 whitespace-nowrap text-[16px] ${groteskText.className}`}
               >
                 {nominee.name}
               </td>
               <td
-                className={`pt-2 px-4 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                className={`pt-2 px-2 whitespace-nowrap text-[16px] ${groteskText.className}`}
               >
-                {nominee.email}
+                <TruncatedText
+                  text={nominee.email}
+                  maxLength={15}
+                  className={` ${groteskText.className}`}
+                />
               </td>
               <td
-                className={`pt-2 px-4 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                className={`pt-2 px-2 whitespace-nowrap text-[16px] ${groteskText.className}`}
               >
                 {nominee.phone}
               </td>
               <td
-                className={`pt-2 px-4  text-[15px] whitespace-nowrap ${groteskText.className}`}
+                className={`pt-2 px-2  text-[16px] whitespace-nowrap ${groteskText.className}`}
               >
                 {nominee.car}
               </td>
               <td className="cursor-pointer pt-2 text-end pr-6 whitespace-nowrap relative">
                 <button
-                  className=" text-gray-500 px-2 hover:text-gray-900 hover:font-bold"
+                  className=" text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
                   onClick={() => toggleDropdown(index)}
                 >
                   &#8942;
@@ -388,7 +432,8 @@ const NomineeDesktop = ({
                     onConfirmDelete={() => handleDelete(index)}
                     selectedDataIndex={selectedDataIndex}
                     index={index}
-                    customStyles=""
+                    customStyles={`${groteskText.className} text-[14px]`}
+                    position={{ right: 31, top: 30 }}
                   />
                 )}
               </td>
@@ -441,7 +486,7 @@ export const NomineeMobile = ({
   return (
     <div className="flex flex-col items-center py-4">
       <div className="relative w-full max-w-md p-4 bg-white rounded-[12px] border-[#D0D5DD] border mb-4">
-        <div className="flex justify-end items-center">
+        <div className="flex justify-end items-center pb-3">
           <button
             onClick={() => {
               toggleActions();
@@ -454,14 +499,17 @@ export const NomineeMobile = ({
         </div>
 
         {showActions && (
-          <div className="rounded-[8px] bg-white absolute right-4  z-10">
+          <div className="rounded-[8px] bg-white absolute right-4 top-9  z-10">
             <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
-              <button className="w-full flex items-center px-[1px] py-2 text-sm text-gray-700 hover:bg-gray-100">
-                <CiEdit  className="mr-2" />
+              <button
+                className={`w-full flex items-center px-[1px] py-2 text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
+                onClick={() => {}}
+              >
+                <CiEdit className="mr-2" />
                 Edit Nominee
               </button>
               <button
-                className="w-full flex items-center px-[1px] py-2 text-sm text-red-600 hover:bg-gray-100"
+                className={`w-full flex items-center px-[1px] py-2 text-sm text-red-600 hover:bg-gray-100  ${groteskText.className}`}
                 onClick={() => showDeleteConfirmation(currentIndex)}
               >
                 <FiTrash2 className="mr-2" />
@@ -497,21 +545,40 @@ export const NomineeMobile = ({
               key={index}
               className="border p-4 rounded-[12px] bg-[#F9FAFB] space-y-2"
             >
-              <div className="flex justify-between">
-                <span className="text-gray-500">Name</span>
-                <span>{nominee.name}</span>
+              <div className={`flex justify-between ${groteskText.className}`}>
+                <span className={`${groteskText.className} text-gray-500`}>
+                  Name
+                </span>
+                <div className={`${groteskText.className} text-black`}>
+                  {nominee.name}
+                </div>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Email Address</span>
-                <span>{nominee.email}</span>
+                <span className={`${groteskText.className} text-gray-500`}>
+                  Email Address
+                </span>
+
+                <div className={`${groteskText.className} text-black`}>
+                  {nominee.email}
+                </div>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Phone Number</span>
-                <span>{nominee.phone}</span>
+                <span className={`${groteskText.className} text-gray-500`}>
+                  Phone Number
+                </span>
+
+                <div className={`${groteskText.className} text-black`}>
+                  {nominee.phone}
+                </div>
               </div>
               <div className="flex justify-between">
-                <span className="text-gray-500">Car</span>
-                <span>{nominee.car}</span>
+                <span className={`${groteskText.className} text-gray-500`}>
+                  Car
+                </span>
+
+                <div className={`${groteskText.className} text-black`}>
+                  {nominee.car}
+                </div>
               </div>
             </div>
           ))}
@@ -522,7 +589,9 @@ export const NomineeMobile = ({
         <div className="flex justify-between items-center mt-4">
           <button
             onClick={handlePrevious}
-            className={`w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
+            className={`${
+              groteskText.className
+            } w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
               currentIndex === 0
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-[#1C1B1B]"
@@ -545,7 +614,9 @@ export const NomineeMobile = ({
 
           <button
             onClick={handleNext}
-            className={`w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
+            className={`${
+              groteskText.className
+            } w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
               currentIndex === nominees.length - 1
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-[#1C1B1B]"

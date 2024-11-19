@@ -240,7 +240,7 @@ const NotificationsTableDrawer = ({ openNotificationsTable }) => {
     <div className="bg-white p-4 rounded-[20px] border border-gray-200 w-full">
       {/* Header */}
       <div className="flex justify-between py-[12px]">
-        <h2 className="text-2xl font-semibold">Notifications</h2>
+      <h2 className={` ${groteskTextMedium.className} text-2xl text-black `}>Notifications</h2>
         <AiOutlineExpand size={24} onClick={openNotificationsTable} />
       </div>
       {/* Table */}

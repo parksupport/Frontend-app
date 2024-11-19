@@ -9,6 +9,8 @@ import MasterCardIcon from "@/assets/svg/mastercard.svg";
 import AmexIcon from "@/assets/svg/amex.svg";
 import DiscoverIcon from "@/assets/svg/discover.svg";
 import DinersIcon from "@/assets/svg/diners.svg";
+import Card from '@/assets/svg/card.svg'
+import IconRight from '@/assets/svg/iconRight.svg'
 
 const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
   const [formData, setFormData] = useState({
@@ -35,24 +37,41 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
     <>
       <DrawerHeader
         toggleDrawer={back}
-        title="Add Billing Method"
-        className="text-[24px]"
+        title="Billing and Method"
+        subTitle="Add, update, or remove your billing methods."
+        
       />
-      <div className="px-4 mt-4">
-        <h2
-          className={`${groteskTextMedium.className} text-[20px] mb-4`}
+
+      <div className="rounded-[1rem] border border-[#D0D5DD] py-[20px] px-[17px]">
+     <div className="flex  justify-between">
+     <h2
+          className={`${groteskTextMedium.className} text-[28px] text-[#000000] `}
         >
-          Payment card information
+          Add a billing methods
         </h2>
-        <div className="flex space-x-2 mb-4">
+        <button className={` ${groteskText.className} border border-[#4169E1] rounded-[8px] w-[77px] h-[36px] text-[#000000] text-[20px] `}>Cancel</button>
+     </div>
+     <div className="flex items-center mt-[20px]">
+      <h1  className={`${groteskTextMedium.className} text-[20px] text-[#000000] `}>Payment card <span  className={`${groteskText.className} text-[14px] text-[#667185] `}>Visa, Mastercard, American express, Express, Diners</span>
+      </h1>
+      
+      
+     </div>
+
+ <div className="flex justify-between items-center mt-[77px]">
+  <h1 className={`text-[#000000] text-[16px] ${groteskText.className}`}>Card number</h1>
+ <div className="flex space-x-2 mb-4">
           <VisaIcon />
           <MasterCardIcon />
           <AmexIcon />
           <DiscoverIcon />
           <DinersIcon />
         </div>
+ </div>
+       
         <form>
-          <InputField
+
+        <InputField
             type="text"
             placeholder="1234 5678 9012 3456"
             label="Card Number"
@@ -60,10 +79,16 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
             value={formData.cardNumber}
             onChange={handleChange}
             variant="individual"
-            className={`w-full ${groteskText.className}`}
+            className="w-full"
+            iconLeft={<Card />} // Pass the icon here
+            iconRight={<IconRight />}
+            textRight="Securely stored"
           />
-          <div className="flex space-x-4">
+        
+          <div className="flex space-x-4 mt-[20px]">
+       
             <InputField
+              
               type="text"
               placeholder="First Name"
               label="First Name"
@@ -72,6 +97,7 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
               onChange={handleChange}
               variant="individual"
               className={`w-1/2 ${groteskText.className}`}
+           
             />
             <InputField
               type="text"
@@ -84,7 +110,7 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
               className={`w-1/2 ${groteskText.className}`}
             />
           </div>
-          <div className="flex space-x-4">
+          <div className="flex space-x-4 mt-[20px]">
             <InputField
               type="text"
               placeholder="MM"
@@ -106,7 +132,8 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
               className={`w-1/2 ${groteskText.className}`}
             />
           </div>
-          <InputField
+        <div className="mt-[20px] flex items-center justify-between">
+        <InputField
             type="text"
             placeholder="CVV"
             label="Security Code"
@@ -114,16 +141,18 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
             value={formData.securityCode}
             onChange={handleChange}
             variant="individual"
-            className={`w-full ${groteskText.className}`}
+            className={`w-[318px] ${groteskText.className}`}
           />
-          <div className="flex space-x-4 mt-4">
-            <Button variant="quinary" onClick={handleSave}>
+            <div className="flex w-[120px] ">
+            <Button variant="quinary" onClick={handleSave} className="w-full">
               Save
             </Button>
-            <Button variant="secondary" onClick={toggleDrawer}>
+            {/* <Button variant="secondary" onClick={toggleDrawer}>
               Cancel
-            </Button>
+            </Button> */}
           </div>
+        </div>
+        
         </form>
       </div>
     </>

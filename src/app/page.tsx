@@ -1,6 +1,6 @@
 "use client";
 
-import ArrowToText from "@/assets/images/ArrowToText.png";
+import ArrowToText from "@/assets/svg/Arrow.svg";
 import landingPageImage1 from "@/assets/images/landingPageImage1.jpg";
 import landingPageImage2 from "@/assets/images/landingPageImage2.jpg";
 import Image from "next/image";
@@ -26,7 +26,6 @@ import SubscriptionPlans from "@/components/Subscription";
 
 
 export default function LandingPage() {
-  console.log(TextAnimation);
   const [vehicleNo, setVehicleNo] = useState("");
   const [searchResult, setSearchResult] = useState(null);
 
@@ -87,14 +86,14 @@ export default function LandingPage() {
       <main className="pt-4 bg-[#FFFFFF]">
         <section
           ref={home}
-          className="z-20 max-w-[1440px] mx-auto  flex flex-col md:flex-row items-center px-4 md:w-4/5"
+          className="z-20 max-w-[1440px] mx-auto flex flex-col md:w-4/5 items-center  "
         >
-          <div className="flex flex-col md:flex-row md:h-[573px]">
+          <div className="flex flex-col lg:flex lg:flex-row ">
             <div className="flex flex-col justify-center px-4">
               <TextSection
                 title={
-                  <div className="text-5xl font-bold flex">
-                    <div className="max-w-[340px] w-full">
+                  <div className="text-responsive-lg  font-bold flex flex-col  lg:flex lg:flex-row">
+                    <div className="w-[340px] ">
                       <h1> Never Forget a Ticket Again!</h1>
                     </div>
                     <TextAnimation />
@@ -103,7 +102,7 @@ export default function LandingPage() {
                 content="Stay ahead of your vehicle's parking and driving fines with instant notifications, easy payments, and seamless appeals – all in one place."
               />
 
-              <div className=" flex mt-4 items-center ">
+              <div className=" flex mt-4 items-center cursor-pointer">
                 <Button
                   style={{ width: "116px", padding: 0, marginTop: 0 }}
                   className={`py-0 px-0 w-full mt-0 h-[40px] rounded-[0.75rem] mr-[18px] text-[#000000] text-[18px] ${groteskTextMedium.className} cursor-pointer`}
@@ -114,21 +113,25 @@ export default function LandingPage() {
                 </Button>
 
                 <AniminateButton
-                  // className="rounded-xl px-6 py-3 whitespace-nowrap"
+              
                   // variant="primary"
-                  onClick={() => router.push("/auth/login")}
-                  text="Sign in"
+                 
+
+                  text="Sign Up"
                 />
               </div>
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
-                <Image
+                <ArrowToText style={{height: 132}} />
+                <span className="text-[#8358FF] text-[16px]">Click here to check if your car has any 
+                pending tickets</span>
+                {/* <Image
                   src={ArrowToText}
                   alt="car"
                   width={303}
                   height={278}
                   className="object-cover h-full"
-                />
+                /> */}
               </div>
             </div>
             <div className=" flex-shrink-0">
@@ -145,9 +148,9 @@ export default function LandingPage() {
 
         <section
           ref={search}
-          className=" max-w-[1240px] mx-auto  flex flex-col md:flex-row items-center py-9 md:py-[120px] px-4"
+          className="max-w-[1440px] mx-auto  flex flex-col  items-center py-9 md:py-[120px] px-4 lg:flex lg:flex-row "
         >
-          <div className="flex-shrink-0 order-2 md:order-1">
+          <div className="order-2 flex-shrink-0 lg:order-1">
             <Image
               src={landingPageImage2}
               alt={"car"}
@@ -156,14 +159,14 @@ export default function LandingPage() {
               className="rounded-lg shadow-md object-cover h-full "
             />
           </div>
-          <div className="  md:pt-[143px] md:pl-24 flex flex-col justify-center p-4 order-1 md:order-2 ">
+          <div className="order-1 flex flex-col  md:pt-[143px] md:pl-24 md:flex md:flex-col justify-center p-4   lg:order-2 ">
             <TextSection
               title={
                 <div className="text-5xl font-bold">
-                  You may have an existing ticket check
+                  You may have an existing ticket. Check:
                 </div>
               }
-              content="Easily search for parking tickets and driving contraventions by entering your vehicle registration number. "
+              content="Easily search for parking tickets and driving tickets by entering your vehicle registration number. "
             />
             <InputField
               type="text"
@@ -204,7 +207,7 @@ export default function LandingPage() {
         </section>
         <section
           ref={features}
-          className=" max-w-[1240px] mx-auto  flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
+          className=" max-w-[1440px] mx-auto  flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
         >
           <div className=" text-center md:px-80 pt-2">
             <TextSection
@@ -212,7 +215,7 @@ export default function LandingPage() {
               content="We handle everything from notifications to payments and appeals, so you can focus on the road."
             />
           </div>
-          <div className="flex flex-col lg:flex-row item-center md:justify-between gap-7 md:py-10  ">
+          <div className="flex flex-col lg:flex-row item-center md:justify-between lg:w-full md:py-10  ">
             <div className="flex flex-col ">
               <FeatureCard
                 icon={<InstantNoficationIcon />}

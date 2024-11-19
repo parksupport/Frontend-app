@@ -21,11 +21,11 @@ const DrawerHeader = ({
     <div className={`flex flex-col pt-[60px] items-start`}>
       <div className="flex items-start">
         <div className="cursor-pointer" onClick={toggleDrawer}>
-          <IoArrowBack className="w-6 h-6 md:w-8 md:h-8" />
+          <IoArrowBack className="w-6 h-6 md:w-8 md:h-8" color="#000000"/>
         </div>
         <div className="flex flex-col items-center">
           <h1
-            className={`text-[24px] md:text-[32px] ${subTitle ? "" : "md:w-[530px]"} text-center leading-[25px] mx-[20px] md:mx-[50px] ${className} ${groteskTextMedium.className}`}
+            className={`text-[24px] md:text-[32px] text-center  mx-[20px] text-[#000000] lg:text-[32px] ${className} ${groteskTextMedium.className}`}
           >
             {title}
           </h1>

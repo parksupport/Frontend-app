@@ -23,7 +23,10 @@
   left: 0;
   transform: translate(-50%, -50%);
   border-radius: 100%;
-  animation: blink 1s linear;
+  animation: blink 2s linear;
+}
+.button{
+  cursor: pointer;
 }
 
 @keyframes blink {

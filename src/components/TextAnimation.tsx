@@ -35,11 +35,11 @@ const TextAnimation = () => {
 
   return (
 <>
-<section className="home">
+<section className="home mt-[10px] lg:mt-0">
     
           
-            <p className="animate-text">
-              <span>Contravention</span>
+            <p className="animate-text text-responsive-lg">
+              <span className=' '>Contravention</span>
               <span>Parking</span>
               <span>Speed</span>
          

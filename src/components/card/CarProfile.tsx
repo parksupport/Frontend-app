@@ -59,7 +59,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
             <div key={car.id} className="">
               <div className="flex justify-between">
                 <h1
-                  className={`text-[2rem] text-[#000000] ${groteskTextMedium.className} `}
+                  className={`text-[24px] md:text-[2rem] text-[#000000] ${groteskTextMedium.className} `}
                 >
                   My Vehicle
                 </h1>

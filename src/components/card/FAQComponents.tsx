@@ -59,7 +59,7 @@ const FAQComponents = () => {
 
   return (
     <div className="bg-white p-4 md:-mt-5 md:p-4 rounded-[16px] shadow-md max-w-[396px] sm:max-w-md md:max-w-[680px] w-full ">
-      <h2 className={`pt-5 text-[30px] text-black  ${groteskTextMedium.className}`}>
+      <h2 className={`pt-5 text-[24px] md:text-[32px] text-black  ${groteskTextMedium.className}`}>
         FAQs
       </h2>
       <Questions faqs={faqs} />

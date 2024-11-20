@@ -6,6 +6,7 @@ import {
 import DrawerHeader from "./DrawerHeader";
 import useIsMobile from "@/hooks/useIsMobile";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
+import useNotifications from "@/hooks/useNotification";
 
 
 type NotificationProps = {
@@ -101,67 +102,24 @@ const NotificationsTableDrawer = ({ back }) => {
     },
   ];
 
-  const [notifications, setNotifications] = useState<NotificationProps[]>(notificationsData);
-  const [selectAll, setSelectAll] = useState(false);
-  const [selectedNotification, setSelectedNotification] = useState(null);
   const isMobile = useIsMobile();
-
-  const itemsPerPage = 5;
-  const totalNotifications = notifications.length;
-  const totalPages = Math.ceil(totalNotifications / itemsPerPage);
-
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const handleCheckedAll = () => {
-    setSelectAll(!selectAll);
-    const updatedNotifications = notifications.map((notification) => ({
-      ...notification,
-      checked: !selectAll,
-    }));
-    setNotifications(updatedNotifications);
-  };
-
-  const handleCheckboxChange = (id) => {
-    const updatedNotifications = notifications.map((notification) =>
-      notification.id === id
-        ? { ...notification, checked: !notification?.checked }
-        : notification
-    );
-    setNotifications(updatedNotifications);
-  };
-
-  const handleNotificationClick = (notification) => {
-    setSelectedNotification(notification);
-    const updatedNotifications = notifications.map((n) =>
-      n.id === notification.id ? { ...n, read: true } : n
-    );
-    setNotifications(updatedNotifications);
-  };
-
-  const handleSelectAll = () => {
-    const updatedNotifications = notifications.map((n) => ({
-      ...n,
-      read: true,
-    }));
-    setNotifications(updatedNotifications);
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  const currentNotifications = notifications.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
+ 
+  const {
+    currentNotifications,
+    currentPage,
+    totalPages,
+    selectAll,
+    handleSelectAll,
+    handleCheckboxChange,
+    handleNext,
+    handlePrevious,
+    setCurrentPage,
+    itemsPerPage,
+    totalNotifications,
+    handleNotificationClick,
+    handleCheckedAll,
+    selectedNotification
+  } = useNotifications(notificationsData, 5);
 
   return (
     <>

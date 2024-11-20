@@ -35,7 +35,7 @@ import DashboardNotifications from "@/components/card/DashBoardNotification";
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
-  const [User ,setUser] = useState("User")
+  const [User, setUser] = useState("User");
 
   const drawerRef = useRef<any>(null);
 
@@ -54,8 +54,6 @@ export default function DashboardPage() {
       setIsOpen(true);
     }
   };
-
-
 
   const openCarProfile = (car: any) => {
     console.log("Opening car profile for:", User);
@@ -80,40 +78,34 @@ export default function DashboardPage() {
   };
 
   const openProfileDrawer = () => {
-    setDrawerContent(<UserInfoDrawer back={toggleDrawer} onEdit={openProfileEditDrawer} userInfo={User} />);
+    setDrawerContent(
+      <UserInfoDrawer
+        back={toggleDrawer}
+        onEdit={openProfileEditDrawer}
+        userInfo={User}
+      />
+    );
     scrollToTopFromParent();
     openDrawer();
   };
 
   const openProfileEditDrawer = () => {
-    setDrawerContent(<ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />);
+    setDrawerContent(
+      <ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />
+    );
     scrollToTopFromParent();
     openDrawer();
   };
 
-  const handleOpenNotificationsTable = () => {
-    // Your logic to open the notifications table
-    console.log("Notifications table expanded");
-  };
 
   const openNotificationsTable = () => {
-    setDrawerContent(
-      <NotificationTableDrawer
-        openNotificationsTable={handleOpenNotificationsTable}
-        back={toggleDrawer}
-      />
-    );
+    setDrawerContent(<NotificationTableDrawer back={toggleDrawer} />);
     scrollToTopFromParent();
     openDrawer();
   };
 
   const openConventionTable = () => {
-    setDrawerContent(
-      <ConventionTableDrawer
-        toggleDrawer={toggleDrawer}
-        
-      />
-    );
+    setDrawerContent(<ConventionTableDrawer toggleDrawer={toggleDrawer} />);
     scrollToTopFromParent();
     openDrawer();
   };
@@ -131,7 +123,9 @@ export default function DashboardPage() {
     openDrawer();
   };
   const openEducationalMaterials = () => {
-    setDrawerContent(<EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />);
+    setDrawerContent(
+      <EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />
+    );
     scrollToTopFromParent();
     openDrawer();
   };
@@ -191,7 +185,6 @@ export default function DashboardPage() {
   };
 
   const openSettingsDrawer = () => {
-
     setDrawerContent(
       <SettingsDrawer
         toggleDrawer={toggleDrawer}
@@ -201,8 +194,6 @@ export default function DashboardPage() {
     scrollToTopFromParent();
     openDrawer();
   };
-
-
 
   const openAddBillingMethod = () => {
     setDrawerContent(
@@ -223,15 +214,16 @@ export default function DashboardPage() {
 
   const handleToggle = (newState) => {
     console.log("Current State:", newState);
-    setUser(newState)
+    setUser(newState);
   };
-
-
-  
 
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-      <DashboardHeader openSettingsDrawer={openSettingsDrawer} openProfileSlider={openProfileDrawer} openNotificationsTable={openNotificationsTable} openNotification={OpenNotification}
+      <DashboardHeader
+        openSettingsDrawer={openSettingsDrawer}
+        openProfileSlider={openProfileDrawer}
+        openNotificationsTable={openNotificationsTable}
+        openNotification={OpenNotification}
       />
 
       {/* Main Content */}
@@ -277,7 +269,10 @@ export default function DashboardPage() {
             {/* <NotificationsTable
               openNotificationsTable={openNotificationsTable}
             /> */}
-            <DashboardNotifications  openNotificationsTable={openNotificationsTable} isDrawer={false}/>
+            <DashboardNotifications
+              openNotificationsTable={openNotificationsTable}
+              isDrawer={false}
+            />
           </div>
         </section>
 
@@ -289,8 +284,8 @@ export default function DashboardPage() {
             />
           </div>
           <div className="relative md:-mt-[50px] md:z-20">
-          {/* <FAQAccordion /> */}
-          <FAQComponents/>
+            {/* <FAQAccordion /> */}
+            <FAQComponents />
           </div>
         </section>
       </main>
@@ -300,4 +295,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

@@ -6,6 +6,7 @@ import { groteskTextMedium } from "@/app/fonts";
 import { MoveDiagonal } from "lucide-react";
 import useIsMobile from "@/hooks/useIsMobile";
 import { DesktopViewNotification, MobileViewNotification } from "../NotificationTable";
+import useNotifications from "@/hooks/useNotification";
 
 interface NotificationProps {
   id: number;
@@ -17,6 +18,7 @@ interface NotificationProps {
 }
 
 const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
+
   const notificationsData = [
     {
       id: 1,
@@ -101,54 +103,21 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
   ];
   
 
-  const [notifications, setNotifications] =
-    useState<NotificationProps[]>(notificationsData);
+    const {
+      currentNotifications,
+      currentPage,
+      totalPages,
+      selectAll,
+      handleSelectAll,
+      handleCheckboxChange,
+      handleNext,
+      handlePrevious,
+      setCurrentPage,
+      itemsPerPage,
+      totalNotifications,
+    } = useNotifications(notificationsData, 5);
 
-  const [selectAll, setSelectAll] = useState(false);
-  const isMobile = useIsMobile();
-  const itemsPerPage = 5;
-
-  const totalNotifications = notifications.length;
-  const totalPages = Math.ceil(totalNotifications / itemsPerPage);
-
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const handleSelectAll = () => {
-    setSelectAll((prevState) => !prevState);
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) => ({
-        ...notification,
-        checked: !selectAll,
-      }))
-    );
-  };
-
-  const handleCheckboxChange = (id: number) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
-        notification.id === id
-          ? { ...notification, checked: !notification.checked }
-          : notification
-      )
-    );
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 0) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  };
-
-  const currentNotifications = notifications.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
+    const isMobile = useIsMobile();
 
   return isMobile ? (
     <MobileViewNotification

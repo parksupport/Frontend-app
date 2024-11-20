@@ -319,7 +319,7 @@ export const DesktopViewNotification = ({
     <>
       <div className="rounded-[12px] border border-gray-200 overflow-hidden w-full">
         {!isDrawer && (
-          <div className="bg-gray-100 px-2 py-2 flex items-center justify-between w-full">
+          <div className="bg-white px-2 py-2 flex items-center justify-between w-full">
             <div className="flex items-center py-3">
               <input
                 type="checkbox"

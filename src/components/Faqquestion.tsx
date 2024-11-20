@@ -58,43 +58,12 @@ export default function Faq() {
   ];
 
   return (
-    <div className="bg-[#3957D7] flex justify-center items-center ">
+    <div className="bg-[#3957D7]  flex justify-center items-center ">
       <div className="w-full max-w-2xl px-2 md:pb-[81px] pb-7">
         <div className="text-white text-[28px] md:text-[44px] font-bold text-center mt-7 mb-2 md:mt-10">
           Frequently asked questions
         </div>
-        {/* <div className="bg-white  rounded-[12px] px-2 mx-4 shadow-lg">
-          <div className="border-b">
-            {faqs.map((faq, index) => (
-              <div key={index} className="border-b border-gray-300 ">
-                <button
-                  onClick={() => toggleQuestion(index)}
-                  className="flex justify-between w-full py-4 text-left text-[14px] font-medium text-[#98A2B3] md:text-[20px]"
-                >
-                  {faq.question}
-                  <span className="ml-2">
-                    {openQuestion === index ? (
-                      <FontAwesomeIcon
-                        icon={faCaretUp}
-                        className="h-3 w-3 text-[#98A2B3] md:h-5 w-5"
-                      />
-                    ) : (
-                      <FontAwesomeIcon
-                        icon={faCaretDown}
-                        className="h-3 w-3 text-[#98A2B3] md:h-5 w-5"
-                      />
-                    )}
-                  </span>
-                </button>
-                {openQuestion === index && (
-                  <div className="px-4 text-[14px] md:text-[16px]">
-                    {faq.answer}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div> */}
+
         <Questions faqs={faqs} />
       </div>
     </div>
@@ -109,7 +78,7 @@ export function Questions({ faqs }) {
   };
 
   return (
-    <div className="h-[300px] overflow-y-scroll rounded-[12px] px-2 border">
+    <div className=" bg-white h-[300px] overflow-y-scroll rounded-[12px] px-2 border">
       <div>
         <div className="faq-container">
           {faqs.map((faq, index) => (
@@ -138,7 +107,10 @@ export function Questions({ faqs }) {
                 faq.answers.length > 0 && (
                   <div className="px-4 text-[14px] md:text-[15px] text-[#98A2B3]">
                     {faq.answers.map((answer, answerIndex) => (
-                      <p key={answerIndex} className={` ${groteskText.className} mb-2`}>
+                      <p
+                        key={answerIndex}
+                        className={` ${groteskText.className} mb-2`}
+                      >
                         {answer}
                       </p>
                     ))}

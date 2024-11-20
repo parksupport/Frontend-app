@@ -12,6 +12,7 @@ interface HeaderProps {
   searchRef: any;
   featuresRef: any;
   faqRef: any;
+  subPlanRef:any;
   router: any;
 }
 
@@ -21,6 +22,7 @@ const Header = ({
   searchRef,
   featuresRef,
   faqRef,
+  subPlanRef,
   router,
 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -58,6 +60,11 @@ const Header = ({
             name="FAQ"
             className="cursor-pointer hover:text-blue-500"
             onClick={() => scrollToSection(faqRef)}
+          />
+          <NavLinkComponent
+            name="Subscription Plan"
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => scrollToSection(subPlanRef)}
           />
         </nav>
 
@@ -100,6 +107,12 @@ const Header = ({
               onClick={() => scrollToSection(faqRef)}
             >
               FAQ
+            </div>
+            <div
+              className="cursor-pointer hover:text-blue-500"
+              onClick={() => scrollToSection(subPlanRef)}
+            >
+              Subcription Plan
             </div>
           </div>
         )}

@@ -9,7 +9,7 @@ import ContraventionTable from "@/components/card/Contravention";
 import EducationalMaterials from "@/components/card/Educationalmaterials";
 import EducationalMaterialsDrawer from "@/components/Drawer/EducationMaterialsDrawer";
 import FAQComponents from "@/components/card/FAQComponents";
-import NotificationsTable from "@/components/card/NotificationTable";
+import NotificationsTable from "@/components/NotificationTable";
 import DashboardHeader from "@/components/DashboardHeader";
 import AddVehicleDetailsDrawer from "@/components/Drawer/AddVehicleDetailsDrawer";
 import CarProfileDrawer from "@/components/Drawer/CarProfileDrawer";
@@ -30,7 +30,7 @@ import OpenNotification from "@/components/notification-popup/OpenNotification";
 import UserInfoDrawer from "@/components/Drawer/UserInfoDrawer";
 import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer";
 import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
-import FAQAccordion from "@/components/Faqquestion";
+import DashboardNotifications from "@/components/card/DashBoardNotification";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ export default function DashboardPage() {
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
-      drawerRef.current.handleButtonClick();
+      drawerRef.current.scrollToTop(); // Call the exposed method
     }
   };
 
@@ -75,18 +75,19 @@ export default function DashboardPage() {
         />
       );
     }
-
+    scrollToTopFromParent();
     openDrawer();
   };
 
   const openProfileDrawer = () => {
     setDrawerContent(<UserInfoDrawer back={toggleDrawer} onEdit={openProfileEditDrawer} userInfo={User} />);
+    scrollToTopFromParent();
     openDrawer();
   };
 
   const openProfileEditDrawer = () => {
     setDrawerContent(<ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />);
-
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -99,8 +100,10 @@ export default function DashboardPage() {
     setDrawerContent(
       <NotificationTableDrawer
         openNotificationsTable={handleOpenNotificationsTable}
+        back={toggleDrawer}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -111,6 +114,7 @@ export default function DashboardPage() {
         
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -128,6 +132,7 @@ export default function DashboardPage() {
   };
   const openEducationalMaterials = () => {
     setDrawerContent(<EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />);
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -139,6 +144,7 @@ export default function DashboardPage() {
         vehicleStatus={VehicleStatus}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
   const OwnerInfoDrawer = () => {
@@ -148,6 +154,7 @@ export default function DashboardPage() {
         VehicleStatus={VehicleStatus}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -158,6 +165,7 @@ export default function DashboardPage() {
         openCarProfile={openCarProfile}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -169,6 +177,7 @@ export default function DashboardPage() {
         back={addVehicleDetails}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -189,6 +198,7 @@ export default function DashboardPage() {
         openAddBillingMethod={openAddBillingMethod}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -201,6 +211,7 @@ export default function DashboardPage() {
         toggleDrawer={toggleDrawer}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -214,6 +225,9 @@ export default function DashboardPage() {
     console.log("Current State:", newState);
     setUser(newState)
   };
+
+
+  
 
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
@@ -259,10 +273,11 @@ export default function DashboardPage() {
           <div>
             <Calendar />
           </div>
-          <div className="">
-            <NotificationsTable
+          <div className="w-full">
+            {/* <NotificationsTable
               openNotificationsTable={openNotificationsTable}
-            />
+            /> */}
+            <DashboardNotifications  openNotificationsTable={openNotificationsTable} isDrawer={false}/>
           </div>
         </section>
 
@@ -273,7 +288,7 @@ export default function DashboardPage() {
               openEducationalMaterials={openEducationalMaterials}
             />
           </div>
-          <div className="relative md:-mt-[100px] md:z-20">
+          <div className="relative md:-mt-[50px] md:z-20">
           {/* <FAQAccordion /> */}
           <FAQComponents/>
           </div>

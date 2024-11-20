@@ -39,6 +39,14 @@ const Drawer = forwardRef(
     );
   };
 
+  useImperativeHandle(ref, () => ({
+    scrollToTop: () => {
+      if (drawerContentRef.current) {
+        drawerContentRef.current.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    },
+  }));
+
   return (
     <div>
       {isOpen && (

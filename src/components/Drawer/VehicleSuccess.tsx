@@ -1,6 +1,7 @@
 import successMark from "@/assets/images/successMark.png";
 import Image from "next/image";
 import DrawerHeader from "./DrawerHeader";
+import { groteskText } from "@/app/fonts";
 
 const VehicleAddedSuccess = ({ toggleDrawer, openCarProfile, }) => {
   return (
@@ -30,13 +31,13 @@ const VehicleAddedSuccess = ({ toggleDrawer, openCarProfile, }) => {
       <div className="flex mt-8 space-x-4 border p-2 rounded-[6px] bg-[#F1F4FD]">
         <button
           onClick={toggleDrawer}
-          className=" rounded-[8px] px-4 py-2  text-blue-600 font-medium  hover:bg-blue-700 hover:text-white transition"
+          className={`${groteskText.className} rounded-[8px] px-4 py-2  text-blue-600 font-medium  hover:bg-blue-700 hover:text-white transition `}
         >
           View Vehicle Dashboard
         </button>
         <button
           onClick={openCarProfile}
-          className="px-4 py-2 text-blue-600 font-medium  hover:bg-blue-700 hover:text-white  transition"
+          className={` ${groteskText.className} px-4 py-2 text-blue-600 font-medium  hover:bg-blue-700 hover:text-white  transition`}
         >
           Add Another Vehicle
         </button>

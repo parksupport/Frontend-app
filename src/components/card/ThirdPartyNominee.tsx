@@ -25,49 +25,49 @@ export default function ThirdPartyNominees({
     {
       name: "Wisdom Odili",
       email: "Odiliwisdom5@gmail.com",
-      phone: "+44 5641 464 4484",
+      phone: "+4456414644484",
       car: "Ford",
     },
     {
-      name: "Wisdom Odili",
+      name: "Omotayo Oyeniyi",
       email: "Odiliwisdom5@gmail.com",
-      phone: "+44 5641 464 4484",
+      phone: "+4456414644484",
       car: "Chevrolet",
     },
     {
       name: "Wisdom Odili",
       email: "Odiliwisdom5@gmail.com",
-      phone: "+44 5641 464 4484",
+      phone: "+4456414644484",
       car: "Toyota",
     },
     {
       name: "Wisdom Odili",
       email: "Odiliwisdom5@gmail.com",
-      phone: "+44 5641 464 4484",
+      phone: "+4456414644484",
       car: "Honda",
     },
     {
       name: "Wisdom Odili",
       email: "Odiliwisdom5@gmail.com",
-      phone: "+44 5641 464 4484",
+      phone: "+4456414644484",
       car: "Jeep Cherokee",
     },
     {
       name: "Wisdom Odili",
       email: "Odiliwisdom5@gmail.com",
-      phone: "+44 5641 464 4484",
+      phone: "+4456414644484",
       car: "Jeep Cherokee",
     },
     {
       name: "Wisdom Odili",
       email: "Odiliwisdom5@gmail.com",
-      phone: "+44 5641 464 4484",
+      phone: "+4456414644484",
       car: "Jeep Cherokee",
     },
     {
       name: "Wisdom Odili",
       email: "Odiliwisdom5@gmail.com",
-      phone: "+44 5641 464 4484",
+      phone: "+4456414644484",
       car: "Jeep Cherokee",
     },
     // {
@@ -164,7 +164,7 @@ export default function ThirdPartyNominees({
       {/* Header */}
       <div className="flex items-center justify-center gap-10 mb-2">
         <h1
-          className={`text-[22px]  md:text-[28px] text-black ${groteskTextMedium.className}`}
+          className={`text-[22px]  md:text-[24px] text-black ${groteskTextMedium.className}`}
         >
           Third Party Nominees
         </h1>
@@ -203,7 +203,7 @@ export default function ThirdPartyNominees({
 }
 
 interface AddThirdPartyNomineeProps {
-  vehicle: any;
+  vehicle?: any;
   toggleForm?: (state: boolean) => void;
   addVehicle?: () => void;
 }
@@ -268,7 +268,7 @@ export function AddThirdPartyNominee({
       <div className="flex flex-col  ">
         <div className="flex items-center justify-center gap-4 mb-4  md:gap-10 ">
           <h1
-            className={`text-wrap text-black text-[22px] md:text-[28px]  ${groteskTextMedium.className}`}
+            className={`text-wrap text-black text-[22px] md:text-[24px]  ${groteskTextMedium.className}`}
           >
             Add Third Party Nominees
           </h1>
@@ -372,33 +372,35 @@ const NomineeDesktop = ({
       <table className="overflow-auto-y min-w-full bg-white text-black ">
         <thead>
           <tr
-            className={`text-[#667185] text-[18px] border-b ${groteskText.className}`}
+            className={`text-[#667185] text-[18px] border-b w-full ${groteskText.className}`}
           >
-            <th className="whitespace-nowrap py-2 px-2 text-left w-[20%] ">
+            <th className={` ${groteskText.className} whitespace-nowrap py-2 px-3 text-left w-[20%] `}>
               Name
             </th>
-            <th className="whitespace-nowrap px-2 text-left  w-[30%]  ">
+            <th className={` ${groteskText.className} whitespace-nowrap px-3 text-left  w-[20%] `}>
               Email Address
             </th>
-            <th className="whitespace-nowrap  px-2  text-left  w-[25%] ">
+            <th className={` ${groteskText.className} whitespace-nowrap  px-2  text-left  w-[25%]` }>
               Phone Number
             </th>
-            <th className="whitespace-nowrap px-2   text-left  w-[20%] ">
+            <th className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}>
               Car
             </th>
-            <th className="text-end  w-[5%] "></th>
+            <th className={`  ${groteskText.className} whitespace-nowrap  text-end px-2 w-[5%]`}>{" "}</th>
           </tr>
         </thead>
         <tbody>
           {nominees.map((nominee, index) => (
             <tr key={index} className="hover:bg-gray-50 relative">
               <td
-                className={`pt-2 px-2 whitespace-nowrap text-[16px] ${groteskText.className}`}
+                className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
-                {nominee.name}
+               
+                <TruncatedText text =  {nominee.name}maxLength={10} className={`${groteskText.className}`}/>
+            
               </td>
               <td
-                className={`pt-2 px-2 whitespace-nowrap text-[16px] ${groteskText.className}`}
+                className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
                 <TruncatedText
                   text={nominee.email}
@@ -407,16 +409,21 @@ const NomineeDesktop = ({
                 />
               </td>
               <td
-                className={`pt-2 px-2 whitespace-nowrap text-[16px] ${groteskText.className}`}
+                className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
                 {nominee.phone}
               </td>
               <td
-                className={`pt-2 px-2  text-[16px] whitespace-nowrap ${groteskText.className}`}
+                className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
               >
-                {nominee.car}
+                 <TruncatedText
+                  text={nominee.car}
+                  maxLength={8}
+                  className={` ${groteskText.className}`}
+                />
+             
               </td>
-              <td className="cursor-pointer pt-2 text-end pr-6 whitespace-nowrap relative">
+              <td className="cursor-pointer pt-2 text-end  pr-2 whitespace-nowrap relative">
                 <button
                   className=" text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
                   onClick={() => toggleDropdown(index)}
@@ -433,7 +440,7 @@ const NomineeDesktop = ({
                     selectedDataIndex={selectedDataIndex}
                     index={index}
                     customStyles={`${groteskText.className} text-[14px]`}
-                    position={{ right: 31, top: 30 }}
+                    position={{ right: 19, top: 30 }}
                   />
                 )}
               </td>

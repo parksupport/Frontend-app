@@ -25,13 +25,13 @@ const DrawerHeader = ({
         </div>
         <div className="flex flex-col items-center">
           <h1
-            className={`text-[24px] md:text-[32px] text-center  mx-[20px] text-[#000000] lg:text-[32px] ${className} ${groteskTextMedium.className}`}
+            className={` text-[24px] leading-none md:text-[32px] text-center  mx-[20px] text-[#000000] lg:text-[32px] ${className} ${groteskTextMedium.className}`}
           >
             {title}
           </h1>
           {subTitle && (
             <p
-              className={`text-[#667185] text-center leading-[18px] md:mx-[150px] ${groteskText.className}`}
+              className={` text-[#667185] text-center leading-none md:mx-[50px] ${groteskText.className}`}
             >
               {subTitle}
             </p>

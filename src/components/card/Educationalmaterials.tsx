@@ -105,7 +105,7 @@ const EducationalMaterials = ({
                 selected === topic.id ? "border-[#4169E1]" : "border-[#D0D5DD]"
               }`}
             >
-              {topic.topic}
+              <TruncatedText text={topic.topic} maxLength={23} className={`${groteskText.className}`} />
             </button>
           ))}
         </div>

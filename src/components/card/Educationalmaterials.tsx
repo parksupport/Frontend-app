@@ -94,7 +94,7 @@ const EducationalMaterials = ({
 
       <div className="md:flex md:gap-8 ">
         {" "}
-        <div className="overflow-y-auto h-[280px] flex flex-wrap text-black items-start gap-2 mb-4 md:flex-col md:w-[38%]">
+        <div className="flex flex-wrap text-black items-start gap-2 mb-4 md:flex-col md:w-[38%]">
           {TopicList.map((topic) => (
             <button
               key={topic.id}

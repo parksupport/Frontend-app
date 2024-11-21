@@ -79,7 +79,7 @@ const EducationalMaterials = ({
   };
   return (
     <div className="bg-white p-6  md:p-4 rounded-[16px] shadow-md max-w-[396px] md:h-[360px] sm:max-w-md md:max-w-[680px] w-full">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <h1
           className={`text-[24px] md:text-[32px] text-black ${groteskTextMedium.className} mb-4"`}
         >

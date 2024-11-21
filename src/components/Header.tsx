@@ -6,7 +6,7 @@ import NavLinkComponent from "./NavLinkComponent";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import { Logo } from "./logo";
 
-interface HeaderProps {
+export interface HeaderProps {
   scrollToSection: any;
   homeRef: any;
   searchRef: any;

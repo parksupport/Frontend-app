@@ -248,7 +248,15 @@ export default function LandingPage() {
           <SubscriptionPlans />
         </section>
         <section>
-          <Footer />
+          <Footer 
+           scrollToSection={scrollToSection}
+           homeRef={home}
+           searchRef={search}
+           featuresRef={features}
+           faqRef={faq}
+           subPlanRef={subscriptionPlan}
+           router={router}
+          />
         </section>
       </main>
     </div>

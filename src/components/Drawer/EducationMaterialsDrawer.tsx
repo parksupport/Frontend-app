@@ -18,7 +18,7 @@ const EducationalMaterialsDrawer = ({ toggleDrawer }) => {
       />
 
       {/* Contextual Information */}
-      <div className="mt-4 mb-6">
+      <div className="mt-12 mb-6">
         <p className="text-gray-700">
           Explore the sections below to find helpful resources on safe driving,
           contraventions, and road safety guidelines.

@@ -12,7 +12,7 @@ const config: Config = {
     extend: {
      fontSize: {
         'responsive-base': 'clamp(1rem, 2vw + 0.5rem, 2rem)', // Example values for base text
-        'responsive-lg': 'clamp(1.5rem, 2vw + 1rem, 3rem)', // Example values for larger text
+        'responsive-lg': 'clamp(1.75rem, 1.2vw + 1rem, 3.125rem)', // Example values for larger text
       },
       fontFamily: {
         // Add your custom font here

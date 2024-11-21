@@ -24,6 +24,7 @@ import { TextSection } from "@/components/TextSection";
 import { groteskText, groteskTextMedium } from "./fonts";
 import SubscriptionPlans from "@/components/Subscription";
 import useIsMobile from "@/hooks/useIsMobile";
+import AnimationText from "@/components/AnimationText";
 
 export default function LandingPage() {
   const [vehicleNo, setVehicleNo] = useState("");
@@ -100,11 +101,13 @@ export default function LandingPage() {
             <div className="flex flex-col justify-center px-4">
               <TextSection
                 title={
-                  <div className="text-responsive-lg  font-bold flex flex-col  lg:flex lg:flex-row">
-                    <div className="w-[340px] ">
-                      <h1> Never Forget a Ticket Again!</h1>
+                  <div className="flex flex-col text-responsive-lg  font-bold  ">
+                    <div className="flex items-center ">
+                      <h1 className="mr-[10px]"> Never Forget a </h1>
+                      <TextAnimation />
                     </div>
-                    <TextAnimation />
+                    <span>Ticket Again!</span>
+                   
                   </div>
                 }
                 content="Stay ahead of your vehicle's parking and driving fines with instant notifications, easy payments, and seamless appeals – all in one place."
@@ -130,9 +133,7 @@ export default function LandingPage() {
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
                 <ArrowToText style={{ height: 132 }} />
-                <span className="text-[#8358FF] text-[16px]">
-                  Click here to check if your car has any pending tickets
-                </span>
+               <AnimationText />
                 {/* <Image
                   src={ArrowToText}
                   alt="car"

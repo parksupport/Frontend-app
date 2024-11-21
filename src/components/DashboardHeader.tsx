@@ -9,7 +9,7 @@ import { IoNotifications } from "react-icons/io5";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import OpenNotification from "./notification-popup/OpenNotification";
-import NotificationsTable from "./card/NotificationTable";
+import NotificationsTable from "./NotificationTable";
 import { useState } from "react";
 import useStore from "@/lib/stores/notification";
 

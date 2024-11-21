@@ -1,0 +1,32 @@
+.animate-texts {
+    background: linear-gradient(90deg, 
+        #439CFB, 
+    
+         
+        #FFED00, 
+      
+      
+        #28F373, 
+      
+        #60EFFF, 
+     
+        #9CF8F4, 
+        #6F7BF7, 
+       
+      
+       
+        #F187FB);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: animate 10s linear infinite;
+    background-size: 200% 100%; /* Ensures smoother animation */
+}
+
+@keyframes animate {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}

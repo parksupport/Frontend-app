@@ -5,7 +5,7 @@ import landingPageImage1 from "@/assets/images/landingPageImage1.jpg";
 import landingPageImage2 from "@/assets/images/landingPageImage2.jpg";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { use, useRef, useState } from "react";
 
 import { Button, InputField } from "@/components";
 import AniminateButton from "@/components/AniminateButton";
@@ -23,39 +23,47 @@ import TextAnimation from "@/components/TextAnimation";
 import { TextSection } from "@/components/TextSection";
 import { groteskText, groteskTextMedium } from "./fonts";
 import SubscriptionPlans from "@/components/Subscription";
-
+import useIsMobile from "@/hooks/useIsMobile";
+import AnimationText from "@/components/AnimationText";
 
 export default function LandingPage() {
   const [vehicleNo, setVehicleNo] = useState("");
-  const [searchResult, setSearchResult] = useState(null);
+  const [hasTicket, setHasTicket] = useState(null);
+  const [searchResult, setSearchResult] = useState(false);
+
+  const isMobile = useIsMobile();
 
   const router = useRouter();
 
+  console.log(hasTicket + "hasTicket");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     const { value } = e.target;
     console.log(value);
 
     setVehicleNo(value);
 
     if (value === "") {
-      setSearchResult(null);
+      setHasTicket(null);
     }
   };
 
   const handleSearch = () => {
-    const hasContraventions = false;
+    const hasContraventions = true;
 
     if (hasContraventions) {
-      setSearchResult(false);
+      setHasTicket(false);
     } else {
-      setSearchResult(true);
+      setHasTicket(true);
     }
+    setSearchResult(true);
   };
 
   const home = useRef(null);
   const search = useRef(null);
   const features = useRef(null);
   const faq = useRef(null);
+  const subscriptionPlan = useRef(null);
 
   const scrollToSection = (elementRef) => {
     if (elementRef && elementRef.current) {
@@ -80,6 +88,7 @@ export default function LandingPage() {
         searchRef={search}
         featuresRef={features}
         faqRef={faq}
+        subPlanRef={subscriptionPlan}
         router={router}
       />
 
@@ -92,17 +101,19 @@ export default function LandingPage() {
             <div className="flex flex-col justify-center px-4">
               <TextSection
                 title={
-                  <div className="text-responsive-lg  font-bold flex flex-col  lg:flex lg:flex-row">
-                    <div className="w-[340px] ">
-                      <h1> Never Forget a Ticket Again!</h1>
+                  <div className="flex flex-col text-responsive-lg  font-bold  ">
+                    <div className="flex items-center ">
+                      <h1 className="mr-[10px]"> Never Forget a </h1>
+                      <TextAnimation />
                     </div>
-                    <TextAnimation />
+                    <span>Ticket Again!</span>
+                   
                   </div>
                 }
                 content="Stay ahead of your vehicle's parking and driving fines with instant notifications, easy payments, and seamless appeals – all in one place."
               />
 
-              <div className=" flex mt-4 items-center cursor-pointer">
+              <div className=" flex mt-4 items-center cursor-pointer z-20">
                 <Button
                   style={{ width: "116px", padding: 0, marginTop: 0 }}
                   className={`py-0 px-0 w-full mt-0 h-[40px] rounded-[0.75rem] mr-[18px] text-[#000000] text-[18px] ${groteskTextMedium.className} cursor-pointer`}
@@ -113,18 +124,16 @@ export default function LandingPage() {
                 </Button>
 
                 <AniminateButton
-              
                   // variant="primary"
-                 
 
                   text="Sign Up"
+                  onClick={() => router.push("/auth/onboarding")}
                 />
               </div>
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
-                <ArrowToText style={{height: 132}} />
-                <span className="text-[#8358FF] text-[16px]">Click here to check if your car has any 
-                pending tickets</span>
+                <ArrowToText style={{ height: 132 }} />
+               <AnimationText />
                 {/* <Image
                   src={ArrowToText}
                   alt="car"
@@ -159,7 +168,7 @@ export default function LandingPage() {
               className="rounded-lg shadow-md object-cover h-full "
             />
           </div>
-          <div className="order-1 flex flex-col  md:pt-[143px] md:pl-24 md:flex md:flex-col justify-center p-4   lg:order-2 ">
+          <div className="relative order-1 flex flex-col  md:pt-[143px] md:pl-24 md:flex md:flex-col justify-center p-4   lg:order-2 ">
             <TextSection
               title={
                 <div className="text-5xl font-bold">
@@ -175,7 +184,7 @@ export default function LandingPage() {
               placeholder="Enter your vehicle registration number"
               value={vehicleNo}
               onChange={handleChange}
-              className="py-4 md:py-3"
+              className="py-4 md:py-3 md:w-[400px]"
             />
             <div className="flex justify-between  ">
               <div className=" md:pt-4 ">
@@ -189,17 +198,13 @@ export default function LandingPage() {
                 </Button>
               </div>
 
-              {searchResult === true && vehicleNo && (
+              {searchResult && vehicleNo && (
                 <NotificationBox
-                  isSuccess={true}
-                  message="No contraventions assigned to this reg number"
-                />
-              )}
-
-              {searchResult === false && vehicleNo && (
-                <NotificationBox
-                  isSuccess={false}
-                  message="An error occurred while fetching the data"
+                  position={
+                    isMobile ? { right: 0, top: -10 } : { right: 300, top: 0 }
+                  }
+                  hasTicket={hasTicket}
+                  signUp={() => router.push("/auth/onboarding")}
                 />
               )}
             </div>
@@ -212,7 +217,7 @@ export default function LandingPage() {
           <div className=" text-center md:px-80 pt-2">
             <TextSection
               title="All-in-one vehicle contravention solution"
-              content="We handle everything from notifications to payments and appeals, so you can focus on the road."
+             
             />
           </div>
           <div className="flex flex-col lg:flex-row item-center md:justify-between lg:w-full md:py-10  ">
@@ -240,10 +245,19 @@ export default function LandingPage() {
           <FAQAccordion />
         </section>
         {/* Subscription Plans Section */}
-        
-        <SubscriptionPlans /> 
+        <section ref={subscriptionPlan}>
+          <SubscriptionPlans />
+        </section>
         <section>
-          <Footer />
+          <Footer 
+           scrollToSection={scrollToSection}
+           homeRef={home}
+           searchRef={search}
+           featuresRef={features}
+           faqRef={faq}
+           subPlanRef={subscriptionPlan}
+           router={router}
+          />
         </section>
       </main>
     </div>

@@ -124,13 +124,13 @@ function DynamicForm({ formType, status }) {
   return (
     <div className="">
       <h1
-        className={`${groteskTextMedium.className} text-[24px] md:text-[32px] text-wrap`}
+        className={`${groteskTextMedium.className} md:mx-[40px] text-black text-[24px] md:text-[30px] text-wrap`}
       >
         {formConfig.title}
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="mt-[8px] flex flex-col space-y-4 "
+        className="mt-[8px] md:mx-[60px] flex flex-col space-y-4 "
       >
         {formConfig.fields.map((field) => (
           <div key={field.name}>
@@ -185,16 +185,16 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus }) => {
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Which of these best describes your ownership of the vehicle?"
-        className="text-[24px]"
+        className=""
       />
-      <div className="flex flex-wrap flex-col items-start gap-5 mb-4 mt-[44px] mx-2  md:mx-[150px] ">
+      <div className="flex flex-wrap flex-col items-start gap-5 mb-4 mt-[44px] md:mx-[60px] ">
         {Object.entries(owners).map(([key, topic]) => (
           <button
             key={key}
             onClick={() => handleSelect(key)}
             className={`${
               groteskText.className
-            } inline-flex items-center px-4 py-[18px] border rounded-[8px] text-[18px] ${
+            } inline-flex items-center px-4 py-[18px] border rounded-[8px] text-[18px] text-black ${
               selectedKey === key ? "border-[#4169E1]" : "border-[#D0D5DD]"
             }`}
           >
@@ -204,7 +204,7 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus }) => {
         ))}
       </div>
 
-      <div className=" my-[94px] mx-[16px] md:mx-[150px]  ">{renderForm()}</div>
+      <div className=" my-[94px] mx-[16px]   ">{renderForm()}</div>
     </>
   );
 };

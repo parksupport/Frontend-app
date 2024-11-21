@@ -44,7 +44,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
     <div className="max-w-[396px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-6 px-4 md:py-8 md:px-6 lg:px-8">
       <div className="flex justify-between flex-row items-center">
         <h1
-          className={`text-[2rem] text-[#000000] ${groteskTextMedium.className} `}
+          className={`text-[24px] md:text-[2rem] text-[#000000] ${groteskTextMedium.className} `}
         >
           Ticket
         </h1>{" "}
@@ -61,7 +61,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
             <th
               className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]     ${groteskText.className}`}
             >
-              Vehicle Reg Number
+              Vehicle Reg No
             </th>
             <th
               className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskText.className}`}
@@ -71,7 +71,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
             <th
               className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskText.className}`}
             >
-              Fine Amount
+              Fine
             </th>
             <th
               className={`text-[#757575] text-[17px] self-start  py-[0.75rem] pr-[1rem]    ${groteskText.className}`}
@@ -84,7 +84,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
   {itemDetails.contravention.slice(0, visibleCount).map((invoice) => (
     <tr key={invoice.ticket} className="flex flex-col px-[1rem] lg:flex lg:flex-row">
       <td
-        className={`py-[0.75rem] self-end text-[#212121] text-[1rem] pl-[17px] lg:pl-0 lg:w-[28%] ${groteskText.className}`}
+        className={`pb-[0.75rem] self-end text-[#212121] text-[1rem] pl-[17px] lg:pl-0 lg:w-[28%] ${groteskText.className}`}
       
       >
         {invoice.ticket}

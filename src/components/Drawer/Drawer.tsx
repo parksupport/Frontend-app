@@ -39,6 +39,14 @@ const Drawer = forwardRef(
     );
   };
 
+  useImperativeHandle(ref, () => ({
+    scrollToTop: () => {
+      if (drawerContentRef.current) {
+        drawerContentRef.current.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    },
+  }));
+
   return (
     <div>
       {isOpen && (
@@ -48,7 +56,7 @@ const Drawer = forwardRef(
         ></div>
       )}
       <div
-        className={`fixed h-full md:h-auto w-full md:w-[45%] 
+        className={`fixed h-full md:h-auto w-full md:w-[32%] 
           bg-white shadow-lg z-50 transform px-[10px] transition-transform duration-300 ease-in-out overflow-y-auto 
           ${isOpen ? "translate-y-0 md:translate-x-0" : "translate-y-full md:translate-x-full"}
           ${isAtTop ? "rounded-tl-[20px] rounded-tr-[20px] md:rounded-tl-[40px]" : ""} 

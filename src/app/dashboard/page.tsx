@@ -9,7 +9,7 @@ import ContraventionTable from "@/components/card/Contravention";
 import EducationalMaterials from "@/components/card/Educationalmaterials";
 import EducationalMaterialsDrawer from "@/components/Drawer/EducationMaterialsDrawer";
 import FAQComponents from "@/components/card/FAQComponents";
-import NotificationsTable from "@/components/card/NotificationTable";
+import NotificationsTable from "@/components/NotificationTable";
 import DashboardHeader from "@/components/DashboardHeader";
 import AddVehicleDetailsDrawer from "@/components/Drawer/AddVehicleDetailsDrawer";
 import CarProfileDrawer from "@/components/Drawer/CarProfileDrawer";
@@ -26,23 +26,22 @@ import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDr
 import SettingsDrawer from "@/components/Drawer/SettingsDrawer";
 import AddBillingMethodDrawer from "@/components/Drawer/AddBillingMethodDrawer";
 import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer";
-import ProfileSlider from "@/components/Drawer/ProfileSlider";
 import OpenNotification from "@/components/notification-popup/OpenNotification";
-import UserInfo from "@/components/Drawer/UserInfoDrawer";
 import UserInfoDrawer from "@/components/Drawer/UserInfoDrawer";
 import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer";
 import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
+import DashboardNotifications from "@/components/card/DashBoardNotification";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
-  const [User ,setUser] = useState("")
+  const [User, setUser] = useState("User");
 
   const drawerRef = useRef<any>(null);
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
-      drawerRef.current.handleButtonClick();
+      drawerRef.current.scrollToTop(); // Call the exposed method
     }
   };
 
@@ -56,9 +55,8 @@ export default function DashboardPage() {
     }
   };
 
-
-
   const openCarProfile = (car: any) => {
+    console.log("Opening car profile for:", User);
     if (User === "User") {
       setDrawerContent(
         <CarProfileDrawer
@@ -75,42 +73,40 @@ export default function DashboardPage() {
         />
       );
     }
-
+    scrollToTopFromParent();
     openDrawer();
   };
 
   const openProfileDrawer = () => {
-    setDrawerContent(<UserInfoDrawer back={toggleDrawer} onEdit={openProfileEditDrawer} userInfo={User} />);
+    setDrawerContent(
+      <UserInfoDrawer
+        back={toggleDrawer}
+        onEdit={openProfileEditDrawer}
+        userInfo={User}
+      />
+    );
+    scrollToTopFromParent();
     openDrawer();
   };
 
   const openProfileEditDrawer = () => {
-    setDrawerContent(<ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />);
-
+    setDrawerContent(
+      <ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />
+    );
+    scrollToTopFromParent();
     openDrawer();
   };
 
-  const handleOpenNotificationsTable = () => {
-    // Your logic to open the notifications table
-    console.log("Notifications table expanded");
-  };
 
   const openNotificationsTable = () => {
-    setDrawerContent(
-      <NotificationTableDrawer
-        openNotificationsTable={handleOpenNotificationsTable}
-      />
-    );
+    setDrawerContent(<NotificationTableDrawer back={toggleDrawer} />);
+    scrollToTopFromParent();
     openDrawer();
   };
 
   const openConventionTable = () => {
-    setDrawerContent(
-      <ConventionTableDrawer
-        toggleDrawer={toggleDrawer}
-        
-      />
-    );
+    setDrawerContent(<ConventionTableDrawer toggleDrawer={toggleDrawer} />);
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -127,7 +123,10 @@ export default function DashboardPage() {
     openDrawer();
   };
   const openEducationalMaterials = () => {
-    setDrawerContent(<EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />);
+    setDrawerContent(
+      <EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />
+    );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -139,6 +138,7 @@ export default function DashboardPage() {
         vehicleStatus={VehicleStatus}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
   const OwnerInfoDrawer = () => {
@@ -148,6 +148,7 @@ export default function DashboardPage() {
         VehicleStatus={VehicleStatus}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -158,6 +159,7 @@ export default function DashboardPage() {
         openCarProfile={openCarProfile}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -169,6 +171,7 @@ export default function DashboardPage() {
         back={addVehicleDetails}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -182,23 +185,15 @@ export default function DashboardPage() {
   };
 
   const openSettingsDrawer = () => {
-
     setDrawerContent(
       <SettingsDrawer
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
-
-  const openProfileSlider =()=>{
-    console.log('great')
-    setDrawerContent(
-      <ProfileSlider toggleDrawer={toggleDrawer} />
-    )
-    openDrawer()
-  }
 
   const openAddBillingMethod = () => {
     setDrawerContent(
@@ -207,6 +202,7 @@ export default function DashboardPage() {
         toggleDrawer={toggleDrawer}
       />
     );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -218,16 +214,20 @@ export default function DashboardPage() {
 
   const handleToggle = (newState) => {
     console.log("Current State:", newState);
-    setUser(newState)
+    setUser(newState);
   };
 
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-      <DashboardHeader openSettingsDrawer={openSettingsDrawer} openProfileSlider={openProfileSlider} openNotificationsTable={openNotificationsTable} openNotification={OpenNotification}
+      <DashboardHeader
+        openSettingsDrawer={openSettingsDrawer}
+        openProfileSlider={openProfileDrawer}
+        openNotificationsTable={openNotificationsTable}
+        openNotification={OpenNotification}
       />
 
       {/* Main Content */}
-      <main className="mx-4 md:mx-[30px] flex flex-col items-center w-full">
+      <main className=" px-[1rem] flex flex-col items-center w-full">
         <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
           {/* Welcome Section */}
           <div className="flex items-center space-x-2 ">
@@ -236,7 +236,7 @@ export default function DashboardPage() {
             >
               Welcome Back, Orobosa
             </h1>
-            <button className="rounded-[37px] bg-[#CEFDFF] py-[5px] mb-[13px] px-[12px] text-[#039BB7] text-[12px] ">
+            <button className="rounded-[37px] bg-[#CEFDFF] py-[4px] mb-[17px] px-[12px] text-[#039BB7] text-[12px] ">
               Free plan
             </button>
           </div>
@@ -244,7 +244,7 @@ export default function DashboardPage() {
         </section>
 
         {/* Profile and Table Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] place-items-center">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1rem] place-items-center">
           <div className="w-full">
             <CarProfile
               addVehicleDetails={addVehicleDetails}
@@ -265,9 +265,13 @@ export default function DashboardPage() {
           <div>
             <Calendar />
           </div>
-          <div className="">
-            <NotificationsTable
+          <div className="w-full">
+            {/* <NotificationsTable
               openNotificationsTable={openNotificationsTable}
+            /> */}
+            <DashboardNotifications
+              openNotificationsTable={openNotificationsTable}
+              isDrawer={false}
             />
           </div>
         </section>
@@ -279,7 +283,8 @@ export default function DashboardPage() {
               openEducationalMaterials={openEducationalMaterials}
             />
           </div>
-          <div className="relative md:-mt-[100px] md:z-20">
+          <div className="relative md:-mt-[50px] md:z-20">
+            {/* <FAQAccordion /> */}
             <FAQComponents />
           </div>
         </section>
@@ -290,4 +295,3 @@ export default function DashboardPage() {
     </div>
   );
 }
-

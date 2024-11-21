@@ -85,21 +85,21 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
           <table className="flex items-center justify-between lg:flex lg:flex-col w-full">
             <thead className="border-b border-b-[#C5D5F8] w-full">
               <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
-                <th className={`text-[#667185] self-start lg:px-[17px] py-[0.75rem] lg:text-left ${groteskText}`}>
+                <th className={`text-[#667185] self-start lg:px-[4px] py-[0.75rem] lg:text-left ${groteskText.className}`}>
                   Contravention Type
                 </th>
-                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] groteskText`}>
+                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] ${groteskText.className}`}>
                   Date Issued
                 </th>
-                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] ${groteskText}`}>
-                  Fine Amount
+                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] ${groteskText.className}`}>
+                  Fine
                 </th>
-                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] ${groteskText}`}>
+                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] ${groteskText.className}`}>
                   Status
                 </th>
               </tr>
             </thead>
-            <tbody className="w-full lg:w-full lg:bg-[#F9FAFB]">
+            <tbody className={` ${groteskText.className} w-full lg:w-full whitespace-nowrap lg:bg-[#F9FAFB]`}>
               {(isSmallScreen ? currentItems : itemDetails.contravention).map((invoice,index) => (
                 <ContraventionRow key={index} invoice={invoice} handleRowClick={handleRowClick} />
               ))}
@@ -177,10 +177,10 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
           {/* Ticket Details */}
 
-          <div className='flex justify-between'>
-            <section className='mt-8 lg:w-[40%] mx-auto'>
+          <div className='flex justify-between lg:flex lg:flex-col '>
+            <section className='mt-8 mx-auto'>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Ticket Details</h1>
-              <div className='space-y-4'>
+              <div className='space-y-4 '>
                 <DetailedBreakdownItem
                   label="Violation Type Info"
                   value="Failure To Stop For School Bus Ticket"
@@ -213,7 +213,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             </section>
 
             {/* Photo Evidence */}
-            <section className='mt-8 lg:w-[40%] mx-auto'>
+            <section className='mt-8  mx-auto'>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Photo Evidence</h1>
               <div className='flex justify-center'>
                 <Image

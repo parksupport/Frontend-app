@@ -5,6 +5,7 @@ import CarSVG from "@/assets/svg/colorfilter_blue.svg";
 import MakeSVG from "@/assets/svg/car.svg";
 import CalendarSVG from "@/assets/svg/calendarOutline.svg";
 import RegSVG from "@/assets/svg/numbers_blue.svg";
+import { groteskText } from "@/app/fonts";
 
 const SearchSortModal = ({ data, setData }) => {
   const [originalData] = useState(data); // Keep a reference to the original data
@@ -79,16 +80,16 @@ const SearchSortModal = ({ data, setData }) => {
   };
 
   return (
-    <div className="mt-8 flex justify-end gap-3 p-0 md:p-4">
+    <div className=" mt-8 flex justify-end gap-3 p-0 md:mb-4">
       {/* Search Input */}
-      <div className="relative flex justify-center items-center gap-4">
-        <SearchSVG className="absolute left-2 top-2 cursor-pointer" />
+      <div className={` ${groteskText.className} relative flex justify-center items-center gap-4`}>
+        <SearchSVG className={`${ groteskText.className} absolute left-2 top-2 cursor-pointer`}/>
         <input
           type="text"
           placeholder="Search"
           value={searchTerm}
           onChange={handleSearch}
-          className="px-10 py-2 border rounded-[8px]"
+          className="px-10 py-2 border rounded-[8px] w-[200px]  text-gray-400"
         />
       </div>
 
@@ -96,7 +97,7 @@ const SearchSortModal = ({ data, setData }) => {
       <div className="relative z-10">
         <div>
           <button
-            className="flex justify-between pr-4 pl-1 py-2 gap-2 border rounded-[8px] text-gray-400"
+            className={`  ${groteskText.className} flex justify-between pr-4 pl-1 py-2 gap-2 border rounded-[8px] text-gray-400`}
             onClick={toggleDropdown}
           >
             <SortSVG className="cursor-pointer" />
@@ -109,7 +110,7 @@ const SearchSortModal = ({ data, setData }) => {
               {sortOptions.map((option, index) => (
                 <li
                   key={index}
-                  className="flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer gap-2"
+                  className={` ${groteskText.className} flex items-center px-2 py-1 hover:bg-gray-100 cursor-pointer gap-2`}
                   onClick={() => handleSort(option.label)}
                 >
                   {option.icon} {option.label}

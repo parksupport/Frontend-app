@@ -62,8 +62,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
         title="Add Your Vehicle Details"
         subTitle="Let’s get your vehicle set up for tracking contraventions and staying on top of payments."
       />
-      <form onSubmit={handleSubmit} className="pt-12 px-[20px] md:px-[170px] ">
-        <div className="flex flex-col gap-4 items-center  md:mx-[55px]">
+      <form onSubmit={handleSubmit} className="pt-12 px-[20px]">
+        <div className="flex flex-col gap-4 items-center md:w-[65%] mx-auto">
           <div className="flex flex-col items-center w-full">
             <InputField
               type="text"

@@ -10,11 +10,13 @@ import DeleteRowModal from "../DeleteRowModal";
 import DropdownInputField from "../DropdownInputField";
 import InputField from "../InputField";
 import SearchSortModal from "../SearchSortModal";
-import { AddThirdPartyNominee } from "../card/ThirdPartyNominee";
+import ThirdPartyNominees, { AddThirdPartyNominee } from "../card/ThirdPartyNominee";
 import DrawerHeader from "./DrawerHeader";
+import TruncatedText from "../ToggleComponent/TruncatedText";
 
 const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
   const isMobile = useIsMobile();
+  const [form, setForm] = useState(false);
 
   const dataFromAPI = [
     {
@@ -46,7 +48,7 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
     },
     {
       registrationNumber: "09XY123A",
-      owner: "Emily C.",
+      owner: "Oluwatomi Oyeniyi",
       contraventionStatus: "Not Verified",
       thirdPartyNominee: "Sophia C.",
       color: "Red",
@@ -112,102 +114,136 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
           />
           <SearchSortModal data={data} setData={setData} />
 
-          <div className=" w-[98%]  bg-green-100  rounded-[16px] border border-gray-200        ">
+          <div className=" w-[100%]  bg-green-100  rounded-[16px] border border-gray-200        ">
             {/* <div> */}
 
-            <table className="min-w-full bg-white m-0  ">
+            <table className="min-w-full bg-white m-0 overflow-x-auto ">
               <thead>
                 <tr className={`${groteskTextMedium.className} text-[17px] `}>
-                  <th className="py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-2/12">
-                    Registration number
+                  <th
+                    className={` py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  >
+                    Reg number
                   </th>
-                  <th className="py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12">
+                  <th
+                    className={` py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  >
                     Owner
                   </th>
-                  <th className="py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-1/12">
+                  <th
+                    className={` py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  >
                     Contravention Status
                   </th>
-                  <th className="py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12">
-                    Third-party nominee
+                  <th
+                    className={` py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  >
+                    Notification Recipient
                   </th>
-                  <th className="py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12">
+                  <th
+                    className={` py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  >
                     Color
                   </th>
-                  <th className="py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12">
+                  <th
+                    className={` py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  >
                     Make
                   </th>
-                  <th className="py-1 px-2 bg-gray-100 text-right font-semibold text-gray-500 w-1/12"></th>
+                  <th
+                    className={` py-1 px-2 bg-gray-100 text-right font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className} `}
+                  ></th>
                 </tr>
               </thead>
 
               <tbody>
                 {data.map((item, index) => (
-                  <tr
-                    key={index}
-                    className={`hover:bg-gray-50  border-t border-gray-200 text-[18px] ${groteskText.className} `}
-                  >
-                    <td className=" px-6 text-sm text-gray-700 w-2/12 ">
-                      {item.registrationNumber}
-                    </td>
-                    <td className=" px-4 text-sm text-gray-700 leading-none w-1/12 ">
-                      {item.owner}
-                    </td>
-                    <td className="px-4 text-sm text-gray-700 leading-none w-2/12">
-                      <span
-                        className={` text-wrap   w-[96px] py-1 text-[18px] flex items-center justify-center rounded-full px-3 text-xs font-semibold ${
-                          item.contraventionStatus === "Verified"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-red-100 text-red-700"
-                        }`}
-                      >
-                        <div className="flex items-center ">
-                          {item.contraventionStatus === "Verified" ? (
-                            <IoMdCheckmark size={14} className="mr-1" />
-                          ) : (
-                            <IoMdClose size={14} className="mr-1" />
-                          )}
-                          {item.contraventionStatus}
-                        </div>
-                      </span>
-                    </td>
-
-                    <td className=" px-6 text-sm text-gray-700 leading-none w-2/12">
-                      {item.thirdPartyNominee}
-                    </td>
-                    <td className=" px-6 text-sm text-gray-700 leading-none w-1/12">
-                      {item.color}
-                    </td>
-                    <td className=" px-6 text-sm text-gray-700 leading-none w-1/12">
-                      {item.make}
-                    </td>
-                    <td className="relative pt-2 text-end pr-5 whitespace-nowrap w-1/12">
-                      <button
-                        className="text-gray-500 hover:text-gray-900 px-4  "
-                        onClick={() => toggleDropdown(index)}
-                      >
-                        &#8942;
-                      </button>
-                      {openDropdownIndex === index && (
-                        <DeleteRowModal
-                          position={{ right: 40, top: 40 }}
-                          showConfirmButton={showConfirmButton}
-                          onEdit={() => {}}
-                          onRemove={() => showDeleteConfirmation(index)}
-                          onCancelDelete={cancelDelete}
-                          onConfirmDelete={() => handleDelete(index)}
-                          selectedDataIndex={selectedDataIndex}
-                          index={index}
-                          customStyles=""
-                        />
-                      )}
-                    </td>
-                  </tr>
+              <tr
+              key={index}
+              className={`hover:bg-gray-50 border-t border-gray-200 text-[18px] ${groteskText.className}`}
+            >
+              <td
+                className={` ${groteskText.className} px-6 text-sm text-gray-700 w-2/12 whitespace-nowrap`}
+              >
+                {item.registrationNumber}
+              </td>
+              <td
+                className={` ${groteskText.className} px-4 text-sm text-gray-700 leading-none w-1/12 whitespace-nowrap`}
+              >
+                <TruncatedText text = {item.owner} maxLength={10} className={`${groteskText.className}`}/>
+              </td>
+              <td
+                className={` ${groteskText.className} px-4 text-sm text-gray-700 leading-none w-2/12 whitespace-nowrap`}
+              >
+                <span
+                  className={` ${groteskText.className} w-[116px] py-1 text-[18px] flex items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowrap ${
+                    item.contraventionStatus === "Verified"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}
+                >
+                  <div className="flex items-center whitespace-nowrap">
+                    {item.contraventionStatus === "Verified" ? (
+                      <IoMdCheckmark size={14} className="mr-1" />
+                    ) : (
+                      <IoMdClose size={14} className="mr-1" />
+                    )}
+                    {item.contraventionStatus}
+                  </div>
+                </span>
+              </td>
+            
+              <td
+                className={` ${groteskText.className} px-6 text-sm text-gray-700 leading-none w-2/12 whitespace-nowrap`}
+              >
+               <TruncatedText text = {item.thirdPartyNominee} maxLength={10} className={`${groteskText.className}`}/>
+            
+              </td>
+              <td
+                className={` ${groteskText.className} px-6 text-sm text-gray-700 leading-none w-1/12 whitespace-nowrap`}
+              >
+                {item.color}
+              </td>
+              <td
+                className={` ${groteskText.className} px-6 text-sm text-gray-700 leading-none w-1/12 whitespace-nowrap`}
+              >
+                {item.make}
+              </td>
+              <td
+                className={` ${groteskText.className} relative pt-2 text-end pr-5 whitespace-nowrap w-1/12`}
+              >
+                <button
+                  className="text-gray-500 hover:text-gray-900 px-4"
+                  onClick={() => toggleDropdown(index)}
+                >
+                  &#8942;
+                </button>
+                {openDropdownIndex === index && (
+                  <DeleteRowModal
+                    position={{ right: 40, top: 40 }}
+                    showConfirmButton={showConfirmButton}
+                    onEdit={() => {}}
+                    onRemove={() => showDeleteConfirmation(index)}
+                    onCancelDelete={cancelDelete}
+                    onConfirmDelete={() => handleDelete(index)}
+                    selectedDataIndex={selectedDataIndex}
+                    index={index}
+                    customStyles=""
+                  />
+                )}
+              </td>
+            </tr>
+            
                 ))}
               </tbody>
             </table>
           </div>
           <div className="pb-[200px] pt-[30px]">
-            <CorporateAddThirdParytForm addVehicle={addVehicleDetails} />
+          {form ? (
+        <AddThirdPartyNominee  toggleForm={setForm} addVehicle={addVehicleDetails} />
+      ) : (
+        <ThirdPartyNominees toggleForm={setForm} />
+      )}
           </div>
         </>
       )}
@@ -217,11 +253,7 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
 
 export default CorporateCarProfileDrawer;
 
-
-
-
-
-const CorporateAddThirdParytForm = ({addVehicle}) => {
+const CorporateAddThirdParytForm = ({ addVehicle }) => {
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
@@ -249,7 +281,6 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
       vehicle: value,
     }));
   };
-  
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -257,9 +288,9 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
   };
   return (
     <>
-      <div className="flex flex-col items-center py-4  ">
+      <div className="flex flex-col items-center py-4 bg-blue-200 w-full  ">
         <div className=" flex items-center gap-5 ">
-          <h1 className="text-[28px] mx-auto">Add third party nominee</h1>
+          <h1 className="text-[28px] mx-auto">Add Notification Reciepient</h1>
           <div
             className={`text-[#4169E1] font-semibold hover:underline ${groteskText.className}`}
             onClick={() => {}}
@@ -269,7 +300,8 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
         </div>
         <div>
           <form className="" onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center ">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center "> */}
+            <div className="flex flex-col gap-6 items-center w-full ">
               <InputField
                 type="text"
                 placeholder="Enter your full name"
@@ -278,7 +310,7 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
                 value={formData.name}
                 onChange={handleChange}
                 variant="individual"
-                className={`${groteskText.className} w-[300px]`}
+                className={`${groteskText.className} `}
               />
               <InputField
                 type="email"
@@ -289,7 +321,7 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
                 onChange={handleChange}
                 validationRules={validateEmail}
                 variant="individual"
-                className={`${groteskText.className} w-[300px]`}
+                className={`${groteskText.className} `}
               />
               <InputField
                 type="text"
@@ -299,7 +331,7 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
                 value={formData.phone_number}
                 onChange={handleChange}
                 variant="individual"
-                className={`${groteskText.className} w-[300px]`}
+                className={`${groteskText.className} `}
               />
 
               <DropdownInputField
@@ -314,13 +346,13 @@ const CorporateAddThirdParytForm = ({addVehicle}) => {
                 placeholder="Enter your Vehicle"
                 onChange={handleDropdownChange}
                 selectedValue=""
-                className={`${groteskText.className} w-[300px]`}
+                className={`${groteskText.className} `}
               />
-              <div className="col-span-1 md:col-span-2 flex justify-center">
+              <div className="col-span-1  flex justify-center">
                 <Button
                   type="submit"
                   variant="quinary"
-                  className="py-[10px] px-[12px] w-full md:w-1/2"
+                  className="py-[10px] px-[12px] w-full "
                   onClick={addVehicle}
                 >
                   Add Vehicle
@@ -351,7 +383,7 @@ const MobileCorporateProfileDrawer = ({
         <SearchSortModal data={car} setData={setData} />
       </div>
       <CarProfileSlider car={car} addVehicle={addVehicleDetails} />
-      <AddThirdPartyNominee vehicle={car}  addVehicle={addVehicleDetails} />
+      <AddThirdPartyNominee vehicle={car} addVehicle={addVehicleDetails} />
     </>
   );
 };

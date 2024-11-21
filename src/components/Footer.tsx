@@ -1,16 +1,25 @@
+import LogoReal from "@/assets/images/Logo2.png";
 import {
   faFacebook,
   faGithub,
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { Logo } from "./logo";
-import LogoReal from "@/assets/images/Logo2.png"
+import Image from "next/image";
 import { FontIcon } from "./FontIcon";
 import NavLinkComponent from "./NavLinkComponent";
-import Image from "next/image";
+import { HeaderProps } from "./Header";
 
-export default function Footer() {
+export default function Footer({
+  scrollToSection,
+  homeRef,
+  searchRef,
+  featuresRef,
+  faqRef,
+  subPlanRef,
+  router,
+
+}:HeaderProps) {
   return (
     <footer className="bg-[#DFE7FA] text-[#475367] ">
       <div className=" container mx-auto pt-6 border-t border-blue-200 flex flex-col md:flex-row items-center justify-between md:space-x-6 md:pb-[15px] md:pt-[100px]">
@@ -20,10 +29,31 @@ export default function Footer() {
           </div>
 
           <nav className="flex space-x-16 md:space-x-20 order-2  pt-8 md:py-0 justify-between md:text-[20px]">
-            <NavLinkComponent url="#" name="Home" />
-            <NavLinkComponent url="#" name="Search" />
-            <NavLinkComponent url="#" name="Features" />
-            <NavLinkComponent url="#" name="FAQ" />
+          <NavLinkComponent
+            name="Home"
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => scrollToSection(homeRef)}
+          />
+          <NavLinkComponent
+            name="Search"
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => scrollToSection(searchRef)}
+          />
+          <NavLinkComponent
+            name="Features"
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => scrollToSection(featuresRef)}
+          />
+          <NavLinkComponent
+            name="FAQ"
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => scrollToSection(faqRef)}
+          />
+          <NavLinkComponent
+            name="Pricing"
+            className="cursor-pointer hover:text-blue-500"
+            onClick={() => scrollToSection(subPlanRef)}
+          />
           </nav>
           {/* this is the desktop icons */}
           <div className="hidden md:flex space-x-4 order-3 text-[20px]">

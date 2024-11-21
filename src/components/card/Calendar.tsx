@@ -45,7 +45,7 @@ const Calendar = () => {
     return (
         <div className='bg-[#FFFFFF] rounded-[1.25rem] max-w-[396px] lg:max-w-[680px] pt-[1.75rem] px-[1rem]'>
             <section className="flex justify-between">
-                <h1 className={`text-[2rem] text-[#000000] ${groteskTextMedium.className} `}>Calendar</h1>
+                <h1 className={`md:text-[2rem] text-[24px]  text-[#000000] ${groteskTextMedium.className} `}>Calendar</h1>
                 <div className={`items-center flex gap-[11px] `}>
                     <Button
                         variant="quinary"

@@ -12,27 +12,57 @@ import OpenNotification from "./notification-popup/OpenNotification";
 import NotificationsTable from "./NotificationTable";
 import { useState } from "react";
 import useStore from "@/lib/stores/notification";
+import { groteskText } from "@/app/fonts";
 
 interface DashboardHeaderProps {
-   openNotification: () => void
-   openSettingsDrawer: () => void;
-   openProfileSlider: () => void;
-   openNotificationsTable: ()=> void;
+  openNotification: () => void;
+  openSettingsDrawer: () => void;
+  openProfileSlider: () => void;
+  openNotificationsTable: () => void;
 }
-const DashboardHeader: React.FC<DashboardHeaderProps> = ({ openSettingsDrawer, openProfileSlider, }) => {
+const DashboardHeader: React.FC<DashboardHeaderProps> = ({
+  openSettingsDrawer,
+  openProfileSlider,
+}) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(true);
 
-  
-  
   return (
     <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
-    <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full">
+        <div className="flex items-center">
+          <HeaderImage />
+        </div>
 
-      <div className="flex items-center">
-        <HeaderImage />
+        <form
+          className={`${groteskText.className} hidden sm:flex sm:flex-grow sm:justify-center relative max-w-[600px] w-full h-[36px] rounded-[6px]`}
+        >
+          <input
+            type="text"
+            placeholder="Find contravention"
+            className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
+          />
+          <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
+        </form>
+
+        <div className="flex items-center space-x-4">
+          <OpenNotification />
+          {/* <button className="cursor-pointer"  onClick={toggleProfile}>
+          <IoNotifications size={24} color="grey" />
+         
+        </button> */}
+          <button className="cursor-pointer" onClick={openSettingsDrawer}>
+            <SettingSVG size={24} color="grey" />
+          </button>
+          <div className="hidden sm:block">|</div>
+          <button className="cursor-pointer" onClick={openProfileSlider}>
+            <ProfileSVG />
+          </button>
+        </div>
       </div>
 
-      <form className="hidden sm:flex sm:flex-grow sm:justify-center relative max-w-[600px] w-full h-[36px] rounded-[6px]">
+      <form
+        className={`${groteskText.className} block sm:hidden relative max-w-full w-full h-[36px] mt-4 rounded-[6px]`}
+      >
         <input
           type="text"
           placeholder="Find contravention"
@@ -40,38 +70,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({ openSettingsDrawer, o
         />
         <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
       </form>
-
-
-      <div className="flex items-center space-x-4">
-      <OpenNotification />
-        {/* <button className="cursor-pointer"  onClick={toggleProfile}>
-          <IoNotifications size={24} color="grey" />
-         
-        </button> */}
-        <button className="cursor-pointer" onClick={openSettingsDrawer}>
-          <SettingSVG size={24} color="grey" />
-        </button>
-        <div className="hidden sm:block">|</div>
-        <button className="cursor-pointer"
-          onClick={openProfileSlider}
-        >
-          <ProfileSVG />
-        </button>
-      </div>
-    </div>
-
-    <form className="block sm:hidden relative max-w-full w-full h-[36px] mt-4 rounded-[6px]">
-      <input
-        type="text"
-        placeholder="Find contravention"
-        className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
-      />
-      <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
-    </form>
-    
-
-  </header>
+    </header>
   );
-}
+};
 
 export default DashboardHeader;

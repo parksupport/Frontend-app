@@ -24,7 +24,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
   const sliderRef = useRef(null);
 
-  const handleRowClick = (invoice:any) => {
+  const handleRowClick = (invoice: any) => {
     setSelectedInvoice(invoice);
     console.log('Invoice clicked:', invoice);
   };
@@ -100,7 +100,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
               </tr>
             </thead>
             <tbody className="w-full lg:w-full lg:bg-[#F9FAFB]">
-              {(isSmallScreen ? currentItems : itemDetails.contravention).map((invoice,index) => (
+              {(isSmallScreen ? currentItems : itemDetails.contravention).map((invoice, index) => (
                 <ContraventionRow key={index} invoice={invoice} handleRowClick={handleRowClick} />
               ))}
             </tbody>
@@ -154,73 +154,92 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             <section className='mt-8 mx-auto'>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Ticket Details</h1>
               <div className='space-y-4 '>
-            <div className='flex flex-col'>
-            <DetailedBreakdownItem
-                  label="Violation Type Info"
-                  value="Failure To Stop For School Bus Ticket"
-                />
-                   <DetailedBreakdownItemHeader
-                  label="TICKET TYPE"
-                  value={selectedInvoice.ticket}
-                />
-            </div>
+                <div className='flex flex-col gap-[10px]'>
+                  {/* <DetailedBreakdownItem
+                    label="Ticket type"
+                    value={selectedInvoice.ticket}
+                  />
+                  <DetailedBreakdownItem
+                    label="Ticket Type"
+                    value={selectedInvoice.ticket}
+                  /> */}
+                  <DetailedBreakdownItem
+                    label="Ticket Type"
+                    value={selectedInvoice.ticket}
+                  />
+                  <DetailedBreakdownItem
+                    label="Issuing Authority"
+                    value={selectedInvoice.issuing_auth}
+                  />
+                  <DetailedBreakdownItem
+                    label="Fine amount"
+                    value={selectedInvoice.fine_amount}
+                  />
 
-              <div className='flex flex-col'>
-            
-              <DetailedBreakdownItem
-                  label="Violation Code"
-                  value="V117 - Not stopping for a school bus with flashing lights"
-                />
-                  <DetailedBreakdownItemHeader
-                  label="TICKET TYPE"
-                  value={selectedInvoice.ticket}
-                />
-              </div>
-             <div className='flex flex-col'>
-            
-             <DetailedBreakdownItem
-                  label="Officer Name"
-                  value="Officer Sarah Jones"
-                />
-                 <DetailedBreakdownItemHeader
-                  label="TICKET TYPE"
-                  value={selectedInvoice.ticket}
-                />
-             </div>
-            <div className='flex flex-col'> 
-            <DetailedBreakdownItem
-                  label="Traffic Situation"
-                  value="School bus stopped with flashing red light"
-                />
-                  <DetailedBreakdownItemHeader
-                  label="ISSUING AUTHORITY"
-                  value={selectedInvoice.issuing_auth}
-                />
-            </div>
-              <div className='flex flex-col'>
-              <DetailedBreakdownItem
-                  label="Location"
-                  value="River St. & Oak Rd."
-                />
-                  <DetailedBreakdownItemHeader
-                  label="FINE AMOUNT"
-                  value={selectedInvoice.fine_amount}
-                />
-              </div>
-              <div className='flex flex-col'>
-              <DetailedBreakdownItem
-                  label="Violation Date And Time"
-                  value="12th October 2024, 14:32"
-                />
-                  <DetailedBreakdownItemHeader
-                  label="DUE DATE"
-                  value={selectedInvoice.date}
-                />
-              </div>
-                <DetailedBreakdownItem
-                  label="Fine Breakdown"
-                  value="Base fine: $100"
-                />
+                  <DetailedBreakdownItem
+                    label="Due Date"
+                    value={selectedInvoice.date}
+                  />
+                  {/* <DetailedBreakdownItem
+                    label="Ticket Type"
+                    value={selectedInvoice.ticket}
+                  /> */}
+                  <DetailedBreakdownItem
+                    label="Violation Type Info"
+                    value="Failure To Stop For School Bus Ticket"
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Location"
+                    value="River St. & Oak Rd."
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Violation Date And Time"
+                    value="12th October 2024, 14:32"
+                  />
+
+
+
+                  <DetailedBreakdownItem
+                    label="Fine Breakdown"
+                    value="Base fine: $100"
+                  />
+
+
+
+                  <DetailedBreakdownItem
+                    label="Violation Code"
+                    value="V117 - Not stopping for a school bus with flashing lights"
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Officer Name"
+                    value="Officer Sarah Jones"
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Traffic Situation"
+                    value="School bus stopped with flashing red light"
+                  />
+
+
+                </div>
+
+
+
               </div>
             </section>
 

@@ -5,7 +5,7 @@ import DrawerHeader from "./DrawerHeader";
 import Button from "../Buttons";
 import Link from "next/link";
 import { educationalMaterials } from "@/data/educationMaterials"; // Adjust the path as necessary
-import { groteskTextMedium } from "@/app/fonts";
+import { groteskText, groteskTextMedium } from "@/app/fonts";
 
 const EducationalMaterialsDrawer = ({ toggleDrawer }) => {
   return (
@@ -19,7 +19,7 @@ const EducationalMaterialsDrawer = ({ toggleDrawer }) => {
 
       {/* Contextual Information */}
       <div className="mt-12 mb-6">
-        <p className="text-gray-700">
+        <p className={` ${groteskText.className}text-gray-700`}>
           Explore the sections below to find helpful resources on safe driving,
           contraventions, and road safety guidelines.
         </p>
@@ -35,7 +35,7 @@ const EducationalMaterialsDrawer = ({ toggleDrawer }) => {
             {material.topics.map((topic, idx) => (
               <li key={idx}>
                 <Link href="#">
-                  <span className="text-blue-600 text-base hover:underline">{topic}</span>
+                  <span className={` text-[18px] ${groteskText.className} text-blue-600 text-base hover:underline`}>{topic}</span>
                 </Link>
               </li>
             ))}

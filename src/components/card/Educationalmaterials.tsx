@@ -94,14 +94,14 @@ const EducationalMaterials = ({
 
       <div className="md:flex md:gap-8 ">
         {" "}
-        <div className="flex flex-wrap text-black  items-start gap-2 mb-4 md:flex-col md:w-[38%]">
+        <div className="flex  flex-wrap text-black items-start gap-2 mb-4 md:flex-col md:w-[38%]">
           {TopicList.map((topic) => (
             <button
               key={topic.id}
               onClick={() => handleSelect(topic)}
               className={`inline-flex items-center md:justify-start ${
                 groteskText.className
-              } px-4 py-2 border rounded-[12px] text-[16px] ${
+              } px-4 py-2 border rounded-[12px] text-[16px] w-[250px] ${
                 selected === topic.id ? "border-[#4169E1]" : "border-[#D0D5DD]"
               }`}
             >
@@ -109,25 +109,27 @@ const EducationalMaterials = ({
             </button>
           ))}
         </div>
-  
-
-<div
-  className={`overflow-y-auto h-[300px] md:w-[53.5%] ${groteskText.className} border py-4 px-3 rounded-[16px] text-black text-[16px]`}
->
-  {TopicList.find((topic) => topic.id === selected)?.description.map(
-    (desc, index) => (
-      <p
-        key={index}
-        className={`flex items-center gap-2 ${groteskText.className} text-[14px] text-black cursor-pointer underline py-1`}
-        onClick={() => console.log(desc)}
-      >
-        <FiExternalLink size={16} />
-        <TruncatedText text={desc} maxLength={40} showFullOnHover={false}  className={`${groteskText.className} text-[14px]`}/>
-      </p>
-    )
-  )}
-</div>
-
+        <div
+          className={`overflow-y-auto h-[280px] md:w-[53.5%] ${groteskText.className} border py-4 px-3 rounded-[16px] text-black text-[16px]`}
+        >
+          {TopicList.find((topic) => topic.id === selected)?.description.map(
+            (desc, index) => (
+              <p
+                key={index}
+                className={`flex items-center gap-2 ${groteskText.className} text-[14px] text-black cursor-pointer underline py-1`}
+                onClick={() => console.log(desc)}
+              >
+                <FiExternalLink size={16} />
+                <TruncatedText
+                  text={desc}
+                  maxLength={40}
+                  showFullOnHover={false}
+                  className={`${groteskText.className} text-[14px]`}
+                />
+              </p>
+            )
+          )}
+        </div>
       </div>
     </div>
   );

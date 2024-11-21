@@ -39,6 +39,7 @@ export default function NotificationBox({
             type="button"
             className="rounded-[12px] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
             variant="primary"
+            onClick={signUp}
           >
             Sign Up
           </Button>

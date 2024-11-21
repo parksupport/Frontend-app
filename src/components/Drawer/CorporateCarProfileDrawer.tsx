@@ -138,7 +138,7 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
                   <th
                     className={` py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                   >
-                    Nominated
+                    Notification Recipient
                   </th>
                   <th
                     className={` py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
@@ -290,7 +290,7 @@ const CorporateAddThirdParytForm = ({ addVehicle }) => {
     <>
       <div className="flex flex-col items-center py-4 bg-blue-200 w-full  ">
         <div className=" flex items-center gap-5 ">
-          <h1 className="text-[28px] mx-auto">Add third party nominee</h1>
+          <h1 className="text-[28px] mx-auto">Add Notification Reciepient</h1>
           <div
             className={`text-[#4169E1] font-semibold hover:underline ${groteskText.className}`}
             onClick={() => {}}

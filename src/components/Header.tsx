@@ -62,7 +62,7 @@ const Header = ({
             onClick={() => scrollToSection(faqRef)}
           />
           <NavLinkComponent
-            name="Subscription Plan"
+            name="Pricing"
             className="cursor-pointer hover:text-blue-500"
             onClick={() => scrollToSection(subPlanRef)}
           />
@@ -112,7 +112,7 @@ const Header = ({
               className="cursor-pointer hover:text-blue-500"
               onClick={() => scrollToSection(subPlanRef)}
             >
-              Subcription Plan
+              Pricing
             </div>
           </div>
         )}

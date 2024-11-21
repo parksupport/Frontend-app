@@ -1,4 +1,5 @@
 import { groteskText, groteskTextMedium } from "@/app/fonts";
+import { MoveDiagonal } from "lucide-react";
 import { useState } from "react";
 
 const TopicList = [
@@ -34,12 +35,16 @@ const EducationalMaterials = ({
     setSelected(topic.id);
   };
   return (
-    <div className="bg-white p-6  md:p-4 rounded-[16px] shadow-md max-w-[396px] sm:max-w-md md:max-w-[680px] w-full">
+    <div className="bg-white p-6  md:p-4 rounded-[16px] shadow-md max-w-[396px] md:h-[360px] sm:max-w-md md:max-w-[680px] w-full">
+      <div className="flex items-center justify-between">
+
       <h1
         className={`text-[24px] md:text-[32px] text-black ${groteskTextMedium.className} mb-4"`}
-      >
+        >
         Resources
       </h1>
+      <MoveDiagonal size={24} onClick={openEducationalMaterials} className="cursor-pointer"/>
+        </div>
 
       <div className="md:flex md:gap-8 ">
         {" "}

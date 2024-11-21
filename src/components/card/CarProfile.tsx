@@ -187,7 +187,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                           <GroupUserSVG />
                         </span>
                         <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}>
-                          Third Party Nominate:{" "}
+                          Notification Recipient:{" "}
                         </span>
                         <VehiclceInfoSVG />
                       </div>

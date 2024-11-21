@@ -71,7 +71,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
             <th
               className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskText.className}`}
             >
-              Fine Amount
+              Fine
             </th>
             <th
               className={`text-[#757575] text-[17px] self-start  py-[0.75rem] pr-[1rem]    ${groteskText.className}`}

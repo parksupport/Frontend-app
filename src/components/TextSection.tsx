@@ -3,7 +3,7 @@ import React from "react";
 
 interface TextSectionProps {
   title: string | React.ReactNode;
-  content: string;
+  content?: string;
   icon?: React.ReactNode;
 }
 

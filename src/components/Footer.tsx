@@ -24,6 +24,7 @@ export default function Footer() {
             <NavLinkComponent url="#" name="Search" />
             <NavLinkComponent url="#" name="Features" />
             <NavLinkComponent url="#" name="FAQ" />
+            <NavLinkComponent url="#" name="Pricing" />
           </nav>
           {/* this is the desktop icons */}
           <div className="hidden md:flex space-x-4 order-3 text-[20px]">

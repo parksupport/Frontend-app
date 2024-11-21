@@ -166,7 +166,7 @@ export default function ThirdPartyNominees({
         <h1
           className={`text-[22px]  md:text-[24px] text-black ${groteskTextMedium.className}`}
         >
-          Third Party Nominees
+          Notification Recipient
         </h1>
         <div
           className={` hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
@@ -270,7 +270,7 @@ export function AddThirdPartyNominee({
           <h1
             className={`text-wrap text-black text-[22px] md:text-[24px]  ${groteskTextMedium.className}`}
           >
-            Add Third Party Nominees
+            Add Notification Recipient
           </h1>
           <div
             className={`text-[#4169E1] text-[18px] hover:underline ${groteskTextMedium.className}`}

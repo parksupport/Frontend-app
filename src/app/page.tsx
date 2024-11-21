@@ -216,7 +216,7 @@ export default function LandingPage() {
           <div className=" text-center md:px-80 pt-2">
             <TextSection
               title="All-in-one vehicle contravention solution"
-              content="We handle everything from notifications to payments and appeals, so you can focus on the road."
+             
             />
           </div>
           <div className="flex flex-col lg:flex-row item-center md:justify-between lg:w-full md:py-10  ">

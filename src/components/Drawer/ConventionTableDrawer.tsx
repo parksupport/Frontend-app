@@ -177,10 +177,10 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
           {/* Ticket Details */}
 
-          <div className='flex justify-between'>
-            <section className='mt-8 lg:w-[40%] mx-auto'>
+          <div className='flex justify-between lg:flex lg:flex-col '>
+            <section className='mt-8 mx-auto'>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Ticket Details</h1>
-              <div className='space-y-4'>
+              <div className='space-y-4 '>
                 <DetailedBreakdownItem
                   label="Violation Type Info"
                   value="Failure To Stop For School Bus Ticket"
@@ -213,7 +213,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             </section>
 
             {/* Photo Evidence */}
-            <section className='mt-8 lg:w-[40%] mx-auto'>
+            <section className='mt-8  mx-auto'>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Photo Evidence</h1>
               <div className='flex justify-center'>
                 <Image

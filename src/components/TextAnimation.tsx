@@ -35,7 +35,7 @@ const TextAnimation = () => {
 
   return (
 <>
-<section className="home mt-[10px] lg:mt-0">
+<section className="home ">
     
           
             <p className="animate-text text-responsive-lg">

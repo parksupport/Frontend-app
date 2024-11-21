@@ -7,13 +7,16 @@ import PlusButtonSVG from '@/assets/svg/normal.svg'
 import { Switch } from "@/components/ui/switch"
 import InputField from "../InputField";
 import { useRouter } from "next/navigation";
+import ModalComponent from "../ModalComponent";
+import { useDisclosure } from "@chakra-ui/react";
 
 
+    const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod,  }) => {
+      const { isOpen, onOpen, onClose } = useDisclosure()
 
-
-    const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod }) => {
   const [smsNotifications, setSmsNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
+  const [isPopup, setIsPopup] = useState(false)
   const router = useRouter()
 
   const [formData, setFormData] = useState({
@@ -33,6 +36,10 @@ import { useRouter } from "next/navigation";
     console.log('subscribed')
   }
 
+
+
+
+
   return (
     <div className="mt-[70px]">
       <DrawerHeader
@@ -41,6 +48,8 @@ import { useRouter } from "next/navigation";
         title="Settings"
         subTitle="Welcome to the Settings page, where you can customize and manage your account preferences, notification settings, and vehicle management features."
       />
+            <ModalComponent isOpen={isOpen} onClose={onClose} onOpen={onOpen} toggleDrawer={toggleDrawer} />
+
       <div className="px-4 mt-[3rem]">
         {/* My Vehicles Settings */}
         <div className="mt-[40px]">
@@ -103,7 +112,9 @@ import { useRouter } from "next/navigation";
       <h2 className={`${groteskTextMedium.className} text-[#000000] text-[28px]`}>
             Subscription
           </h2>
-          <PlusButtonSVG onClick={handleSubcription} />
+          <div className="cursor-pointer" >
+          <PlusButtonSVG  onClick={onOpen}/>
+          </div>
       </div>
 
         <div className="mt-[40px] ">
@@ -139,7 +150,8 @@ import { useRouter } from "next/navigation";
             />
 
         </form>
-      </div>
+       
+       </div>
     </div>
   );
 };

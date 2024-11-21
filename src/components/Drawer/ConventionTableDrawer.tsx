@@ -85,6 +85,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
           <table className="flex items-center justify-between lg:flex lg:flex-col w-full">
             <thead className="border-b border-b-[#C5D5F8] w-full">
               <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
+
                 <th className={`text-[#667185] self-start lg:pl-[17px] py-[0.75rem] lg:text-left lg:text-[15px] ${groteskTextMedium}`}>
                   Contravention Type
                 </th>
@@ -95,12 +96,15 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                   Fine
                 </th>
                 <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] lg:text-[15px] lg:pr-[17px] ${groteskTextMedium}`}>
+
                   Status
                 </th>
               </tr>
             </thead>
+
             <tbody className="w-full lg:w-full lg:bg-[#F9FAFB]">
               {(isSmallScreen ? currentItems : itemDetails.contravention).map((invoice, index) => (
+
                 <ContraventionRow key={index} invoice={invoice} handleRowClick={handleRowClick} />
               ))}
             </tbody>

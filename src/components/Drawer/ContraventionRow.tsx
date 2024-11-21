@@ -13,10 +13,12 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
       <td className={`py-[0.75rem] sm:self-end text-[#212121] pl-[17px] lg:pl-0 cursor-pointer w-[34%]  ${groteskText.className}`}>
         {invoice.ticket}
       </td>
+
       <td className={`text-[#212121] sm:self-end text-center py-[0.75rem]    ${groteskText.className}`}>
         {invoice.date}
       </td>
       <td className={`text-[#212121] sm:self-end text-center py-[0.75rem]  lg:self-normal  ${groteskText.className}`}>
+
         {invoice.fine_amount}
       </td>
       <span className="bg-[#B5E3C4] sm:self-end  rounded-[22px]   my-[0.75rem] flex justify-center w-[44px] h-[22px] ">

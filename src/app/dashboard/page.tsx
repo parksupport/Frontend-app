@@ -230,13 +230,13 @@ export default function DashboardPage() {
       <main className=" px-[1rem] flex flex-col items-center w-full">
         <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
           {/* Welcome Section */}
-          <div className="flex items-center space-x-2 ">
+          <div className="flex items-center  space-x-2">
             <h1
-              className={` text-[24px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
+              className={` text-[24px]  lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
             >
               Welcome Back, Orobosa
             </h1>
-            <button className="rounded-[37px] bg-[#CEFDFF] py-[4px] mb-[17px] px-[12px] text-[#039BB7] text-[12px] ">
+            <button className=" rounded-[37px] bg-[#CEFDFF] py-[4px] mb-[16px] px-[12px] text-[#039BB7] text-[12px] ">
               Free plan
             </button>
           </div>

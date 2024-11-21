@@ -102,7 +102,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
         {invoice.issuing_auth}
       </td>
       <td
-        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem] lg:w-[20%]  ${groteskText.className}`}
+        className={`text-[#212121] self-end  text-center text-[1rem] py-[0.75rem] lg:w-[20%]  ${groteskText.className}`}
      
       >
         {invoice.fine_amount}

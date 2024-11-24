@@ -91,12 +91,7 @@ const formConfigurations = {
   },
 };
 
-// Owner options
-const owners = {
-  0: "It belongs to a relative/friend",
-  1: "It belongs to the company I work at",
-  2: "I hired/leased it from a leasing company",
-};
+
 
 function DynamicForm({ formType, status }) {
   const [formData, setFormData] = useState(
@@ -160,7 +155,24 @@ function DynamicForm({ formType, status }) {
   );
 }
 
-const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus }) => {
+const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus ,user}) => {
+
+// Owner options
+
+const User = {
+  0: "It belongs to a relative/friend",
+  1: "Owned by company",
+  2: "I hired/leased it from a leasing company",
+};
+
+const Corporate = {
+  0: "Owned by company",
+  1: "I hired/leased it from a leasing company",
+};
+
+const owners = user === "user" ? User : Corporate;
+
+
   const [selectedKey, setSelectedKey] = useState("0");
 
   // Handle owner selection

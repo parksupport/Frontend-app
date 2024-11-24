@@ -10,23 +10,21 @@ const ToggleButton = ({ initialState = "User", onToggle }) => {
   };
 
   return (
-    <div className="flex items-center gap-5">
-    <button
-      onClick={handleToggle}
-      className={`w-40 h-10 flex items-center px-1 rounded-full ${
+    <div className="flex items-center gap-3">
+      <button
+        onClick={handleToggle}
+        className={`w-16 h-8 flex items-center px-1 rounded-full ${
           toggleState === "User" ? "bg-blue-500" : "bg-green-500"
         } transition-colors duration-300`}
-        >
-      <div
-        className={`w-16 text-center text-white font-medium py-1 rounded-full transition-all duration-300 ${
-            toggleState === "User" ? "bg-white text-blue-500" : "text-white"
-        }`}
-        >
-        {toggleState}
-      </div>
-    </button>
-      {toggleState}
-          </div>
+      >
+        <div
+          className={`h-6 w-6 rounded-full bg-white shadow-md transform transition-transform ${
+            toggleState === "User" ? "translate-x-0" : "translate-x-8"
+          }`}
+        />
+      </button>
+      <span className="text-sm font-medium text-gray-700">{toggleState}</span>
+    </div>
   );
 };
 

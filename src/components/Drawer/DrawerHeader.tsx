@@ -18,8 +18,9 @@ const DrawerHeader = ({
   className,
 }: DrawerHeaderProps) => {
   return (
-    <div className={`flex flex-col pt-[60px] items-start`}>
-      <div className="flex items-start">
+    <div className={`flex  pt-[60px] items-start justify-center px-2 md:px-0`}>
+      <div className="flex  items-start ">
+
         <div className="cursor-pointer" onClick={toggleDrawer}>
           <IoArrowBack className="w-6 h-6 md:w-8 md:h-8" color="#000000"/>
         </div>
@@ -31,7 +32,7 @@ const DrawerHeader = ({
           </h1>
           {subTitle && (
             <p
-              className={` text-[#667185] text-center leading-none md:mx-[50px] ${groteskText.className}`}
+              className={`min-w-[350px] md:min-w-[400px] text-[#667185] text-center leading-none md:mx-[50px] ${groteskText.className}`}
             >
               {subTitle}
             </p>

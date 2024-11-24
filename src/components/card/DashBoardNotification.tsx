@@ -5,7 +5,10 @@ import React, { useState } from "react";
 import { groteskTextMedium } from "@/app/fonts";
 import { MoveDiagonal } from "lucide-react";
 import useIsMobile from "@/hooks/useIsMobile";
-import { DesktopViewNotification, MobileViewNotification } from "../NotificationTable";
+import {
+  DesktopViewNotification,
+  MobileViewNotification,
+} from "../NotificationTable";
 import useNotifications from "@/hooks/useNotification";
 
 interface NotificationProps {
@@ -18,7 +21,6 @@ interface NotificationProps {
 }
 
 const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
-
   const notificationsData = [
     {
       id: 1,
@@ -101,23 +103,22 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
       read: true,
     },
   ];
-  
 
-    const {
-      currentNotifications,
-      currentPage,
-      totalPages,
-      selectAll,
-      handleSelectAll,
-      handleCheckboxChange,
-      handleNext,
-      handlePrevious,
-      setCurrentPage,
-      itemsPerPage,
-      totalNotifications,
-    } = useNotifications(notificationsData, 5);
+  const {
+    currentNotifications,
+    currentPage,
+    totalPages,
+    selectAll,
+    handleSelectAll,
+    handleCheckboxChange,
+    handleNext,
+    handlePrevious,
+    setCurrentPage,
+    itemsPerPage,
+    totalNotifications,
+  } = useNotifications(notificationsData, 5);
 
-    const isMobile = useIsMobile();
+  const isMobile = useIsMobile();
 
   return isMobile ? (
     <MobileViewNotification
@@ -136,10 +137,14 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
   ) : (
     <div className="hidden md:block bg-white p-4 rounded-[20px] border border-gray-200 w-full">
       <div className="flex justify-between py-[12px]">
-        <h2 className={` ${groteskTextMedium.className} text-[32px] leading-none text-black `}>
+        <h2
+          className={` ${groteskTextMedium.className} text-[32px] leading-none text-black `}
+        >
           Notifications
         </h2>
-        <MoveDiagonal size={24} onClick={openNotificationsTable} className="cursor-pointer"/>
+        <div className="p-1 cursor-pointer " onClick={openNotificationsTable}>
+          <MoveDiagonal size={24} className=" " />
+        </div>
       </div>
       <DesktopViewNotification
         isDrawer={isDrawer}
@@ -148,7 +153,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
         handleCheckboxChange={handleCheckboxChange}
         currentNotifications={currentNotifications}
         totalPages={totalPages}
-        currentPage={currentPage} 
+        currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         handleNext={handleNext}
         handlePrevious={handlePrevious}
@@ -157,25 +162,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
         textMaxLenght={48}
       />
     </div>
-  )
+  );
 };
 
 export default DashboardNotifications;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

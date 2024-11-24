@@ -74,9 +74,7 @@ export default function LandingPage() {
     }
   };
 
-  const coloredText = (
-    <span className="text-blue-500 font-bold">Contravention</span>
-  );
+
 
   return (
     <div

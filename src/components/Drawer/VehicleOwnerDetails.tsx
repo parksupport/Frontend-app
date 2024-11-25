@@ -91,8 +91,6 @@ const formConfigurations = {
   },
 };
 
-
-
 function DynamicForm({ formType, status }) {
   const [formData, setFormData] = useState(
     formConfigurations[formType]?.fields.reduce((acc, field) => {
@@ -155,23 +153,21 @@ function DynamicForm({ formType, status }) {
   );
 }
 
-const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus ,user}) => {
+const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user }) => {
+  // Owner options
 
-// Owner options
+  const User = {
+    0: "It belongs to a relative/friend",
+    1: "Owned by company",
+    2: "Hired/Lease",
+  };
 
-const User = {
-  0: "It belongs to a relative/friend",
-  1: "Owned by company",
-  2: "I hired/leased it from a leasing company",
-};
+  const Corporate = {
+    0: "Owned by company",
+    1: "Hired/Lease",
+  };
 
-const Corporate = {
-  0: "Owned by company",
-  1: "I hired/leased it from a leasing company",
-};
-
-const owners = user === "user" ? User : Corporate;
-
+  const owners = user === "User" ? User : Corporate;
 
   const [selectedKey, setSelectedKey] = useState("0");
 
@@ -199,14 +195,18 @@ const owners = user === "user" ? User : Corporate;
         title="Which of these best describes your ownership of the vehicle?"
         className=""
       />
-      <div className="flex flex-wrap flex-col items-start gap-5 mb-4 mt-[44px] md:mx-[60px] ">
+      <div
+        className={`flex flex-wrap ${
+          user === "user" ? "flex-col " : "flex-col md:flex-row"
+        } items-start gap-5 mb-4 mt-[44px] md:mx-[60px]`}
+      >
         {Object.entries(owners).map(([key, topic]) => (
           <button
             key={key}
             onClick={() => handleSelect(key)}
             className={`${
               groteskText.className
-            } inline-flex items-center px-4 py-[18px] border rounded-[8px] text-[18px] text-black ${
+            } inline-flex items-center px-4 py-[18px] border rounded-[8px] text-[18px] text-black w-[250px]  whitespace-nowrap ${
               selectedKey === key ? "border-[#4169E1]" : "border-[#D0D5DD]"
             }`}
           >

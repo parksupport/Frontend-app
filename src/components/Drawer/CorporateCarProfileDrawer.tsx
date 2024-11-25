@@ -138,7 +138,7 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
                   <th
                     className={` py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                   >
-                    Notification Recipient
+                    Notification Recipients
                   </th>
                   <th
                     className={` py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}

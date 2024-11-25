@@ -222,7 +222,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                           <UserTickSVG />
                         </span>
                         <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}>
-                          Notification Recipient:{" "}
+                          Notification Recipients:{" "}
                         </span>
                         <div
                           className="relative cursor-pointer"

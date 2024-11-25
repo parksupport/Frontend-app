@@ -78,7 +78,7 @@ export function Questions({ faqs }) {
   };
 
   return (
-    <div className=" bg-white h-[300px] overflow-y-auto rounded-[12px] px-2 border">
+    <div className=" bg-white h-[280px] overflow-y-auto rounded-[12px] px-2 border">
       <div>
         <div className="faq-container">
           {faqs.map((faq, index) => (

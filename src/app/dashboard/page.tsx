@@ -302,7 +302,7 @@ export default function DashboardPage() {
   <div className="relative md:-mt-[30px] md:z-10 flex justify-center">
     <EducationalMaterials openEducationalMaterials={openEducationalMaterials} />
   </div>
-  <div className="relative md:-mt-[50px] md:z-20 flex justify-center">
+  <div className="relative md:-mt-[30px] md:z-20 flex justify-center">
     {/* <FAQAccordion /> */}
     <FAQComponents />
   </div>

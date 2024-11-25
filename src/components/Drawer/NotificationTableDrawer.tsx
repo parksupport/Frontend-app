@@ -26,6 +26,7 @@ const NotificationsTableDrawer = ({ back }) => {
       message:
         "Your insurance policy has been successfully updated with the latest changes.",
       date: "26 Sep",
+      time: "10:30 AM",
       read: false,
       details:
         "Your insurance policy #12345 has been successfully updated. Please review the changes to ensure all information is correct and up to date. If you have any questions, contact your insurance provider.",
@@ -36,6 +37,7 @@ const NotificationsTableDrawer = ({ back }) => {
       message:
         "A speeding violation was recorded in your name. Please take immediate action.",
       date: "26 Sep",
+      time: "02:45 PM",
       read: false,
       details:
         "A speeding violation has been recorded at 123 Main St. on 25 Sep 2024. The violation is associated with your vehicle registration #ABC123. Please log into your account to view the details and take the necessary steps to resolve this matter.",
@@ -46,6 +48,7 @@ const NotificationsTableDrawer = ({ back }) => {
       message:
         "Upcoming maintenance scheduled for your vehicle. Please review the details.",
       date: "27 Sep",
+      time: "09:15 AM",
       read: false,
       details:
         "Your vehicle has a scheduled maintenance appointment on 30 Sep 2024 at 10:00 AM. Please ensure the vehicle is delivered to the service center on time. Contact your service provider if you need to reschedule.",
@@ -56,6 +59,7 @@ const NotificationsTableDrawer = ({ back }) => {
       message:
         "Your payment for the service plan has been successfully processed.",
       date: "28 Sep",
+      time: "04:00 PM",
       read: false,
       details:
         "We have received your payment for the monthly service plan. Payment reference #56789 has been processed for the amount of $150.00. Thank you for staying on track with your plan.",
@@ -66,6 +70,7 @@ const NotificationsTableDrawer = ({ back }) => {
       message:
         "Important safety recall issued for your vehicle. Immediate attention required.",
       date: "29 Sep",
+      time: "08:00 AM",
       read: false,
       details:
         "A safety recall has been issued for your vehicle model XYZ123 due to potential issues with the braking system. Please contact your dealership immediately to schedule a free inspection and repair. This is a critical safety update.",
@@ -76,6 +81,7 @@ const NotificationsTableDrawer = ({ back }) => {
       message:
         "Your vehicle warranty is about to expire. Renew now to avoid gaps in coverage.",
       date: "30 Sep",
+      time: "11:30 AM",
       read: false,
       details:
         "Your vehicle's warranty coverage will expire on 15 Oct 2024. Renew your warranty now to ensure uninterrupted protection for repairs and maintenance. Contact our support team to discuss available options.",
@@ -86,6 +92,7 @@ const NotificationsTableDrawer = ({ back }) => {
       message:
         "Friendly reminder to complete your annual vehicle inspection by the due date.",
       date: "01 Oct",
+      time: "01:00 PM",
       read: false,
       details:
         "Your annual vehicle inspection is due by 10 Oct 2024. Failing to complete the inspection may result in penalties or restrictions. Schedule an appointment with your nearest inspection center today.",
@@ -96,11 +103,13 @@ const NotificationsTableDrawer = ({ back }) => {
       message:
         "Your insurance premium payment is overdue. Please make payment immediately.",
       date: "02 Oct",
+      time: "05:15 PM",
       read: false,
       details:
         "Your insurance premium payment, due on 30 Sep 2024, has not yet been received. Avoid policy cancellation by making the payment at your earliest convenience. Contact customer service if you need assistance.",
     },
   ];
+  
 
   const isMobile = useIsMobile();
  
@@ -192,9 +201,10 @@ const ReadNotification = ({ selectedNotification }) => {
         <div className="mt-4 p-4 border-t border-gray-300">
           <h3
             className={` ${groteskText.className} text-black text-lg font-semibold`}
-          >
+            >
             {selectedNotification.type} Details
           </h3>
+            <h5 className={` ${groteskText.className} text-black text-sm`}> {selectedNotification.time}</h5>
           <p className={` text-black ${groteskText.className} mt-2`}>
             {selectedNotification.details}
           </p>

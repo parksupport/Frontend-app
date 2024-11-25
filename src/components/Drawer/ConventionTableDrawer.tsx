@@ -24,7 +24,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
   const sliderRef = useRef(null);
 
-  const handleRowClick = (invoice:any) => {
+  const handleRowClick = (invoice: any) => {
     setSelectedInvoice(invoice);
     console.log('Invoice clicked:', invoice);
   };
@@ -82,25 +82,29 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
       {/* Contravention Table */}
       <Slider {...sliderSettings}>
         <div className="flex mx-0 flex-col mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg overflow-hidden">
-          <table className="flex items-center justify-between lg:flex lg:flex-col w-full">
-            <thead className="border-b border-b-[#C5D5F8] w-full">
+          <table className="flex items-center  justify-between lg:flex lg:flex-col ">
+            <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
-                <th className={`text-[#667185] self-start lg:px-[4px] py-[0.75rem] lg:text-left ${groteskText.className}`}>
+
+                <th className={`text-[#667185] self-start lg:pl-[17px] py-[0.75rem] lg:text-left lg:text-[15px] ${groteskTextMedium}`}>
                   Contravention Type
                 </th>
-                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] ${groteskText.className}`}>
+                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] lg:text-[15px] ${groteskTextMedium}`}>
                   Date Issued
                 </th>
-                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] ${groteskText.className}`}>
+                <th className={`text-[#667185] self-start pr-[8px] py-[0.75rem] lg:text-[15px] ${groteskTextMedium}`}>
                   Fine
                 </th>
-                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] ${groteskText.className}`}>
+                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] lg:text-[15px] lg:pr-[17px] ${groteskTextMedium}`}>
+
                   Status
                 </th>
               </tr>
             </thead>
-            <tbody className={` ${groteskText.className} w-full lg:w-full whitespace-nowrap lg:bg-[#F9FAFB]`}>
-              {(isSmallScreen ? currentItems : itemDetails.contravention).map((invoice,index) => (
+
+            <tbody className="w-full lg:w-full lg:bg-[#F9FAFB]">
+              {(isSmallScreen ? currentItems : itemDetails.contravention).map((invoice, index) => (
+
                 <ContraventionRow key={index} invoice={invoice} handleRowClick={handleRowClick} />
               ))}
             </tbody>
@@ -144,71 +148,102 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
       {selectedInvoice && (
         <div className={`flex flex-col mt-8 ${isSmallScreen ? 'w-full' : 'hidden lg:flex lg:w-11/12 mx-auto'}`}>
           <h1 className={`text-2xl text-[#000000] ${groteskTextMedium.className} text-center`}>
-            Contravention Detailed Breakdown
+            Tickets Detailed Breakdown
           </h1>
 
-          <section className='border border-[#D0D5DD] rounded-lg bg-[#F9FAFB] mt-6 p-4 lg:p-6'>
-            <div className='flex flex-col lg:flex-row lg:justify-center'>
-              {/* Left Side Details */}
-              <div className='flex flex-col lg:flex-row '>
-                <DetailedBreakdownItemHeader
-                  label="TICKET TYPE"
-                  value={selectedInvoice.ticket}
-                />
-                <LineHeight className="hidden lg:block mx-4 " />
-                <DetailedBreakdownItemHeader
-                  label="ISSUING AUTHORITY"
-                  value={selectedInvoice.issuing_auth}
-                />
-                <LineHeight className="hidden lg:block mx-4 " />
-                <DetailedBreakdownItemHeader
-                  label="FINE AMOUNT"
-                  value={selectedInvoice.fine_amount}
-                />
-                <LineHeight className="hidden lg:block mx-4" />
-                <DetailedBreakdownItemHeader
-                  label="DUE DATE"
-                  value={selectedInvoice.date}
-                />
-
-              </div>
-            </div>
-          </section>
 
           {/* Ticket Details */}
 
-          <div className='flex justify-between lg:flex lg:flex-col '>
+          <div className='flex flex-col justify-between lg:flex lg:flex-col '>
             <section className='mt-8 mx-auto'>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Ticket Details</h1>
               <div className='space-y-4 '>
-                <DetailedBreakdownItem
-                  label="Violation Type Info"
-                  value="Failure To Stop For School Bus Ticket"
-                />
-                <DetailedBreakdownItem
-                  label="Violation Code"
-                  value="V117 - Not stopping for a school bus with flashing lights"
-                />
-                <DetailedBreakdownItem
-                  label="Officer Name"
-                  value="Officer Sarah Jones"
-                />
-                <DetailedBreakdownItem
-                  label="Traffic Situation"
-                  value="School bus stopped with flashing red light"
-                />
-                <DetailedBreakdownItem
-                  label="Location"
-                  value="River St. & Oak Rd."
-                />
-                <DetailedBreakdownItem
-                  label="Violation Date And Time"
-                  value="12th October 2024, 14:32"
-                />
-                <DetailedBreakdownItem
-                  label="Fine Breakdown"
-                  value="Base fine: $100"
-                />
+                <div className='flex flex-col gap-[10px]'>
+                  {/* <DetailedBreakdownItem
+                    label="Ticket type"
+                    value={selectedInvoice.ticket}
+                  />
+                  <DetailedBreakdownItem
+                    label="Ticket Type"
+                    value={selectedInvoice.ticket}
+                  /> */}
+                  <DetailedBreakdownItem
+                    label="Ticket Type"
+                    value={selectedInvoice.ticket}
+                  />
+                  <DetailedBreakdownItem
+                    label="Issuing Authority"
+                    value={selectedInvoice.issuing_auth}
+                  />
+                  <DetailedBreakdownItem
+                    label="Fine amount"
+                    value={selectedInvoice.fine_amount}
+                  />
+
+                  <DetailedBreakdownItem
+                    label="Due Date"
+                    value={selectedInvoice.date}
+                  />
+                  {/* <DetailedBreakdownItem
+                    label="Ticket Type"
+                    value={selectedInvoice.ticket}
+                  /> */}
+                  <DetailedBreakdownItem
+                    label="Violation Type Info"
+                    value="Failure To Stop For School Bus Ticket"
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Location"
+                    value="River St. & Oak Rd."
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Violation Date And Time"
+                    value="12th October 2024, 14:32"
+                  />
+
+
+
+                  <DetailedBreakdownItem
+                    label="Fine Breakdown"
+                    value="Base fine: $100"
+                  />
+
+
+
+                  <DetailedBreakdownItem
+                    label="Violation Code"
+                    value="V117 - Not stopping for a school bus with flashing lights"
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Officer Name"
+                    value="Officer Sarah Jones"
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Traffic Situation"
+                    value="School bus stopped with flashing red light"
+                  />
+
+
+                </div>
+
+
+
               </div>
             </section>
 

@@ -86,31 +86,31 @@ const Header = ({
           <div className="absolute top-16 left-0 w-full bg-white shadow-md py-4 flex flex-col items-center space-y-4 z-50 md:hidden">
             <div
               className="cursor-pointer hover:text-blue-500"
-              onClick={() => scrollToSection(homeRef)}
+              onClick={() => {scrollToSection(homeRef),toggleMenu()}}
             >
               Home
             </div>
             <div
               className="cursor-pointer hover:text-blue-500"
-              onClick={() => scrollToSection(searchRef)}
+              onClick={() => {scrollToSection(searchRef),toggleMenu()}}
             >
               Search
             </div>
             <div
               className="cursor-pointer hover:text-blue-500"
-              onClick={() => scrollToSection(featuresRef)}
+              onClick={() => {scrollToSection(featuresRef),toggleMenu()}}
             >
               Features
             </div>
             <div
               className="cursor-pointer hover:text-blue-500"
-              onClick={() => scrollToSection(faqRef)}
+              onClick={() => {scrollToSection(faqRef),toggleMenu()}}
             >
               FAQ
             </div>
             <div
               className="cursor-pointer hover:text-blue-500"
-              onClick={() => scrollToSection(subPlanRef)}
+              onClick={() => {scrollToSection(subPlanRef),toggleMenu()}}
             >
               Pricing
             </div>

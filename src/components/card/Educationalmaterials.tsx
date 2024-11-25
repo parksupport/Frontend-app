@@ -3,6 +3,7 @@ import { MoveDiagonal } from "lucide-react";
 import { useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const TopicList = [
   {
@@ -68,18 +69,18 @@ const TopicList = [
 interface EducationalMaterialsProps {
   openEducationalMaterials: (educationalMaterials: any) => void;
 }
-
 const EducationalMaterials = ({
   openEducationalMaterials,
 }: EducationalMaterialsProps) => {
   const [selected, setSelected] = useState(TopicList[0].id);
-
+  const isMobile  = useIsMobile();
+  
   const handleSelect = (topic: { id: number }) => {
     setSelected(topic.id);
   };
   return (
     <div className="bg-white p-6  md:p-4 rounded-[16px] shadow-md max-w-[396px] md:h-[360px] sm:max-w-md md:max-w-[680px] w-full">
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <h1
           className={`text-[24px] md:text-[32px] text-black ${groteskTextMedium.className} mb-4"`}
         >
@@ -94,18 +95,18 @@ const EducationalMaterials = ({
 
       <div className="md:flex md:gap-8 ">
         {" "}
-        <div className="overflow-y-auto h-[280px] flex flex-wrap text-black items-start gap-2 mb-4 md:flex-col md:w-[38%]">
+        <div className="flex flex-wrap text-black items-start gap-2 mb-4 md:flex-col md:w-[38%]">
           {TopicList.map((topic) => (
             <button
               key={topic.id}
               onClick={() => handleSelect(topic)}
               className={`inline-flex items-center md:justify-start ${
                 groteskText.className
-              } px-4 py-2 border rounded-[12px] text-[16px] w-[250px] ${
+              } px-4 py-2 border rounded-[12px] text-[16px] w-full md:w-[250px] ${
                 selected === topic.id ? "border-[#4169E1]" : "border-[#D0D5DD]"
               }`}
             >
-              {topic.topic}
+              <TruncatedText text={topic.topic} maxLength={isMobile ? 50 :26} className={`${groteskText.className}`} />
             </button>
           ))}
         </div>

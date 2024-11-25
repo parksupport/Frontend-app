@@ -63,8 +63,8 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
   };
 
   return (
-    <article>
-      <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[24px] px-4 ">
+    <article className="flex justify-center">
+      <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4 ">
         <Slider ref={sliderRef} {...settings}>
           {cars.carDetails.map((car, index) => (
             <div key={car.id} className="">
@@ -91,8 +91,8 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                   <Image
                     src={require(`@/assets/images/${car.imageUrl}`).default}
                     alt=""
-                    sizes="max-width: 222px"
-                    className="max-w-[222px] "
+                    sizes="width: 222px"
+                    // className="max-w-[222px] "
                   />
                 
                 </div>
@@ -146,7 +146,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                       </span>
                     </h2>
                     <h2
-                      className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                      className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
                       <div className="flex items-center gap-[5px]">
                         <span>
@@ -159,13 +159,13 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                       </span>
                     </h2>
                     <h2
-                      className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                      className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
                       <div className="flex items-center gap-[5px]">
                         <span>
                           <UserTickSVG />
                         </span>
-                       <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}>Ownership status: </span>
+                       <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[3px]`}>Ownership status: </span>
                        
                        <div
                           className="relative cursor-pointer"
@@ -174,7 +174,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         >
                           <VehiclceInfoSVG />
                           {hovered[`${car.id}-ownership`] && (
-                            <div className="absolute bottom-full left-1/2 cursor-pointer transform -translate-x-1/2 mb-2 w-48 bg-black text-white text-center rounded py-1">
+                            <div className="absolute bottom-full left-1/2 cursor-pointer transform -translate-x-1/2 mb-2 w-48 bg-white text-black border border-[#667185] text-center rounded py-1">
                               Ownership status information
                             </div>
           )}
@@ -187,13 +187,13 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                     </h2>
 
                     <h2
-                      className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                      className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
                       <div className="flex items-center gap-[5px]">
                         <span>
                           <TicketSVG />
                         </span>
-                       <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}>
+                       <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[3px]`}>
                           Contravention Status:{" "}
                         </span>
                         <div
@@ -203,7 +203,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         >
                           <VehiclceInfoSVG />
                           {hovered[`${car.id}-contravention`] && (
-                            <div className="absolute bottom-full left-1/2 cursor-pointer transform -translate-x-1/2 mb-2 w-48 bg-black text-white text-center rounded py-1">
+                            <div className="absolute bottom-full left-1/2 cursor-pointer transform -translate-x-1/2 border border-[#667185]  mb-2 w-48 bg-white text-black text-center rounded py-1">
                               Contravention status information
                             </div>
           )}
@@ -215,14 +215,14 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                     </h2>
 
                     <h2
-                      className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                      className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
-                      <div className="flex items-center gap-[5px]">
+                      <div className="flex items-center gap-[3px]">
                         <span>
                           <UserTickSVG />
                         </span>
                         <span className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}>
-                          Notification Recipient:{" "}
+                          Notification Recipients:{" "}
                         </span>
                         <div
                           className="relative cursor-pointer"
@@ -231,7 +231,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                         >
                           <VehiclceInfoSVG />
                           {hovered[`${car.id}-notification`] && (
-                            <div className="absolute bottom-full left-1/2  transform -translate-x-1/2 mb-2 w-48 bg-black text-white text-center rounded py-1">
+                            <div className="absolute bottom-full left-1/2 border border-[#667185] transform -translate-x-1/2 mb-2 w-48 bg-white text-black text-center rounded py-1">
                               Notification recipient information
                             </div>
                           )}

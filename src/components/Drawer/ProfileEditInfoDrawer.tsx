@@ -48,7 +48,7 @@ export function ProfileEditInfoDrawer({
     return emailRegex.test(email) ? null : "Invalid email format";
   };
 
-  // Define input fields data array
+
   const UserInputFields = [
     {
       type: "text",
@@ -201,3 +201,5 @@ export function ProfileEditInfoDrawer({
     </div>
   );
 }
+
+

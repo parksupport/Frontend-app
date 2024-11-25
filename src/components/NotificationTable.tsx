@@ -358,7 +358,8 @@ export const DesktopViewNotification = ({
             </div>
           </div>
         )}
-        <table className="min-w-full w-full text-left mt-0">
+          <div className="overflow-x-auto">
+          <table className="min-w-[500px] w-full text-left mt-0">
           <tbody>
             {currentNotifications.map((notification) => (
               <tr
@@ -403,6 +404,7 @@ export const DesktopViewNotification = ({
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </>
   );

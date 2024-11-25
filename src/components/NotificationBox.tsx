@@ -36,9 +36,11 @@ export default function NotificationBox({
         </p>
         <div className="absolute top-[65px] right-[24px]">
           <Button
+            onClick={() => router.push("/auth/onboarding")}
             type="button"
             className="rounded-[12px] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
             variant="primary"
+           
           >
             Sign Up
           </Button>

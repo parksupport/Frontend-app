@@ -166,7 +166,7 @@ export default function ThirdPartyNominees({
         <h1
           className={`text-[22px]  md:text-[24px] text-black ${groteskTextMedium.className}`}
         >
-          Notification Recipient
+          Notification Recipients
         </h1>
         <div
           className={` hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
@@ -368,25 +368,37 @@ const NomineeDesktop = ({
   selectedDataIndex,
 }) => {
   return (
-    <div className="rounded-[12px] border border-gray-300 pb-2 ">
+    <div className=" overflow-x-auto max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
       <table className="overflow-auto-y min-w-full bg-white text-black ">
         <thead>
           <tr
             className={`text-[#667185] text-[18px] border-b w-full ${groteskText.className}`}
           >
-            <th className={` ${groteskText.className} whitespace-nowrap py-2 px-3 text-left w-[20%] `}>
+            <th
+              className={` ${groteskText.className} whitespace-nowrap py-2 px-3 text-left w-[20%] `}
+            >
               Name
             </th>
-            <th className={` ${groteskText.className} whitespace-nowrap px-3 text-left  w-[20%] `}>
+            <th
+              className={` ${groteskText.className} whitespace-nowrap px-3 text-left  w-[20%] `}
+            >
               Email Address
             </th>
-            <th className={` ${groteskText.className} whitespace-nowrap  px-2  text-left  w-[25%]` }>
+            <th
+              className={` ${groteskText.className} whitespace-nowrap  px-2  text-left  w-[25%]`}
+            >
               Phone Number
             </th>
-            <th className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}>
+            <th
+              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}
+            >
               Car
             </th>
-            <th className={`  ${groteskText.className} whitespace-nowrap  text-end px-2 w-[5%]`}>{" "}</th>
+            <th
+              className={`  ${groteskText.className} whitespace-nowrap  text-end px-2 w-[5%]`}
+            >
+              {" "}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -395,9 +407,11 @@ const NomineeDesktop = ({
               <td
                 className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
-               
-                <TruncatedText text =  {nominee.name}maxLength={10} className={`${groteskText.className}`}/>
-            
+                <TruncatedText
+                  text={nominee.name}
+                  maxLength={10}
+                  className={`${groteskText.className}`}
+                />
               </td>
               <td
                 className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
@@ -416,12 +430,11 @@ const NomineeDesktop = ({
               <td
                 className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
               >
-                 <TruncatedText
+                <TruncatedText
                   text={nominee.car}
                   maxLength={8}
                   className={` ${groteskText.className}`}
                 />
-             
               </td>
               <td className="cursor-pointer pt-2 text-end  pr-2 whitespace-nowrap relative">
                 <button
@@ -557,7 +570,11 @@ export const NomineeMobile = ({
                   Name
                 </span>
                 <div className={`${groteskText.className} text-black`}>
-                  {nominee.name}
+                  <TruncatedText
+                    text={nominee.name}
+                    maxLength={22}
+                    className={`${groteskText.className} text-black`}
+                  />
                 </div>
               </div>
               <div className="flex justify-between">
@@ -566,7 +583,11 @@ export const NomineeMobile = ({
                 </span>
 
                 <div className={`${groteskText.className} text-black`}>
-                  {nominee.email}
+                  <TruncatedText
+                    text={nominee.email}
+                    maxLength={22}
+                    className={`${groteskText.className} text-black`}
+                  />
                 </div>
               </div>
               <div className="flex justify-between">
@@ -584,7 +605,11 @@ export const NomineeMobile = ({
                 </span>
 
                 <div className={`${groteskText.className} text-black`}>
-                  {nominee.car}
+                <TruncatedText
+                    text={nominee.car}
+                    maxLength={22}
+                    className={`${groteskText.className} text-black`}
+                  />
                 </div>
               </div>
             </div>

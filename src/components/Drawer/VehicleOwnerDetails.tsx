@@ -206,7 +206,7 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user }) => {
             onClick={() => handleSelect(key)}
             className={`${
               groteskText.className
-            } inline-flex items-center px-4 py-[18px] border rounded-[8px] text-[18px] text-black w-[250px]  whitespace-nowrap ${
+            } inline-flex items-center px-4 py-[18px] border rounded-[8px] text-[18px] text-black md:w-[250px]  whitespace-nowrap ${
               selectedKey === key ? "border-[#4169E1]" : "border-[#D0D5DD]"
             }`}
           >

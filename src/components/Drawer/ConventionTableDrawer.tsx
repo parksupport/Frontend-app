@@ -82,8 +82,8 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
       {/* Contravention Table */}
       <Slider {...sliderSettings}>
         <div className="flex mx-0 flex-col mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg overflow-hidden">
-          <table className="flex items-center justify-between lg:flex lg:flex-col w-full">
-            <thead className="border-b border-b-[#C5D5F8] w-full">
+          <table className="flex items-center  justify-between lg:flex lg:flex-col ">
+            <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
                 <th className={`text-[#667185] self-start lg:pl-[17px] py-[0.75rem] lg:text-left lg:text-[15px] ${groteskTextMedium}`}>
@@ -148,13 +148,13 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
       {selectedInvoice && (
         <div className={`flex flex-col mt-8 ${isSmallScreen ? 'w-full' : 'hidden lg:flex lg:w-11/12 mx-auto'}`}>
           <h1 className={`text-2xl text-[#000000] ${groteskTextMedium.className} text-center`}>
-            Contravention Detailed Breakdown
+            Tickets Detailed Breakdown
           </h1>
 
 
           {/* Ticket Details */}
 
-          <div className='flex justify-between lg:flex lg:flex-col '>
+          <div className='flex flex-col justify-between lg:flex lg:flex-col '>
             <section className='mt-8 mx-auto'>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Ticket Details</h1>
               <div className='space-y-4 '>

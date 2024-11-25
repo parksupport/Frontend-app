@@ -239,26 +239,28 @@ export default function DashboardPage() {
       <main className=" px-[1rem] flex flex-col items-center w-full">
         <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
           {/* Welcome Section */}
-          <div className="flex items-center justify-between  space-x-2">
-            <div className="flex items-center space-x-2">
+          <div className="flex items-start justify-between space-x-2">
+            <div className="flex items-start space-x-2">
               <h1
-                className={` text-[24px]  lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
+                className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
               >
                 Welcome Back, Orobosa
               </h1>
               <button
-                className=" rounded-[37px] bg-[#CEFDFF] py-[4px] mb-[16px] px-[12px] text-[#039BB7] text-[12px] "
+                className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
                 onClick={onOpen}
               >
                 Free plan
               </button>
             </div>
-            <button className=" rounded-[37px] bg-[#CEFDFF] py-[4px] mb-[16px] px-[12px] text-black text-[12px] "
-             onClick={onOpen}
+            <button
+              className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-black text-[10px] md:text-[12px]"
+              onClick={onOpen}
             >
-              change subscription
+              Change plan
             </button>
           </div>
+
           <ToggleButton initialState="User" onToggle={handleToggle} />
         </section>
 

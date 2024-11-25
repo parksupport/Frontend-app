@@ -63,8 +63,8 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
   };
 
   return (
-    <article>
-      <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[24px] px-4 ">
+    <article className="flex justify-center">
+      <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4 ">
         <Slider ref={sliderRef} {...settings}>
           {cars.carDetails.map((car, index) => (
             <div key={car.id} className="">
@@ -91,8 +91,8 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                   <Image
                     src={require(`@/assets/images/${car.imageUrl}`).default}
                     alt=""
-                    sizes="max-width: 222px"
-                    className="max-w-[222px] "
+                    sizes="width: 222px"
+                    // className="max-w-[222px] "
                   />
                 
                 </div>
@@ -146,7 +146,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                       </span>
                     </h2>
                     <h2
-                      className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                      className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
                       <div className="flex items-center gap-[5px]">
                         <span>
@@ -159,7 +159,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                       </span>
                     </h2>
                     <h2
-                      className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                      className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
                       <div className="flex items-center gap-[5px]">
                         <span>
@@ -187,7 +187,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                     </h2>
 
                     <h2
-                      className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                      className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
                       <div className="flex items-center gap-[5px]">
                         <span>
@@ -215,7 +215,7 @@ function CarProfile({ openCarProfile ,addVehicleDetails}: CarProfileProps) {
                     </h2>
 
                     <h2
-                      className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                      className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
                       <div className="flex items-center gap-[3px]">
                         <span>

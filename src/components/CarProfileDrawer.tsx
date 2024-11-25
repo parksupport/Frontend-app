@@ -159,8 +159,8 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
                                     <Image
                                         src={require(`@/assets/images/${car.imageUrl}`).default}
                                         alt=""
-                                        sizes="max-width: 222px"
-                                        className="max-w-[222px] "
+                                        // sizes="max-width: 222px"
+                                        // className="max-w-[222px] "
                                     />
 
                                 </div>

@@ -48,13 +48,24 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
         >
           Ticket
         </h1>{" "}
+        <div className="hidden lg:flex  items-center flex-row justify-end mb-[1.25rem] mr-[8px] lg:self-end">
+          {visibleCount < itemDetails.contravention.length && (
+            <Button
+              variant="quinary"
+              onClick={handleButtonClick}
+              className="items-center flex-row flex py-[0.53125rem] px-[12px]"
+            >
+              Expand tickets
+            </Button>
+          )}
+        </div>
        
       </div>
       <table className="flex items-center justify-between lg:flex lg:flex-col w-full border border-solid border-[#C5D5F8] rounded-[12px] border-collapse-separate ">
         <thead className="border-b border-b-[#C5D5F8] lg:w-full">
           <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between">
             <th
-              className={`text-[#757575] text-[17px] self-start lg:px-[17px] py-[0.75rem]  lg:text-left   ${groteskText.className} `}
+              className={`text-[#757575] text-[17px] self-start lg:pl-[17px] py-[0.75rem]  lg:text-left   ${groteskText.className} `}
             >
               Contravention Type
             </th>
@@ -90,7 +101,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
         {invoice.ticket}
       </td>
       <td
-        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem] lg:pl-[2.4rem] lg:w-[23%] ${groteskText.className}`}
+        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem]  lg:w-[23%] ${groteskText.className}`}
        
       >
         {invoice.reg_num}
@@ -102,7 +113,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
         {invoice.issuing_auth}
       </td>
       <td
-        className={`text-[#212121] self-end  text-center text-[1rem] py-[0.75rem] lg:w-[20%]  ${groteskText.className}`}
+        className={`text-[#212121] self-end  text-[1rem] py-[0.75rem] lg:w-[14%] lg:pl-[5px]  ${groteskText.className}`}
      
       >
         {invoice.fine_amount}
@@ -120,17 +131,6 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
 </tbody>
 
 
-        <div className="hidden lg:flex  items-center flex-row justify-end mb-[1.25rem] mr-[8px] lg:self-end">
-          {visibleCount < itemDetails.contravention.length && (
-            <Button
-              variant="quinary"
-              onClick={handleButtonClick}
-              className="items-center flex-row flex py-[0.53125rem] px-[12px]"
-            >
-              Expand tickets
-            </Button>
-          )}
-        </div>
       </table>
       <div className=" items-center  flex flex-row justify-end mb-[1.25rem] mr-[8px] mt-[20px] lg:hidden">
           {visibleCount < itemDetails.contravention.length && (

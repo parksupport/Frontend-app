@@ -3,6 +3,7 @@ import { MoveDiagonal } from "lucide-react";
 import { useState } from "react";
 import { FiExternalLink } from "react-icons/fi";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+import useIsMobile from "@/hooks/useIsMobile";
 
 const TopicList = [
   {
@@ -68,12 +69,12 @@ const TopicList = [
 interface EducationalMaterialsProps {
   openEducationalMaterials: (educationalMaterials: any) => void;
 }
-
 const EducationalMaterials = ({
   openEducationalMaterials,
 }: EducationalMaterialsProps) => {
   const [selected, setSelected] = useState(TopicList[0].id);
-
+  const isMobile  = useIsMobile();
+  
   const handleSelect = (topic: { id: number }) => {
     setSelected(topic.id);
   };
@@ -101,11 +102,11 @@ const EducationalMaterials = ({
               onClick={() => handleSelect(topic)}
               className={`inline-flex items-center md:justify-start ${
                 groteskText.className
-              } px-4 py-2 border rounded-[12px] text-[16px] w-[250px] ${
+              } px-4 py-2 border rounded-[12px] text-[16px] w-full md:w-[250px] ${
                 selected === topic.id ? "border-[#4169E1]" : "border-[#D0D5DD]"
               }`}
             >
-              <TruncatedText text={topic.topic} maxLength={23} className={`${groteskText.className}`} />
+              <TruncatedText text={topic.topic} maxLength={isMobile ? 50 :26} className={`${groteskText.className}`} />
             </button>
           ))}
         </div>

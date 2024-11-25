@@ -11,10 +11,10 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
       className="flex flex-col px-[1rem] lg:flex lg:flex-row lg:border-b-[#D0D5DD] lg:border cursor-pointer hover:bg-[#FFFFFF] w-full items-center justify-between "
       onClick={() => handleRowClick(invoice)}
     >
-      <td className={`py-[0.75rem] sm:self-end text-[#212121] hwitespace-nowrap pl-[17px] lg:pl-0 cursor-pointer lg:w-[30%] 2xl:flex 2xl:w-[16%] ${groteskText.className}`}>
+      <td className={`py-[0.75rem] sm:self-end text-[#212121] whitespace-nowrap pl-[17px] lg:pl-0 cursor-pointer lg:w-[30%] 2xl:flex 2xl:w-[16%] ${groteskText.className}`}>
       <TruncatedText
                   text={invoice.ticket}
-                  maxLength={9}
+                  maxLength={15}
                   className={`${groteskText.className}`}
                 />
        

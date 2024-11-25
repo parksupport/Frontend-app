@@ -253,7 +253,7 @@ export default function DashboardPage() {
                 Free plan
               </button>
             </div>
-            <button className=" rounded-[37px] bg-[#CEFDFF] py-[4px] mb-[16px] px-[12px] text-black text-[12px] "
+            <button className=" rounded-[37px] bg-[#CEFDFF] py-[4px]  px-[12px] text-black text-[12px] "
              onClick={onOpen}
             >
               change subscription

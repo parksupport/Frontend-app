@@ -84,19 +84,19 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
   {itemDetails.contravention.slice(0, visibleCount).map((invoice) => (
     <tr key={invoice.ticket} className="flex flex-col px-[1rem] lg:flex lg:flex-row">
       <td
-        className={`pb-[0.75rem] self-end text-[#212121] text-[1rem] pl-[17px] lg:pl-0 lg:w-[28%] ${groteskText.className}`}
+        className={`pb-[0.75rem] self-end text-[#212121] text-[1rem] pl-[17px] lg:pl-0 lg:w-[36%] ${groteskText.className}`}
       
       >
         {invoice.ticket}
       </td>
       <td
-        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem] lg:pl-[3.4rem] lg:w-[20%] ${groteskText.className}`}
+        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem] lg:pl-[2.4rem] lg:w-[23%] ${groteskText.className}`}
        
       >
         {invoice.reg_num}
       </td>
       <td
-        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem] lg:pl-[4.8rem] lg:w-[33%] ${groteskText.className}`}
+        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem] lg:pl-[1.8rem] lg:w-[33%] ${groteskText.className}`}
       
       >
         {invoice.issuing_auth}

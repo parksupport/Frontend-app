@@ -14,7 +14,7 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
       <td className={`py-[0.75rem] sm:self-end text-[#212121] hwitespace-nowrap pl-[17px] lg:pl-0 cursor-pointer lg:w-[30%] 2xl:flex 2xl:w-[16%] ${groteskText.className}`}>
       <TruncatedText
                   text={invoice.ticket}
-                  maxLength={10}
+                  maxLength={9}
                   className={`${groteskText.className}`}
                 />
        

@@ -6,7 +6,7 @@ import rafiki from "@/assets/images/rafiki.png";
 
 const VehicleAddedFailed = ({ back, toggleDrawer, Success }) => {
   return (
-    <div className="flex flex-col items-center justify-center bg-white p-4">
+    <div className="flex flex-col items-center justify-center bg-white py-4">
       <DrawerHeader
         toggleDrawer={back}
         title="Failed To Add Vehicle"

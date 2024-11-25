@@ -31,11 +31,14 @@ import UserInfoDrawer from "@/components/Drawer/UserInfoDrawer";
 import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer";
 import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
+import { useDisclosure } from "@chakra-ui/react";
+import ModalComponent from "@/components/ModalComponent";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
   const [User, setUser] = useState("User");
+  const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
 
   const drawerRef = useRef<any>(null);
 
@@ -97,7 +100,6 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-
   const openNotificationsTable = () => {
     setDrawerContent(<NotificationTableDrawer back={toggleDrawer} />);
     scrollToTopFromParent();
@@ -146,6 +148,7 @@ export default function DashboardPage() {
       <VehicleOwnerDetails
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
+        user={User}
       />
     );
     scrollToTopFromParent();
@@ -225,26 +228,44 @@ export default function DashboardPage() {
         openNotificationsTable={openNotificationsTable}
         openNotification={OpenNotification}
       />
+      <ModalComponent
+        isOpen={isDisclosureOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        toggleDrawer={toggleDrawer}
+      />
 
       {/* Main Content */}
       <main className=" px-[1rem] flex flex-col items-center w-full">
         <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
           {/* Welcome Section */}
-          <div className="flex items-center space-x-2 ">
-            <h1
-              className={` text-[24px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
+          <div className="flex items-start justify-between space-x-2">
+            <div className="flex items-start space-x-2">
+              <h1
+                className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
+              >
+                Welcome Back, Orobosa
+              </h1>
+              <button
+                className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
+                onClick={onOpen}
+              >
+                Free plan
+              </button>
+            </div>
+            <button
+              className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-black text-[10px] md:text-[12px]"
+              onClick={onOpen}
             >
-              Welcome Back, Orobosa
-            </h1>
-            <button className="rounded-[37px] bg-[#CEFDFF] py-[4px] mb-[17px] px-[12px] text-[#039BB7] text-[12px] ">
-              Free plan
+              Change plan
             </button>
           </div>
+
           <ToggleButton initialState="User" onToggle={handleToggle} />
         </section>
 
         {/* Profile and Table Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1rem] place-items-center">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
           <div className="w-full">
             <CarProfile
               addVehicleDetails={addVehicleDetails}

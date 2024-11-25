@@ -59,7 +59,7 @@ const Drawer = forwardRef(
         className={`fixed h-full md:h-auto w-full md:w-[32%] 
           bg-white shadow-lg z-50 transform px-[10px] transition-transform duration-300 ease-in-out overflow-y-auto 
           ${isOpen ? "translate-y-0 md:translate-x-0" : "translate-y-full md:translate-x-full"}
-          ${isAtTop ? "rounded-tl-[20px] rounded-tr-[20px] md:rounded-tl-[40px]" : ""} 
+          ${isAtTop ? "rounded-tl-[20px] rounded-tr-[20px] md:rounded-tr-none md:rounded-tl-[40px]" : ""} 
           ${isAtBottom ? "rounded-bl-none md:rounded-bl-[40px]" : ""}
           bottom-0 md:top-0 right-0 md:right-0`}
           onScroll={handleScroll}

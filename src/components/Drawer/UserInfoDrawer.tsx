@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import useIsMobile from "@/hooks/useIsMobile";
 import { CiEdit } from "react-icons/ci";
 import TruncatedText from "../ToggleComponent/TruncatedText";
 
 const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
-  const isMobile = useIsMobile();
   const [user, setUser] = useState({
     profileImage: "https://via.placeholder.com/80",
     name: "Wisdom Odili",
@@ -69,18 +67,6 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
 
   const conmpanyInfoSections = [
     {
-      title: "Company Information",
-      fields: [
-        { label: "Company Name", value: companyData.company.name },
-        {
-          label: "Company Registration Number",
-          value: companyData.company.registrationNumber,
-        },
-        { label: "Email Address", value: companyData.user.email },
-        { label: "Company Phone", value: companyData.company.phone },
-      ],
-    },
-    {
       title: "Manager Information",
       fields: [
         { label: "First Name", value: companyData.user.firstName },
@@ -91,8 +77,15 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
       ],
     },
     {
-      title: "Address",
+      title: "Company Information",
       fields: [
+        { label: "Company Name", value: companyData.company.name },
+        {
+          label: "Company Reg No.",
+          value: companyData.company.registrationNumber,
+        },
+        { label: "Email Address", value: companyData.user.email },
+        { label: "Company Phone", value: companyData.company.phone },
         { label: "Country", value: companyData.user.address.country },
         {
           label: "City / State",
@@ -101,10 +94,15 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
         { label: "Postal Code", value: companyData.user.address.postalCode },
       ],
     },
+    // {
+    //   title: "Address",
+    //   fields: [
+    //   ],
+    // },
   ];
 
   return (
-    <>
+    <div className="">
       {/* Drawer Header */}
       <DrawerHeader
         toggleDrawer={back}
@@ -155,11 +153,22 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
               key={index}
               className=" border border-[#D0D5DD] rounded-[16px] px-3 py-5 md:p-2 w-full"
             >
-              <h2
-                className={`${groteskTextMedium.className} text-black text-[20px] md:text-[24px] mb-4`}
-              >
-                {section.title}
-              </h2>
+              <div className="flex items-center justify-between">
+                <h2
+                  className={`${groteskTextMedium.className} text-black text-[20px] md:text-[24px] mb-4`}
+                >
+                  {section.title}
+                </h2>
+                <button
+                  className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
+                  onClick={onEdit}
+                >
+                  <span className={` text-black ${groteskText.className}`}>
+                    Edit
+                  </span>
+                  <CiEdit color="black" size={20} />
+                </button>
+              </div>
               <div
                 className={`grid   ${
                   section.fields.length <= 4
@@ -194,7 +203,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
           )
         )}
       </div>
-    </>
+    </div>
   );
 };
 

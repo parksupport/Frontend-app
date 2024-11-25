@@ -74,9 +74,7 @@ export default function LandingPage() {
     }
   };
 
-  const coloredText = (
-    <span className="text-blue-500 font-bold">Contravention</span>
-  );
+
 
   return (
     <div
@@ -220,7 +218,7 @@ export default function LandingPage() {
              
             />
           </div>
-          <div className="flex flex-col lg:flex-row item-center md:justify-between lg:w-full md:py-10  ">
+          <div className="flex flex-col space-y-4 lg:flex-row item-center md:justify-between lg:w-full md:py-10  ">
             <div className="flex flex-col ">
               <FeatureCard
                 icon={<InstantNoficationIcon />}

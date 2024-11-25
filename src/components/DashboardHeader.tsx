@@ -45,7 +45,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         </form>
 
         <div className="flex items-center space-x-4">
-          <OpenNotification />
+          {/* <OpenNotification /> */}
           {/* <button className="cursor-pointer"  onClick={toggleProfile}>
           <IoNotifications size={24} color="grey" />
          

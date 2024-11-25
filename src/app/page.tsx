@@ -95,6 +95,7 @@ export default function LandingPage() {
           ref={home}
           className="z-20 max-w-[1440px] mx-auto flex flex-col md:w-4/5 items-center  "
         >
+          <div className="bg-[#D9D9D9] underline cursor-pointer" onClick={() => router.push("/dashboard")}>Go to dashboard</div>
           <div className="flex flex-col lg:flex lg:flex-row ">
             <div className="flex flex-col justify-center px-4">
               <TextSection

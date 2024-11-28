@@ -17,8 +17,7 @@ const CorporateSignupPage = ({onContinue}) => {
     formData.company_email &&
     formData.address &&
     formData.company_phone_number &&
-    formData.company_registration_number &&
-    formData.company_registered_address;
+    formData.company_registration_number;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -59,14 +58,6 @@ const CorporateSignupPage = ({onContinue}) => {
   const validateBusinessAddress = (value) => {
     if (value.trim() === '') {
       return 'Business address cannot be empty.';
-    }
-    return null;
-  };
-
-  
-  const validateCompanyRegAddress = (value) => {
-    if (value.trim() === '') {
-      return 'Company registered address cannot be empty.';
     }
     return null;
   };
@@ -112,24 +103,6 @@ const CorporateSignupPage = ({onContinue}) => {
           </div>
           <div>
             <InputField
-            
-              type="text"
-              placeholder="Enter your company registered address"
-              // icon={
-              //   <FcGoogle />
-              // }
-              label="Company Registered Address"
-              name="address"
-              value={formData.company_registered_address}
-              onChange={handleChange}
-              validationRules={validateCompanyRegAddress}
-              variant="individual"
-              className="mt-[16px]"
-             
-            />
-          </div>
-          <div>
-            <InputField
               type="number"
               placeholder="Enter your company registration number"
             
@@ -147,7 +120,7 @@ const CorporateSignupPage = ({onContinue}) => {
             <InputField
               type="email"
               placeholder="Enter your general company email"
-              label="Company Email"
+              label="General Company Email"
               name="company_email"
               value={formData.company_email}
               onChange={handleChange}

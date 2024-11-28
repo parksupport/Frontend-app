@@ -13,9 +13,7 @@ const TruncatedText = ({ text, maxLength = 15, className = "", showFullOnHover =
   };
 
   // Check if the text exceeds the maxLength
-
   const isTruncated = text?.length > maxLength;
-
 
   return (
     <div

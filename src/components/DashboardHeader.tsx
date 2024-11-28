@@ -24,28 +24,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   openSettingsDrawer,
   openProfileSlider,
 }) => {
-
   const [isNotificationOpen, setIsNotificationOpen] = useState(true);
-  const [inputValue, setInputValue] = useState('');
-  const [message, setMessage] = useState('');
-
-  const validateInput = (value) => {
-    if (value === 'wrongword1') {
-      setMessage('Scenario 1: This is not a valid word.');
-    } else if (value === 'wrongword2') {
-      setMessage('Scenario 2: This word is not allowed.');
-    } else {
-      setMessage('');
-    }
-  };
-
-
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
-    validateInput(value);
-  };
-
 
   return (
     <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -59,15 +38,11 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         >
           <input
             type="text"
-            value={inputValue}
-            onChange={handleInputChange}
             placeholder="Find contravention"
             className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
           />
           <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
         </form>
-        {message && <p className="mt-2 text-red-500">{message}</p>}
-
 
         <div className="flex items-center space-x-4">
           {/* <OpenNotification /> */}

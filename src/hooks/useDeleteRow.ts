@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 interface useDeleteRowProps {
   openDropdownIndex: number | null;
-  data?: any;
+  data: any;
   showConfirmButton: boolean;
   selectedDataIndex: number | null;
   toggleDropdown: (index: number) => void;

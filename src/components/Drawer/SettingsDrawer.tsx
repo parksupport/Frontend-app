@@ -1,5 +1,5 @@
 // SettingsDrawer.tsx
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import Button from "../Buttons";
@@ -8,20 +8,15 @@ import { Switch } from "@/components/ui/switch";
 import InputField from "../InputField";
 import { useRouter } from "next/navigation";
 import ModalComponent from "../ModalComponent";
-import {  useDisclosure } from "@chakra-ui/react";
-import ThirdPartyNominees from "../card/ThirdPartyNominee";
-import Drawer from "./Drawer";
+import { useDisclosure } from "@chakra-ui/react";
 
-const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openNotificationRep }) => {
+const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [isOpen, setIsOpen] = useState(false);
-
 
   const [smsNotifications, setSmsNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [isPopup, setIsPopup] = useState(false);
   const router = useRouter();
-
 
   const [showForm, setShowForm] = useState(false);
 
@@ -29,11 +24,7 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openNotificationRe
     newPassword: "",
     confirmPassword: "",
   });
-  // const openDrawer = () => {
-  //   if (!isOpen) {
-  //     setIsOpen(true);
-  //   }
-  // };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -49,8 +40,6 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openNotificationRe
   const toggleForm = () => {
     setShowForm((prev) => !prev);
   };
-
-  
 
   return (
     <div className="">
@@ -83,9 +72,7 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openNotificationRe
             >
               Add a Notification Recipient
             </Button>
-            <div className="cursor-pointer">
-            <PlusButtonSVG onClick={openNotificationRep} />
-            </div>
+            <PlusButtonSVG />
           </div>
         </div>
         {/* Billing and Payment */}
@@ -225,11 +212,8 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openNotificationRe
           </div>
         </div>
       </div>
-   
     </div>
   );
 };
 
 export default SettingsDrawer;
-
-

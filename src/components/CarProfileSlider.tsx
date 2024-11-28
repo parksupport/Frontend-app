@@ -284,7 +284,7 @@ const handleSliderChange = (index: number) => {
                                                     <TicketSVG />
                                                 </span>
                                                 <span className="text-[13px]">
-                                                    Contravention Status:{" "}
+                                                    Verification Status:{" "}
                                                 </span>
                                             </div>
                                             <button className="text-[#099137] text-[13px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
@@ -300,7 +300,7 @@ const handleSliderChange = (index: number) => {
                                                     <GroupUserSVG />
                                                 </span>
                                                 <span className="text-[13px]">
-                                                    Third Party Nominate:{" "}
+                                                   Notification Recipient:{" "}
                                                 </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px]  self-end">

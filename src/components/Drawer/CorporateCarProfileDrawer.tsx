@@ -57,7 +57,7 @@ export const CorporateCarProfileDrawer = ({
                 <th
                   className={`py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                 >
-                  Reg number
+                  Reg No.
                 </th>
                 <th
                   className={`py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
@@ -67,12 +67,12 @@ export const CorporateCarProfileDrawer = ({
                 <th
                   className={`py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
                 >
-                  Contravention Status
+                  Verification Status
                 </th>
                 <th
                   className={`py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                 >
-                  Notification Recipients
+                  Notification Recipient
                 </th>
                 <th
                   className={`py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}

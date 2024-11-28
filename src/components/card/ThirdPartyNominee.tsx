@@ -23,6 +23,7 @@ export default function ThirdPartyNominees({
   toggleForm,
   nominees,
 }: ThirdPartyNomineesProps) {
+  const ThirdPartyNominee = nominees.nominees;
   const {
     openDropdownIndex,
     data,
@@ -33,7 +34,7 @@ export default function ThirdPartyNominees({
     showDeleteConfirmation,
     cancelDelete,
     setShowConfirmButton,
-  } = useDeleteRow(nominees);
+  } = useDeleteRow(ThirdPartyNominee);
 
   const isMobile = useIsMobile();
 
@@ -44,15 +45,15 @@ export default function ThirdPartyNominees({
       {/* Header */}
       <div className="flex items-center justify-center gap-10 mb-2">
         <h1
-          className={`text-[22px]  md:text-[24px] text-black ${groteskTextMedium.className}`}
+          className={`whitespace-nowrap text-[22px]  md:text-[20px] text-black ${groteskTextMedium.className}`}
         >
-          Notification Recipients
+          {`Notification Recipient History for Vehicle ${nominees.registrationNumber} `}
         </h1>
         <div
-          className={` hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
+          className={` whitespace-nowrap hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
           onClick={() => toggleForm(true)}
         >
-          Go back
+          Add Recipient
         </div>
       </div>
 
@@ -84,14 +85,16 @@ export default function ThirdPartyNominees({
 
 interface AddThirdPartyNomineeProps {
   vehiclesRegNunbers?: any;
-  toggleForm?: () => void;
+  toggleForm?: any;
   addVehicle?: () => void;
+  nominees?: any;
 }
 
 export function AddThirdPartyNominee({
   vehiclesRegNunbers,
   toggleForm,
   addVehicle,
+  nominees,
 }: AddThirdPartyNomineeProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -131,16 +134,7 @@ export function AddThirdPartyNominee({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    /*************  ✨ Codeium Command ⭐  *************/
-    /**
-     * Handles input change in the form fields. Updates the formData state with the
-     * input name and value.
-     * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
-     */
-    /******  0afe57c0-de5d-441b-9324-ac241e548858  *******/ const {
-      name,
-      value,
-    } = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -155,11 +149,11 @@ export function AddThirdPartyNominee({
   return (
     <div className="py-12 mb-[300px] ">
       <div className="flex flex-col  ">
-        <div className="flex items-center justify-center gap-4 mb-4  md:gap-10 ">
+        <div className="flex items-center justify-center gap-4 mb-4  ">
           <h1
             className={`text-wrap text-black text-[22px] md:text-[24px]  ${groteskTextMedium.className}`}
           >
-            Add Notification Recipient
+            {`Add Notification Recipient for Vehicle ${nominees.registrationNumber} `}
           </h1>
           <div
             className={`text-[#4169E1] text-[18px] hover:underline ${groteskTextMedium.className}`}
@@ -254,7 +248,12 @@ const NomineeDesktop = ({
             <th
               className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}
             >
-              Lease
+              Start Date
+            </th>
+            <th
+              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}
+            >
+              End Date
             </th>
           </tr>
         </thead>
@@ -310,7 +309,16 @@ const NomineeDesktop = ({
                 className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
               >
                 <TruncatedText
-                  text={nominee.lease}
+                  text={nominee.startDate}
+                  maxLength={10}
+                  className={` ${groteskText.className}`}
+                />
+              </td>
+              <td
+                className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
+              >
+                <TruncatedText
+                  text={nominee.endDate}
                   maxLength={10}
                   className={` ${groteskText.className}`}
                 />
@@ -459,12 +467,25 @@ export const NomineeMobile = ({
               </div>
               <div className="flex justify-between">
                 <span className={`${groteskText.className} text-gray-500`}>
-                  Lease
+                  Start Date
                 </span>
 
                 <div className={`${groteskText.className} text-black`}>
                   <TruncatedText
-                    text={nominee.lease}
+                    text={nominee.start_date}
+                    maxLength={22}
+                    className={`${groteskText.className} text-black`}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <span className={`${groteskText.className} text-gray-500`}>
+                  End Date
+                </span>
+
+                <div className={`${groteskText.className} text-black`}>
+                  <TruncatedText
+                    text={nominee.end_date}
                     maxLength={22}
                     className={`${groteskText.className} text-black`}
                   />

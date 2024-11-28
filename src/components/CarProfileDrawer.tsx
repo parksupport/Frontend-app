@@ -184,7 +184,7 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
                                                 <span className="text-[13px]">Registration number: </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px] self-end">
-                                                {car.registrationNo}
+                                                {car.registrationNumber}
                                             </span>
                                         </h2>
                                         <h2
@@ -197,7 +197,7 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
                                                 <span className="text-[13px]">Owner: </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px] self-end">
-                                                {car.ownerName}
+                                                {car.owner}
                                             </span>
                                         </h2>
                                         {/* <h2
@@ -242,7 +242,8 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
                                                 </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px]  self-end">
-                                                {car.thirdPartyNominate}
+                                                {/* {car.thirdPartyNominate} */}
+                                                pending
                                             </span>
                                         </h2>
 
@@ -258,7 +259,9 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
                                                 </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px]  self-end">
-                                                {car.thirdPartyNominate}
+                                                {/* {car.thirdPartyNominate} */}
+
+                                                Yellow
                                             </span>
                                         </h2>
                                         <h2
@@ -273,7 +276,8 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
                                                 </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px]  self-end">
-                                                {car.thirdPartyNominate}
+                                                {/* {car.thirdPartyNominate} */}
+                                                Toyota
                                             </span>
                                         </h2>
 

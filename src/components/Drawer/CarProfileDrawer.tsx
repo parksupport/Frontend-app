@@ -38,6 +38,8 @@ const CarProfileDrawer = ({
           }))}
           toggleForm={setForm}
           addVehicle={addVehicleDetails}
+          nominees={
+            vehicles?.carDetails?.[selectedVehicleIndex] || []}
         />
       );
     } else {
@@ -45,7 +47,7 @@ const CarProfileDrawer = ({
         <ThirdPartyNominees
           toggleForm={setForm}
           nominees={
-            vehicles?.carDetails?.[selectedVehicleIndex]?.nominees || []
+            vehicles?.carDetails?.[selectedVehicleIndex] || []
           }
         />
       );

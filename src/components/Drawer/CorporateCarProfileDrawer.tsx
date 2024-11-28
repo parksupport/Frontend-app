@@ -201,12 +201,12 @@ export const CorporateCarProfileDrawer = ({
             }))}
             toggleForm={setForm}
             addVehicle={addVehicleDetails}
-            nominees={selectedNominee}
+            nominees={selectedNominee || []}
           />
         ) : (
           <ThirdPartyNominees
             toggleForm={setForm}
-            nominees={selectedNominee?.nominees || []}
+            nominees={selectedNominee || []}
           />
         )}
       </div>

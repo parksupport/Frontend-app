@@ -31,14 +31,7 @@ import vehicle from "@/api/vehicle";
 import SearchSortModal from "./SearchSortModal";
 import useDeleteRow from "@/hooks/useDeleteRow";
 interface CarProfileSliderProps {
-  vehicles: {
-    imageUrl: string;
-    registrationNo: string;
-    ownerName: string;
-    contraventionStatus: string;
-    thirdPartyNominate: string;
-    // Add any other properties you need from the car object
-  };
+  vehicles:any;
   addVehicle: () => void;
   onVehicleChange?:any;
   user?:'User' | 'Corporate';

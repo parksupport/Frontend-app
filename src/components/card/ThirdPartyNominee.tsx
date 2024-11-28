@@ -519,7 +519,7 @@ export const NomineeMobile = ({
         </div>
 
         {showActions && (
-          <div className="rounded-[8px] bg-white absolute right-4 top-9  z-10">
+          <div className="rounded-[8px] bg-white absolute   z-10">
             <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
               <button
                 className={`w-full flex items-center px-[1px] py-2 text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}

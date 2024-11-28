@@ -13,9 +13,22 @@ import SearchSortModal from "../SearchSortModal";
 import ThirdPartyNominees, { AddThirdPartyNominee } from "../card/ThirdPartyNominee";
 import DrawerHeader from "./DrawerHeader";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+import ExpandedRow from "../ExpandedRow";
+import React from "react";
 
 const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
+
+  const [expandedRowIndex, setExpandedRowIndex] = useState(null);
+
+  const toggleRow = (index: any) => {
+    setExpandedRowIndex(expandedRowIndex === index ? null : index);
+    console.log(index)
+
+  
+  };
+
   const isMobile = useIsMobile();
+
   const [form, setForm] = useState(false);
 
   const dataFromAPI = [
@@ -54,35 +67,21 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
       color: "Red",
       make: "Tesla",
       dateAdded: "2023-11-04",
+
+      nominationHistory: [
+        {
+          name: 'John Doe',
+          nominationStatus: 'Active',
+          startDate: '2023-01-01',
+          endDate: '2023-12-31',
+          email: 'john@example.com',
+          phoneNo: '123-456-7890',
+        },
+      ]
     },
-    // {
-    //   registrationNumber: "45GH678T",
-    //   owner: "Chris P.",
-    //   contraventionStatus: "Verified",
-    //   thirdPartyNominee: "Chris P.",
-    //   color: "Silver",
-    //   make: "Honda",
-    //   dateAdded: "2023-11-05",
-    // },
-    // {
-    //   registrationNumber: "67UV345R",
-    //   owner: "Sandra K.",
-    //   contraventionStatus: "Pending",
-    //   thirdPartyNominee: "Sandra K.",
-    //   color: "Green",
-    //   make: "Chevrolet",
-    //   dateAdded: "2023-11-06",
-    // },
-    // {
-    //   registrationNumber: "90QR567L",
-    //   owner: "David H.",
-    //   contraventionStatus: "Verified",
-    //   thirdPartyNominee: "Ella H.",
-    //   color: "Black",
-    //   make: "Audi",
-    //   dateAdded: "2023-11-07",
-    // },
+    // Additional objects can go here
   ];
+  
 
   const {
     openDropdownIndex,
@@ -95,6 +94,8 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
     cancelDelete,
     setData,
   } = useDeleteRow(dataFromAPI);
+
+
 
   return (
     <>
@@ -112,7 +113,14 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
             title="Vehicle Overview"
             subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account.."
           />
-          <SearchSortModal data={data} setData={setData} />
+        <div className="flex items-center justify-end">
+        <SearchSortModal data={data} setData={setData} />
+        <button
+        className="ml-3 px-2 mt-[13px] py-2 rounded-[8px] text-gray-400 justify-center border"
+        >Nomination History
+        </button>
+
+        </div>
 
           <div className=" w-[100%]  bg-green-100  rounded-[16px] border border-gray-200        ">
             {/* <div> */}
@@ -120,6 +128,9 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
             <table className="min-w-full bg-white m-0 overflow-x-auto ">
               <thead>
                 <tr className={`${groteskTextMedium.className} text-[17px] `}>
+                <th
+                    className={` py-1 px-2 bg-gray-100 text-right font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className} `}
+                  ></th>
                   <th
                     className={` py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                   >
@@ -150,18 +161,40 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
                   >
                     Make
                   </th>
-                  <th
-                    className={` py-1 px-2 bg-gray-100 text-right font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className} `}
-                  ></th>
+             
                 </tr>
               </thead>
 
               <tbody>
                 {data.map((item, index) => (
-              <tr
-              key={index}
+                
+          <tr key={index} onClick={()=> toggleRow(index)}
+        
               className={`hover:bg-gray-50 border-t border-gray-200 text-[18px] ${groteskText.className}`}
-            >
+           >
+                <td
+                className={` ${groteskText.className} relative pt-2 text-end pr-5 whitespace-nowrap w-1/12`}
+              >
+                <button
+                  className="text-gray-500 hover:text-gray-900 px-4"
+                  onClick={() => toggleDropdown(index)}
+                >
+                  &#8942;
+                </button>
+                {openDropdownIndex === index && (
+                  <DeleteRowModal
+                    position={{ right: 0, top: 40 }}
+                    showConfirmButton={showConfirmButton}
+                    onEdit={() => {}}
+                    onRemove={() => showDeleteConfirmation(index)}
+                    onCancelDelete={cancelDelete}
+                    onConfirmDelete={() => handleDelete(index)}
+                    selectedDataIndex={selectedDataIndex}
+                    index={index}
+                    customStyles=""
+                  />
+                )}
+              </td>
               <td
                 className={` ${groteskText.className} px-6 text-sm text-gray-700 w-2/12 whitespace-nowrap`}
               >
@@ -209,44 +242,27 @@ const CorporateCarProfileDrawer = ({ toggleDrawer, addVehicleDetails }) => {
               >
                 {item.make}
               </td>
-              <td
-                className={` ${groteskText.className} relative pt-2 text-end pr-5 whitespace-nowrap w-1/12`}
-              >
-                <button
-                  className="text-gray-500 hover:text-gray-900 px-4"
-                  onClick={() => toggleDropdown(index)}
-                >
-                  &#8942;
-                </button>
-                {openDropdownIndex === index && (
-                  <DeleteRowModal
-                    position={{ right: 40, top: 40 }}
-                    showConfirmButton={showConfirmButton}
-                    onEdit={() => {}}
-                    onRemove={() => showDeleteConfirmation(index)}
-                    onCancelDelete={cancelDelete}
-                    onConfirmDelete={() => handleDelete(index)}
-                    selectedDataIndex={selectedDataIndex}
-                    index={index}
-                    customStyles=""
-                  />
-                )}
-              </td>
-            </tr>
             
-                ))}
+            </tr>
+                
+         ))}
               </tbody>
             </table>
+
+  
           </div>
-          <div className="pb-[200px] pt-[30px]">
+          {/* <div className="pb-[200px] pt-[30px]">
           {form ? (
         <AddThirdPartyNominee  toggleForm={setForm} addVehicle={addVehicleDetails} />
       ) : (
         <ThirdPartyNominees toggleForm={setForm} />
       )}
-          </div>
+          </div> */}
         </>
       )}
+                {expandedRowIndex && (
+  <ExpandedRow data={data[3].nominationHistory} />
+)}
     </>
   );
 };

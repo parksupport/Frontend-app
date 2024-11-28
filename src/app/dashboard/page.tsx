@@ -33,6 +33,7 @@ import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
+import ThirdPartyNominees from "@/components/card/ThirdPartyNominee";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -124,6 +125,18 @@ export default function DashboardPage() {
 
     openDrawer();
   };
+
+  const openNotificationRep = () => {
+    setDrawerContent(
+      <ThirdPartyNominees
+        // OpenRecipient={OpenRecipient}
+       
+      />
+    );
+
+    openDrawer();
+  };
+
   const openEducationalMaterials = () => {
     setDrawerContent(
       <EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />
@@ -190,6 +203,7 @@ export default function DashboardPage() {
   const openSettingsDrawer = () => {
     setDrawerContent(
       <SettingsDrawer
+      openNotificationRep={openNotificationRep}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />

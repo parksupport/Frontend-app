@@ -74,7 +74,7 @@ const validatePosition = (value)=> {
       <div className='justify-center items-center flex flex-col'>
       
       <h1 className={`text-[28px] text-[#000000] lg:text-[40px] ${groteskTextMedium.className} leading-[2.5rem]`}>Create your account</h1>
-      <p className={`text-[#667185] text-[16px] mt-[0] ${groteskText.className} lg:text-[18px] xl:text-[18px] 2xl:text-[18px] leading-[1.25rem] mt-[8px]` }>Enter the details of an authorized user</p>
+      <p className={`text-[#667185] text-[16px] mt-[0] ${groteskText.className} lg:text-[18px] xl:text-[18px] 2xl:text-[18px] leading-[1.25rem] mt-[8px]` }>Enter the details of an Account Administrator</p>
     </div>
         <form onSubmit={handleSubmit}  className="mt-[24px] lg:mt-[2.5rem] 4 ">
           <div>

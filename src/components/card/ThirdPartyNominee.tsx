@@ -15,11 +15,13 @@ import { CiEdit } from "react-icons/ci";
 import TruncatedText from "../ToggleComponent/TruncatedText";
 
 interface ThirdPartyNomineesProps {
-  toggleForm: (state: boolean) => void;
+  toggleForm?: (state: boolean) => void;
+ 
 }
 
 export default function ThirdPartyNominees({
   toggleForm,
+ 
 }: ThirdPartyNomineesProps) {
   const datafromAPI = [
     {

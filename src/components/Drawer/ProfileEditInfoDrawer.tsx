@@ -47,7 +47,16 @@ export function ProfileEditInfoDrawer({
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email) ? null : "Invalid email format";
   };
-
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    if (userRole === '!User') {
+      // Logic to send the changes for admin approval
+      alert('Changes to company information have been sent for admin approval.');
+    } else {
+      // Logic to save changes directly for individual users
+      back();
+    }
+  };
 
   const UserInputFields = [
     {
@@ -190,9 +199,7 @@ export function ProfileEditInfoDrawer({
             icon={<IoMdCheckmark size={25} />}
             iconPosition="right"
             disabled={!isChecked}
-            onClick={() => {
-              back();
-            }}
+            onClick={handleFormSubmit}
           >
             Save
           </Button>

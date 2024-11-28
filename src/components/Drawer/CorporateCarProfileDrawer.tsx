@@ -8,6 +8,7 @@ import ThirdPartyNominees, {
   AddThirdPartyNominee,
 } from "../card/ThirdPartyNominee";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 
 export const CorporateCarProfileDrawer = ({
@@ -16,8 +17,11 @@ export const CorporateCarProfileDrawer = ({
   vehicles,
   user,
 }) => {
+
   const isMobile = useIsMobile();
+
   const [form, setForm] = useState(false);
+
 
   const {
     openDropdownIndex,
@@ -42,9 +46,13 @@ export const CorporateCarProfileDrawer = ({
     }
   };
 
+
+
   return (
     <>
+
       <SearchSortModal data={data} setData={setData} />
+
 
       <div className="w-full z-0  rounded-[16px] border border-gray-200 relative">
         <div className="overflow-x-auto" style={{ paddingBottom: "50px" }}>
@@ -86,6 +94,7 @@ export const CorporateCarProfileDrawer = ({
                 </th>
               </tr>
             </thead>
+
 
             <tbody>
               {data.map((item, index) => (
@@ -132,6 +141,7 @@ export const CorporateCarProfileDrawer = ({
                   </td>
                   <td
                     className={` ${groteskText.className} px-6 text-sm text-gray-700 w-2/12 whitespace-nowrap`}
+
                   >
                     {item.registrationNumber}
                   </td>
@@ -184,12 +194,14 @@ export const CorporateCarProfileDrawer = ({
                   <td
                     className={` ${groteskText.className} px-6 text-sm text-gray-700 leading-none w-1/12 whitespace-nowrap`}
                   >
+
                     {item.make}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
         </div>
       </div>
 

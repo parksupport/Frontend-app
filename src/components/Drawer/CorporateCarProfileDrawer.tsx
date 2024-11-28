@@ -14,6 +14,7 @@ export const CorporateCarProfileDrawer = ({
   toggleDrawer,
   addVehicleDetails,
   vehicles,
+  user,
 }) => {
   const isMobile = useIsMobile();
   const [form, setForm] = useState(false);
@@ -202,6 +203,7 @@ export const CorporateCarProfileDrawer = ({
             toggleForm={setForm}
             addVehicle={addVehicleDetails}
             nominees={selectedNominee || []}
+            user={user}
           />
         ) : (
           <ThirdPartyNominees

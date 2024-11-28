@@ -75,6 +75,7 @@ const CarProfileDrawer = ({
           vehicles={vehicles}
           addVehicleDetails={addVehicleDetails}
           toggleDrawer={toggleDrawer}
+          user={user}
         />
       )}
     </div>

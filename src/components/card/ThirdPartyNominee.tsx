@@ -13,6 +13,7 @@ import Slider from "react-slick";
 import DeleteRowModal from "../DeleteRowModal";
 import { CiEdit } from "react-icons/ci";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+import StartDateForm from "../dataPicker";
 
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
@@ -88,6 +89,7 @@ interface AddThirdPartyNomineeProps {
   toggleForm?: any;
   addVehicle?: () => void;
   nominees?: any;
+  user?: any;
 }
 
 export function AddThirdPartyNominee({
@@ -95,6 +97,7 @@ export function AddThirdPartyNominee({
   toggleForm,
   addVehicle,
   nominees,
+  user,
 }: AddThirdPartyNomineeProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -179,16 +182,17 @@ export function AddThirdPartyNominee({
                 className={` ${groteskText.className} w-[90%] md:w-[65%] `}
               />
             ))}
-            <DropdownInputField
-              name="vehicle"
-              value={formData.vehicle}
-              options={vehiclesRegNunbers}
-              label="Choose Vehicle"
-              placeholder="Enter your Vehicle"
-              onChange={() => handleChange}
-              selectedValue=""
-              className={`text-[14px] text-[black]  ${groteskText.className} w-[90%] pb-4  md:w-[65%]`}
+           {user === "Corporate" &&( <div className="flex gap-3">
+
+            <StartDateForm label={"Enter Start Date"}
+            placeholder={"Enter Lease start date"}
+            className={` ${groteskText.className} w-[90%] md:w-[65%] `}
             />
+            <StartDateForm label={"Enter End Date"}
+            placeholder={"Enter Lease end date"}
+              className={` ${groteskText.className} w-[90%] md:w-[65%] `}
+            />
+            </div>)}
 
             <Button
               type="submit"

@@ -106,46 +106,19 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
       {/* Drawer Header */}
       <DrawerHeader
         toggleDrawer={back}
-        title="User Information"
-        subTitle="This section is all about the user’s personal details."
+        title={
+          userInfo === "User"
+            ? "User Information"
+            : " Corporate Information"
+        }
+        
+        subTitle={ userInfo === "User" ? "This section is all about the user’s personal details." : "This section is all about the corporate’s personal details."}
       />
 
       <div
         className={`${groteskText.className} flex flex-col items-center justify-center gap-5 mt-12 md:mx-2 mb-[150px]`}
       >
-        {/* Header Section */}
-        <div className="border border-[#D0D5DD] rounded-[16px] flex items-center justify-between bg-white p-4 w-full">
-          {/* User Info */}
-          <div className="flex items-center space-x-4 py-2 md:p-2">
-            <img
-              src={user?.profileImage || "https://via.placeholder.com/80"}
-              alt="Profile"
-              className="w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full object-cover"
-            />
-            <div>
-              <h1
-                className={`${groteskTextMedium.className} text-black text-[16px] md:text-[24px]`}
-              >
-                {user?.name || "User Name"}
-              </h1>
-              <p
-                className={` ${groteskText.className} text-[16px] md:text-[20px] text-gray-500`}
-              >
-                {user?.role || "User Role"}
-              </p>
-            </div>
-          </div>
-
-          {/* Edit Button */}
-          <button
-            className="  -mt-[30px]   md:-mt-[60px] flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
-            onClick={onEdit}
-          >
-            <span className={` text-black ${groteskText.className}`}>Edit</span>
-            <CiEdit color="black" size={20} />
-          </button>
-        </div>
-
+        
         {/* Dynamic Sections */}
         {(userInfo === "User" ? userInfoSections : conmpanyInfoSections).map(
           (section, index) => (
@@ -154,6 +127,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
               className=" border border-[#D0D5DD] rounded-[16px] px-3 py-5 md:p-2 w-full"
             >
               <div className="flex items-center justify-between">
+                
                 <h2
                   className={`${groteskTextMedium.className} text-black text-[20px] md:text-[24px] mb-4`}
                 >
@@ -191,7 +165,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
                       ) : (
                         <TruncatedText
                           text={field.value || field.label}
-                          maxLength={15}
+                          maxLength={10}
                           className={`${groteskText.className}`}
                         />
                       )}
@@ -202,6 +176,40 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
             </div>
           )
         )}
+
+        {/* Header Section */}
+        <div className="border border-[#D0D5DD] rounded-[16px] flex items-center justify-between bg-white p-4 w-full">
+          {/* User Info */}
+          <div className="flex items-center space-x-4 py-2 md:p-2">
+            <img
+              src={user?.profileImage || "https://via.placeholder.com/80"}
+              alt="Profile"
+              className="w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full object-cover"
+            />
+            <div>
+              <h1
+                className={`${groteskTextMedium.className} text-black text-[16px] md:text-[24px]`}
+              >
+                {user?.name || "User Name"}
+              </h1>
+              <p
+                className={` ${groteskText.className} text-[16px] md:text-[20px] text-gray-500`}
+              >
+                {user?.role || "User Role"}
+              </p>
+            </div>
+          </div>
+
+          {/* Edit Button */}
+          <button
+            className="  -mt-[30px]   md:-mt-[60px] flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
+            onClick={onEdit}
+          >
+            <span className={` text-black ${groteskText.className}`}>Edit</span>
+            <CiEdit color="black" size={20} />
+          </button>
+        </div>
+
       </div>
     </div>
   );

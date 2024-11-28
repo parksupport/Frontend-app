@@ -18,7 +18,7 @@ import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
-import cars from "@/data/data.json";
+// import cars from "@/data/data.json";
 import { useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
@@ -33,6 +33,9 @@ import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
+
+import ThirdPartyNominees from "@/components/card/ThirdPartyNominee";
+
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -58,24 +61,16 @@ export default function DashboardPage() {
     }
   };
 
-  const openCarProfile = (car: any) => {
-    console.log("Opening car profile for:", User);
-    if (User === "User") {
-      setDrawerContent(
-        <CarProfileDrawer
-          car={car}
-          toggleDrawer={toggleDrawer}
-          addVehicleDetails={addVehicleDetails}
-        />
-      );
-    } else {
-      setDrawerContent(
-        <CorporateCarProfileDrawer
-          toggleDrawer={toggleDrawer}
-          addVehicleDetails={addVehicleDetails}
-        />
-      );
-    }
+  const openCarProfile = (cars: any) => {
+    setDrawerContent(
+      <CarProfileDrawer
+        vehicles={cars}
+        toggleDrawer={toggleDrawer}
+        addVehicleDetails={addVehicleDetails}
+        user={User}
+      />
+    );
+
     scrollToTopFromParent();
     openDrawer();
   };
@@ -116,7 +111,7 @@ export default function DashboardPage() {
     setDrawerContent(
       <AddVehicleDetailsDrawer
         CheckVehicleOwner={CheckVehicleOwner}
-        back={openCarProfile}
+        back={() => openCarProfile(cars)}
         userRole={User}
       />
     );
@@ -124,6 +119,18 @@ export default function DashboardPage() {
 
     openDrawer();
   };
+
+  const openNotificationRep = () => {
+    setDrawerContent(
+      <ThirdPartyNominees
+        // OpenRecipient={OpenRecipient}
+       
+      />
+    );
+
+    openDrawer();
+  };
+
   const openEducationalMaterials = () => {
     setDrawerContent(
       <EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />
@@ -190,6 +197,7 @@ export default function DashboardPage() {
   const openSettingsDrawer = () => {
     setDrawerContent(
       <SettingsDrawer
+      openNotificationRep={openNotificationRep}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />
@@ -269,7 +277,8 @@ export default function DashboardPage() {
           <div className="w-full">
             <CarProfile
               addVehicleDetails={addVehicleDetails}
-              openCarProfile={openCarProfile}
+              openCarProfile={() => openCarProfile(cars)}
+              vehicles={cars}
             />
           </div>
 
@@ -299,15 +308,16 @@ export default function DashboardPage() {
 
         {/* FAQ Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6 relative justify-center items-center">
-  <div className="relative md:-mt-[30px] md:z-10 flex justify-center">
-    <EducationalMaterials openEducationalMaterials={openEducationalMaterials} />
-  </div>
-  <div className="relative md:-mt-[30px] md:z-20 flex justify-center">
-    {/* <FAQAccordion /> */}
-    <FAQComponents />
-  </div>
-</section>
-
+          <div className="relative md:-mt-[30px] md:z-10 flex justify-center">
+            <EducationalMaterials
+              openEducationalMaterials={openEducationalMaterials}
+            />
+          </div>
+          <div className="relative md:-mt-[30px] md:z-20 flex justify-center">
+            {/* <FAQAccordion /> */}
+            <FAQComponents />
+          </div>
+        </section>
       </main>
       <Drawer ref={drawerRef} isOpen={isOpen} toggleDrawer={toggleDrawer}>
         {drawerContent}

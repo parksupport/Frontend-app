@@ -5,6 +5,14 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from "react";
+import {
+  Drawer as ChakraDrawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+} from "@chakra-ui/react";
+import useIsMobile from "@/hooks/useIsMobile";
 
 interface DrawerProps {
   children: React.ReactNode;
@@ -19,6 +27,7 @@ const Drawer = forwardRef(
 
     // Create a ref for the drawer content that we will scroll to the top
     const drawerContentRef = useRef<HTMLDivElement>(null);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
       if (isOpen) {
@@ -31,48 +40,50 @@ const Drawer = forwardRef(
       };
     }, [isOpen]);
 
-  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    const target = event.currentTarget;
-    setIsAtTop(target.scrollTop === 0);
-    setIsAtBottom(
-      target.scrollHeight - target.scrollTop === target.clientHeight
-    );
-  };
+    const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+      const target = event.currentTarget;
+      setIsAtTop(target.scrollTop === 0);
+      setIsAtBottom(
+        target.scrollHeight - target.scrollTop === target.clientHeight
+      );
+    };
 
-  useImperativeHandle(ref, () => ({
-    scrollToTop: () => {
-      if (drawerContentRef.current) {
-        drawerContentRef.current.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    },
-  }));
+    useImperativeHandle(ref, () => ({
+      scrollToTop: () => {
+        if (drawerContentRef.current) {
+          drawerContentRef.current.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      },
+    }));
 
-  return (
-    <div>
-      {isOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={toggleDrawer}
-        ></div>
-      )}
-      <div
-        className={`fixed h-full md:h-auto w-full md:w-[32%] 
-          bg-white shadow-lg z-50 transform px-[10px] transition-transform duration-300 ease-in-out overflow-y-auto 
-          ${isOpen ? "translate-y-0 md:translate-x-0" : "translate-y-full md:translate-x-full"}
-          ${isAtTop ? "rounded-tl-[20px] rounded-tr-[20px] md:rounded-tr-none md:rounded-tl-[40px]" : ""} 
-          ${isAtBottom ? "rounded-bl-none md:rounded-bl-[40px]" : ""}
-          bottom-0 md:top-0 right-0 md:right-0`}
+    return (
+      <ChakraDrawer
+        isOpen={isOpen}
+        placement={isMobile ? "bottom" : "right"}
+        onClose={toggleDrawer}
+        size={isMobile ? "full" : ""}
+      >
+        <DrawerOverlay onClick={toggleDrawer} />
+        <DrawerContent
+          ref={drawerContentRef}
+          overflowY="auto"
           onScroll={handleScroll}
-          ref={drawerContentRef} // Attach the ref here to the drawer content
+          borderTopLeftRadius={isAtTop ? (isMobile ? "20px" : "40px") : "none"}
+          borderTopRightRadius={isAtTop ? (isMobile ? "20px" : "none") : "none"}
+          borderBottomLeftRadius={isAtBottom ? (isMobile ? "none" : "40px") : "none"}
+          borderBottomRightRadius={isAtBottom ? "none" : "none"}
+          sx={{
+            maxWidth: isMobile ? "100%" : "32%",
+            px: "8px",
+          }}
         >
-          {children}
-        </div>
-      </div>
+          <div>{children}</div>
+        </DrawerContent>
+      </ChakraDrawer>
     );
   }
 );
 
 Drawer.displayName = "Drawer";
-
 
 export default Drawer;

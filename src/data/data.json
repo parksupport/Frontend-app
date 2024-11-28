@@ -1,97 +1,176 @@
 {
-    "carDetails": [
-      {
-        "id": 1,
-        "imageUrl": "essentail-car.jpg",
-        "registrationNo": "ABC123",
-        "ownerName": "John Doe",
-        "contraventionStatus": "No existing ticket",
-        "thirdPartyNominate": "Added"
-      },
-      {
-        "id": 2,
-        "imageUrl": "bike.jpg",
-        "registrationNo": "XYZ789",
-        "ownerName": "Jane Smith",
-        "contraventionStatus": "No existing ticket",
-        "thirdPartyNominate": "Added"
-      },
-      {
-        "id": 3,
-        "imageUrl": "bus.jpg",
-        "registrationNo": "LMN456",
-        "ownerName": "Alice Johnson",
-        "contraventionStatus": "No existing ticket",
-        "thirdPartyNominate": "Added"
-      },
-      {
-        "id": 4,
-        "imageUrl": "jeep.jpg",
-        "registrationNo": "LMN456",
-        "ownerName": "Alice Johnson",
-        "contraventionStatus": "No existing ticket",
-        "thirdPartyNominate": "Added"
-      },
-      {
-        "id": 5,
-        "imageUrl": "truck.jpg",
-        "registrationNo": "LMN456",
-        "ownerName": "Alice Johnson",
-        "contraventionStatus": "No existing ticket",
-        "thirdPartyNominate": "Added"
-      }
-   
-    ],
-    "contravention": [
+  "carDetails": [
+    {
+      "id": 1,
+      "imageUrl": "essentail-car.jpg",
+      "registrationNumber": "16UK567B",
+      "owner": "Wisdom .O",
+      "status": "Verified",
+      "thirdPartyNominee": "Wisdom .O",
+      "color": "Black",
+      "make": "BMW",
+      "dateAdded": "2023-11-01",
+      "nominees": [
         {
-            "ticket": "Parking Violation",
-            "reg_num": "16UK567Y",
-            "issuing_auth": "Odili wisdom",
-            "fine_amount": "$50",
-            "status": "Unpaid",
-            "date": "in 5 days"
-          },
-          {
-              "ticket": "Speeding Violation",
-              "reg_num": "16UK567Y",
-              "issuing_auth": "Odili wisdom",
-              "fine_amount": "$50",
-              "status": "Unpaid",
-               "date": "in 5 days"
-          },
-          {
-              "ticket": "DUI Violaion",
-              "reg_num": "16UK567Y",
-              "issuing_auth": "Odili wisdom",
-              "fine_amount": "$50",
-              "status": "Unpaid",
-               "date": "in 5 days"
-          },
-          {
-              "ticket": "Parking Ticket",
-              "reg_num": "16UK567Y",
-              "issuing_auth": "Odili wisdom",
-              "fine_amount": "$50",
-              "status": "Unpaid",
-               "date": "in 5 days"
-          },
-          {
-              "ticket": "Parking Violation",
-              "reg_num": "16UK567Y",
-              "issuing_auth": "Odili wisdom",
-              "status": "Unpaid",
-              "fine_amount": "$50",
-               "date": "in 5 days"
-          },
-          {
-              "ticket": "Parking Violation",
-              "reg_num": "12/12/2023",
-              "issuing_auth": "Odili wisdom",
-              "fine_amount": "$50",
-              "status": "Unpaid",
-               "date": "in 5 days"
-          }
-       
-    ]
-  }
-  
+          "name": "Wisdom Odili",
+          "email": "Odiliwisdom5@gmail.com",
+          "phone": "+4456414644484",
+          "lease": "8 months",
+          "startDate": "2023-05-01",
+          "endDate": "2024-01-01"
+        },
+        {
+          "name": "Wisdom Odili",
+          "email": "Odiliwisdom5@gmail.com",
+          "phone": "+4456414644484",
+          "lease": "2 years",
+          "startDate": "2023-05-01",
+          "endDate": "2025-05-01"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "imageUrl": "bike.jpg",
+      "registrationNumber": "34JA890K",
+      "owner": "Jane D.",
+      "status": "Pending",
+      "thirdPartyNominee": "John D.",
+      "color": "White",
+      "make": "Toyota",
+      "dateAdded": "2023-11-02",
+      "nominees": [
+        {
+          "name": "Jane Doe",
+          "email": "jane.doe@gmail.com",
+          "phone": "+1234567890",
+          "lease": "12 months",
+          "startDate": "2023-11-02",
+          "endDate": "2024-11-02"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "imageUrl": "bus.jpg",
+      "registrationNumber": "87PL234X",
+      "owner": "Michael B.",
+      "status": "Verified",
+      "thirdPartyNominee": "Michael B.",
+      "color": "Blue",
+      "make": "Ford",
+      "dateAdded": "2023-11-03",
+      "nominees": [
+        {
+          "name": "Michael Brown",
+          "email": "michael.brown@gmail.com",
+          "phone": "+9876543210",
+          "lease": "1 year",
+          "startDate": "2023-11-03",
+          "endDate": "2024-11-03"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "imageUrl": "jeep.jpg",
+      "registrationNumber": "09XY123A",
+      "owner": "Oluwatomi Oyeniyi",
+      "status": "Not Verified",
+      "thirdPartyNominee": "Sophia C.",
+      "color": "Red",
+      "make": "Tesla",
+      "dateAdded": "2023-11-04",
+      "nominees": [
+        {
+          "name": "Omotayo Oyeniyi",
+          "email": "omotayo.oyeniyi@gmail.com",
+          "phone": "+1234567890",
+          "lease": "6 months",
+          "startDate": "2023-11-04",
+          "endDate": "2024-05-04"
+        },
+        {
+          "name": "Tomi Oyeniyi",
+          "email": "tomi.oyeniyi@gmail.com",
+          "phone": "+2345678901",
+          "lease": "2 years",
+          "startDate": "2023-11-04",
+          "endDate": "2025-11-04"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "imageUrl": "truck.jpg",
+      "registrationNumber": "45GH678T",
+      "owner": "Chris P.",
+      "status": "Verified",
+      "thirdPartyNominee": "Chris P.",
+      "color": "Silver",
+      "make": "Honda",
+      "dateAdded": "2023-11-05",
+      "nominees": [
+        {
+          "name": "Chris Parker",
+          "email": "chris.parker@gmail.com",
+          "phone": "+7894561230",
+          "lease": "10 months",
+          "startDate": "2023-11-05",
+          "endDate": "2024-09-05"
+        }
+      ]
+    }
+  ],
+
+  "contravention": [
+    {
+      "ticket": "Parking Violation",
+      "reg_num": "16UK567Y",
+      "issuing_auth": "Odili wisdom",
+      "fine_amount": "$50",
+      "status": "Unpaid",
+      "date": "in 5 days"
+    },
+    {
+      "ticket": "Speeding Violation",
+      "reg_num": "16UK567Y",
+      "issuing_auth": "Odili wisdom",
+      "fine_amount": "$50",
+      "status": "Unpaid",
+      "date": "in 5 days"
+    },
+    {
+      "ticket": "DUI Violaion",
+      "reg_num": "16UK567Y",
+      "issuing_auth": "Odili wisdom",
+      "fine_amount": "$50",
+      "status": "Unpaid",
+      "date": "in 5 days"
+    },
+    {
+      "ticket": "Parking Ticket",
+      "reg_num": "16UK567Y",
+      "issuing_auth": "Odili wisdom",
+      "fine_amount": "$50",
+      "status": "Unpaid",
+      "date": "in 5 days"
+    },
+    {
+      "ticket": "Parking Violation",
+      "reg_num": "16UK567Y",
+      "issuing_auth": "Odili wisdom",
+      "status": "Unpaid",
+      "fine_amount": "$50",
+      "date": "in 5 days"
+    },
+    {
+      "ticket": "Parking Violation",
+      "reg_num": "12/12/2023",
+      "issuing_auth": "Odili wisdom",
+      "fine_amount": "$50",
+      "status": "Unpaid",
+      "date": "in 5 days"
+    }
+  ]
+}

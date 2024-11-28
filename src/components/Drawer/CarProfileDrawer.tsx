@@ -4,16 +4,56 @@ import ThirdPartyNominees, {
 } from "../card/ThirdPartyNominee";
 import DrawerHeader from "./DrawerHeader";
 import CarProfileSlider from "../CarProfileSlider";
+import useIsMobile from "@/hooks/useIsMobile";
+import CorporateCarProfileDrawer from "./CorporateCarProfileDrawer";
 
-
-interface CarProfileDrawerProps{
-  car:any;
-  toggleDrawer:any;
-  addVehicleDetails:any
+interface CarProfileDrawerProps {
+  vehicles: any;
+  toggleDrawer: any;
+  addVehicleDetails: any;
+  user: any;
 }
 
-const CarProfileDrawer = ({ car, toggleDrawer, addVehicleDetails }: CarProfileDrawerProps) => {
+const CarProfileDrawer = ({
+  vehicles,
+  toggleDrawer,
+  addVehicleDetails,
+  user,
+}: CarProfileDrawerProps) => {
   const [form, setForm] = useState(false);
+  const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
+  const isMobile = useIsMobile();
+
+  const handleVehicleChange = (index: number) => {
+    setSelectedVehicleIndex(index); // Update the selected vehicle when slider changes
+  };
+
+  const renderNomineeSection = () => {
+    if (form) {
+      return (
+        <AddThirdPartyNominee
+          vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
+            value: vehicle.registrationNumber,
+            label: vehicle.registrationNumber, // You can customize the label here
+          }))}
+          toggleForm={setForm}
+          addVehicle={addVehicleDetails}
+          nominees={
+            vehicles?.carDetails?.[selectedVehicleIndex] || []}
+        />
+      );
+    } else {
+      return (
+        <ThirdPartyNominees
+          toggleForm={setForm}
+          nominees={
+            vehicles?.carDetails?.[selectedVehicleIndex] || []
+          }
+        />
+      );
+    }
+  };
+
   return (
     <div className="w-full">
       <DrawerHeader
@@ -21,11 +61,22 @@ const CarProfileDrawer = ({ car, toggleDrawer, addVehicleDetails }: CarProfileDr
         title="Vehicle Overview"
         subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account.."
       />
-      <CarProfileSlider car={car} addVehicle={addVehicleDetails}   />
-      {form ? (
-        <AddThirdPartyNominee vehicle={car} toggleForm={setForm} addVehicle={addVehicleDetails} />
+      {user === "User" || isMobile ? (
+        <>
+          <CarProfileSlider
+            vehicles={vehicles}
+            addVehicle={addVehicleDetails}
+            onVehicleChange={handleVehicleChange}
+          />
+          {renderNomineeSection()}
+        </>
       ) : (
-        <ThirdPartyNominees toggleForm={setForm} />
+        <CorporateCarProfileDrawer
+          vehicles={vehicles}
+          addVehicleDetails={addVehicleDetails}
+          toggleDrawer={toggleDrawer}
+          user={user}
+        />
       )}
     </div>
   );

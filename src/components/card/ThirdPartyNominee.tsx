@@ -1,5 +1,5 @@
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -13,140 +13,22 @@ import Slider from "react-slick";
 import DeleteRowModal from "../DeleteRowModal";
 import { CiEdit } from "react-icons/ci";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+import StartDateForm from "../dataPicker";
 
 interface ThirdPartyNomineesProps {
-  toggleForm?: (state: boolean) => void;
- 
+
+  toggleForm: (state: boolean) => void;
+  nominees: any;
+
 }
 
 export default function ThirdPartyNominees({
   toggleForm,
- 
+
+  nominees,
+
 }: ThirdPartyNomineesProps) {
-  const datafromAPI = [
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Ford",
-    },
-    {
-      name: "Omotayo Oyeniyi",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Chevrolet",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Toyota",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Honda",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Jeep Cherokee",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Jeep Cherokee",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Jeep Cherokee",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Jeep Cherokee",
-    },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-  ];
-
+  const ThirdPartyNominee = nominees.nominees;
   const {
     openDropdownIndex,
     data,
@@ -157,24 +39,26 @@ export default function ThirdPartyNominees({
     showDeleteConfirmation,
     cancelDelete,
     setShowConfirmButton,
-  } = useDeleteRow(datafromAPI);
+  } = useDeleteRow(ThirdPartyNominee);
 
   const isMobile = useIsMobile();
+
+  console.log("data", data);
 
   return (
     <div className="py-12 mb-[300px]">
       {/* Header */}
       <div className="flex items-center justify-center gap-10 mb-2">
         <h1
-          className={`text-[22px]  md:text-[24px] text-black ${groteskTextMedium.className}`}
+          className={`whitespace-nowrap text-[22px]  md:text-[20px] text-black ${groteskTextMedium.className}`}
         >
-          Notification Recipients
+          {`Notification Recipient History for Vehicle ${nominees.registrationNumber} `}
         </h1>
         <div
-          className={` hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
+          className={` whitespace-nowrap hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
           onClick={() => toggleForm(true)}
         >
-          Go back
+          Add Recipient
         </div>
       </div>
 
@@ -205,15 +89,19 @@ export default function ThirdPartyNominees({
 }
 
 interface AddThirdPartyNomineeProps {
-  vehicle?: any;
-  toggleForm?: (state: boolean) => void;
+  vehiclesRegNunbers?: any;
+  toggleForm?: any;
   addVehicle?: () => void;
+  nominees?: any;
+  user?: any;
 }
 
 export function AddThirdPartyNominee({
-  vehicle,
+  vehiclesRegNunbers,
   toggleForm,
   addVehicle,
+  nominees,
+  user,
 }: AddThirdPartyNomineeProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -268,11 +156,11 @@ export function AddThirdPartyNominee({
   return (
     <div className="py-12 mb-[300px] ">
       <div className="flex flex-col  ">
-        <div className="flex items-center justify-center gap-4 mb-4  md:gap-10 ">
+        <div className="flex items-center justify-center gap-4 mb-4  ">
           <h1
             className={`text-wrap text-black text-[22px] md:text-[24px]  ${groteskTextMedium.className}`}
           >
-            Add Notification Recipient
+            {`Add Notification Recipient for Vehicle ${nominees.registrationNumber} `}
           </h1>
           <div
             className={`text-[#4169E1] text-[18px] hover:underline ${groteskTextMedium.className}`}
@@ -284,37 +172,6 @@ export function AddThirdPartyNominee({
 
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4  items-center">
-            {/* <InputField
-              type="text"
-              placeholder="Enter your full name"
-              label="Name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              variant="individual"
-              className={`  ${groteskText.className} w-[90%]  md:w-[50%]`}
-            />
-            <InputField
-              type="email"
-              placeholder="Enter your email address"
-              label="Email Address"
-              name="email_address"
-              value={formData.email_address}
-              onChange={handleChange}
-              validationRules={validateEmail}
-              variant="individual"
-              className={`  ${groteskText.className} w-[90%]  md:w-[50%] `}
-            />
-            <InputField
-              type="text"
-              placeholder="Enter your phone number"
-              label="Phone Number"
-              name="phone_number"
-              value={formData.phone_number}
-              onChange={handleChange}
-              variant="individual"
-              className={`  ${groteskText.className} w-[90%]  md:w-[50%] `}
-            /> */}
             {UserInputFields.map((field) => (
               <InputField
                 key={field.name} // Unique key for each input field
@@ -329,28 +186,28 @@ export function AddThirdPartyNominee({
                 className={` ${groteskText.className} w-[90%] md:w-[65%] `}
               />
             ))}
-            <DropdownInputField
-              name="vehicle"
-              value={formData.vehicle}
-              options={[
-                { value: "option1", label: "Option 1" },
-                { value: "option2", label: "Option 2" },
-                { value: "option3", label: "Option 3" },
-              ]}
-              label="Choose Vehicle"
-              placeholder="Enter your Vehicle"
-              onChange={() => handleChange}
-              selectedValue=""
-              className={`text-[14px] text-[black]  ${groteskText.className} w-[90%] pb-4  md:w-[65%]`}
+           {user === "Corporate" &&( <div className="flex gap-3">
+
+            <StartDateForm label={"Enter Start Date"}
+            placeholder={"Enter Lease start date"}
+            className={` ${groteskText.className} w-[90%] md:w-[65%] `}
             />
+            <StartDateForm label={"Enter End Date"}
+            placeholder={"Enter Lease end date"}
+              className={` ${groteskText.className} w-[90%] md:w-[65%] `}
+            />
+            </div>)}
 
             <Button
               type="submit"
               variant="quinary"
-              className=" py-[10px] px-[12px] w-[80%]   md:w-[65%]  "
-              onClick={addVehicle}
+              className="py-[10px] px-[12px] w-[80%] md:w-[65%]"
+              onClick={() => {
+                // addVehicle();
+                toggleForm();
+              }}
             >
-              Add Vehicle
+              Add Nominee
             </Button>
           </div>
         </form>
@@ -371,11 +228,16 @@ const NomineeDesktop = ({
 }) => {
   return (
     <div className=" overflow-x-auto max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
-      <table className="overflow-auto-y min-w-full bg-white text-black ">
+      <table className="overflow-auto-y min-w-full bg-white text-black h-[200px] ">
         <thead>
           <tr
             className={`text-[#667185] text-[18px] border-b w-full ${groteskText.className}`}
           >
+            <th
+              className={`  ${groteskText.className} whitespace-nowrap  text-end px-2 w-[5%]`}
+            >
+              {" "}
+            </th>
             <th
               className={` ${groteskText.className} whitespace-nowrap py-2 px-3 text-left w-[20%] `}
             >
@@ -394,18 +256,40 @@ const NomineeDesktop = ({
             <th
               className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}
             >
-              Car
+              Start Date
             </th>
             <th
-              className={`  ${groteskText.className} whitespace-nowrap  text-end px-2 w-[5%]`}
+              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}
             >
-              {" "}
+              End Date
             </th>
           </tr>
         </thead>
         <tbody>
-          {nominees.map((nominee, index) => (
+          {nominees?.map((nominee, index) => (
             <tr key={index} className="hover:bg-gray-50 relative">
+              <td className="cursor-pointer pt-2 text-end  pr-2 whitespace-nowrap relative">
+                <button
+                  className=" text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
+                  onClick={() => toggleDropdown(index)}
+                >
+                  &#8942;
+                </button>
+                {openDropdownIndex === index && (
+                  <DeleteRowModal
+                    showConfirmButton={showConfirmButton}
+                    onEdit={() => {}}
+                    onRemove={() => showDeleteConfirmation(index)}
+                    onCancelDelete={cancelDelete}
+                    onConfirmDelete={() => handleDelete(index)}
+                    selectedDataIndex={selectedDataIndex}
+                    index={index}
+                    customStyles={`${groteskText.className} text-[14px]`}
+                    position={{ right: -110, top: 30 }}
+                    removeAddButton
+                  />
+                )}
+              </td>
               <td
                 className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
@@ -433,31 +317,19 @@ const NomineeDesktop = ({
                 className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
               >
                 <TruncatedText
-                  text={nominee.car}
-                  maxLength={8}
+                  text={nominee.startDate}
+                  maxLength={10}
                   className={` ${groteskText.className}`}
                 />
               </td>
-              <td className="cursor-pointer pt-2 text-end  pr-2 whitespace-nowrap relative">
-                <button
-                  className=" text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
-                  onClick={() => toggleDropdown(index)}
-                >
-                  &#8942;
-                </button>
-                {openDropdownIndex === index && (
-                  <DeleteRowModal
-                    showConfirmButton={showConfirmButton}
-                    onEdit={() => {}}
-                    onRemove={() => showDeleteConfirmation(index)}
-                    onCancelDelete={cancelDelete}
-                    onConfirmDelete={() => handleDelete(index)}
-                    selectedDataIndex={selectedDataIndex}
-                    index={index}
-                    customStyles={`${groteskText.className} text-[14px]`}
-                    position={{ right: 19, top: 30 }}
-                  />
-                )}
+              <td
+                className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
+              >
+                <TruncatedText
+                  text={nominee.endDate}
+                  maxLength={10}
+                  className={` ${groteskText.className}`}
+                />
               </td>
             </tr>
           ))}
@@ -523,19 +395,19 @@ export const NomineeMobile = ({
         {showActions && (
           <div className="rounded-[8px] bg-white absolute   z-10">
             <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
-              <button
+              {/* <button
                 className={`w-full flex items-center px-[1px] py-2 text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
                 onClick={() => {}}
               >
                 <CiEdit className="mr-2" />
                 Edit Nominee
-              </button>
+              </button> */}
               <button
                 className={`w-full flex items-center px-[1px] py-2 text-sm text-red-600 hover:bg-gray-100  ${groteskText.className}`}
                 onClick={() => showDeleteConfirmation(currentIndex)}
               >
                 <FiTrash2 className="mr-2" />
-                Remove Nominee
+                End Nomination
               </button>
             </div>
             {showConfirmButton && selectedDataIndex === currentIndex && (
@@ -603,12 +475,25 @@ export const NomineeMobile = ({
               </div>
               <div className="flex justify-between">
                 <span className={`${groteskText.className} text-gray-500`}>
-                  Car
+                  Start Date
                 </span>
 
                 <div className={`${groteskText.className} text-black`}>
-                <TruncatedText
-                    text={nominee.car}
+                  <TruncatedText
+                    text={nominee.start_date}
+                    maxLength={22}
+                    className={`${groteskText.className} text-black`}
+                  />
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <span className={`${groteskText.className} text-gray-500`}>
+                  End Date
+                </span>
+
+                <div className={`${groteskText.className} text-black`}>
+                  <TruncatedText
+                    text={nominee.end_date}
                     maxLength={22}
                     className={`${groteskText.className} text-black`}
                   />

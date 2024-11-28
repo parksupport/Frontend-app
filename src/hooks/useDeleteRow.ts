@@ -13,6 +13,7 @@ interface useDeleteRowProps {
   cancelDelete: () => void;
   setShowConfirmButton:any;
   setData:any;
+  setOpenDropdownIndex:any
 }
 
 export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
@@ -21,10 +22,14 @@ export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
   const [showConfirmButton, setShowConfirmButton] = useState(false);
   const [selectedDataIndex, setSelectedDataIndex] = useState<number | null>(null);
 
-//   useEffect(() => {
-//     setNominees(externalNominees);
-//   }, [externalNominees]);
+  useEffect(() => {
+    if (JSON.stringify(data) !== JSON.stringify(externalNominees)) {
+      setData(externalNominees);
+    }
+  }, [externalNominees, data]);
 
+  
+  
 
   const toggleDropdown = (index: number) => {
     setOpenDropdownIndex(openDropdownIndex === index ? null : index);
@@ -60,6 +65,7 @@ export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
     showDeleteConfirmation,
     cancelDelete,
     setShowConfirmButton,
-    setData
+    setData,
+    setOpenDropdownIndex
   };
 }

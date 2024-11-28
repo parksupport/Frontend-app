@@ -8,7 +8,6 @@ import TicketSVG from "@/assets/svg/ticket.svg";
 import { Button } from "@/components";
 
 import "@/components/Slider.css";
-import cars from "@/data/data.json";
 import { useAuthStore } from "@/lib/stores/useStore";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
@@ -28,8 +27,11 @@ import queryClient from "@/lib/tanstack-query/queryClient";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useDeleteCar } from "@/lib/tanstack-query/useDelete";
+import vehicle from "@/api/vehicle";
+import SearchSortModal from "./SearchSortModal";
+import useDeleteRow from "@/hooks/useDeleteRow";
 interface CarProfileSliderProps {
-  car: {
+  vehicles: {
     imageUrl: string;
     registrationNo: string;
     ownerName: string;
@@ -38,25 +40,46 @@ interface CarProfileSliderProps {
     // Add any other properties you need from the car object
   };
   addVehicle: () => void;
+  onVehicleChange?:any;
+  user?:'User' | 'Corporate';
 }
 
+
 // const deleteCar = async (carId: string): Promise<void> => {
-//   // await axios.delete(`/api/cars/${carId}`);
+  //   // await axios.delete(`/api/cars/${carId}`);
 // };
 
 const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
-  car,
+  vehicles,
   addVehicle,
+  onVehicleChange,
+  user,
 }) => {
+  console.log("CarProfileSliderProps", vehicles);
   const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    openDropdownIndex,
+    data,
+    showConfirmButton,
+    selectedDataIndex,
+    toggleDropdown,
+    // handleDelete,
+    showDeleteConfirmation,
+    cancelDelete,
+    setData,
+    setOpenDropdownIndex
+  } = useDeleteRow(vehicles?.carDetails);
+
   
   const [isOpenVehicle, setIsOpenVehicle] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
-  const [items, setItems] = useState(cars.carDetails)
+  // const [items, setItems] = useState(vehicles?.carDetails)
+  const [items, setItems] = useState(data)
  const mutation = useDeleteCar()
  const [currentSlide, setCurrentSlide] = useState(0);
  const sliderRef = useRef(null);
-const totalPages = cars.carDetails.length
+const totalPages = data?.length
  const settings = {
    dots: true,
    infinite: true,
@@ -64,6 +87,10 @@ const totalPages = cars.carDetails.length
    slidesToShow: 1,
    slidesToScroll: 1,
    beforeChange: (current) => setCurrentSlide(current),
+   afterChange: (current: number) => {
+    setCurrentSlide(current);
+    handleSliderChange(current); // Corrected here to use afterChange
+  },
  };
 
  const goToPrevious = () => {
@@ -93,14 +120,19 @@ const handleDelete = (carId: any) => {
   setItems(items.filter((item)=> item.id !== carId))
   console.log('item deleted')
 };
+
+const handleSliderChange = (index: number) => {
+  onVehicleChange(index); // Notify the parent about the vehicle change
+};
   
 
   return (
     <article className="max-w-[428px] w-full md:max-w-[580px]">
+      {user === "Corporate" && <SearchSortModal data={data} setData={setData} />}
       <div className=" bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[40px] ">
         <Slider ref={sliderRef} {...settings}>
-          {items.map((car, index) => (
-            <div key={car.id} className="">
+          {items?.map((car, index) => (
+            <div  key={car.id} className="">
               <div className="flex justify-between  ">
                 <h1
                   className={`text-[20px] text-[#000000] ${groteskTextMedium.className} `}
@@ -221,7 +253,7 @@ const handleDelete = (carId: any) => {
                                                 <span className="text-[13px]">Registration number: </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px] self-end">
-                                                {car.registrationNo}
+                                                {car.registrationNumber}
                                             </span>
                                         </h2>
                                         <h2
@@ -234,7 +266,7 @@ const handleDelete = (carId: any) => {
                                                 <span className="text-[13px]">Owner: </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px] self-end">
-                                                {car.ownerName}
+                                                {car.owner}
                                             </span>
                                         </h2>
                                         {/* <h2
@@ -263,7 +295,7 @@ const handleDelete = (carId: any) => {
                                                 </span>
                                             </div>
                                             <button className="text-[#099137] text-[13px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
-                                                Verified
+                                            {car.status} 
                                             </button>
                                         </h2>
 
@@ -279,7 +311,7 @@ const handleDelete = (carId: any) => {
                                                 </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px]  self-end">
-                                                {car.thirdPartyNominate}
+                                                {car.thirdPartyNominee}
                                             </span>
                                         </h2>
 
@@ -295,7 +327,7 @@ const handleDelete = (carId: any) => {
                                                 </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px]  self-end">
-                                                {car.thirdPartyNominate}
+                                                {car.color}
                                             </span>
                                         </h2>
                                         <h2
@@ -310,7 +342,7 @@ const handleDelete = (carId: any) => {
                                                 </span>
                                             </div>
                                             <span className="text-[#212121] text-[13px]  self-end">
-                                                {car.thirdPartyNominate}
+                                                {car.make}
                                             </span>
                                         </h2>
 

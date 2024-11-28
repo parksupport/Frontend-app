@@ -1,5 +1,5 @@
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -16,135 +16,13 @@ import TruncatedText from "../ToggleComponent/TruncatedText";
 
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
+  nominees: any;
 }
 
 export default function ThirdPartyNominees({
   toggleForm,
+  nominees,
 }: ThirdPartyNomineesProps) {
-  const datafromAPI = [
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Ford",
-    },
-    {
-      name: "Omotayo Oyeniyi",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Chevrolet",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Toyota",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Honda",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Jeep Cherokee",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Jeep Cherokee",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Jeep Cherokee",
-    },
-    {
-      name: "Wisdom Odili",
-      email: "Odiliwisdom5@gmail.com",
-      phone: "+4456414644484",
-      car: "Jeep Cherokee",
-    },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-    // {
-    //   name: "Wisdom Odili",
-    //   email: "Odiliwisdom5@gmail.com",
-    //   phone: "+44 5641 464 4484",
-    //   car: "Jeep Cherokee",
-    // },
-  ];
-
   const {
     openDropdownIndex,
     data,
@@ -155,9 +33,11 @@ export default function ThirdPartyNominees({
     showDeleteConfirmation,
     cancelDelete,
     setShowConfirmButton,
-  } = useDeleteRow(datafromAPI);
+  } = useDeleteRow(nominees);
 
   const isMobile = useIsMobile();
+
+  console.log("data", data);
 
   return (
     <div className="py-12 mb-[300px]">
@@ -203,13 +83,13 @@ export default function ThirdPartyNominees({
 }
 
 interface AddThirdPartyNomineeProps {
-  vehicle?: any;
-  toggleForm?: (state: boolean) => void;
+  vehiclesRegNunbers?: any;
+  toggleForm?: () => void;
   addVehicle?: () => void;
 }
 
 export function AddThirdPartyNominee({
-  vehicle,
+  vehiclesRegNunbers,
   toggleForm,
   addVehicle,
 }: AddThirdPartyNomineeProps) {
@@ -251,7 +131,16 @@ export function AddThirdPartyNominee({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    /*************  ✨ Codeium Command ⭐  *************/
+    /**
+     * Handles input change in the form fields. Updates the formData state with the
+     * input name and value.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The input change event.
+     */
+    /******  0afe57c0-de5d-441b-9324-ac241e548858  *******/ const {
+      name,
+      value,
+    } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -282,37 +171,6 @@ export function AddThirdPartyNominee({
 
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-4  items-center">
-            {/* <InputField
-              type="text"
-              placeholder="Enter your full name"
-              label="Name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              variant="individual"
-              className={`  ${groteskText.className} w-[90%]  md:w-[50%]`}
-            />
-            <InputField
-              type="email"
-              placeholder="Enter your email address"
-              label="Email Address"
-              name="email_address"
-              value={formData.email_address}
-              onChange={handleChange}
-              validationRules={validateEmail}
-              variant="individual"
-              className={`  ${groteskText.className} w-[90%]  md:w-[50%] `}
-            />
-            <InputField
-              type="text"
-              placeholder="Enter your phone number"
-              label="Phone Number"
-              name="phone_number"
-              value={formData.phone_number}
-              onChange={handleChange}
-              variant="individual"
-              className={`  ${groteskText.className} w-[90%]  md:w-[50%] `}
-            /> */}
             {UserInputFields.map((field) => (
               <InputField
                 key={field.name} // Unique key for each input field
@@ -330,11 +188,7 @@ export function AddThirdPartyNominee({
             <DropdownInputField
               name="vehicle"
               value={formData.vehicle}
-              options={[
-                { value: "option1", label: "Option 1" },
-                { value: "option2", label: "Option 2" },
-                { value: "option3", label: "Option 3" },
-              ]}
+              options={vehiclesRegNunbers}
               label="Choose Vehicle"
               placeholder="Enter your Vehicle"
               onChange={() => handleChange}
@@ -345,10 +199,13 @@ export function AddThirdPartyNominee({
             <Button
               type="submit"
               variant="quinary"
-              className=" py-[10px] px-[12px] w-[80%]   md:w-[65%]  "
-              onClick={addVehicle}
+              className="py-[10px] px-[12px] w-[80%] md:w-[65%]"
+              onClick={() => {
+                // addVehicle();
+                toggleForm();
+              }}
             >
-              Add Vehicle
+              Add Nominee
             </Button>
           </div>
         </form>
@@ -369,11 +226,16 @@ const NomineeDesktop = ({
 }) => {
   return (
     <div className=" overflow-x-auto max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
-      <table className="overflow-auto-y min-w-full bg-white text-black ">
+      <table className="overflow-auto-y min-w-full bg-white text-black h-[200px] ">
         <thead>
           <tr
             className={`text-[#667185] text-[18px] border-b w-full ${groteskText.className}`}
           >
+            <th
+              className={`  ${groteskText.className} whitespace-nowrap  text-end px-2 w-[5%]`}
+            >
+              {" "}
+            </th>
             <th
               className={` ${groteskText.className} whitespace-nowrap py-2 px-3 text-left w-[20%] `}
             >
@@ -392,18 +254,35 @@ const NomineeDesktop = ({
             <th
               className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}
             >
-              Car
-            </th>
-            <th
-              className={`  ${groteskText.className} whitespace-nowrap  text-end px-2 w-[5%]`}
-            >
-              {" "}
+              Lease
             </th>
           </tr>
         </thead>
         <tbody>
-          {nominees.map((nominee, index) => (
+          {nominees?.map((nominee, index) => (
             <tr key={index} className="hover:bg-gray-50 relative">
+              <td className="cursor-pointer pt-2 text-end  pr-2 whitespace-nowrap relative">
+                <button
+                  className=" text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
+                  onClick={() => toggleDropdown(index)}
+                >
+                  &#8942;
+                </button>
+                {openDropdownIndex === index && (
+                  <DeleteRowModal
+                    showConfirmButton={showConfirmButton}
+                    onEdit={() => {}}
+                    onRemove={() => showDeleteConfirmation(index)}
+                    onCancelDelete={cancelDelete}
+                    onConfirmDelete={() => handleDelete(index)}
+                    selectedDataIndex={selectedDataIndex}
+                    index={index}
+                    customStyles={`${groteskText.className} text-[14px]`}
+                    position={{ right: -110, top: 30 }}
+                    removeAddButton
+                  />
+                )}
+              </td>
               <td
                 className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
               >
@@ -431,31 +310,10 @@ const NomineeDesktop = ({
                 className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
               >
                 <TruncatedText
-                  text={nominee.car}
-                  maxLength={8}
+                  text={nominee.lease}
+                  maxLength={10}
                   className={` ${groteskText.className}`}
                 />
-              </td>
-              <td className="cursor-pointer pt-2 text-end  pr-2 whitespace-nowrap relative">
-                <button
-                  className=" text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
-                  onClick={() => toggleDropdown(index)}
-                >
-                  &#8942;
-                </button>
-                {openDropdownIndex === index && (
-                  <DeleteRowModal
-                    showConfirmButton={showConfirmButton}
-                    onEdit={() => {}}
-                    onRemove={() => showDeleteConfirmation(index)}
-                    onCancelDelete={cancelDelete}
-                    onConfirmDelete={() => handleDelete(index)}
-                    selectedDataIndex={selectedDataIndex}
-                    index={index}
-                    customStyles={`${groteskText.className} text-[14px]`}
-                    position={{ right: 19, top: 30 }}
-                  />
-                )}
               </td>
             </tr>
           ))}
@@ -521,13 +379,13 @@ export const NomineeMobile = ({
         {showActions && (
           <div className="rounded-[8px] bg-white absolute right-4 top-9  z-10">
             <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
-              <button
+              {/* <button
                 className={`w-full flex items-center px-[1px] py-2 text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
                 onClick={() => {}}
               >
                 <CiEdit className="mr-2" />
                 Edit Nominee
-              </button>
+              </button> */}
               <button
                 className={`w-full flex items-center px-[1px] py-2 text-sm text-red-600 hover:bg-gray-100  ${groteskText.className}`}
                 onClick={() => showDeleteConfirmation(currentIndex)}
@@ -601,12 +459,12 @@ export const NomineeMobile = ({
               </div>
               <div className="flex justify-between">
                 <span className={`${groteskText.className} text-gray-500`}>
-                  Car
+                  Lease
                 </span>
 
                 <div className={`${groteskText.className} text-black`}>
-                <TruncatedText
-                    text={nominee.car}
+                  <TruncatedText
+                    text={nominee.lease}
                     maxLength={22}
                     className={`${groteskText.className} text-black`}
                   />

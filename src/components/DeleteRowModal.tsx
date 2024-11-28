@@ -65,7 +65,7 @@ const DeleteRowModal = ({
           onClick={onRemove}
         >
           <FiTrash2 className="mr-2" />
-          Remove Nominee
+         End Nomination
         </button>
         )}
       </div>

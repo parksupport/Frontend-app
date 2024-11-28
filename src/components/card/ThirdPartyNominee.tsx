@@ -399,7 +399,7 @@ export const NomineeMobile = ({
                 onClick={() => showDeleteConfirmation(currentIndex)}
               >
                 <FiTrash2 className="mr-2" />
-                Remove Nominee
+                End Nomination
               </button>
             </div>
             {showConfirmButton && selectedDataIndex === currentIndex && (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTable, useSortBy } from 'react-table';
+import { FaSortUp, FaSortDown } from 'react-icons/fa';
 
 const NominationHistory = () => {
   const data = React.useMemo(
@@ -34,14 +35,25 @@ const NominationHistory = () => {
       {
         Header: 'Nomination Status',
         accessor: 'nominationStatus',
+        Cell: ({ value }) => (
+          <span
+            className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+              value === 'Approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+            }`}
+          >
+            {value}
+          </span>
+        ),
       },
       {
         Header: 'Start Date',
         accessor: 'startDate',
+        Cell: ({ value }) => new Date(value).toLocaleDateString(),
       },
       {
         Header: 'End Date',
         accessor: 'endDate',
+        Cell: ({ value }) => new Date(value).toLocaleDateString(),
       },
       {
         Header: 'Email',
@@ -55,34 +67,41 @@ const NominationHistory = () => {
     []
   );
 
+  const tableInstance = useTable({ columns, data }, useSortBy);
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data }, useSortBy);
+  } = tableInstance;
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold text-center mb-6">Nomination History</h1>
       <div className="overflow-x-auto">
-        <table {...getTableProps()} className="min-w-full divide-y divide-gray-200">
+        <table {...getTableProps()} className="min-w-full w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
+              <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id}>
                 {headerGroup.headers.map(column => (
                   <th
                     {...column.getHeaderProps(column.getSortByToggleProps())}
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider cursor-pointer"
+                    key={column.id}
                   >
                     {column.render('Header')}
-                    <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? ' 🔽'
-                          : ' 🔼'
-                        : ''}
+                    <span className="inline-block ml-2">
+                      {column.isSorted ? (
+                        column.isSortedDesc ? (
+                          <FaSortDown aria-label="sorted descending" />
+                        ) : (
+                          <FaSortUp aria-label="sorted ascending" />
+                        )
+                      ) : (
+                        ''
+                      )}
                     </span>
                   </th>
                 ))}
@@ -90,18 +109,30 @@ const NominationHistory = () => {
             ))}
           </thead>
           <tbody {...getTableBodyProps()} className="bg-white divide-y divide-gray-200">
-            {rows.map(row => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <td {...cell.getCellProps()} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {cell.render('Cell')}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
+            {rows.length > 0 ? (
+              rows.map(row => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()} key={row.id}>
+                    {row.cells.map(cell => (
+                      <td
+                        {...cell.getCellProps()}
+                        className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                        key={cell.column.id}
+                      >
+                        {cell.render('Cell')}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={columns.length} className="px-6 py-4 text-center">
+                  No data available.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

@@ -146,7 +146,7 @@ const CorporateSignupPage = ({onContinue}) => {
           <div>
             <InputField
               type="email"
-              placeholder="Enter your general company email"
+              placeholder="Enter your company email"
               label="Company Email"
               name="company_email"
               value={formData.company_email}
@@ -159,8 +159,8 @@ const CorporateSignupPage = ({onContinue}) => {
           <div>
             <InputField
               type="number"
-              placeholder="Enter your general company number"
-              label="General Company Number"
+              placeholder="Enter your company number"
+              label="Company Number"
               name="company_phone_number"
               value={formData.company_phone_number}
               onChange={handleChange}

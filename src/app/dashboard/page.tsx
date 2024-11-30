@@ -18,7 +18,7 @@ import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
-// import cars from "@/data/data.json";
+import cars from "@/data/data.json";
 import { useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
@@ -265,7 +265,7 @@ export default function DashboardPage() {
               className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-black text-[10px] md:text-[12px]"
               onClick={onOpen}
             >
-              Change plan
+              Subscription
             </button>
           </div>
 

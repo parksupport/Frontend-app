@@ -13,20 +13,17 @@ import Slider from "react-slick";
 import DeleteRowModal from "../DeleteRowModal";
 import { CiEdit } from "react-icons/ci";
 import TruncatedText from "../ToggleComponent/TruncatedText";
-import StartDateForm from "../dataPicker";
+import StartDateForm, { CustomDatePicker } from "../dataPicker";
 
 interface ThirdPartyNomineesProps {
-
   toggleForm: (state: boolean) => void;
   nominees: any;
-
 }
 
 export default function ThirdPartyNominees({
   toggleForm,
 
   nominees,
-
 }: ThirdPartyNomineesProps) {
   const ThirdPartyNominee = nominees.nominees;
   const {
@@ -48,18 +45,23 @@ export default function ThirdPartyNominees({
   return (
     <div className="py-12 mb-[300px]">
       {/* Header */}
-      <div className="flex items-center justify-center gap-10 mb-2">
-        <h1
-          className={`whitespace-nowrap text-[22px]  md:text-[20px] text-black ${groteskTextMedium.className}`}
-        >
-          {`Notification Recipient History for Vehicle ${nominees.registrationNumber} `}
-        </h1>
-        <div
-          className={` whitespace-nowrap hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
+      <div className="flex justify-center gap-4 mb-6">
+        <div className="text-center">
+          <h1
+            className={`text-wrap text-black text-[22px] md:text-[24px] ${groteskTextMedium.className}`}
+          >
+            {`Vehicle ${nominees.registrationNumber}`}
+          </h1>
+          <h1 className={`${groteskText.className} text-[18px] leading-none`}>
+            Notification Recipient History
+          </h1>
+        </div>
+        <button
+          className={`whitespace-nowrap hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
           onClick={() => toggleForm(true)}
         >
           Add Recipient
-        </div>
+        </button>
       </div>
 
       {isMobile ? (
@@ -103,11 +105,14 @@ export function AddThirdPartyNominee({
   nominees,
   user,
 }: AddThirdPartyNomineeProps) {
+  const [hasError, setHasError] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
     vehicle: "",
     phone_number: "",
+    start_date: "",
+    end_date: "",
   });
 
   const UserInputFields = [
@@ -124,7 +129,6 @@ export function AddThirdPartyNominee({
       label: "Email Address",
       name: "email_address",
       value: formData.email_address,
-      // validationRules: validateEmail,
     },
     {
       type: "text",
@@ -135,9 +139,27 @@ export function AddThirdPartyNominee({
     },
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // login(formData);
+
+    // Trigger date validation before submitting
+    handleDateValidation();
+
+    if (!hasError) {
+      // Proceed with form submission logic, e.g., addVehicle();
+      toggleForm(false); // Close the form after submission
+    }
+  };
+
+  const handleDateValidation = () => {
+    const startDate = new Date(formData.start_date);
+    const endDate = new Date(formData.end_date);
+
+    if (startDate >= endDate) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -148,22 +170,24 @@ export function AddThirdPartyNominee({
     }));
   };
 
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) ? null : "Invalid email format";
-  };
+
 
   return (
     <div className="py-12 mb-[300px] ">
-      <div className="flex flex-col  ">
-        <div className="flex items-center justify-center gap-4 mb-4  ">
-          <h1
-            className={`text-wrap text-black text-[22px] md:text-[24px]  ${groteskTextMedium.className}`}
-          >
-            {`Add Notification Recipient for Vehicle ${nominees.registrationNumber} `}
-          </h1>
+      <div className="flex flex-col">
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="flex flex-col items-center">
+            <h1
+              className={`text-wrap text-black text-[22px] md:text-[24px] ${groteskText.className}`}
+            >
+              {`Vehicle ${nominees.registrationNumber}`}
+            </h1>
+            <h1 className={`${groteskText.className} text-[18px] leading-none`}>
+              Add Notification Recipient
+            </h1>
+          </div>
           <div
-            className={`text-[#4169E1] text-[18px] hover:underline ${groteskTextMedium.className}`}
+            className={`text-[#4169E1] text-[18px] hover:underline ${groteskText.className}`}
             onClick={() => toggleForm(false)}
           >
             View all
@@ -171,41 +195,61 @@ export function AddThirdPartyNominee({
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-4  items-center">
+          <div className="flex flex-col gap-4 items-center">
             {UserInputFields.map((field) => (
               <InputField
-                key={field.name} // Unique key for each input field
+                key={field.name}
                 type={field.type}
                 placeholder={field.placeholder}
                 label={field.label}
                 name={field.name}
                 value={field.value}
                 onChange={handleChange}
-                // validationRules={field.validationRules}
                 variant="individual"
-                className={` ${groteskText.className} w-[90%] md:w-[65%] `}
+                className={`${groteskText.className} w-[90%] md:w-[75%]`}
               />
             ))}
-           {user === "Corporate" &&( <div className="flex gap-3">
 
-            <StartDateForm label={"Enter Start Date"}
-            placeholder={"Enter Lease start date"}
-            className={` ${groteskText.className} w-[90%] md:w-[65%] `}
-            />
-            <StartDateForm label={"Enter End Date"}
-            placeholder={"Enter Lease end date"}
-              className={` ${groteskText.className} w-[90%] md:w-[65%] `}
-            />
-            </div>)}
+            {user === "Corporate" && (
+              <div className="flex flex-col">
+                <div className="flex gap-3">
+                  <CustomDatePicker
+                    label="Enter Start Date"
+                    value={formData.start_date}
+                    onChange={(date) =>
+                      handleChange({
+                        target: { name: "start_date", value: date },
+                      })
+                    }
+                    placeholder="Enter Lease start date"
+                    className={`${groteskText.className} w-[90%] md:w-[65%]`}
+                  />
+                  <CustomDatePicker
+                    label="Enter End Date"
+                    value={formData.end_date}
+                    onChange={(date) =>
+                      handleChange({
+                        target: { name: "end_date", value: date },
+                      })
+                    }
+                    placeholder="Enter Lease end date"
+                    className={`${groteskText.className} w-[90%] md:w-[65%]`}
+                    error={hasError} // Show error if date is invalid
+                  />
+                </div>
+
+                {hasError && (
+                  <p className="flex justify-end text-right text-red-600 text-[12px] leading-none mt-1">
+                    End date should be after start date
+                  </p>
+                )}
+              </div>
+            )}
 
             <Button
               type="submit"
               variant="quinary"
               className="py-[10px] px-[12px] w-[80%] md:w-[65%]"
-              onClick={() => {
-                // addVehicle();
-                toggleForm();
-              }}
             >
               Add Nominee
             </Button>

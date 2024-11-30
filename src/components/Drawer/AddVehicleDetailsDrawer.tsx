@@ -84,16 +84,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           </div>
           <InputField
             type="text"
-            placeholder="Enter your driver's license number"
-            label="Driver's License Number"
-            name="license_number"
-            value={formData.license_number}
-            onChange={handleChange}
-            variant="individual"
-            className={`${groteskText.className} w-full`}
-          />
-          <InputField
-            type="text"
             placeholder="Enter your car model"
             label="Car Model"
             name="car_model"

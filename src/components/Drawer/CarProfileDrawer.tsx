@@ -67,6 +67,7 @@ const CarProfileDrawer = ({
             vehicles={vehicles}
             addVehicle={addVehicleDetails}
             onVehicleChange={handleVehicleChange}
+            user={user}
           />
           {renderNomineeSection()}
         </>

@@ -120,6 +120,7 @@ const SearchSortModal = ({ data, setData }) => {
           </div>
         )}
       </div>
+      
     </div>
   );
 };

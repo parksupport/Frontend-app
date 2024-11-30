@@ -11,6 +11,7 @@ import TruncatedText from "../ToggleComponent/TruncatedText";
 
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import InfoIconWithText from "../InfoIconWithText";
+import { MdHistory } from "react-icons/md";
 
 export const CorporateCarProfileDrawer = ({
   toggleDrawer,
@@ -47,7 +48,15 @@ export const CorporateCarProfileDrawer = ({
 
   return (
     <>
-      <SearchSortModal data={data} setData={setData} />
+      <div className="flex justify-end ">
+        <SearchSortModal data={data} setData={setData} />
+        <button
+          onClick={() => console.log("hi")}
+          className=" ml-4  w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center mt-8"
+        >
+          <MdHistory size={20} />
+        </button>
+      </div>
 
       <div className="w-full z-0 rounded-[16px] border border-gray-200 relative">
         <div className="overflow-x-auto" style={{ paddingBottom: "50px" }}>
@@ -81,7 +90,6 @@ export const CorporateCarProfileDrawer = ({
                 <th
                   className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                 >
-                 
                   <InfoIconWithText
                     text="Recipient"
                     identity={`verificationStatus`}

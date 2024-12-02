@@ -173,7 +173,7 @@ export function AddThirdPartyNominee({
       ...formData,
       [event.target.name]: event.target.value,
     });
-lop
+
   };
   
 

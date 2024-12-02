@@ -87,14 +87,14 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
 
   const goToPrevious = () => {
     if (sliderRef.current) {
-      sliderRef.current.slickNext();
+      sliderRef.current.slickPrev();
     }
     console.log("next");
   };
 
   const goToNext = () => {
     if (sliderRef.current) {
-      sliderRef.current.slickPrev();
+      sliderRef.current.slickNext();
     }
   };
 
@@ -352,9 +352,9 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                   </div>
                 </div>
               </div>
-              <div className="w-full flex justify-between mt-[11px] lg:w-[250px]">
+              <div className="w-full gap-5 flex justify-between mt-[11px] lg:w-[250px]">
                 <button
-                  className=" w-[87px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                  className="px-3 py-1 h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B] flex items-center"
                   onClick={goToPrevious}
                 >
                   <ChevronLeft
@@ -363,18 +363,49 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                   />
                   Previous
                 </button>
-                <div className="flex items-center space-x-2  ">
-                  {Array.from({ length: totalPages }).map((_, index) => (
-                    <span
-                      key={index}
-                      className={`w-[8px] h-[8px] rounded-full ${
-                        currentSlide === index ? "bg-gray-500" : "bg-gray-200"
-                      }`}
-                    ></span>
-                  ))}
+
+                <div className="flex items-center space-x-2">
+                  {totalPages <= 2 ? (
+                    Array.from({ length: totalPages }).map((_, index) => (
+                      <span
+                        key={index}
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === index ? "bg-gray-500" : "bg-gray-200"
+                        }`}
+                      ></span>
+                    ))
+                  ) : (
+                    <>
+                      {/* First dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === 0 ? "bg-gray-500" : "bg-gray-200"
+                        }`}
+                      ></span>
+
+                      {/* Middle dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide > 0 && currentSlide < totalPages - 1
+                            ? "bg-gray-500"
+                            : "bg-gray-200"
+                        }`}
+                      ></span>
+
+                      {/* Last dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === totalPages - 1
+                            ? "bg-gray-500"
+                            : "bg-gray-200"
+                        }`}
+                      ></span>
+                    </>
+                  )}
                 </div>
+
                 <button
-                  className="w-[64px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                  className="px-3 py-1 h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B] flex items-center"
                   onClick={goToNext}
                 >
                   Next

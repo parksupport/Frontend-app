@@ -12,7 +12,9 @@ interface CarProfileDrawerProps {
   toggleDrawer: any;
   addVehicleDetails: any;
   user: any;
+
   openNominationHistory: any;
+
 }
 
 const CarProfileDrawer = ({
@@ -20,9 +22,11 @@ const CarProfileDrawer = ({
   toggleDrawer,
   addVehicleDetails,
   user,
+
   openNominationHistory
+
 }: CarProfileDrawerProps) => {
-  const [form, setForm] = useState(false);
+  const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const isMobile = useIsMobile();
 
@@ -31,14 +35,14 @@ const CarProfileDrawer = ({
   };
 
   const renderNomineeSection = () => {
-    if (form) {
+    if (isForm) {
       return (
         <AddThirdPartyNominee
           vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
             value: vehicle.registrationNumber,
             label: vehicle.registrationNumber, // You can customize the label here
           }))}
-          toggleForm={setForm}
+          toggleForm={setIsForm}
           addVehicle={addVehicleDetails}
           nominees={
             vehicles?.carDetails?.[selectedVehicleIndex] || []}
@@ -47,7 +51,7 @@ const CarProfileDrawer = ({
     } else {
       return (
         <ThirdPartyNominees
-          toggleForm={setForm}
+          toggleForm={setIsForm}
           nominees={
             vehicles?.carDetails?.[selectedVehicleIndex] || []
           }

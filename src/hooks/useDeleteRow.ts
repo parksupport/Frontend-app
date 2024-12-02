@@ -26,7 +26,8 @@ export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
     if (JSON.stringify(data) !== JSON.stringify(externalNominees)) {
       setData(externalNominees);
     }
-  }, [externalNominees, data]);
+  }, [externalNominees]);
+  // }, [externalNominees, data]);
 
   
   

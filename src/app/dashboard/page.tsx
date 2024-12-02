@@ -34,9 +34,11 @@ import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
 
+
 import ThirdPartyNominees, { NomineeMobile } from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/NominationHistory";
 import { ToggleLeft } from "lucide-react";
+
 
 
 export default function DashboardPage() {
@@ -63,7 +65,7 @@ export default function DashboardPage() {
     }
   };
 
-  const openCarProfile = (cars: any) => {
+  const openCarProfile = (cars: any, form: any = false) => {
     setDrawerContent(
       <CarProfileDrawer
       openNominationHistory={openNominationHistory}
@@ -71,6 +73,7 @@ export default function DashboardPage() {
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
         user={User}
+        form={form}
       />
     );
 
@@ -100,9 +103,9 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openProfileEditDrawer = () => {
+  const openProfileEditDrawer = ({ type }) => {
     setDrawerContent(
-      <ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />
+      <ProfileEditInfoDrawer back={openProfileDrawer} type={type} />
     );
     scrollToTopFromParent();
     openDrawer();
@@ -133,6 +136,7 @@ export default function DashboardPage() {
     openDrawer();
   };
 
+
   const openNotificationRep = () => {
     setDrawerContent(
       <ThirdPartyNominees
@@ -145,6 +149,7 @@ export default function DashboardPage() {
 
     openDrawer();
   };
+
 
   const openEducationalMaterials = () => {
     setDrawerContent(
@@ -212,7 +217,9 @@ export default function DashboardPage() {
   const openSettingsDrawer = () => {
     setDrawerContent(
       <SettingsDrawer
-      openNotificationRep={openNotificationRep}
+        openCarProfile={() => {
+          openCarProfile(cars, true);
+        }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />

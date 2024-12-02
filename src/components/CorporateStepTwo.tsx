@@ -92,7 +92,7 @@ const CorporateSignupPage = ({onContinue}) => {
               validationRules={(value) => value ? null : 'Name is required'}
             />
           </div>
-          <div>
+          {/* <div>
             <InputField
             
               type="text"
@@ -109,7 +109,7 @@ const CorporateSignupPage = ({onContinue}) => {
               className="mt-[16px]"
              
             />
-          </div>
+          </div> */}
           <div>
             <InputField
             

@@ -12,7 +12,7 @@ import {  useDisclosure } from "@chakra-ui/react";
 import ThirdPartyNominees from "../card/ThirdPartyNominee";
 import Drawer from "./Drawer";
 
-const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openNotificationRep }) => {
+const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openCarProfile }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const [isOpen, setIsOpen] = useState(false);
 
@@ -84,7 +84,7 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openNotificationRe
               Add a Notification Recipient
             </Button>
             <div className="cursor-pointer">
-            <PlusButtonSVG onClick={openNotificationRep} />
+            <PlusButtonSVG onClick={openCarProfile} />
             </div>
           </div>
         </div>

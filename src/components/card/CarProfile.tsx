@@ -50,14 +50,14 @@ function CarProfile({
 
   const goToPrevious = () => {
     if (sliderRef.current) {
-      sliderRef.current.slickNext();
+      sliderRef.current.slickPrev();
     }
     console.log("next");
   };
 
   const goToNext = () => {
     if (sliderRef.current) {
-      sliderRef.current.slickPrev();
+      sliderRef.current.slickNext();
     }
   };
 
@@ -238,7 +238,7 @@ function CarProfile({
                   </div>
                 </div>
               </div>
-              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center">
+              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center ">
                 <button
                   className={`${groteskText.className} w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
                   onClick={goToPrevious}
@@ -249,15 +249,44 @@ function CarProfile({
                   />
                   Previous
                 </button>
-                <div className="flex items-center space-x-2  ">
-                  {Array.from({ length: totalPages }).map((_, index) => (
-                    <span
-                      key={index}
-                      className={`w-[8px] h-[8px] rounded-full ${
-                        currentSlide === index ? "bg-gray-500" : "bg-gray-200"
-                      }`}
-                    ></span>
-                  ))}
+                <div className="flex items-center space-x-2">
+                  {totalPages <= 2 ? (
+                    Array.from({ length: totalPages }).map((_, index) => (
+                      <span
+                        key={index}
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === index ? "bg-gray-500" : "bg-gray-200"
+                        }`}
+                      ></span>
+                    ))
+                  ) : (
+                    <>
+                      {/* First dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === 0 ? "bg-gray-500" : "bg-gray-200"
+                        }`}
+                      ></span>
+
+                      {/* Middle dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide > 0 && currentSlide < totalPages - 1
+                            ? "bg-gray-500"
+                            : "bg-gray-200"
+                        }`}
+                      ></span>
+
+                      {/* Last dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === totalPages - 1
+                            ? "bg-gray-500"
+                            : "bg-gray-200"
+                        }`}
+                      ></span>
+                    </>
+                  )}
                 </div>
                 <button
                   className={`${groteskText.className} w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}

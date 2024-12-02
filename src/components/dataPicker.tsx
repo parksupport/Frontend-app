@@ -12,6 +12,9 @@ interface CustomDatePickerProps {
   error?: boolean;
   value?: any;
   onChange?: (date: Date | null) => void; // onChange callback to update parent state
+  indefinite?: boolean;
+  endDate?: any;
+  handleEndDateChange?:any;
 }
 
 export const CustomDatePicker = ({
@@ -21,6 +24,9 @@ export const CustomDatePicker = ({
   textRight,
   className,
   error,
+  indefinite = false,
+  endDate,
+  handleEndDateChange,
   value, // Value to bind to the parent state
   onChange, // Callback to handle date change
 }: CustomDatePickerProps) => {
@@ -29,6 +35,7 @@ export const CustomDatePicker = ({
       onChange(date); // Pass the selected date to the parent via onChange
     }
   };
+
 
   return (
     <div className={`${className}`}>
@@ -40,8 +47,9 @@ export const CustomDatePicker = ({
       </label>
       <div className="relative">
         <DatePicker
-          selected={value} 
-          onChange={handleChange} 
+          disabled={endDate}
+          selected={value}
+          onChange={handleChange}
           dateFormat="yyyy-MM-dd"
           placeholderText={placeholder || "Select a start date"}
           id="start-date"
@@ -62,6 +70,19 @@ export const CustomDatePicker = ({
           </div>
         )}
       </div>
+      {indefinite && (
+        <div className="flex items-center pt-[2px]">
+          <input
+            type="checkbox"
+            className="form-checkbox"
+            onChange={handleEndDateChange}
+            checked={endDate}
+          />
+
+          <p className="text-[14px] text-[#667185] ml-2">Indefinite</p>
+        </div>
+      )}
+
       {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   );

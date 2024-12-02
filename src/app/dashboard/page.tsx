@@ -34,7 +34,9 @@ import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
 
-import ThirdPartyNominees from "@/components/card/ThirdPartyNominee";
+import ThirdPartyNominees, { NomineeMobile } from "@/components/card/ThirdPartyNominee";
+import NominationHistoryTable from "@/components/NominationHistory";
+import { ToggleLeft } from "lucide-react";
 
 
 export default function DashboardPage() {
@@ -51,7 +53,7 @@ export default function DashboardPage() {
     }
   };
 
-  const toggleDrawer = () => {
+  let toggleDrawer = () => {
     setIsOpen((prev) => !prev);
   };
 
@@ -64,6 +66,7 @@ export default function DashboardPage() {
   const openCarProfile = (cars: any) => {
     setDrawerContent(
       <CarProfileDrawer
+      openNominationHistory={openNominationHistory}
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
@@ -73,6 +76,16 @@ export default function DashboardPage() {
 
     scrollToTopFromParent();
     openDrawer();
+  };
+  const openNominationHistory = () => {
+    setDrawerContent(
+      <NominationHistoryTable  
+      toggleDrawer={toggleDrawer}
+      back={CarProfileDrawer}
+       />
+    );
+    openDrawer()
+
   };
 
   const openProfileDrawer = () => {
@@ -123,6 +136,8 @@ export default function DashboardPage() {
   const openNotificationRep = () => {
     setDrawerContent(
       <ThirdPartyNominees
+      toggleForm={toggleDrawer}
+      nominees={NomineeMobile}
         // OpenRecipient={OpenRecipient}
        
       />
@@ -279,6 +294,7 @@ export default function DashboardPage() {
               addVehicleDetails={addVehicleDetails}
               openCarProfile={() => openCarProfile(cars)}
               vehicles={cars}
+              // openNominationHistory={openNominationHistory}
             />
           </div>
 

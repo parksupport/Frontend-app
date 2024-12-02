@@ -12,7 +12,7 @@ import { useSignupStore } from "@/lib/stores/authStore";
 const CorporateSignupPage = ({onContinue}) => {
   const { formData, updateFormData } = useSignupStore();
 
-  const isFormValid =
+  let isFormValid =
     formData.company_name &&
     formData.company_email &&
     formData.address &&
@@ -20,8 +20,11 @@ const CorporateSignupPage = ({onContinue}) => {
     formData.company_registration_number &&
     formData.company_registered_address;
 
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(isFormValid,formData.company_name,formData.company_email,formData.address,formData.company_phone_number,formData.company_registration_number,formData.company_registered_address, "isFormValid");
     updateFormData({ [name]: value });
   };
 
@@ -65,7 +68,7 @@ const CorporateSignupPage = ({onContinue}) => {
 
   
   const validateCompanyRegAddress = (value) => {
-    if (value.trim() === '') {
+    if (value?.trim() === '') {
       return 'Company registered address cannot be empty.';
     }
     return null;
@@ -119,7 +122,7 @@ const CorporateSignupPage = ({onContinue}) => {
               //   <FcGoogle />
               // }
               label="Company Registered Address"
-              name="address"
+              name="company_registered_address"
               value={formData.company_registered_address}
               onChange={handleChange}
               validationRules={validateCompanyRegAddress}

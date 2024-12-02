@@ -18,6 +18,7 @@ import { AiOutlineExpand } from "react-icons/ai";
 import { useRef, useState } from "react";
 import { MoveDiagonal } from "lucide-react";
 import UserTickSVG from "@/assets/svg/user-tick.svg";
+import InfoIconWithText from "../InfoIconWithText";
 
 interface CarProfileProps {
   openCarProfile: any;
@@ -36,7 +37,6 @@ function CarProfile({
   const sliderRef = useRef(null);
   const totalPages = vehicles.carDetails.length;
 
-
   console.log("Carprofile", vehicles.carDetails);
 
   const settings = {
@@ -50,14 +50,14 @@ function CarProfile({
 
   const goToPrevious = () => {
     if (sliderRef.current) {
-      sliderRef.current.slickNext();
+      sliderRef.current.slickPrev();
     }
     console.log("next");
   };
 
   const goToNext = () => {
     if (sliderRef.current) {
-      sliderRef.current.slickPrev();
+      sliderRef.current.slickNext();
     }
   };
 
@@ -171,7 +171,6 @@ function CarProfile({
                         className={`${groteskText.className}text-[#212121] text-[11px] self-end`}
                       >
                         {car.registrationNumber}
-                
                       </span>
                     </h2>
                     <h2
@@ -196,33 +195,12 @@ function CarProfile({
                     <h2
                       className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
-                      <div className="flex items-center gap-[5px]">
-                        <span>
-                          <UserTickSVG />
-                        </span>
-                        <span
-                          className={`${groteskText.className} text-[16px] text-[#667185] mr-[3px]`}
-                        >
-                          Ownership status:{" "}
-                        </span>
-
-                        <div
-                          className="relative cursor-pointer"
-                          onMouseEnter={() =>
-                            handleMouseEnter(`${car.id}-ownership`)
-                          }
-                          onMouseLeave={() =>
-                            handleMouseLeave(`${car.id}-ownership`)
-                          }
-                        >
-                          <VehiclceInfoSVG />
-                          {hovered[`${car.id}-ownership`] && (
-                            <div className="absolute bottom-full left-1/2 cursor-pointer transform -translate-x-1/2 mb-2 w-48 bg-white text-black border border-[#667185] text-center rounded py-1">
-                              Ownership status information
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <InfoIconWithText
+                        icon={<UserTickSVG />}
+                        text="Ownership status:"
+                        identity={`${car.id}-ownership`}
+                        infoText="Ownership status information"
+                      />
                       <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
                         {car.status}
                       </button>
@@ -231,76 +209,36 @@ function CarProfile({
                     <h2
                       className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
-                      <div className="flex items-center gap-[5px]">
-                        <span>
-                          <TicketSVG />
-                        </span>
-                        <span
-                          className={`${groteskText.className} text-[16px] text-[#667185] mr-[3px]`}
-                        >
-                          Contravention Status:{" "}
-                        </span>
-                        <div
-                          className="relative cursor-pointer"
-                          onMouseEnter={() =>
-                            handleMouseEnter(`${car.id}-contravention`)
-                          }
-                          onMouseLeave={() =>
-                            handleMouseLeave(`${car.id}-contravention`)
-                          }
-                        >
-                          <VehiclceInfoSVG />
-                          {hovered[`${car.id}-contravention`] && (
-                            <div className="absolute bottom-full left-1/2 cursor-pointer transform -translate-x-1/2 border border-[#667185]  mb-2 w-48 bg-white text-black text-center rounded py-1">
-                              Contravention status information
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <InfoIconWithText
+                        icon={<TicketSVG />}
+                        text="Contravention status:"
+                        identity={`${car.id}-contravention`}
+                        infoText="Contravention status information"
+                      />
+
                       <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[28px] self-end">
                         {/* {car.contraventionStatus} */}
                         {"No existing ticket"}
-
                       </button>
                     </h2>
 
                     <h2
                       className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                     >
-                      <div className="flex items-center gap-[3px]">
-                        <span>
-                          <UserTickSVG />
-                        </span>
-                        <span
-                          className={`${groteskText.className} text-[16px] text-[#667185] mr-[5px]`}
-                        >
-                          Notification Recipients:{" "}
-                        </span>
-                        <div
-                          className="relative cursor-pointer"
-                          onMouseEnter={() =>
-                            handleMouseEnter(`${car.id}-notification`)
-                          }
-                          onMouseLeave={() =>
-                            handleMouseLeave(`${car.id}-notification`)
-                          }
-                        >
-                          <VehiclceInfoSVG />
-                          {hovered[`${car.id}-notification`] && (
-                            <div className="absolute bottom-full left-1/2 border border-[#667185] transform -translate-x-1/2 mb-2 w-48 bg-white text-black text-center rounded py-1">
-                              Notification recipient information
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                      <InfoIconWithText
+                        icon={<UserTickSVG />}
+                        text=" Notification Recipients:"
+                        identity={`${car.id}-notification`}
+                        infoText=" Notification recipient information"
+                      />
                       <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[28px]  self-end">
-                        {car.nominees.length > 1 ? "Added": "Not Added"}
+                        {car.nominees.length > 1 ? "Added" : "Not Added"}
                       </button>
                     </h2>
                   </div>
                 </div>
               </div>
-              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center">
+              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center ">
                 <button
                   className={`${groteskText.className} w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
                   onClick={goToPrevious}
@@ -311,15 +249,44 @@ function CarProfile({
                   />
                   Previous
                 </button>
-                <div className="flex items-center space-x-2  ">
-                  {Array.from({ length: totalPages }).map((_, index) => (
-                    <span
-                      key={index}
-                      className={`w-[8px] h-[8px] rounded-full ${
-                        currentSlide === index ? "bg-gray-500" : "bg-gray-200"
-                      }`}
-                    ></span>
-                  ))}
+                <div className="flex items-center space-x-2">
+                  {totalPages <= 2 ? (
+                    Array.from({ length: totalPages }).map((_, index) => (
+                      <span
+                        key={index}
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === index ? "bg-gray-500" : "bg-gray-200"
+                        }`}
+                      ></span>
+                    ))
+                  ) : (
+                    <>
+                      {/* First dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === 0 ? "bg-gray-500" : "bg-gray-200"
+                        }`}
+                      ></span>
+
+                      {/* Middle dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide > 0 && currentSlide < totalPages - 1
+                            ? "bg-gray-500"
+                            : "bg-gray-200"
+                        }`}
+                      ></span>
+
+                      {/* Last dot */}
+                      <span
+                        className={`w-[8px] h-[8px] rounded-full ${
+                          currentSlide === totalPages - 1
+                            ? "bg-gray-500"
+                            : "bg-gray-200"
+                        }`}
+                      ></span>
+                    </>
+                  )}
                 </div>
                 <button
                   className={`${groteskText.className} w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}

@@ -24,6 +24,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
   const userInfoSections = [
     {
       title: "Personal information",
+      type: "User",
       fields: [
         { label: "First name", value: user?.firstName },
         { label: "Last name", value: user?.lastName },
@@ -33,6 +34,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
     },
     {
       title: "Address",
+      type: "User",
       fields: [
         { label: "Country", value: user?.address?.country },
         {
@@ -68,6 +70,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
   const conmpanyInfoSections = [
     {
       title: "Manager Information",
+      type: "Manager",
       fields: [
         { label: "First Name", value: companyData.user.firstName },
         { label: "Last Name", value: companyData.user.lastName },
@@ -78,6 +81,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
     },
     {
       title: "Company Information",
+      type: "Company",
       fields: [
         { label: "Company Name", value: companyData.company.name },
         {
@@ -106,8 +110,14 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
       {/* Drawer Header */}
       <DrawerHeader
         toggleDrawer={back}
-        title="User Information"
-        subTitle="This section is all about the user’s personal details."
+        title={
+          userInfo === "User" ? "User Information" : " Corporate Information"
+        }
+        subTitle={
+          userInfo === "User"
+            ? "This section is all about the user’s details."
+            : "This section is all about the corporate’s details."
+        }
       />
 
       <div
@@ -137,9 +147,14 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
           </div>
 
           {/* Edit Button */}
+
           <button
             className="  -mt-[30px]   md:-mt-[60px] flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
-            onClick={onEdit}
+            onClick={() =>
+              onEdit({
+                type: userInfo === "User" ? "User" : "Company",
+              })
+            }
           >
             <span className={` text-black ${groteskText.className}`}>Edit</span>
             <CiEdit color="black" size={20} />
@@ -159,15 +174,21 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
                 >
                   {section.title}
                 </h2>
-                <button
-                  className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
-                  onClick={onEdit}
-                >
-                  <span className={` text-black ${groteskText.className}`}>
-                    Edit
-                  </span>
-                  <CiEdit color="black" size={20} />
-                </button>
+                {userInfo !== "User" && section.type !== "Company" && (
+                  <button
+                    className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
+                    onClick={() =>
+                      onEdit({
+                        type: section.type,
+                      })
+                    }
+                  >
+                    <span className={` text-black ${groteskText.className}`}>
+                      Edit
+                    </span>
+                    <CiEdit color="black" size={20} />
+                  </button>
+                )}
               </div>
               <div
                 className={`grid   ${
@@ -191,7 +212,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
                       ) : (
                         <TruncatedText
                           text={field.value || field.label}
-                          maxLength={15}
+                          maxLength={10}
                           className={`${groteskText.className}`}
                         />
                       )}

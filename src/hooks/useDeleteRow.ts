@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 interface useDeleteRowProps {
   openDropdownIndex: number | null;
-  data: any;
+  data?: any;
   showConfirmButton: boolean;
   selectedDataIndex: number | null;
   toggleDropdown: (index: number) => void;
@@ -26,7 +26,8 @@ export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
     if (JSON.stringify(data) !== JSON.stringify(externalNominees)) {
       setData(externalNominees);
     }
-  }, [externalNominees, data]);
+  }, [externalNominees]);
+  // }, [externalNominees, data]);
 
   
   

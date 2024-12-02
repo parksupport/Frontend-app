@@ -81,40 +81,34 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
       {/* Contravention Table */}
       <Slider {...sliderSettings}>
-        <div className="mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg overflow-hidden">
+        <div className="flex mx-0 flex-col mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg overflow-hidden">
+          <table className="flex items-center  justify-between lg:flex lg:flex-col ">
+            <thead className="border-b border-b-[#C5D5F8] w-full ">
+              <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
-          <table className="flex flex-col w-full">
-            <thead className="w-full">
-              <tr className="flex w-full">
-                <th
-                  className={`w-1/4 text-[#667185] py-3 text-left text-[15px] whitespace-nowrap ${groteskTextMedium}`}
-                >
+                <th className={`text-[#667185] self-start lg:pl-[17px] py-[0.75rem] lg:text-left lg:text-[15px] ${groteskTextMedium}`}>
                   Contravention Type
                 </th>
-                <th
-                  className={`flex-1 w-1/4  text-[#667185] py-3 text-center text-[15px] ${groteskTextMedium}`}
-                >
+                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] lg:text-[15px] ${groteskTextMedium}`}>
                   Date Issued
                 </th>
-                <th
-                  className={`flex-1 w-1/4  text-[#667185] py-3 text-center text-[15px] ${groteskTextMedium}`}
-                >
+                <th className={`text-[#667185] self-start pr-[8px] py-[0.75rem] lg:text-[15px] ${groteskTextMedium}`}>
                   Fine
                 </th>
-                <th
-                  className={`flex-1 w-1/4  text-[#667185] py-3 text-center text-[15px] ${groteskTextMedium}`}
-                >
+                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] lg:text-[15px] lg:pr-[17px] ${groteskTextMedium}`}>
+
                   Status
                 </th>
               </tr>
             </thead>
-            <tbody className="w-full">
+
+            <tbody className="w-full lg:w-full lg:bg-[#F9FAFB]">
               {(isSmallScreen ? currentItems : itemDetails.contravention).map((invoice, index) => (
+
                 <ContraventionRow key={index} invoice={invoice} handleRowClick={handleRowClick} />
               ))}
             </tbody>
           </table>
-
 
           {/* Pagination Controls for Small Screens */}
           {isSmallScreen && (
@@ -152,21 +146,20 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
       {/* Detailed Breakdown */}
       {selectedInvoice && (
-        <div className={`mt-8 w-full`}>
-          <div className={`flex flex-col ${isSmallScreen ? 'w-full' : 'hidden lg:flex lg:w-11/12 mx-auto'}`}>
-            <h1 className={`text-2xl text-[#000000] ${groteskTextMedium.className} text-center`}>
-              Tickets Detailed Breakdown
-            </h1>
+        <div className={`flex flex-col mt-8 ${isSmallScreen ? 'w-full' : 'hidden lg:flex lg:w-11/12 mx-auto'}`}>
+          <h1 className={`text-2xl text-[#000000] ${groteskTextMedium.className} text-center`}>
+            Tickets Detailed Breakdown
+          </h1>
 
 
-            {/* Ticket Details */}
+          {/* Ticket Details */}
 
-            <div className='flex flex-col justify-between lg:flex lg:flex-col '>
-              <section className='mt-8 mx-auto'>
-                <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Ticket Details</h1>
-                <div className='space-y-4 '>
-                  <div className='flex flex-col gap-[10px]'>
-                    {/* <DetailedBreakdownItem
+          <div className='flex flex-col justify-between lg:flex lg:flex-col '>
+            <section className='mt-8 mx-auto'>
+              <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Ticket Details</h1>
+              <div className='space-y-4 '>
+                <div className='flex flex-col gap-[10px]'>
+                  {/* <DetailedBreakdownItem
                     label="Ticket type"
                     value={selectedInvoice.ticket}
                   />
@@ -174,104 +167,102 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                     label="Ticket Type"
                     value={selectedInvoice.ticket}
                   /> */}
-                    <DetailedBreakdownItem
-                      label="Ticket Type"
-                      value={selectedInvoice.ticket}
-                    />
-                    <DetailedBreakdownItem
-                      label="Issuing Authority"
-                      value={selectedInvoice.issuing_auth}
-                    />
-                    <DetailedBreakdownItem
-                      label="Fine amount"
-                      value={selectedInvoice.fine_amount}
-                    />
+                  <DetailedBreakdownItem
+                    label="Ticket Type"
+                    value={selectedInvoice.ticket}
+                  />
+                  <DetailedBreakdownItem
+                    label="Issuing Authority"
+                    value={selectedInvoice.issuing_auth}
+                  />
+                  <DetailedBreakdownItem
+                    label="Fine amount"
+                    value={selectedInvoice.fine_amount}
+                  />
 
-                    <DetailedBreakdownItem
-                      label="Due Date"
-                      value={selectedInvoice.date}
-                    />
-                    {/* <DetailedBreakdownItem
+                  <DetailedBreakdownItem
+                    label="Due Date"
+                    value={selectedInvoice.date}
+                  />
+                  {/* <DetailedBreakdownItem
                     label="Ticket Type"
                     value={selectedInvoice.ticket}
                   /> */}
-                    <DetailedBreakdownItem
-                      label="Violation Type Info"
-                      value="Failure To Stop For School Bus Ticket"
-                    />
-
-
-
-
-                    <DetailedBreakdownItem
-                      label="Location"
-                      value="River St. & Oak Rd."
-                    />
-
-
-
-
-                    <DetailedBreakdownItem
-                      label="Violation Date And Time"
-                      value="12th October 2024, 14:32"
-                    />
-
-
-
-                    <DetailedBreakdownItem
-                      label="Fine Breakdown"
-                      value="Base fine: $100"
-                    />
-
-
-
-                    <DetailedBreakdownItem
-                      label="Violation Code"
-                      value="V117 - Not stopping for a school bus with flashing lights"
-                    />
-
-
-
-
-                    <DetailedBreakdownItem
-                      label="Officer Name"
-                      value="Officer Sarah Jones"
-                    />
-
-
-
-
-                    <DetailedBreakdownItem
-                      label="Traffic Situation"
-                      value="School bus stopped with flashing red light"
-                    />
-
-
-                  </div>
-
-
-
-                </div>
-              </section>
-
-              {/* Photo Evidence */}
-              <section className='mt-8  mx-auto'>
-                <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Photo Evidence</h1>
-                <div className='flex justify-center'>
-                  <Image
-                    src={ContraImage}
-                    alt="Contravention Evidence"
-                    width={396}
-                    height={268}
-                    className="rounded-md"
+                  <DetailedBreakdownItem
+                    label="Violation Type Info"
+                    value="Failure To Stop For School Bus Ticket"
                   />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Location"
+                    value="River St. & Oak Rd."
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Violation Date And Time"
+                    value="12th October 2024, 14:32"
+                  />
+
+
+
+                  <DetailedBreakdownItem
+                    label="Fine Breakdown"
+                    value="Base fine: $100"
+                  />
+
+
+
+                  <DetailedBreakdownItem
+                    label="Violation Code"
+                    value="V117 - Not stopping for a school bus with flashing lights"
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Officer Name"
+                    value="Officer Sarah Jones"
+                  />
+
+
+
+
+                  <DetailedBreakdownItem
+                    label="Traffic Situation"
+                    value="School bus stopped with flashing red light"
+                  />
+
+
                 </div>
-              </section>
-            </div>
 
+
+
+              </div>
+            </section>
+
+            {/* Photo Evidence */}
+            <section className='mt-8  mx-auto'>
+              <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Photo Evidence</h1>
+              <div className='flex justify-center'>
+                <Image
+                  src={ContraImage}
+                  alt="Contravention Evidence"
+                  width={396}
+                  height={268}
+                  className="rounded-md"
+                />
+              </div>
+            </section>
           </div>
-        </div>
 
+        </div>
       )}
     </div>
   );

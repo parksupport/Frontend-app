@@ -13,7 +13,7 @@ import Slider from "react-slick";
 import DeleteRowModal from "../DeleteRowModal";
 import { CiEdit } from "react-icons/ci";
 import TruncatedText from "../ToggleComponent/TruncatedText";
-import StartDateForm from "../dataPicker";
+import StartDateForm, { CustomDatePicker } from "../dataPicker";
 
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
@@ -22,6 +22,7 @@ interface ThirdPartyNomineesProps {
 
 export default function ThirdPartyNominees({
   toggleForm,
+
   nominees,
 }: ThirdPartyNomineesProps) {
   const ThirdPartyNominee = nominees.nominees;
@@ -44,18 +45,23 @@ export default function ThirdPartyNominees({
   return (
     <div className="py-12 mb-[300px]">
       {/* Header */}
-      <div className="flex items-center justify-center gap-10 mb-2">
-        <h1
-          className={`whitespace-nowrap text-[22px]  md:text-[20px] text-black ${groteskTextMedium.className}`}
-        >
-          {`Notification Recipient History for Vehicle ${nominees.registrationNumber} `}
-        </h1>
-        <div
-          className={` whitespace-nowrap hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
+      <div className="flex justify-center gap-4 mb-6">
+        <div className="text-center">
+          <h1
+            className={`text-wrap text-black text-[22px] md:text-[24px] ${groteskTextMedium.className}`}
+          >
+            {`Vehicle ${nominees.registrationNumber}`}
+          </h1>
+          <h1 className={`${groteskText.className} text-[18px] leading-none`}>
+            Notification Recipient History
+          </h1>
+        </div>
+        <button
+          className={`whitespace-nowrap hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
           onClick={() => toggleForm(true)}
         >
           Add Recipient
-        </div>
+        </button>
       </div>
 
       {isMobile ? (
@@ -98,13 +104,20 @@ export function AddThirdPartyNominee({
   addVehicle,
   nominees,
   user,
+
 }: AddThirdPartyNomineeProps) {
+  const [hasError, setHasError] = useState(false);
+  const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
     vehicle: "",
     phone_number: "",
+    start_date: new Date(),
+    end_date: isIndefiniteEndDate ? new Date(new Date().setFullYear(new Date().getFullYear() + 50)) : new Date(),
   });
+
+  console.log("isIndefinite", isIndefiniteEndDate);
 
   const UserInputFields = [
     {
@@ -120,7 +133,6 @@ export function AddThirdPartyNominee({
       label: "Email Address",
       name: "email_address",
       value: formData.email_address,
-      // validationRules: validateEmail,
     },
     {
       type: "text",
@@ -131,35 +143,55 @@ export function AddThirdPartyNominee({
     },
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // login(formData);
+
+    // Trigger date validation before submitting
+    handleDateValidation();
+
+    if (!hasError) {
+      // Proceed with form submission logic, e.g., addVehicle();
+      // toggleForm(false); // Close the form after submission
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleDateValidation = () => {
+    const startDate = new Date(formData.start_date);
+    const endDate = new Date(formData.end_date);
+  
+    if (!isIndefiniteEndDate && startDate >= endDate) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+    }
+  };
+  
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
-  const validateEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) ? null : "Invalid email format";
-  };
+  
 
   return (
     <div className="py-12 mb-[300px] ">
-      <div className="flex flex-col  ">
-        <div className="flex items-center justify-center gap-4 mb-4  ">
-          <h1
-            className={`text-wrap text-black text-[22px] md:text-[24px]  ${groteskTextMedium.className}`}
-          >
-            {`Add Notification Recipient for Vehicle ${nominees.registrationNumber} `}
-          </h1>
+      <div className="flex flex-col">
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="flex flex-col items-center">
+            <h1
+              className={`text-wrap text-black text-[22px] md:text-[24px] ${groteskText.className}`}
+            >
+              {`Vehicle ${nominees.registrationNumber}`}
+            </h1>
+            <h1 className={`${groteskText.className} text-[18px] leading-none`}>
+              Add Notification Recipient
+            </h1>
+          </div>
           <div
-            className={`text-[#4169E1] text-[18px] hover:underline ${groteskTextMedium.className}`}
+            className={`text-[#4169E1] text-[18px] hover:underline ${groteskText.className}`}
             onClick={() => toggleForm(false)}
           >
             View all
@@ -167,41 +199,64 @@ export function AddThirdPartyNominee({
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-4  items-center">
+          <div className="flex flex-col gap-4 items-center">
             {UserInputFields.map((field) => (
               <InputField
-                key={field.name} // Unique key for each input field
+                key={field.name}
                 type={field.type}
                 placeholder={field.placeholder}
                 label={field.label}
                 name={field.name}
                 value={field.value}
                 onChange={handleChange}
-                // validationRules={field.validationRules}
                 variant="individual"
-                className={` ${groteskText.className} w-[90%] md:w-[65%] `}
+                className={`${groteskText.className} w-[90%] md:w-[75%]`}
               />
             ))}
-           {user === "Corporate" &&( <div className="flex gap-3">
 
-            <StartDateForm label={"Enter Start Date"}
-            placeholder={"Enter Lease start date"}
-            className={` ${groteskText.className} w-[90%] md:w-[65%] `}
-            />
-            <StartDateForm label={"Enter End Date"}
-            placeholder={"Enter Lease end date"}
-              className={` ${groteskText.className} w-[90%] md:w-[65%] `}
-            />
-            </div>)}
+            {user === "Corporate" && (
+              <div className="flex flex-col">
+                <div className="flex gap-3">
+                  <CustomDatePicker
+                    label="Enter Start Date"
+                    value={formData.start_date}
+                    onChange={(date) =>
+                      handleChange({
+                        target: { name: "start_date", value: date }, 
+                      })
+                    }
+                    placeholder="Enter Lease start date"
+                    className={`${groteskText.className} w-[90%] md:w-[65%]`}
+                  />
+                  <CustomDatePicker
+                    label="Enter End Date"
+                    value={formData.end_date}
+                    onChange={(date) =>
+                      handleChange({
+                        target: { name: "end_date", value: date }, 
+                      })
+                    }
+                    placeholder="Enter Lease end date"
+                    className={`${groteskText.className} w-[90%] md:w-[65%]`}
+                    error={hasError} 
+                    indefinite
+                    endDate={isIndefiniteEndDate}
+                    handleEndDateChange={() => setIndefiniteEndDate(!isIndefiniteEndDate)}
+                  />
+                </div>
+
+                {hasError && (
+                  <p className="flex justify-end text-right text-red-600 text-[12px] leading-none mt-1">
+                    End date should be after start date
+                  </p>
+                )}
+              </div>
+            )}
 
             <Button
               type="submit"
               variant="quinary"
               className="py-[10px] px-[12px] w-[80%] md:w-[65%]"
-              onClick={() => {
-                // addVehicle();
-                toggleForm();
-              }}
             >
               Add Nominee
             </Button>
@@ -262,73 +317,79 @@ const NomineeDesktop = ({
           </tr>
         </thead>
         <tbody>
-          {nominees?.map((nominee, index) => (
-            <tr key={index} className="hover:bg-gray-50 relative">
-              <td className="cursor-pointer pt-2 text-end  pr-2 whitespace-nowrap relative">
-                <button
-                  className=" text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
-                  onClick={() => toggleDropdown(index)}
+          {nominees?.map((nominee, index) => {
+            const endDate = new Date(nominee.endDate);
+            const today = new Date();
+            const expiredLease = endDate < today;
+            return (
+              <tr key={index} className="hover:bg-gray-50 relative">
+                <td className="cursor-pointer pt-2 text-end  pr-2 whitespace-nowrap relative">
+                  <button
+                    className="text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
+                    onClick={() => toggleDropdown(index)}
+                    disabled={expiredLease}
+                  >
+                    &#8942;
+                  </button>
+                  {openDropdownIndex === index && (
+                    <DeleteRowModal
+                      showConfirmButton={showConfirmButton}
+                      onEdit={() => {}}
+                      onRemove={() => showDeleteConfirmation(index)}
+                      onCancelDelete={cancelDelete}
+                      onConfirmDelete={() => handleDelete(index)}
+                      selectedDataIndex={selectedDataIndex}
+                      index={index}
+                      customStyles={`${groteskText.className} text-[14px]`}
+                      position={{ right: -110, top: 30 }}
+                      removeAddButton
+                    />
+                  )}
+                </td>
+                <td
+                  className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
                 >
-                  &#8942;
-                </button>
-                {openDropdownIndex === index && (
-                  <DeleteRowModal
-                    showConfirmButton={showConfirmButton}
-                    onEdit={() => {}}
-                    onRemove={() => showDeleteConfirmation(index)}
-                    onCancelDelete={cancelDelete}
-                    onConfirmDelete={() => handleDelete(index)}
-                    selectedDataIndex={selectedDataIndex}
-                    index={index}
-                    customStyles={`${groteskText.className} text-[14px]`}
-                    position={{ right: -110, top: 30 }}
-                    removeAddButton
+                  <TruncatedText
+                    text={nominee.name}
+                    maxLength={10}
+                    className={`${groteskText.className}`}
                   />
-                )}
-              </td>
-              <td
-                className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
-              >
-                <TruncatedText
-                  text={nominee.name}
-                  maxLength={10}
-                  className={`${groteskText.className}`}
-                />
-              </td>
-              <td
-                className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
-              >
-                <TruncatedText
-                  text={nominee.email}
-                  maxLength={15}
-                  className={` ${groteskText.className}`}
-                />
-              </td>
-              <td
-                className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
-              >
-                {nominee.phone}
-              </td>
-              <td
-                className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
-              >
-                <TruncatedText
-                  text={nominee.startDate}
-                  maxLength={10}
-                  className={` ${groteskText.className}`}
-                />
-              </td>
-              <td
-                className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
-              >
-                <TruncatedText
-                  text={nominee.endDate}
-                  maxLength={10}
-                  className={` ${groteskText.className}`}
-                />
-              </td>
-            </tr>
-          ))}
+                </td>
+                <td
+                  className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                >
+                  <TruncatedText
+                    text={nominee.email}
+                    maxLength={15}
+                    className={` ${groteskText.className}`}
+                  />
+                </td>
+                <td
+                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                >
+                  {nominee.phone}
+                </td>
+                <td
+                  className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
+                >
+                  <TruncatedText
+                    text={nominee.startDate}
+                    maxLength={10}
+                    className={` ${groteskText.className}`}
+                  />
+                </td>
+                <td
+                  className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
+                >
+                  <TruncatedText
+                    text={nominee.endDate}
+                    maxLength={10}
+                    className={` ${groteskText.className}`}
+                  />
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
@@ -369,15 +430,18 @@ export const NomineeMobile = ({
   const handleNext = () => {
     if (currentIndex < nominees.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      sliderRef.current.slickGoTo(currentIndex + 1); // Programmatically move to the next slide
+      sliderRef.current.slickGoTo(currentIndex + 1);
     }
   };
-
   return (
     <div className="flex flex-col items-center py-4">
       <div className="relative w-full max-w-md p-4 bg-white rounded-[12px] border-[#D0D5DD] border mb-4">
         <div className="flex justify-end items-center pb-3">
           <button
+            disabled={
+              nominees[currentIndex] &&
+              new Date(nominees[currentIndex].endDate) < new Date()
+            }
             onClick={() => {
               toggleActions();
               setShowConfirmButton(false);
@@ -389,15 +453,8 @@ export const NomineeMobile = ({
         </div>
 
         {showActions && (
-          <div className="rounded-[8px] bg-white absolute right-4 top-9  z-10">
+          <div className="rounded-[8px] bg-white right-0 absolute z-10">
             <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
-              {/* <button
-                className={`w-full flex items-center px-[1px] py-2 text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
-                onClick={() => {}}
-              >
-                <CiEdit className="mr-2" />
-                Edit Nominee
-              </button> */}
               <button
                 className={`w-full flex items-center px-[1px] py-2 text-sm text-red-600 hover:bg-gray-100  ${groteskText.className}`}
                 onClick={() => showDeleteConfirmation(currentIndex)}
@@ -430,77 +487,83 @@ export const NomineeMobile = ({
 
         {/* Slider Component */}
         <Slider ref={sliderRef} {...settings}>
-          {nominees.map((nominee, index) => (
-            <div
-              key={index}
-              className="border p-4 rounded-[12px] bg-[#F9FAFB] space-y-2"
-            >
-              <div className={`flex justify-between ${groteskText.className}`}>
-                <span className={`${groteskText.className} text-gray-500`}>
-                  Name
-                </span>
-                <div className={`${groteskText.className} text-black`}>
-                  <TruncatedText
-                    text={nominee.name}
-                    maxLength={22}
-                    className={`${groteskText.className} text-black`}
-                  />
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <span className={`${groteskText.className} text-gray-500`}>
-                  Email Address
-                </span>
+          {nominees.map((nominee, index) => {
+            const endDate = new Date(nominee.end_date);
+            const today = new Date();
+            const expiredLease = endDate < today;
 
-                <div className={`${groteskText.className} text-black`}>
-                  <TruncatedText
-                    text={nominee.email}
-                    maxLength={22}
-                    className={`${groteskText.className} text-black`}
-                  />
+            return (
+              <div
+                key={index}
+                className="border p-4 rounded-[12px] bg-[#F9FAFB] space-y-2"
+              >
+                <div
+                  className={`flex justify-between ${groteskText.className}`}
+                >
+                  <span className={`${groteskText.className} text-gray-500`}>
+                    Name
+                  </span>
+                  <div className={`${groteskText.className} text-black`}>
+                    <TruncatedText
+                      text={nominee.name}
+                      maxLength={22}
+                      className={`${groteskText.className} text-black`}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between">
-                <span className={`${groteskText.className} text-gray-500`}>
-                  Phone Number
-                </span>
+                <div className="flex justify-between">
+                  <span className={`${groteskText.className} text-gray-500`}>
+                    Email Address
+                  </span>
 
-                <div className={`${groteskText.className} text-black`}>
-                  {nominee.phone}
+                  <div className={`${groteskText.className} text-black`}>
+                    <TruncatedText
+                      text={nominee.email}
+                      maxLength={22}
+                      className={`${groteskText.className} text-black`}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between">
-                <span className={`${groteskText.className} text-gray-500`}>
-                  Start Date
-                </span>
+                <div className="flex justify-between">
+                  <span className={`${groteskText.className} text-gray-500`}>
+                    Phone Number
+                  </span>
 
-                <div className={`${groteskText.className} text-black`}>
-                  <TruncatedText
-                    text={nominee.start_date}
-                    maxLength={22}
-                    className={`${groteskText.className} text-black`}
-                  />
+                  <div className={`${groteskText.className} text-black`}>
+                    {nominee.phone}
+                  </div>
                 </div>
-              </div>
-              <div className="flex justify-between">
-                <span className={`${groteskText.className} text-gray-500`}>
-                  End Date
-                </span>
+                <div className="flex justify-between">
+                  <span className={`${groteskText.className} text-gray-500`}>
+                    Start Date
+                  </span>
 
-                <div className={`${groteskText.className} text-black`}>
-                  <TruncatedText
-                    text={nominee.end_date}
-                    maxLength={22}
-                    className={`${groteskText.className} text-black`}
-                  />
+                  <div className={`${groteskText.className} text-black`}>
+                    <TruncatedText
+                      text={nominee.startDate}
+                      maxLength={22}
+                      className={`${groteskText.className} text-black`}
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <span className={`${groteskText.className} text-gray-500`}>
+                    End Date
+                  </span>
+
+                  <div className={`${groteskText.className} text-black`}>
+                    <TruncatedText
+                      text={nominee.endDate}
+                      maxLength={22}
+                      className={`${groteskText.className} text-black`}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </Slider>
 
-        {/* Slider Navigation Controls */}
-        {/* Navigation Buttons */}
         <div className="flex justify-between items-center mt-4">
           <button
             onClick={handlePrevious}

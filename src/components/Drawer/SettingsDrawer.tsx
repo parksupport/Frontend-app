@@ -1,5 +1,5 @@
 // SettingsDrawer.tsx
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import Button from "../Buttons";
@@ -8,15 +8,20 @@ import { Switch } from "@/components/ui/switch";
 import InputField from "../InputField";
 import { useRouter } from "next/navigation";
 import ModalComponent from "../ModalComponent";
-import { useDisclosure } from "@chakra-ui/react";
+import {  useDisclosure } from "@chakra-ui/react";
+import ThirdPartyNominees from "../card/ThirdPartyNominee";
+import Drawer from "./Drawer";
 
-const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod }) => {
+const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openCarProfile }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // const [isOpen, setIsOpen] = useState(false);
+
 
   const [smsNotifications, setSmsNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [isPopup, setIsPopup] = useState(false);
   const router = useRouter();
+
 
   const [showForm, setShowForm] = useState(false);
 
@@ -24,7 +29,11 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod }) => {
     newPassword: "",
     confirmPassword: "",
   });
-
+  // const openDrawer = () => {
+  //   if (!isOpen) {
+  //     setIsOpen(true);
+  //   }
+  // };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -40,6 +49,8 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod }) => {
   const toggleForm = () => {
     setShowForm((prev) => !prev);
   };
+
+  
 
   return (
     <div className="">
@@ -72,7 +83,9 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod }) => {
             >
               Add a Notification Recipient
             </Button>
-            <PlusButtonSVG />
+            <div className="cursor-pointer">
+            <PlusButtonSVG onClick={openCarProfile} />
+            </div>
           </div>
         </div>
         {/* Billing and Payment */}
@@ -212,8 +225,11 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod }) => {
           </div>
         </div>
       </div>
+   
     </div>
   );
 };
 
 export default SettingsDrawer;
+
+

@@ -3,28 +3,39 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"; // Import DatePicker styles
 
-
 interface CustomDatePickerProps {
-    label: string;
-    placeholder?: string;
-    iconRight?: React.ReactNode;
-    textRight?: string;
-    className?: string;
-    error?: boolean;
+  label: string;
+  placeholder?: string;
+  iconRight?: React.ReactNode;
+  textRight?: string;
+  className?: string;
+  error?: boolean;
+  value?: any;
+  onChange?: (date: Date | null) => void; // onChange callback to update parent state
+  indefinite?: boolean;
+  endDate?: any;
+  handleEndDateChange?:any;
 }
-const CustomDatePicker = ({
+
+export const CustomDatePicker = ({
   label,
   placeholder,
   iconRight,
   textRight,
   className,
   error,
+  indefinite = false,
+  endDate,
+  handleEndDateChange,
+  value, // Value to bind to the parent state
+  onChange, // Callback to handle date change
 }: CustomDatePickerProps) => {
-  const [startDate, setStartDate] = useState(null); // Initialize the state for the date
-
-  const handleChange = (date) => {
-    setStartDate(date); // Update the state with the selected date
+  const handleChange = (date: Date | null) => {
+    if (onChange) {
+      onChange(date); // Pass the selected date to the parent via onChange
+    }
   };
+
 
   return (
     <div className={`${className}`}>
@@ -36,8 +47,9 @@ const CustomDatePicker = ({
       </label>
       <div className="relative">
         <DatePicker
-          selected={startDate}
-          onChange={handleChange} // Update state on date selection
+          disabled={endDate}
+          selected={value}
+          onChange={handleChange}
           dateFormat="yyyy-MM-dd"
           placeholderText={placeholder || "Select a start date"}
           id="start-date"
@@ -58,6 +70,19 @@ const CustomDatePicker = ({
           </div>
         )}
       </div>
+      {indefinite && (
+        <div className="flex items-center pt-[2px]">
+          <input
+            type="checkbox"
+            className="form-checkbox"
+            onChange={handleEndDateChange}
+            checked={endDate}
+          />
+
+          <p className="text-[14px] text-[#667185] ml-2">Indefinite</p>
+        </div>
+      )}
+
       {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   );

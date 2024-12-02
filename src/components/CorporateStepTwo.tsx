@@ -17,7 +17,8 @@ const CorporateSignupPage = ({onContinue}) => {
     formData.company_email &&
     formData.address &&
     formData.company_phone_number &&
-    formData.company_registration_number;
+    formData.company_registration_number &&
+    formData.company_registered_address;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +63,14 @@ const CorporateSignupPage = ({onContinue}) => {
     return null;
   };
 
+  
+  const validateCompanyRegAddress = (value) => {
+    if (value.trim() === '') {
+      return 'Company registered address cannot be empty.';
+    }
+    return null;
+  };
+
 
 
   return (
@@ -83,7 +92,7 @@ const CorporateSignupPage = ({onContinue}) => {
               validationRules={(value) => value ? null : 'Name is required'}
             />
           </div>
-          <div>
+          {/* <div>
             <InputField
             
               type="text"
@@ -96,6 +105,24 @@ const CorporateSignupPage = ({onContinue}) => {
               value={formData.address}
               onChange={handleChange}
               validationRules={validateBusinessAddress}
+              variant="individual"
+              className="mt-[16px]"
+             
+            />
+          </div> */}
+          <div>
+            <InputField
+            
+              type="text"
+              placeholder="Enter your company registered address"
+              // icon={
+              //   <FcGoogle />
+              // }
+              label="Company Registered Address"
+              name="address"
+              value={formData.company_registered_address}
+              onChange={handleChange}
+              validationRules={validateCompanyRegAddress}
               variant="individual"
               className="mt-[16px]"
              
@@ -119,8 +146,8 @@ const CorporateSignupPage = ({onContinue}) => {
           <div>
             <InputField
               type="email"
-              placeholder="Enter your general company email"
-              label="General Company Email"
+              placeholder="Enter your company email"
+              label="Company Email"
               name="company_email"
               value={formData.company_email}
               onChange={handleChange}
@@ -132,8 +159,8 @@ const CorporateSignupPage = ({onContinue}) => {
           <div>
             <InputField
               type="number"
-              placeholder="Enter your general company number"
-              label="General Company Number"
+              placeholder="Enter your company number"
+              label="Company Number"
               name="company_phone_number"
               value={formData.company_phone_number}
               onChange={handleChange}

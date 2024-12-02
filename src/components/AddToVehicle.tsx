@@ -69,7 +69,7 @@ const AddToVehicle = ({ toggleDrawer, status }) => {
           <span className={`text-[#667185] text-[14px] ${groteskText.className}`}>
           We&apos;ll use your registration number to pull any available contravention information and keep you updated.
           </span>
-          <InputField
+          {/* <InputField
             type="text"
             name="license_num"
             label="Driver's License Number"
@@ -77,7 +77,7 @@ const AddToVehicle = ({ toggleDrawer, status }) => {
             value={formData.license_num}
             onChange={handleChange}
             className="py-4 md:py-3"
-          />
+          /> */}
           {/* {formErrors.license_num && <span className="text-red-500">{formErrors.license_num}</span>} */}
           <InputField
             type="text"

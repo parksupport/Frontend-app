@@ -8,7 +8,10 @@ import ThirdPartyNominees, {
   AddThirdPartyNominee,
 } from "../card/ThirdPartyNominee";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
+import InfoIconWithText from "../InfoIconWithText";
+import { MdHistory } from "react-icons/md";
 
 export const CorporateCarProfileDrawer = ({
   toggleDrawer,
@@ -17,6 +20,7 @@ export const CorporateCarProfileDrawer = ({
   user,
 }) => {
   const isMobile = useIsMobile();
+
   const [form, setForm] = useState(false);
 
   const {
@@ -44,43 +48,63 @@ export const CorporateCarProfileDrawer = ({
 
   return (
     <>
-      <SearchSortModal data={data} setData={setData} />
+      <div className="flex justify-end ">
+        <SearchSortModal data={data} setData={setData} />
+        <button
+          onClick={() => console.log("hi")}
+          className=" ml-4  w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center mt-8"
+        >
+          <MdHistory size={20} />
+        </button>
+      </div>
 
-      <div className="w-full z-0  rounded-[16px] border border-gray-200 relative">
+      <div className="w-full z-0 rounded-[16px] border border-gray-200 relative">
         <div className="overflow-x-auto" style={{ paddingBottom: "50px" }}>
           <table className="min-w-full bg-white m-0">
             <thead>
               <tr className={`${groteskTextMedium.className} text-[17px]`}>
                 <th
-                  className={`py-1 px-2 bg-gray-100 text-right font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-2 bg-gray-100 text-right font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
                 ></th>
                 <th
-                  className={`py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                 >
                   Reg No.
                 </th>
                 <th
-                  className={`py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                 >
                   Owner
                 </th>
                 <th
-                  className={`py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
                 >
-                  Verification Status
+                  <InfoIconWithText
+                    text="Status"
+                    identity={`verificationStatus`}
+                    infoText="Verification Status"
+                    className={`${groteskTextMedium.className}`}
+                    verticalAligment={"-mt-[4px]"}
+                  />
                 </th>
                 <th
-                  className={`py-1 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
                 >
-                  Notification Recipient
+                  <InfoIconWithText
+                    text="Recipient"
+                    identity={`verificationStatus`}
+                    infoText="Notification Recipient"
+                    className={`${groteskTextMedium.className}`}
+                    verticalAligment={"-mt-[4px]"}
+                  />
                 </th>
                 <th
-                  className={`py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
                 >
                   Color
                 </th>
                 <th
-                  className={`py-1 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
                 >
                   Make
                 </th>
@@ -103,7 +127,7 @@ export const CorporateCarProfileDrawer = ({
                     className={` ${groteskText.className} relative pt-2 text-center whitespace-nowrap w-1/12`}
                   >
                     <button
-                      className="text-gray-500 hover:text-gray-900 px-4"
+                      className="text-gray-500 hover:text-gray-900 pl-2"
                       onClick={() => toggleDropdown(index)}
                     >
                       &#8942;

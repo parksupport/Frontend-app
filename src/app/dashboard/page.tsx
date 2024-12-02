@@ -18,7 +18,7 @@ import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
-// import cars from "@/data/data.json";
+import cars from "@/data/data.json";
 import { useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
@@ -33,7 +33,9 @@ import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
-import cars from "@/data/data.json";
+
+import ThirdPartyNominees from "@/components/card/ThirdPartyNominee";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -59,13 +61,14 @@ export default function DashboardPage() {
     }
   };
 
-  const openCarProfile = (cars: any) => {
+  const openCarProfile = (cars: any, form: any = false) => {
     setDrawerContent(
       <CarProfileDrawer
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
         user={User}
+        form={form}
       />
     );
 
@@ -85,9 +88,9 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openProfileEditDrawer = () => {
+  const openProfileEditDrawer = ({ type }) => {
     setDrawerContent(
-      <ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />
+      <ProfileEditInfoDrawer back={openProfileDrawer} type={type} />
     );
     scrollToTopFromParent();
     openDrawer();
@@ -117,6 +120,7 @@ export default function DashboardPage() {
 
     openDrawer();
   };
+
   const openEducationalMaterials = () => {
     setDrawerContent(
       <EducationalMaterialsDrawer toggleDrawer={toggleDrawer} />
@@ -183,6 +187,9 @@ export default function DashboardPage() {
   const openSettingsDrawer = () => {
     setDrawerContent(
       <SettingsDrawer
+        openCarProfile={() => {
+          openCarProfile(cars, true);
+        }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />
@@ -250,7 +257,7 @@ export default function DashboardPage() {
               className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-black text-[10px] md:text-[12px]"
               onClick={onOpen}
             >
-              Change plan
+              Subscription
             </button>
           </div>
 

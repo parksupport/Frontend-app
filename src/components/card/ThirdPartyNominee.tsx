@@ -39,9 +39,6 @@ export default function ThirdPartyNominees({
   } = useDeleteRow(ThirdPartyNominee);
 
   const isMobile = useIsMobile();
-
-  console.log("data", data);
-
   return (
     <div className="py-12 mb-[300px]">
       {/* Header */}
@@ -116,8 +113,6 @@ export function AddThirdPartyNominee({
     start_date: new Date(),
     end_date: isIndefiniteEndDate ? new Date(new Date().setFullYear(new Date().getFullYear() + 50)) : new Date(),
   });
-
-  console.log("isIndefinite", isIndefiniteEndDate);
 
   const UserInputFields = [
     {

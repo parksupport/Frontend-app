@@ -216,7 +216,6 @@ export default function DashboardPage() {
   };
 
   const handleToggle = (newState) => {
-    console.log("Current State:", newState);
     setUser(newState);
   };
 

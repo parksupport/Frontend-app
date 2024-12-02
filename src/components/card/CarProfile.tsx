@@ -37,8 +37,6 @@ function CarProfile({
   const sliderRef = useRef(null);
   const totalPages = vehicles.carDetails.length;
 
-  console.log("Carprofile", vehicles.carDetails);
-
   const settings = {
     dots: true,
     infinite: true,
@@ -52,7 +50,6 @@ function CarProfile({
     if (sliderRef.current) {
       sliderRef.current.slickPrev();
     }
-    console.log("next");
   };
 
   const goToNext = () => {

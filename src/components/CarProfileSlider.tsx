@@ -89,7 +89,6 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
     if (sliderRef.current) {
       sliderRef.current.slickPrev();
     }
-    console.log("next");
   };
 
   const goToNext = () => {

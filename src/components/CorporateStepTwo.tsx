@@ -176,7 +176,7 @@ const CorporateSignupPage = ({onContinue}) => {
             type="submit"
             className="w-full lg:mt-[40px]"
             variant='primary'
-            onClick={onContinue}
+            onClick={handleSubmit}
             disabled={!isFormValid}
           >
             Continue

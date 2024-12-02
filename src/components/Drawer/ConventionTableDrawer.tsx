@@ -26,7 +26,6 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
   const handleRowClick = (invoice: any) => {
     setSelectedInvoice(invoice);
-    console.log('Invoice clicked:', invoice);
   };
 
   const totalPages = Math.ceil(itemDetails.contravention.length / itemsPerPage);

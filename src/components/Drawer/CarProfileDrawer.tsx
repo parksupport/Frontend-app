@@ -12,7 +12,7 @@ interface CarProfileDrawerProps {
   toggleDrawer: any;
   addVehicleDetails: any;
   user: any;
-
+  form:any,
   openNominationHistory: any;
 
 }
@@ -22,7 +22,7 @@ const CarProfileDrawer = ({
   toggleDrawer,
   addVehicleDetails,
   user,
-
+  form,
   openNominationHistory
 
 }: CarProfileDrawerProps) => {

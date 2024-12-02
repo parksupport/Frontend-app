@@ -24,7 +24,6 @@ const CorporateSignupPage = ({onContinue}) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(isFormValid,formData.company_name,formData.company_email,formData.address,formData.company_phone_number,formData.company_registration_number,formData.company_registered_address, "isFormValid");
     updateFormData({ [name]: value });
   };
 

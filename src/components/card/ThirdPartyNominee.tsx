@@ -167,12 +167,13 @@ export function AddThirdPartyNominee({
   };
   
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+
+  const handleChange =(event: { target: { name: string; value: string } })=> {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+lop
   };
   
 
@@ -222,7 +223,9 @@ export function AddThirdPartyNominee({
                     value={formData.start_date}
                     onChange={(date) =>
                       handleChange({
-                        target: { name: "start_date", value: date }, 
+
+                        target: { name: "start_date", value: date.toISOString()  },
+
                       })
                     }
                     placeholder="Enter Lease start date"
@@ -233,7 +236,9 @@ export function AddThirdPartyNominee({
                     value={formData.end_date}
                     onChange={(date) =>
                       handleChange({
-                        target: { name: "end_date", value: date }, 
+
+                        target: { name: "end_date", value: date.toISOString()  },
+
                       })
                     }
                     placeholder="Enter Lease end date"

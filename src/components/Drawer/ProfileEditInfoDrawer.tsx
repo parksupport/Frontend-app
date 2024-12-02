@@ -7,12 +7,12 @@ import { IoMdCheckmark } from "react-icons/io";
 
 interface ProfileEditInfoDrawerProps {
   back?: () => void;
-  userRole?: any;
+  type?: any;
 }
 
 export function ProfileEditInfoDrawer({
   back,
-  userRole,
+  type,
 }: ProfileEditInfoDrawerProps) {
   const [formData, setFormData] = useState({
     name: "",
@@ -49,9 +49,11 @@ export function ProfileEditInfoDrawer({
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (userRole === '!User') {
+    if (type === "!User") {
       // Logic to send the changes for admin approval
-      alert('Changes to company information have been sent for admin approval.');
+      alert(
+        "Changes to company information have been sent for admin approval."
+      );
     } else {
       // Logic to save changes directly for individual users
       back();
@@ -100,6 +102,44 @@ export function ProfileEditInfoDrawer({
   const CompanyInputFields = [
     {
       type: "text",
+      placeholder: "Enter your company name",
+      label: "Company Name",
+      name: "name",
+      value: formData.name,
+    },
+    {
+      type: "email",
+      placeholder: "Enter your company email address",
+      label: "Company Email Address",
+      name: "email_address",
+      value: formData.email_address,
+      validationRules: validateEmail,
+    },
+    {
+      type: "text",
+      placeholder: "Enter your Company phone number",
+      label: "Company Phone Number",
+      name: "phone_number",
+      value: formData.phone_number,
+    },
+    {
+      type: "text",
+      placeholder: "Enter your company address",
+      label: "Company Address",
+      name: "address",
+      value: formData.address,
+    },
+    {
+      type: "text",
+      placeholder: "Enter your company postal code",
+      label: "Company Postal Code",
+      name: "postal_code",
+      value: formData.postal_code,
+    },
+  ];
+  const CompanyManagerInputFields = [
+    {
+      type: "text",
       placeholder: "Enter your full name",
       label: "Name",
       name: "name",
@@ -122,60 +162,50 @@ export function ProfileEditInfoDrawer({
     },
     {
       type: "text",
-      placeholder: "Enter your position",
+      placeholder: "Enter your position at the company",
       label: "Position",
       name: "position",
       value: formData.position,
     },
-    {
-      type: "text",
-      placeholder: "Enter your house address",
-      label: "Address",
-      name: "address",
-      value: formData.address,
-    },
-    {
-      type: "text",
-      placeholder: "Enter your postal code",
-      label: "Postal Code",
-      name: "postal_code",
-      value: formData.postal_code,
-    },
   ];
+
+  const inputFieldMapping = {
+    User: UserInputFields,
+    Company: CompanyInputFields,
+    Manager: CompanyManagerInputFields,
+  };
+
+  const getInputFields = (type) => inputFieldMapping[type] || [];
 
   return (
     <div className=" mb-[300px] ">
       <DrawerHeader
         toggleDrawer={back}
         title={
-          userRole === "User"
-            ? "Edit Information"
-            : "Edit Corporate Information"
+          type === "User" ? "Edit Information" : "Edit Corporate Information"
         }
         subTitle="Put in the same details that exist with DVLA"
       />
-{/* 
+      {/* 
       <form className="pt-5 md:pt-10 px-[20px] md:mx-auto ">
         <div className="flex flex-col gap-4 items-center "> */}
-              <form className="pt-12 px-[20px]">
-              <div className="flex flex-col gap-4 items-center md:w-[65%] mx-auto">
+      <form className="pt-12 px-[20px]">
+        <div className="flex flex-col gap-4 items-center md:w-[65%] mx-auto">
           {/* Map through the inputFields array */}
-          {(userRole === "User" ? UserInputFields : CompanyInputFields).map(
-            (field) => (
-              <InputField
-                key={field.name} // Unique key for each input field
-                type={field.type}
-                placeholder={field.placeholder}
-                label={field.label}
-                name={field.name}
-                value={field.value}
-                onChange={handleChange}
-                validationRules={field.validationRules}
-                variant="individual"
-                className={` ${groteskText.className} w-full  `}
-              />
-            )
-          )}
+          {getInputFields(type).map((field) => (
+            <InputField
+              key={field.name} // Unique key for each input field
+              type={field.type}
+              placeholder={field.placeholder}
+              label={field.label}
+              name={field.name}
+              value={field.value}
+              onChange={handleChange}
+              validationRules={field.validationRules}
+              variant="individual"
+              className={` ${groteskText.className} w-full  `}
+            />
+          ))}
           <div className="flex items-start ml-1 -mt-3 space-x-2 w-full">
             <input
               type="checkbox"
@@ -208,5 +238,3 @@ export function ProfileEditInfoDrawer({
     </div>
   );
 }
-
-

@@ -24,6 +24,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
   const userInfoSections = [
     {
       title: "Personal information",
+      type: "User",
       fields: [
         { label: "First name", value: user?.firstName },
         { label: "Last name", value: user?.lastName },
@@ -33,6 +34,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
     },
     {
       title: "Address",
+      type: "User",
       fields: [
         { label: "Country", value: user?.address?.country },
         {
@@ -68,6 +70,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
   const conmpanyInfoSections = [
     {
       title: "Manager Information",
+      type: "Manager",
       fields: [
         { label: "First Name", value: companyData.user.firstName },
         { label: "Last Name", value: companyData.user.lastName },
@@ -78,6 +81,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
     },
     {
       title: "Company Information",
+      type: "Company",
       fields: [
         { label: "Company Name", value: companyData.company.name },
         {
@@ -107,21 +111,20 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
       <DrawerHeader
         toggleDrawer={back}
         title={
-          userInfo === "User"
-            ? "User Information"
-            : " Corporate Information"
+          userInfo === "User" ? "User Information" : " Corporate Information"
         }
-        
-        subTitle={ userInfo === "User" ? "This section is all about the user’s personal details." : "This section is all about the corporate’s personal details."}
+        subTitle={
+          userInfo === "User"
+            ? "This section is all about the user’s details."
+            : "This section is all about the corporate’s details."
+        }
       />
 
       <div
         className={`${groteskText.className} flex flex-col items-center justify-center gap-5 mt-12 md:mx-2 mb-[150px]`}
       >
-
-
-                {/* Header Section */}
-                <div className="border border-[#D0D5DD] rounded-[16px] flex items-center justify-between bg-white p-4 w-full">
+        {/* Header Section */}
+        <div className="border border-[#D0D5DD] rounded-[16px] flex items-center justify-between bg-white p-4 w-full">
           {/* User Info */}
           <div className="flex items-center space-x-4 py-2 md:p-2">
             <img
@@ -144,15 +147,20 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
           </div>
 
           {/* Edit Button */}
+
           <button
             className="  -mt-[30px]   md:-mt-[60px] flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
-            onClick={onEdit}
+            onClick={() =>
+              onEdit({
+                type: userInfo === "User" ? "User" : "Company",
+              })
+            }
           >
             <span className={` text-black ${groteskText.className}`}>Edit</span>
             <CiEdit color="black" size={20} />
           </button>
         </div>
-        
+
         {/* Dynamic Sections */}
         {(userInfo === "User" ? userInfoSections : conmpanyInfoSections).map(
           (section, index) => (
@@ -161,21 +169,26 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
               className=" border border-[#D0D5DD] rounded-[16px] px-3 py-5 md:p-2 w-full"
             >
               <div className="flex items-center justify-between">
-                
                 <h2
                   className={`${groteskTextMedium.className} text-black text-[20px] md:text-[24px] mb-4`}
                 >
                   {section.title}
                 </h2>
-                <button
-                  className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
-                  onClick={onEdit}
-                >
-                  <span className={` text-black ${groteskText.className}`}>
-                    Edit
-                  </span>
-                  <CiEdit color="black" size={20} />
-                </button>
+                {userInfo !== "User" && section.type !== "Company" && (
+                  <button
+                    className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
+                    onClick={() =>
+                      onEdit({
+                        type: section.type,
+                      })
+                    }
+                  >
+                    <span className={` text-black ${groteskText.className}`}>
+                      Edit
+                    </span>
+                    <CiEdit color="black" size={20} />
+                  </button>
+                )}
               </div>
               <div
                 className={`grid   ${
@@ -210,9 +223,6 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
             </div>
           )
         )}
-
-
-
       </div>
     </div>
   );

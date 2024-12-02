@@ -36,7 +36,6 @@ import ModalComponent from "@/components/ModalComponent";
 
 import ThirdPartyNominees from "@/components/card/ThirdPartyNominee";
 
-
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
@@ -87,9 +86,9 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openProfileEditDrawer = () => {
+  const openProfileEditDrawer = ({ type }) => {
     setDrawerContent(
-      <ProfileEditInfoDrawer back={openProfileDrawer} userRole={User} />
+      <ProfileEditInfoDrawer back={openProfileDrawer} type={type} />
     );
     scrollToTopFromParent();
     openDrawer();
@@ -123,8 +122,7 @@ export default function DashboardPage() {
   const openNotificationRep = () => {
     setDrawerContent(
       <ThirdPartyNominees
-        // OpenRecipient={OpenRecipient}
-       
+      // OpenRecipient={OpenRecipient}
       />
     );
 
@@ -197,7 +195,7 @@ export default function DashboardPage() {
   const openSettingsDrawer = () => {
     setDrawerContent(
       <SettingsDrawer
-      openNotificationRep={openNotificationRep}
+        openNotificationRep={openNotificationRep}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />

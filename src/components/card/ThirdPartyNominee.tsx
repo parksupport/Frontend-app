@@ -104,16 +104,20 @@ export function AddThirdPartyNominee({
   addVehicle,
   nominees,
   user,
+
 }: AddThirdPartyNomineeProps) {
   const [hasError, setHasError] = useState(false);
+  const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
     vehicle: "",
     phone_number: "",
-    start_date: "",
-    end_date: "",
+    start_date: new Date(),
+    end_date: isIndefiniteEndDate ? new Date(new Date().setFullYear(new Date().getFullYear() + 50)) : new Date(),
   });
+
+  console.log("isIndefinite", isIndefiniteEndDate);
 
   const UserInputFields = [
     {
@@ -147,28 +151,30 @@ export function AddThirdPartyNominee({
 
     if (!hasError) {
       // Proceed with form submission logic, e.g., addVehicle();
-      toggleForm(false); // Close the form after submission
+      // toggleForm(false); // Close the form after submission
     }
   };
 
   const handleDateValidation = () => {
     const startDate = new Date(formData.start_date);
     const endDate = new Date(formData.end_date);
-
-    if (startDate >= endDate) {
+  
+    if (!isIndefiniteEndDate && startDate >= endDate) {
       setHasError(true);
     } else {
       setHasError(false);
     }
   };
+  
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
+  
 
   return (
     <div className="py-12 mb-[300px] ">
@@ -216,7 +222,7 @@ export function AddThirdPartyNominee({
                     value={formData.start_date}
                     onChange={(date) =>
                       handleChange({
-                        target: { name: "start_date", value: date },
+                        target: { name: "start_date", value: date }, 
                       })
                     }
                     placeholder="Enter Lease start date"
@@ -227,12 +233,15 @@ export function AddThirdPartyNominee({
                     value={formData.end_date}
                     onChange={(date) =>
                       handleChange({
-                        target: { name: "end_date", value: date },
+                        target: { name: "end_date", value: date }, 
                       })
                     }
                     placeholder="Enter Lease end date"
                     className={`${groteskText.className} w-[90%] md:w-[65%]`}
-                    error={hasError} // Show error if date is invalid
+                    error={hasError} 
+                    indefinite
+                    endDate={isIndefiniteEndDate}
+                    handleEndDateChange={() => setIndefiniteEndDate(!isIndefiniteEndDate)}
                   />
                 </div>
 
@@ -421,7 +430,7 @@ export const NomineeMobile = ({
   const handleNext = () => {
     if (currentIndex < nominees.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      sliderRef.current.slickGoTo(currentIndex + 1); 
+      sliderRef.current.slickGoTo(currentIndex + 1);
     }
   };
   return (

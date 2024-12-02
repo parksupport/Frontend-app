@@ -421,7 +421,7 @@ export const NomineeMobile = ({
   const handleNext = () => {
     if (currentIndex < nominees.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      sliderRef.current.slickGoTo(currentIndex + 1); // Programmatically move to the next slide
+      sliderRef.current.slickGoTo(currentIndex + 1); 
     }
   };
   return (

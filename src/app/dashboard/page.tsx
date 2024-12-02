@@ -35,6 +35,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
 
 import ThirdPartyNominees from "@/components/card/ThirdPartyNominee";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,13 +61,14 @@ export default function DashboardPage() {
     }
   };
 
-  const openCarProfile = (cars: any) => {
+  const openCarProfile = (cars: any, form: any = false) => {
     setDrawerContent(
       <CarProfileDrawer
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
         user={User}
+        form={form}
       />
     );
 
@@ -115,16 +117,6 @@ export default function DashboardPage() {
       />
     );
     scrollToTopFromParent();
-
-    openDrawer();
-  };
-
-  const openNotificationRep = () => {
-    setDrawerContent(
-      <ThirdPartyNominees
-      // OpenRecipient={OpenRecipient}
-      />
-    );
 
     openDrawer();
   };
@@ -195,7 +187,9 @@ export default function DashboardPage() {
   const openSettingsDrawer = () => {
     setDrawerContent(
       <SettingsDrawer
-        openNotificationRep={openNotificationRep}
+        openCarProfile={() => {
+          openCarProfile(cars, true);
+        }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />

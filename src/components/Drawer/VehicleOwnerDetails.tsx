@@ -157,7 +157,7 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user }) => {
   // Owner options
 
   const User = {
-    0: "It belongs to a relative/friend",
+    0: "Family/Friend",
     1: "Owned by company",
     2: "Hired/Lease",
   };

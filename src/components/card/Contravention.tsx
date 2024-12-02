@@ -11,7 +11,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
   const [visibleCount, setVisibleCount] = useState(3);
 
   const updateVisibleCount = () => {
-    const isSmallScreen = window.matchMedia('(max-width: 640px)').matches;
+    const isSmallScreen = window.matchMedia('(max-width: 1024px)').matches;
     const isLargeScreen = window.matchMedia('(min-width: 3000px)').matches;
 
     if (isSmallScreen) {
@@ -65,27 +65,27 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
         <thead className="border-b border-b-[#C5D5F8] lg:w-full">
           <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between">
             <th
-              className={`text-[#757575] text-[17px] self-start lg:pl-[17px] py-[0.75rem]  lg:text-left   ${groteskText.className} `}
+              className={`text-[#757575] text-[17px] self-start lg:pl-[17px] py-[0.75rem]  lg:text-left   ${groteskTextMedium.className} `}
             >
               Contravention Type
             </th>
             <th
-              className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]     ${groteskText.className}`}
+              className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]     ${groteskTextMedium.className}`}
             >
               Vehicle Reg No
             </th>
             <th
-              className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskText.className}`}
+              className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskTextMedium.className}`}
             >
               Issuing by
             </th>
             <th
-              className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskText.className}`}
+              className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskTextMedium.className}`}
             >
               Fine
             </th>
             <th
-              className={`text-[#757575] text-[17px] self-start  py-[0.75rem] pr-[1rem]    ${groteskText.className}`}
+              className={`text-[#757575] text-[17px] self-start  py-[0.75rem] pr-[1rem]    ${groteskTextMedium.className}`}
             >
               Status
             </th>
@@ -95,7 +95,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
   {itemDetails.contravention.slice(0, visibleCount).map((invoice) => (
     <tr key={invoice.ticket} className="flex flex-col px-[1rem] lg:flex lg:flex-row">
       <td
-        className={`pb-[0.75rem] self-end text-[#212121] text-[1rem] pl-[17px] lg:pl-0 lg:w-[36%] ${groteskText.className}`}
+        className={`pb-[0.75rem] self-end text-[#212121] text-[1rem] lg:pl-[17px] lg:pl-0 lg:w-[36%] ${groteskText.className}`}
       
       >
         {invoice.ticket}

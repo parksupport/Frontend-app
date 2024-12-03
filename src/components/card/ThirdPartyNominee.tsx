@@ -36,7 +36,12 @@ export default function ThirdPartyNominees({
     showDeleteConfirmation,
     cancelDelete,
     setShowConfirmButton,
+    setOpenDropdownIndex,
   } = useDeleteRow(ThirdPartyNominee);
+
+  const handleCloseModal = () => {
+    setOpenDropdownIndex(null);
+  };
 
   const isMobile = useIsMobile();
   return (
@@ -81,188 +86,9 @@ export default function ThirdPartyNominees({
           toggleDropdown={toggleDropdown}
           handleDelete={handleDelete}
           selectedDataIndex={selectedDataIndex}
+          onCloseModal={handleCloseModal}
         />
       )}
-    </div>
-  );
-}
-
-interface AddThirdPartyNomineeProps {
-  vehiclesRegNunbers?: any;
-  toggleForm?: any;
-  addVehicle?: () => void;
-  nominees?: any;
-  user?: any;
-}
-
-export function AddThirdPartyNominee({
-  vehiclesRegNunbers,
-  toggleForm,
-  addVehicle,
-  nominees,
-  user,
-
-}: AddThirdPartyNomineeProps) {
-  const [hasError, setHasError] = useState(false);
-  const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email_address: "",
-    vehicle: "",
-    phone_number: "",
-    start_date: new Date(),
-    end_date: isIndefiniteEndDate ? new Date(new Date().setFullYear(new Date().getFullYear() + 50)) : new Date(),
-  });
-
-  const UserInputFields = [
-    {
-      type: "text",
-      placeholder: "Enter your full name",
-      label: "Name",
-      name: "name",
-      value: formData.name,
-    },
-    {
-      type: "email",
-      placeholder: "Enter your email address",
-      label: "Email Address",
-      name: "email_address",
-      value: formData.email_address,
-    },
-    {
-      type: "text",
-      placeholder: "Enter your phone number",
-      label: "Phone Number",
-      name: "phone_number",
-      value: formData.phone_number,
-    },
-  ];
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Trigger date validation before submitting
-    handleDateValidation();
-
-    if (!hasError) {
-      // Proceed with form submission logic, e.g., addVehicle();
-      // toggleForm(false); // Close the form after submission
-    }
-  };
-
-  const handleDateValidation = () => {
-    const startDate = new Date(formData.start_date);
-    const endDate = new Date(formData.end_date);
-  
-    if (!isIndefiniteEndDate && startDate >= endDate) {
-      setHasError(true);
-    } else {
-      setHasError(false);
-    }
-  };
-  
-
-
-  const handleChange =(event: { target: { name: string; value: string } })=> {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-lop
-  };
-  
-
-  return (
-    <div className="py-12 mb-[300px] ">
-      <div className="flex flex-col">
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <div className="flex flex-col items-center">
-            <h1
-              className={`text-wrap text-black text-[22px] md:text-[24px] ${groteskText.className}`}
-            >
-              {`Vehicle ${nominees.registrationNumber}`}
-            </h1>
-            <h1 className={`${groteskText.className} text-[18px] leading-none`}>
-              Add Notification Recipient
-            </h1>
-          </div>
-          <div
-            className={`text-[#4169E1] text-[18px] hover:underline ${groteskText.className}`}
-            onClick={() => toggleForm(false)}
-          >
-            View all
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-4 items-center">
-            {UserInputFields.map((field) => (
-              <InputField
-                key={field.name}
-                type={field.type}
-                placeholder={field.placeholder}
-                label={field.label}
-                name={field.name}
-                value={field.value}
-                onChange={handleChange}
-                variant="individual"
-                className={`${groteskText.className} w-[90%] md:w-[75%]`}
-              />
-            ))}
-
-            {user === "Corporate" && (
-              <div className="flex flex-col">
-                <div className="flex gap-3">
-                  <CustomDatePicker
-                    label="Enter Start Date"
-                    value={formData.start_date}
-                    onChange={(date) =>
-                      handleChange({
-
-                        target: { name: "start_date", value: date.toISOString()  },
-
-                      })
-                    }
-                    placeholder="Enter Lease start date"
-                    className={`${groteskText.className} w-[90%] md:w-[65%]`}
-                  />
-                  <CustomDatePicker
-                    label="Enter End Date"
-                    value={formData.end_date}
-                    onChange={(date) =>
-                      handleChange({
-
-                        target: { name: "end_date", value: date.toISOString()  },
-
-                      })
-                    }
-                    placeholder="Enter Lease end date"
-                    className={`${groteskText.className} w-[90%] md:w-[65%]`}
-                    error={hasError} 
-                    indefinite
-                    endDate={isIndefiniteEndDate}
-                    handleEndDateChange={() => setIndefiniteEndDate(!isIndefiniteEndDate)}
-                  />
-                </div>
-
-                {hasError && (
-                  <p className="flex justify-end text-right text-red-600 text-[12px] leading-none mt-1">
-                    End date should be after start date
-                  </p>
-                )}
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              variant="quinary"
-              className="py-[10px] px-[12px] w-[80%] md:w-[65%]"
-            >
-              Add Nominee
-            </Button>
-          </div>
-        </form>
-      </div>
     </div>
   );
 }
@@ -276,6 +102,7 @@ const NomineeDesktop = ({
   toggleDropdown,
   handleDelete,
   selectedDataIndex,
+  onCloseModal,
 }) => {
   return (
     <div className=" overflow-x-auto max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
@@ -293,6 +120,11 @@ const NomineeDesktop = ({
               className={` ${groteskText.className} whitespace-nowrap py-2 px-3 text-left w-[20%] `}
             >
               Name
+            </th>
+            <th
+              className={` ${groteskText.className} whitespace-nowrap px-3 text-left  w-[20%] `}
+            >
+              Status
             </th>
             <th
               className={` ${groteskText.className} whitespace-nowrap px-3 text-left  w-[20%] `}
@@ -327,7 +159,6 @@ const NomineeDesktop = ({
                   <button
                     className="text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
                     onClick={() => toggleDropdown(index)}
-                    disabled={expiredLease}
                   >
                     &#8942;
                   </button>
@@ -343,6 +174,8 @@ const NomineeDesktop = ({
                       customStyles={`${groteskText.className} text-[14px]`}
                       position={{ right: -110, top: 30 }}
                       removeAddButton
+                      expiredLease={expiredLease}
+                      onClose={onCloseModal}
                     />
                   )}
                 </td>
@@ -359,10 +192,16 @@ const NomineeDesktop = ({
                   className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
                 >
                   <TruncatedText
-                    text={nominee.email}
-                    maxLength={15}
-                    className={` ${groteskText.className}`}
+                    text={nominee.status}
+                    maxLength={10}
+                    className={`${groteskText.className}`}
                   />
+                </td>
+                <td
+                  className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                >
+                  phone
+                  {nominee.status}
                 </td>
                 <td
                   className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
@@ -407,6 +246,7 @@ export const NomineeMobile = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showActions, setShowActions] = useState(false);
+  const actionsRef = useRef(null); // Ref for actions dropdown
   const sliderRef = useRef(null);
 
   const toggleActions = () => setShowActions((prev) => !prev);
@@ -433,15 +273,27 @@ export const NomineeMobile = ({
       sliderRef.current.slickGoTo(currentIndex + 1);
     }
   };
+
+  // Handle clicks outside the actions dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (actionsRef.current && !actionsRef.current.contains(event.target)) {
+        setShowActions(false); // Close the dropdown if clicked outside
+        setShowConfirmButton(false); // Reset the confirm button state if needed
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="flex flex-col items-center py-4">
       <div className="relative w-full max-w-md p-4 bg-white rounded-[12px] border-[#D0D5DD] border mb-4">
         <div className="flex justify-end items-center pb-3">
           <button
-            disabled={
-              nominees[currentIndex] &&
-              new Date(nominees[currentIndex].endDate) < new Date()
-            }
             onClick={() => {
               toggleActions();
               setShowConfirmButton(false);
@@ -453,11 +305,23 @@ export const NomineeMobile = ({
         </div>
 
         {showActions && (
-          <div className="rounded-[8px] bg-white right-0 absolute z-10">
+          <div
+            className="rounded-[8px] bg-white right-0 absolute z-10"
+            ref={actionsRef} // Attach the ref to the dropdown
+          >
             <div className="border border-gray-200 rounded-[8px] shadow-lg p-1">
               <button
-                className={`w-full flex items-center px-[1px] py-2 text-sm text-red-600 hover:bg-gray-100  ${groteskText.className}`}
+                className={`w-full flex items-center px-[1px] py-2 text-[14px] ${
+                  nominees[currentIndex] &&
+                  new Date(nominees[currentIndex].endDate) < new Date()
+                    ? "text-gray-400 bg-gray-200 cursor-not-allowed"
+                    : "text-red-600 hover:bg-gray-100"
+                }`}
                 onClick={() => showDeleteConfirmation(currentIndex)}
+                disabled={
+                  nominees[currentIndex] &&
+                  new Date(nominees[currentIndex].endDate) < new Date()
+                }
               >
                 <FiTrash2 className="mr-2" />
                 End Nomination
@@ -526,6 +390,15 @@ export const NomineeMobile = ({
                 </div>
                 <div className="flex justify-between">
                   <span className={`${groteskText.className} text-gray-500`}>
+                    Status
+                  </span>
+
+                  <div className={`${groteskText.className} text-black`}>
+                    {nominee.status}
+                  </div>
+                </div>
+                <div className="flex justify-between">
+                  <span className={`${groteskText.className} text-gray-500`}>
                     Phone Number
                   </span>
 
@@ -567,9 +440,7 @@ export const NomineeMobile = ({
         <div className="flex justify-between items-center mt-4">
           <button
             onClick={handlePrevious}
-            className={`${
-              groteskText.className
-            } w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
+            className={`w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
               currentIndex === 0
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-[#1C1B1B]"
@@ -592,9 +463,7 @@ export const NomineeMobile = ({
 
           <button
             onClick={handleNext}
-            className={`${
-              groteskText.className
-            } w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
+            className={`w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
               currentIndex === nominees.length - 1
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-[#1C1B1B]"
@@ -608,3 +477,181 @@ export const NomineeMobile = ({
     </div>
   );
 };
+
+interface AddThirdPartyNomineeProps {
+  vehiclesRegNunbers?: any;
+  toggleForm?: any;
+  addVehicle?: () => void;
+  nominees?: any;
+  user?: any;
+}
+
+export function AddThirdPartyNominee({
+  vehiclesRegNunbers,
+  toggleForm,
+  addVehicle,
+  nominees,
+  user,
+}: AddThirdPartyNomineeProps) {
+  const [hasError, setHasError] = useState(false);
+  const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email_address: "",
+    vehicle: "",
+    phone_number: "",
+    start_date: new Date(),
+    end_date: isIndefiniteEndDate
+      ? new Date(new Date().setFullYear(new Date().getFullYear() + 50))
+      : new Date(),
+  });
+
+  const UserInputFields = [
+    {
+      type: "text",
+      placeholder: "Enter your full name",
+      label: "Name",
+      name: "name",
+      value: formData.name,
+    },
+    {
+      type: "email",
+      placeholder: "Enter your email address",
+      label: "Email Address",
+      name: "email_address",
+      value: formData.email_address,
+    },
+    {
+      type: "text",
+      placeholder: "Enter your phone number",
+      label: "Phone Number",
+      name: "phone_number",
+      value: formData.phone_number,
+    },
+  ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Trigger date validation before submitting
+    handleDateValidation();
+
+    if (!hasError) {
+      // Proceed with form submission logic, e.g., addVehicle();
+      // toggleForm(false); // Close the form after submission
+    }
+  };
+
+  const handleDateValidation = () => {
+    const startDate = new Date(formData.start_date);
+    const endDate = new Date(formData.end_date);
+
+    if (!isIndefiniteEndDate && startDate >= endDate) {
+      setHasError(true);
+    } else {
+      setHasError(false);
+    }
+  };
+
+  const handleChange = (event: { target: { name: string; value: string } }) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  return (
+    <div className="py-12 mb-[300px] ">
+      <div className="flex flex-col">
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <div className="flex flex-col items-center">
+            <h1
+              className={`text-wrap text-black text-[22px] md:text-[24px] ${groteskText.className}`}
+            >
+              {`Vehicle ${nominees.registrationNumber}`}
+            </h1>
+            <h1 className={`${groteskText.className} text-[18px] leading-none`}>
+              Add Notification Recipient
+            </h1>
+          </div>
+          <div
+            className={`text-[#4169E1] text-[18px] hover:underline ${groteskText.className}`}
+            onClick={() => toggleForm(false)}
+          >
+            View all
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-4 items-center">
+            {UserInputFields.map((field) => (
+              <InputField
+                key={field.name}
+                type={field.type}
+                placeholder={field.placeholder}
+                label={field.label}
+                name={field.name}
+                value={field.value}
+                onChange={handleChange}
+                variant="individual"
+                className={`${groteskText.className} w-[90%] md:w-[75%]`}
+              />
+            ))}
+
+            {user === "Corporate" && (
+              <div className="flex flex-col">
+                <div className="flex gap-3">
+                  <CustomDatePicker
+                    label="Enter Start Date"
+                    value={formData.start_date}
+                    onChange={(date) =>
+                      handleChange({
+                        target: {
+                          name: "start_date",
+                          value: date.toISOString(),
+                        },
+                      })
+                    }
+                    placeholder="Enter Lease start date"
+                    className={`${groteskText.className} w-[90%] md:w-[65%]`}
+                  />
+                  <CustomDatePicker
+                    label="Enter End Date"
+                    value={formData.end_date}
+                    onChange={(date) =>
+                      handleChange({
+                        target: { name: "end_date", value: date.toISOString() },
+                      })
+                    }
+                    placeholder="Enter Lease end date"
+                    className={`${groteskText.className} w-[90%] md:w-[65%]`}
+                    error={hasError}
+                    indefinite
+                    endDate={isIndefiniteEndDate}
+                    handleEndDateChange={() =>
+                      setIndefiniteEndDate(!isIndefiniteEndDate)
+                    }
+                  />
+                </div>
+
+                {hasError && (
+                  <p className="flex justify-end text-right text-red-600 text-[12px] leading-none mt-1">
+                    End date should be after start date
+                  </p>
+                )}
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              variant="quinary"
+              className="py-[10px] px-[12px] w-[80%] md:w-[65%]"
+            >
+              Add Nominee
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

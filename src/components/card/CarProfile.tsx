@@ -235,7 +235,7 @@ function CarProfile({
                   </div>
                 </div>
               </div>
-              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center ">
+              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center md:w-[40%] ">
                 <button
                   className={`${groteskText.className} w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
                   onClick={goToPrevious}

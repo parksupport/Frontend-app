@@ -12,7 +12,9 @@ interface CarProfileDrawerProps {
   toggleDrawer: any;
   addVehicleDetails: any;
   user: any;
-  form?:any;
+
+  openNominationHistory: any;
+
 }
 
 const CarProfileDrawer = ({
@@ -20,7 +22,9 @@ const CarProfileDrawer = ({
   toggleDrawer,
   addVehicleDetails,
   user,
-  form,
+
+  openNominationHistory
+
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
@@ -75,6 +79,7 @@ const CarProfileDrawer = ({
         </>
       ) : (
         <CorporateCarProfileDrawer
+        openNominationHistory={openNominationHistory}
           vehicles={vehicles}
           addVehicleDetails={addVehicleDetails}
           toggleDrawer={toggleDrawer}

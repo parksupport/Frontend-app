@@ -18,7 +18,8 @@ export const CorporateCarProfileDrawer = ({
   addVehicleDetails,
   vehicles,
   user,
-  isForm
+  isForm,
+  openNominationHistory
 }) => {
   const isMobile = useIsMobile();
 
@@ -52,7 +53,7 @@ export const CorporateCarProfileDrawer = ({
       <div className="flex justify-end ">
         <SearchSortModal data={data} setData={setData} />
         <button
-          onClick={() => console.log("hi")}
+          onClick={openNominationHistory}
           className=" ml-4  w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center mt-8"
         >
           <MdHistory size={20} />

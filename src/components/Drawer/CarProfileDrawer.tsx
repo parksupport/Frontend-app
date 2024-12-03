@@ -12,9 +12,8 @@ interface CarProfileDrawerProps {
   toggleDrawer: any;
   addVehicleDetails: any;
   user: any;
-
+  form: boolean;
   openNominationHistory: any;
-
 }
 
 const CarProfileDrawer = ({
@@ -22,9 +21,8 @@ const CarProfileDrawer = ({
   toggleDrawer,
   addVehicleDetails,
   user,
-
-  openNominationHistory
-
+  form,
+  openNominationHistory,
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
@@ -44,17 +42,14 @@ const CarProfileDrawer = ({
           }))}
           toggleForm={setIsForm}
           addVehicle={addVehicleDetails}
-          nominees={
-            vehicles?.carDetails?.[selectedVehicleIndex] || []}
+          nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
         />
       );
     } else {
       return (
         <ThirdPartyNominees
           toggleForm={setIsForm}
-          nominees={
-            vehicles?.carDetails?.[selectedVehicleIndex] || []
-          }
+          nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
         />
       );
     }
@@ -79,7 +74,7 @@ const CarProfileDrawer = ({
         </>
       ) : (
         <CorporateCarProfileDrawer
-        openNominationHistory={openNominationHistory}
+          openNominationHistory={openNominationHistory}
           vehicles={vehicles}
           addVehicleDetails={addVehicleDetails}
           toggleDrawer={toggleDrawer}

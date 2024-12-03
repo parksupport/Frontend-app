@@ -18,10 +18,11 @@ export const CorporateCarProfileDrawer = ({
   addVehicleDetails,
   vehicles,
   user,
+  isForm
 }) => {
   const isMobile = useIsMobile();
 
-  const [form, setForm] = useState(false);
+  const [form, setForm] = useState(isForm);
 
   const {
     openDropdownIndex,

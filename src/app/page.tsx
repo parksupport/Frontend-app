@@ -36,7 +36,6 @@ export default function LandingPage() {
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
     const { value } = e.target;
     setVehicleNo(value);
     if (value === "") {
@@ -70,8 +69,6 @@ export default function LandingPage() {
     }
   };
 
-
-
   return (
     <div
       className={`${groteskText.className} "bg-[#FFFFFF] mx-auto w-full overflow-hidden "`}
@@ -91,7 +88,6 @@ export default function LandingPage() {
           ref={home}
           className="z-20 max-w-[1440px] mx-auto flex flex-col md:w-4/5 items-center  "
         >
-          <div className="bg-[#D9D9D9] underline cursor-pointer" onClick={() => router.push("/dashboard")}>Go to dashboard</div>
           <div className="flex flex-col lg:flex lg:flex-row ">
             <div className="flex flex-col justify-center px-4">
               <TextSection
@@ -102,7 +98,6 @@ export default function LandingPage() {
                       <TextAnimation />
                     </div>
                     <span>Ticket Again!</span>
-                   
                   </div>
                 }
                 content="Stay ahead of your vehicle's parking and driving fines with instant notifications, easy payments, and seamless appeals – all in one place."
@@ -128,7 +123,7 @@ export default function LandingPage() {
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
                 <ArrowToText style={{ height: 132 }} />
-               <AnimationText />
+                <AnimationText />
                 {/* <Image
                   src={ArrowToText}
                   alt="car"
@@ -210,10 +205,7 @@ export default function LandingPage() {
           className=" max-w-[1440px] mx-auto  flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
         >
           <div className=" text-center md:px-80 pt-2">
-            <TextSection
-              title="All-in-one vehicle contravention solution"
-             
-            />
+            <TextSection title="All-in-one vehicle contravention solution" />
           </div>
           <div className="flex flex-col space-y-4 lg:flex-row item-center md:justify-between lg:w-full md:py-10  ">
             <div className="flex flex-col ">
@@ -244,14 +236,14 @@ export default function LandingPage() {
           <SubscriptionPlans />
         </section>
         <section>
-          <Footer 
-           scrollToSection={scrollToSection}
-           homeRef={home}
-           searchRef={search}
-           featuresRef={features}
-           faqRef={faq}
-           subPlanRef={subscriptionPlan}
-           router={router}
+          <Footer
+            scrollToSection={scrollToSection}
+            homeRef={home}
+            searchRef={search}
+            featuresRef={features}
+            faqRef={faq}
+            subPlanRef={subscriptionPlan}
+            router={router}
           />
         </section>
       </main>

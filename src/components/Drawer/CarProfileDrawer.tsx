@@ -79,6 +79,7 @@ const CarProfileDrawer = ({
           addVehicleDetails={addVehicleDetails}
           toggleDrawer={toggleDrawer}
           user={user}
+          isForm={form}
         />
       )}
     </div>

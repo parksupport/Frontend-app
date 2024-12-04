@@ -84,7 +84,7 @@ function CarProfile({
                 <div className="items-center flex gap-[11px]">
                   <Button
                     variant="quinary"
-                    className=" py-[0.5rem] px-[12px]"
+                    className={`py-[9px] px-[12px] text-[16px] `}
                     onClick={addVehicleDetails}
                   >
                     Add vehicle

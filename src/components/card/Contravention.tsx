@@ -53,7 +53,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
             <Button
               variant="quinary"
               onClick={handleButtonClick}
-              className="items-center flex-row flex py-[0.53125rem] px-[12px]"
+              className={`py-[9px] px-[12px] text-[16px] `}
             >
               Expand tickets
             </Button>

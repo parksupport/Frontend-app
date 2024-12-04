@@ -195,7 +195,7 @@ const NomineeDesktop = ({
                     className={`flex items-center justify-center w-[100px] py-1 rounded-full text-xs font-semibold whitespace-nowrap  ${
                       nominee.status === "active"
                         ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                        : "bg-red-100 text-red-700"
                     }`}
                   >
                     {nominee.status === "active" ? "Active" : "Not Active"}
@@ -401,8 +401,14 @@ export const NomineeMobile = ({
                     Status
                   </span>
 
-                  <div className={`${groteskText.className} text-black`}>
-                    {nominee.status}
+                  <div
+                    className={`flex items-center justify-center w-[100px] py-1 rounded-full text-xs font-semibold whitespace-nowrap  ${
+                      nominee.status === "active"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {nominee.status === "active" ? "Active" : "Not Active"}
                   </div>
                 </div>
                 <div className="flex justify-between">
@@ -448,7 +454,7 @@ export const NomineeMobile = ({
         <div className="flex justify-between items-center mt-4">
           <button
             onClick={handlePrevious}
-            className={`w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
+            className={`w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[14px] ${
               currentIndex === 0
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-[#1C1B1B]"
@@ -471,7 +477,7 @@ export const NomineeMobile = ({
 
           <button
             onClick={handleNext}
-            className={`w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] ${
+            className={`w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[14px] ${
               currentIndex === nominees.length - 1
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-[#1C1B1B]"

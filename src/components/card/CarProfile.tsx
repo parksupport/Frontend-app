@@ -19,6 +19,7 @@ import { useRef, useState } from "react";
 import { MoveDiagonal } from "lucide-react";
 import UserTickSVG from "@/assets/svg/user-tick.svg";
 import InfoIconWithText from "../InfoIconWithText";
+import SliderButton from "../SliderButton";
 
 interface CarProfileProps {
   openCarProfile: any;
@@ -109,22 +110,12 @@ function CarProfile({
                       // className="max-w-[222px] "
                     />
                   </div>
-                  <div className="flex justify-between mt-auto items-center lg:hidden">
-                    <button
-                      className={` ${groteskText.className} w-[97px] h-[28px] text-[14px]  rounded-[0.25rem] items-center border ${
-                        currentSlide === 0
-                          ? "border-gray-300 text-gray-400"
-                          : "border-[#D0D5DD] text-[#1C1B1B]"
-                      }`}
+                  <div className="flex justify-between  mt-auto items-center lg:hidden">
+                    <SliderButton
+                      direction="previous"
+                      isDisabled={currentSlide === 0}
                       onClick={goToPrevious}
-                      disabled={currentSlide === 0} // Disable if on the first slide
-                    >
-                      <ChevronLeft
-                        size={20}
-                        style={{ display: "inline-flex", marginBottom: 3 }}
-                      />
-                      Previous
-                    </button>
+                    />
                     <div className="flex items-center space-x-2">
                       {totalPages <= 3 ? (
                         Array.from({ length: totalPages }).map((_, index) => (
@@ -166,21 +157,11 @@ function CarProfile({
                         </>
                       )}
                     </div>
-                    <button
-                      className={`${groteskText.className} w-[74px] h-[28px] text-[14px]  items-center rounded-[0.25rem] border ${
-                        currentSlide === totalPages - 1
-                          ? "border-gray-300 text-gray-400"
-                          : "border-[#D0D5DD] text-[#1C1B1B]"
-                      }`}
+                    <SliderButton
+                      direction="next"
+                      isDisabled={currentSlide === totalPages - 1}
                       onClick={goToNext}
-                      disabled={currentSlide === totalPages - 1} // Disable if on the last slide
-                    >
-                      Next
-                      <ChevronRight
-                        size={20}
-                        style={{ display: "inline-flex", marginBottom: 3 }}
-                      />
-                    </button>
+                    />
                   </div>
                 </div>
 
@@ -278,21 +259,11 @@ function CarProfile({
                 </div>
               </div>
               <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center md:w-[40%] ">
-                <button
-                  className={`${groteskText.className} w-[97px] text-[14px] h-[28px] rounded-[0.25rem] items-center border ${
-                    currentSlide === 0
-                      ? "border-gray-300 text-gray-400"
-                      : "border-[#D0D5DD] text-[#1C1B1B]"
-                  }`}
+                <SliderButton
+                  direction="previous"
+                  isDisabled={currentSlide === 0}
                   onClick={goToPrevious}
-                  disabled={currentSlide === 0} // Disable if on the first slide
-                >
-                  <ChevronLeft
-                    size={20}
-                    style={{ display: "inline-flex", marginBottom: 3 }}
-                  />
-                  Previous
-                </button>
+                />
                 <div className="flex items-center space-x-2">
                   {totalPages <= 3 ? (
                     Array.from({ length: totalPages }).map((_, index) => (
@@ -332,21 +303,11 @@ function CarProfile({
                     </>
                   )}
                 </div>
-                <button
-                  className={` ${groteskText.className} w-[74px] text-[14px]  h-[28px] items-center rounded-[0.25rem] border ${
-                    currentSlide === totalPages - 1
-                      ? "border-gray-300 text-gray-400"
-                      : "border-[#D0D5DD] text-[#1C1B1B]"
-                  }`}
+                <SliderButton
+                  direction="next"
+                  isDisabled={currentSlide === totalPages - 1}
                   onClick={goToNext}
-                  disabled={currentSlide === totalPages - 1} // Disable if on the last slide
-                >
-                  Next
-                  <ChevronRight
-                    size={20}
-                    style={{ display: "inline-flex", marginBottom: 3 }}
-                  />
-                </button>
+                />
               </div>
             </div>
           ))}

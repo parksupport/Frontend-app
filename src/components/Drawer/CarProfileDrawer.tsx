@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ThirdPartyNominees, {
   AddThirdPartyNominee,
 } from "../card/ThirdPartyNominee";
@@ -32,25 +32,37 @@ const CarProfileDrawer = ({
     setSelectedVehicleIndex(index); // Update the selected vehicle when slider changes
   };
 
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const handleButtonClick = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const renderNomineeSection = () => {
     if (isForm) {
       return (
-        <AddThirdPartyNominee
-          vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
-            value: vehicle.registrationNumber,
-            label: vehicle.registrationNumber, // You can customize the label here
-          }))}
-          toggleForm={setIsForm}
-          addVehicle={addVehicleDetails}
-          nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
-        />
+        <div ref={formRef}>
+          <AddThirdPartyNominee
+            vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
+              value: vehicle.registrationNumber,
+              label: vehicle.registrationNumber, // You can customize the label here
+            }))}
+            toggleForm={setIsForm}
+            addVehicle={addVehicleDetails}
+            nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
+          />
+        </div>
       );
     } else {
       return (
-        <ThirdPartyNominees
-          toggleForm={setIsForm}
-          nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
-        />
+        <div ref={formRef}>
+          <ThirdPartyNominees
+            toggleForm={setIsForm}
+            nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
+          />
+        </div>
       );
     }
   };
@@ -69,6 +81,8 @@ const CarProfileDrawer = ({
             addVehicle={addVehicleDetails}
             onVehicleChange={handleVehicleChange}
             user={user}
+            setForm={setIsForm}
+            scrollToForm={handleButtonClick}
           />
           {renderNomineeSection()}
         </>

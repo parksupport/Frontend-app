@@ -9,6 +9,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 import { MoveDiagonal } from "lucide-react";
 import TruncatedText from "./ToggleComponent/TruncatedText";
+import SliderButton from "./SliderButton";
 
 interface NotificationProps {
   id: number;
@@ -243,17 +244,11 @@ export const MobileViewNotification = ({
         </Slider>
         {!isDrawer && (
           <div className="flex px-2 justify-between items-center mt-2">
-            <button
+            <SliderButton
+              direction="previous"
+              isDisabled={currentPage === 0}
               onClick={handlePrevious}
-              className={`w-[97px] h-[28px] rounded-[0.25rem] border text-[1rem] ${
-                currentPage === 0
-                  ? "border-gray-300 text-gray-400 cursor-not-allowed"
-                  : "border-[#D0D5DD] text-[#1C1B1B]"
-              }`}
-              disabled={currentPage === 0}
-            >
-              &lt; Previous
-            </button>
+            />
             <div className="flex space-x-1">
               {Array.from({ length: totalPages }, (_, index) => (
                 <span
@@ -264,17 +259,12 @@ export const MobileViewNotification = ({
                 ></span>
               ))}
             </div>
-            <button
+
+            <SliderButton
+              direction="next"
+              isDisabled={currentPage === totalPages - 1}
               onClick={handleNext}
-              className={`w-[74px] h-[28px] rounded-[0.25rem] border text-[1rem] ${
-                currentPage === totalPages - 1
-                  ? "border-gray-300 text-gray-400 cursor-not-allowed"
-                  : "border-[#D0D5DD] text-[#1C1B1B]"
-              }`}
-              disabled={currentPage === totalPages - 1}
-            >
-              Next &gt;
-            </button>
+            />
           </div>
         )}
       </div>
@@ -313,7 +303,7 @@ export const DesktopViewNotification = ({
   itemsPerPage,
   totalNotifications,
   onNotificationClick,
-  textMaxLenght
+  textMaxLenght,
 }: DesktopViewNotificationProps) => {
   return (
     <>
@@ -358,52 +348,54 @@ export const DesktopViewNotification = ({
             </div>
           </div>
         )}
-          <div className="overflow-x-auto">
+        <div className="overflow-x-auto">
           <table className="min-w-[500px] w-full text-left mt-0">
-          <tbody>
-            {currentNotifications.map((notification) => (
-              <tr
-                key={notification.id}
-                className={`border-t border-gray-300 cursor-pointer ${
-                  notification.read ? "text-gray-400" : "text-black"
-                } hover:bg-gray-100`}
-                onClick={() => onNotificationClick(notification)}
-              >
-                <td className="pl-2 py-2 w-[5%]">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox"
-                    checked={notification.checked || false}
-                    onChange={() => handleCheckboxChange(notification.id)}
-                  />
-                </td>
-                <td className="px-1 py-2  w-[15%]">
-                  <div className="flex items-center">
-                    <div className="px-1">
-                      <LabelImportantSVG />
-                    </div>
-                    <span className={`${groteskText.className}`}>
-                      {notification.type}
-                    </span>
-                  </div>
-                </td>
-                <td className={`${groteskText.className}  {isDrawer ? 'px-0' : 'px-2'}  py-2 w-[50%] `}>
-                  <TruncatedText
-                    text={notification.message}
-                    maxLength={textMaxLenght}
-                    className={`${groteskTextMedium.className}`}
-                    showFullOnHover={false}
-                  />
-                </td>
-                <td
-                  className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'}  py-2 text-center w-[10%]`}
+            <tbody>
+              {currentNotifications.map((notification) => (
+                <tr
+                  key={notification.id}
+                  className={`border-t border-gray-300 cursor-pointer ${
+                    notification.read ? "text-gray-400" : "text-black"
+                  } hover:bg-gray-100`}
+                  onClick={() => onNotificationClick(notification)}
                 >
-                  {notification.date}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  <td className="pl-2 py-2 w-[5%]">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox"
+                      checked={notification.checked || false}
+                      onChange={() => handleCheckboxChange(notification.id)}
+                    />
+                  </td>
+                  <td className="px-1 py-2  w-[15%]">
+                    <div className="flex items-center">
+                      <div className="px-1">
+                        <LabelImportantSVG />
+                      </div>
+                      <span className={`${groteskText.className}`}>
+                        {notification.type}
+                      </span>
+                    </div>
+                  </td>
+                  <td
+                    className={`${groteskText.className}  {isDrawer ? 'px-0' : 'px-2'}  py-2 w-[50%] `}
+                  >
+                    <TruncatedText
+                      text={notification.message}
+                      maxLength={textMaxLenght}
+                      className={`${groteskTextMedium.className}`}
+                      showFullOnHover={false}
+                    />
+                  </td>
+                  <td
+                    className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'}  py-2 text-center w-[10%]`}
+                  >
+                    {notification.date}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>

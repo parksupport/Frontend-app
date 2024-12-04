@@ -353,7 +353,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
               </div>
               <div className="w-full gap-5 flex justify-between mt-[11px] lg:w-[250px]">
                 <button
-                  className="px-3 py-1 h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B] flex items-center"
+                  className={`${groteskText.className} px-3 py-1 h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B] flex items-center`}
                   onClick={goToPrevious}
                 >
                   <ChevronLeft
@@ -404,7 +404,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                 </div>
 
                 <button
-                  className="px-3 py-1 h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B] flex items-center"
+                  className={`${groteskText.className} px-3 py-1 h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B] flex items-center`}
                   onClick={goToNext}
                 >
                   Next

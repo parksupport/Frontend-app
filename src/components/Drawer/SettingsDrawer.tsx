@@ -8,20 +8,22 @@ import { Switch } from "@/components/ui/switch";
 import InputField from "../InputField";
 import { useRouter } from "next/navigation";
 import ModalComponent from "../ModalComponent";
-import {  useDisclosure } from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 import ThirdPartyNominees from "../card/ThirdPartyNominee";
 import Drawer from "./Drawer";
 
-const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openCarProfile }) => {
+const SettingsDrawer = ({
+  toggleDrawer,
+  openAddBillingMethod,
+  openCarProfile,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const [isOpen, setIsOpen] = useState(false);
-
 
   const [smsNotifications, setSmsNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [isPopup, setIsPopup] = useState(false);
   const router = useRouter();
-
 
   const [showForm, setShowForm] = useState(false);
 
@@ -49,8 +51,6 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openCarProfile }) 
   const toggleForm = () => {
     setShowForm((prev) => !prev);
   };
-
-  
 
   return (
     <div className="">
@@ -84,7 +84,7 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openCarProfile }) 
               Add a Notification Recipient
             </Button>
             <div className="cursor-pointer">
-            <PlusButtonSVG onClick={openCarProfile} />
+              <PlusButtonSVG onClick={openCarProfile} />
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openCarProfile }) 
                   placeholder="Enter new password"
                   value={formData.newPassword}
                   onChange={handleChange}
-                  className="py-4 md:py-3 w-[400px]"
+                  className="py-4 md:py-3 w-[60%]"
                 />
 
                 <InputField
@@ -210,11 +210,11 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openCarProfile }) 
                   placeholder="Confirm new password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="py-4 md:py-3 w-[400px]"
+                  className="py-4 md:py-3 w-[60%]"
                 />
                 <Button
                   type="button"
-                  className="w-[30%] rounded-[0.75rem] whitespace-nowrap py-[8px] md:ml-[100px] px-[12px] "
+                  className="w-[30%] rounded-[0.75rem] whitespace-nowrap py-[8px] px-[12px] w-[60%] "
                   variant="quinary"
                   // onClick={CheckVehicleOwner}
                 >
@@ -223,13 +223,22 @@ const SettingsDrawer = ({ toggleDrawer, openAddBillingMethod, openCarProfile }) 
               </form>
             )}
           </div>
+
+          <div className="pt-10 flex flex-col gap-2">
+            <h1 className={` ${groteskTextMedium.className} text-[24px]`}>Logout your account</h1>
+            <div>
+          <button
+            className={` w-[60%]  ${groteskText.className}  px-4 py-2 gap-2 border text-[#CB1A14] border-[#CB1A14] rounded-[8px]`}
+            onClick={() => router.push("/")}
+          >
+          Logout
+          </button>
+        </div>
+          </div>
         </div>
       </div>
-   
     </div>
   );
 };
 
 export default SettingsDrawer;
-
-

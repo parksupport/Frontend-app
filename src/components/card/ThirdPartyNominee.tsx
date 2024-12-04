@@ -86,7 +86,7 @@ export default function ThirdPartyNominees({
           toggleDropdown={toggleDropdown}
           handleDelete={handleDelete}
           selectedDataIndex={selectedDataIndex}
-          onCloseModal={ () => setOpenDropdownIndex(null)}
+          onCloseModal={() => setOpenDropdownIndex(null)}
         />
       )}
     </div>
@@ -117,32 +117,32 @@ const NomineeDesktop = ({
               {" "}
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap py-2 px-3 text-left w-[20%] `}
+              className={` ${groteskText.className} whitespace-nowrap py-2 px-2 text-left w-[15%] `}
             >
               Name
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap px-3 text-left  w-[20%] `}
+              className={` ${groteskText.className} whitespace-nowrap px-2 text-left  w-[10%] `}
             >
               Status
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap px-3 text-left  w-[20%] `}
+              className={` ${groteskText.className} whitespace-nowrap px-2 text-left  w-[20%] `}
             >
               Email Address
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap  px-2  text-left  w-[25%]`}
+              className={` ${groteskText.className} whitespace-nowrap  px-2  text-left  w-[20%]`}
             >
               Phone Number
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}
+              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[15%] `}
             >
               Start Date
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[20%] `}
+              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[15%] `}
             >
               End Date
             </th>
@@ -180,7 +180,7 @@ const NomineeDesktop = ({
                   )}
                 </td>
                 <td
-                  className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
                 >
                   <TruncatedText
                     text={nominee.name}
@@ -189,19 +189,27 @@ const NomineeDesktop = ({
                   />
                 </td>
                 <td
-                  className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                >
+                  <div
+                    className={`flex items-center justify-center w-[100px] py-1 rounded-full text-xs font-semibold whitespace-nowrap  ${
+                      nominee.status === "active"
+                        ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {nominee.status === "active" ? "Active" : "Not Active"}
+                  </div>
+                </td>
+
+                <td
+                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
                 >
                   <TruncatedText
-                    text={nominee.status}
-                    maxLength={10}
+                    text={nominee.email}
+                    maxLength={15}
                     className={`${groteskText.className}`}
                   />
-                </td>
-                <td
-                  className={`pt-2 px-3 whitespace-nowrap text-[15px] ${groteskText.className}`}
-                >
-                  phone
-                  {nominee.status}
                 </td>
                 <td
                   className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}

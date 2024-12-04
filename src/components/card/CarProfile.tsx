@@ -39,11 +39,14 @@ function CarProfile({
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    beforeChange: (current) => setCurrentSlide(current),
+    // beforeChange: (current) => setCurrentSlide(current),
+    beforeChange: (current, next) => {
+      setCurrentSlide(next);
+    },
   };
 
   const goToPrevious = () => {
@@ -108,8 +111,13 @@ function CarProfile({
                   </div>
                   <div className="flex justify-between mt-auto items-center lg:hidden">
                     <button
-                      className=" w-[97px] h-[28px] rounded-[0.25rem] items-center border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                      className={`w-[97px] h-[28px] text-[14px]  rounded-[0.25rem] items-center border ${
+                        currentSlide === 0
+                          ? "border-gray-300 text-gray-400"
+                          : "border-[#D0D5DD] text-[#1C1B1B]"
+                      }`}
                       onClick={goToPrevious}
+                      disabled={currentSlide === 0} // Disable if on the first slide
                     >
                       <ChevronLeft
                         size={20}
@@ -117,21 +125,55 @@ function CarProfile({
                       />
                       Previous
                     </button>
-                    <div className="flex items-center space-x-2  ">
-                      {Array.from({ length: totalPages }).map((_, index) => (
-                        <span
-                          key={index}
-                          className={`w-[8px] h-[8px] rounded-full ${
-                            currentSlide === index
-                              ? "bg-gray-500"
-                              : "bg-gray-200"
-                          }`}
-                        ></span>
-                      ))}
+                    <div className="flex items-center space-x-2">
+                      {totalPages <= 3 ? (
+                        Array.from({ length: totalPages }).map((_, index) => (
+                          <span
+                            key={index}
+                            className={`w-[8px] h-[8px] rounded-full ${
+                              currentSlide === index
+                                ? "bg-gray-500"
+                                : "bg-gray-200"
+                            }`}
+                          ></span>
+                        ))
+                      ) : (
+                        <>
+                          {/* First dot */}
+                          <span
+                            className={`w-[8px] h-[8px] rounded-full ${
+                              currentSlide === 0 ? "bg-gray-500" : "bg-gray-200"
+                            }`}
+                          ></span>
+
+                          {/* Middle dot */}
+                          <span
+                            className={`w-[8px] h-[8px] rounded-full ${
+                              currentSlide > 0 && currentSlide < totalPages - 1
+                                ? "bg-gray-500"
+                                : "bg-gray-200"
+                            }`}
+                          ></span>
+
+                          {/* Last dot */}
+                          <span
+                            className={`w-[8px] h-[8px] rounded-full ${
+                              currentSlide === totalPages - 1
+                                ? "bg-gray-500"
+                                : "bg-gray-200"
+                            }`}
+                          ></span>
+                        </>
+                      )}
                     </div>
                     <button
-                      className="w-[74px] h-[28px] items-center rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                      className={`w-[74px] h-[28px] text-[14px]  items-center rounded-[0.25rem] border ${
+                        currentSlide === totalPages - 1
+                          ? "border-gray-300 text-gray-400"
+                          : "border-[#D0D5DD] text-[#1C1B1B]"
+                      }`}
                       onClick={goToNext}
+                      disabled={currentSlide === totalPages - 1} // Disable if on the last slide
                     >
                       Next
                       <ChevronRight
@@ -237,8 +279,13 @@ function CarProfile({
               </div>
               <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center md:w-[40%] ">
                 <button
-                  className={`${groteskText.className} w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
+                  className={`w-[97px] text-[14px] h-[28px] rounded-[0.25rem] items-center border ${
+                    currentSlide === 0
+                      ? "border-gray-300 text-gray-400"
+                      : "border-[#D0D5DD] text-[#1C1B1B]"
+                  }`}
                   onClick={goToPrevious}
+                  disabled={currentSlide === 0} // Disable if on the first slide
                 >
                   <ChevronLeft
                     size={20}
@@ -247,7 +294,7 @@ function CarProfile({
                   Previous
                 </button>
                 <div className="flex items-center space-x-2">
-                  {totalPages <= 2 ? (
+                  {totalPages <= 3 ? (
                     Array.from({ length: totalPages }).map((_, index) => (
                       <span
                         key={index}
@@ -286,8 +333,13 @@ function CarProfile({
                   )}
                 </div>
                 <button
-                  className={`${groteskText.className} w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
+                  className={`w-[74px] text-[14px]  h-[28px] items-center rounded-[0.25rem] border ${
+                    currentSlide === totalPages - 1
+                      ? "border-gray-300 text-gray-400"
+                      : "border-[#D0D5DD] text-[#1C1B1B]"
+                  }`}
                   onClick={goToNext}
+                  disabled={currentSlide === totalPages - 1} // Disable if on the last slide
                 >
                   Next
                   <ChevronRight

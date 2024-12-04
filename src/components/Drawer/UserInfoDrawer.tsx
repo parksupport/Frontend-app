@@ -127,11 +127,30 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
         <div className="border border-[#D0D5DD] rounded-[16px] flex items-center justify-between bg-white p-4 w-full">
           {/* User Info */}
           <div className="flex items-center space-x-4 py-2 md:p-2">
-            <img
-              src={user?.profileImage || "https://via.placeholder.com/80"}
-              alt="Profile"
-              className="w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full object-cover"
-            />
+            {/* Circle for initials or fallback with edit icon */}
+            <div className="relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px] md:text-[36px] font-bold">
+              {user?.name ? (
+                `${user.name.split(" ")[0][0]}${
+                  user.name.split(" ")[1]?.[0] || ""
+                }`
+              ) : (
+                <img
+                  src="https://via.placeholder.com/80"
+                  alt="Profile"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              )}
+
+              {/* Edit Icon */}
+              <button
+                className="absolute top-10 right-10 w-[20px] h-[20px] md:w-[24px] md:h-[24px] rounded-full flex items-center justify-center text-white"
+                onClick={() => console.log("Edit button clicked")}
+              >
+                <CiEdit color="black" size={20} />
+              </button>
+            </div>
+
+            {/* User details */}
             <div>
               <h1
                 className={`${groteskTextMedium.className} text-black text-[16px] md:text-[24px]`}

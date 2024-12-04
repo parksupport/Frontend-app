@@ -185,6 +185,7 @@ export function ProfileEditInfoDrawer({
           type === "User" ? "Edit Information" : "Edit Corporate Information"
         }
         subTitle="Put in the same details that exist with DVLA"
+        className="min-w-[350px] md:min-w-[400px] "
       />
       {/* 
       <form className="pt-5 md:pt-10 px-[20px] md:mx-auto ">

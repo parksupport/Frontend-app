@@ -19,7 +19,7 @@ export const CorporateCarProfileDrawer = ({
   vehicles,
   user,
   isForm,
-  openNominationHistory
+  openNominationHistory,
 }) => {
   const isMobile = useIsMobile();
 
@@ -143,6 +143,7 @@ export const CorporateCarProfileDrawer = ({
                         onCancelDelete={cancelDelete}
                         onConfirmDelete={() => handleDelete(index)}
                         selectedDataIndex={selectedDataIndex}
+                        onClose={() => setOpenDropdownIndex(null)}
                         index={index}
                         customStyles=""
                         isVehicle

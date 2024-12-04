@@ -148,7 +148,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
 
           {/* Edit Button */}
 
-          <button
+          {/* <button
             className="  -mt-[30px]   md:-mt-[60px] flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
             onClick={() =>
               onEdit({
@@ -158,7 +158,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
           >
             <span className={` text-black ${groteskText.className}`}>Edit</span>
             <CiEdit color="black" size={20} />
-          </button>
+          </button> */}
         </div>
 
         {/* Dynamic Sections */}
@@ -174,21 +174,20 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
                 >
                   {section.title}
                 </h2>
-                {userInfo !== "User" && section.type !== "Company" && (
-                  <button
-                    className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
-                    onClick={() =>
-                      onEdit({
-                        type: section.type,
-                      })
-                    }
-                  >
-                    <span className={` text-black ${groteskText.className}`}>
-                      Edit
-                    </span>
-                    <CiEdit color="black" size={20} />
-                  </button>
-                )}
+
+                <button
+                  className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
+                  onClick={() =>
+                    onEdit({
+                      type: section.type,
+                    })
+                  }
+                >
+                  <span className={` text-black ${groteskText.className}`}>
+                    Edit
+                  </span>
+                  <CiEdit color="black" size={20} />
+                </button>
               </div>
               <div
                 className={`grid   ${

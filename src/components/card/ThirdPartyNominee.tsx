@@ -86,7 +86,7 @@ export default function ThirdPartyNominees({
           toggleDropdown={toggleDropdown}
           handleDelete={handleDelete}
           selectedDataIndex={selectedDataIndex}
-          onCloseModal={handleCloseModal}
+          onCloseModal={ () => setOpenDropdownIndex(null)}
         />
       )}
     </div>

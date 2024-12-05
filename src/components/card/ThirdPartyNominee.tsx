@@ -105,7 +105,7 @@ const NomineeDesktop = ({
   onCloseModal,
 }) => {
   return (
-    <div className=" overflow-x-auto max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
+   <div className=" overflow-x-auto max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
       <table className="overflow-auto-y min-w-full bg-white text-black h-[200px] ">
         <thead>
           <tr

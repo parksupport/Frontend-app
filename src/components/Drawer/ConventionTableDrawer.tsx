@@ -80,21 +80,21 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
       {/* Contravention Table */}
       <Slider {...sliderSettings}>
-        <div className="flex mx-0 flex-col mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg overflow-x-auto">
+        <div className="flex mx-0 flex-col mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg ">
           <table className="flex items-center  justify-between lg:flex lg:flex-col ">
             <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
-                <th className={`text-[#667185] self-start lg:pl-[17px] py-[0.75rem] lg:text-left lg:text-[16px] ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 bg-gray-100 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Contravention Type
                 </th>
-                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] lg:text-[16px] ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 bg-gray-100 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Date Issued
                 </th>
-                <th className={`text-[#667185] self-start pr-[8px] py-[0.75rem] lg:text-[16px] ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 bg-gray-100 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Fine
                 </th>
-                <th className={`text-[#667185] self-start px-[4px] py-[0.75rem] lg:text-[16px] lg:pr-[17px] ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 bg-gray-100 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
 
                   Status
                 </th>
@@ -247,7 +247,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             </section>
 
             {/* Photo Evidence */}
-            <section className='mt-8 pl-[2.18rem]'>
+            <section className='mt-8 '>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Photo Evidence</h1>
               <div className='flex space-y-4 '>
                 <Image

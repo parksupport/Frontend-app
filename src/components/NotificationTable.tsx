@@ -409,7 +409,7 @@ export const DesktopViewNotification = ({
                   )}
                   <td className="px-1 py-2  w-[15%]">
                     <div className="flex items-center">
-                      <div className="px-1">
+                      <div className="pl-2 pr-4">
                         <LabelImportantSVG />
                       </div>
                       <span className={`${groteskText.className}`}>

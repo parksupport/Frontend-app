@@ -45,7 +45,7 @@ export default function ThirdPartyNominees({
 
   const isMobile = useIsMobile();
   return (
-    <div className="py-12 mb-[300px]">
+    <div className="py-12 mb-40">
       {/* Header */}
       <div className="flex justify-center gap-4 mb-6">
         <div className="text-center">
@@ -105,7 +105,7 @@ const NomineeDesktop = ({
   onCloseModal,
 }) => {
   return (
-    <div className=" overflow-x-auto max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
+    <div className=" overflow-x-auto  max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
       <table className="overflow-auto-y min-w-full bg-white text-black h-[200px] ">
         <thead>
           <tr
@@ -575,7 +575,7 @@ export function AddThirdPartyNominee({
   };
 
   return (
-    <div className="py-12 mb-[300px] ">
+    <div className="py-12 mb-12  ">
       <div className="flex flex-col">
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="flex flex-col items-center">

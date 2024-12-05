@@ -115,27 +115,33 @@ const NotificationsTable: React.FC<NotificationsTableProps> = ({
 export default NotificationsTable;
 
 interface MobileViewNotificationProps {
+  hasCheckbox?: boolean;
   openNotificationsDrawer?: () => void;
   isDrawer: boolean;
   handleSelectAll: () => void;
   selectAll: boolean;
+  handleCheckboxChange?: (id: number) => void;
   currentNotifications: any;
   totalPages: number;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
+  setCurrentPage?: (page: number) => void;
   handleNext: () => void;
   handlePrevious: () => void;
   onNotificationClick?: any;
   selectedNotificationsList?: any;
   updateSelectedNotifications?: any;
+  cardNotificationClick?: any;
 }
 
 export const MobileViewNotification = ({
+  cardNotificationClick,
+  hasCheckbox = false,
   openNotificationsDrawer,
   isDrawer,
   handleSelectAll,
   selectAll,
   currentNotifications,
+  handleCheckboxChange,
   totalPages,
   currentPage,
   setCurrentPage,
@@ -180,13 +186,17 @@ export const MobileViewNotification = ({
         <Slider {...settings}>
           {Array.from({ length: totalPages }, (_, index) => (
             <div key={index} className=" w-full">
-              {currentNotifications?.map((notification) => (
+              {currentNotifications.map((notification) => (
                 <div
                   key={notification.id}
                   className={`rounded-lg flex items-center justify-between bg-white shadow-sm w-full ${
                     isDrawer ? "py-2" : "py-1"
                   }`}
-                  onClick={() => onNotificationClick(notification)}
+                  onClick={() =>
+                    isDrawer
+                      ? onNotificationClick(notification)
+                      : cardNotificationClick(notification)
+                  }
                 >
                   {/* Icon */}
                   <div
@@ -235,14 +245,18 @@ export const MobileViewNotification = ({
                     >
                       {notification.date}
                     </span>
-                    <input
-                      type="checkbox"
-                      className="form-checkbox w-4 h-4 mt-2"
-                      checked={selectedNotificationsList?.some(
-                        (n) => n.id === notification.id
-                      )}
-                      onChange={() => updateSelectedNotifications(notification)}
-                    />
+                    {hasCheckbox && (
+                      <input
+                        type="checkbox"
+                        className="form-checkbox w-4 h-4 mt-2"
+                        checked={selectedNotificationsList?.some(
+                          (n) => n.id === notification.id
+                        )}
+                        onChange={() =>
+                          updateSelectedNotifications(notification)
+                        }
+                      />
+                    )}
                   </div>
                 </div>
               ))}
@@ -280,12 +294,15 @@ export const MobileViewNotification = ({
 };
 
 interface DesktopViewNotificationProps {
+  hasCheckbox?: boolean;
   isDrawer?: boolean;
   handleSelectAll: any;
   selectAll: boolean;
+  handleCheckboxChange?: (id: number) => void;
   currentNotifications: any;
   totalPages: number;
   currentPage: number;
+  setCurrentPage?: (page: number) => void;
   handleNext: () => void;
   handlePrevious: () => void;
   itemsPerPage: number;
@@ -294,9 +311,12 @@ interface DesktopViewNotificationProps {
   textMaxLenght?: number;
   updateSelectedNotifications?: any;
   selectedNotificationsList?: any;
+  cardNotificationClick?: any;
 }
 
 export const DesktopViewNotification = ({
+  cardNotificationClick,
+  hasCheckbox = false,
   isDrawer,
   handleSelectAll,
   selectAll,
@@ -317,15 +337,15 @@ export const DesktopViewNotification = ({
       <div className="rounded-[12px] border border-gray-200 overflow-hidden w-full">
         {!isDrawer && (
           <div className="bg-white px-2 py-2 flex items-center justify-between w-full">
-            <div className="flex items-center py-3">
+            {/* <div className="flex items-center py-3">
               <input
                 type="checkbox"
                 className="form-checkbox"
                 onChange={handleSelectAll}
                 checked={selectAll}
               />
-            </div>
-            <div className="flex justify-end space-x-2 items-center">
+            </div> */}
+            <div className="ml-auto text-end flex justify-end space-x-2 items-center">
               <span className={`${groteskText.className}  text-gray-500`}>
                 {`${currentPage * itemsPerPage + 1} - ${Math.min(
                   (currentPage + 1) * itemsPerPage,
@@ -364,21 +384,29 @@ export const DesktopViewNotification = ({
                   className={`border-t border-gray-300 cursor-pointer ${
                     notification.read ? "text-gray-400" : "text-black"
                   } hover:bg-gray-100`}
-                  onClick={() => onNotificationClick(notification)}
+                  onClick={() =>
+                    isDrawer
+                      ? onNotificationClick(notification)
+                      : cardNotificationClick(notification)
+                  }
                 >
-                  <td
-                    className="pl-2 py-2 w-[5%] "
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <input
-                      type="checkbox"
-                      className="form-checkbox cursor-pointer"
-                      checked={selectedNotificationsList?.some(
-                        (n) => n.id === notification.id
-                      )}
-                      onChange={() => updateSelectedNotifications(notification)}
-                    />
-                  </td>
+                  {hasCheckbox && (
+                    <td
+                      className="pl-2 py-2 w-[5%]"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <input
+                        type="checkbox"
+                        className="form-checkbox"
+                        checked={selectedNotificationsList?.some(
+                          (n) => n.id === notification.id
+                        )}
+                        onChange={() =>
+                          updateSelectedNotifications(notification)
+                        }
+                      />
+                    </td>
+                  )}
                   <td className="px-1 py-2  w-[15%]">
                     <div className="flex items-center">
                       <div className="px-1">

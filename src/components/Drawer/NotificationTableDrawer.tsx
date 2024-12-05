@@ -138,7 +138,7 @@ const NotificationsTableDrawer = ({ back }) => {
         title="Notifications"
         subTitle="Stay updated with your latest contraventions and important alerts."
       />
-      <div className="flex justify-between items-center mt-8">
+      <div className="px-4 md:px-2 flex justify-between items-center mt-8">
         {/* Add the FiTrash2 icon only when selectedNotification is true */}
         {selectedNotificationsList.length > 0 && (
           <FiTrash2 className="ml-2" size={20} color="red" />
@@ -157,6 +157,7 @@ const NotificationsTableDrawer = ({ back }) => {
         <>
           <div className="border rounded-[20px] border-2">
             <MobileViewNotification
+              hasCheckbox
               isDrawer={true}
               handleSelectAll={handleCheckedAll}
               selectAll={isAllSelected}
@@ -189,6 +190,7 @@ const NotificationsTableDrawer = ({ back }) => {
             textMaxLenght={40}
             updateSelectedNotifications={updateSelectedNotifications}
             selectedNotificationsList={selectedNotificationsList}
+            hasCheckbox
           />
         </div>
       )}

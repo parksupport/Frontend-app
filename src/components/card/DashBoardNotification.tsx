@@ -116,7 +116,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
     setCurrentPage,
     itemsPerPage,
     totalNotifications,
-  } = useNotifications(notificationsData, 5);
+  } = useNotifications(notificationsData, 7);
 
   const isMobile = useIsMobile();
 

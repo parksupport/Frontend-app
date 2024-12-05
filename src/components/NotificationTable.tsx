@@ -163,23 +163,23 @@ export const MobileViewNotification = ({
     <>
       <div className="bg-white px-2 py-3 rounded-[16px] max-w-[396px] sm:max-w-md md:max-w-[680px] w-full">
         {!isDrawer && (
-          <div className="flex justify-between pt-[4px]">
+          <div className="flex justify-between py-[10px]">
             <h2
               className={`text-[24px] text-black ${groteskTextMedium.className}`}
             >
               Notifications
             </h2>
 
-            <div className="flex items-center">
-              <div className="flex items-center px-6">
+            <div className="flex items-center ">
+              {hasCheckbox && <div className="flex items-center px-6">
                 <input
                   type="checkbox"
                   className="form-checkbox w-4 h-4"
                   onChange={handleSelectAll}
                   checked={selectAll}
                 />
-              </div>
-              <MoveDiagonal size={20} onClick={openNotificationsDrawer} />
+              </div>}
+              <MoveDiagonal size={24} onClick={openNotificationsDrawer} />
             </div>
           </div>
         )}

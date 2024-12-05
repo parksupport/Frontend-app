@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import { CiEdit } from "react-icons/ci";
+import  CiEdit  from "@/assets/svg/EditIconInprofilepages.svg";
 import TruncatedText from "../ToggleComponent/TruncatedText";
 
 const UserInfoDrawer = ({ back, onEdit, userInfo }) => {

@@ -11,6 +11,9 @@ import DiscoverIcon from "@/assets/svg/discover.svg";
 import DinersIcon from "@/assets/svg/diners.svg";
 import Card from '@/assets/svg/card.svg'
 import IconRight from '@/assets/svg/iconRight.svg'
+import IconCode from '@/assets/svg/securitycode.svg'
+import { CircleHelp } from "lucide-react";
+
 
 const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
   const [formData, setFormData] = useState({
@@ -42,25 +45,25 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
         
       />
 
-      <div className="rounded-[1rem] border border-[#D0D5DD] py-[20px] px-[17px]">
+      <div className="rounded-[1rem] border border-[#D0D5DD] py-[20px] px-[17px] mt-[48px]">
      <div className="flex  justify-between">
      <h2
-          className={`${groteskTextMedium.className} text-[28px] text-[#000000] `}
+          className={`${groteskTextMedium.className} text-[1.75rem] text-[#000000] `}
         >
           Add a billing methods
         </h2>
         <button className={` ${groteskText.className} border border-[#4169E1] rounded-[8px] w-[77px] h-[36px] text-[#000000] text-[20px] `}>Cancel</button>
      </div>
      <div className="flex items-center mt-[20px]">
-      <h1  className={`${groteskTextMedium.className} text-[20px] text-[#000000] `}>Payment card <span  className={`${groteskText.className} text-[14px] text-[#667185] `}>Visa, Mastercard, American express, Express, Diners</span>
-      </h1>
+      <h2  className={`${groteskTextMedium.className} text-[1.25rem] text-[#000000] `}>Payment card <span  className={`${groteskText.className} text-[14px] text-[#667185] `}>Visa, Mastercard, American express, Express, Diners</span>
+      </h2>
       
       
      </div>
 
  <div className="flex justify-between items-center mt-[77px]">
-  <h1 className={`text-[#000000] text-[16px] ${groteskText.className}`}>Card number</h1>
- <div className="flex space-x-2 mb-4">
+  <h2 className={`text-[#000000] text-[16px] ${groteskText.className}`}>Card number</h2>
+ <div className="flex space-x-2">
           <VisaIcon />
           <MasterCardIcon />
           <AmexIcon />
@@ -74,7 +77,7 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
         <InputField
             type="text"
             placeholder="1234 5678 9012 3456"
-            label="Card Number"
+            // label="Card Number"
             name="cardNumber"
             value={formData.cardNumber}
             onChange={handleChange}
@@ -132,19 +135,26 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
               className={`w-1/2 ${groteskText.className}`}
             />
           </div>
-        <div className="mt-[20px] flex items-center justify-between">
+          <div className="flex items-center gap-[8px] mt-[20px]">
+        <h2 className={`text-[#000000] text-[16px] ${groteskText.className}`}>Security code</h2>
+        <CircleHelp />
+        </div>
+        <div className=" flex items-center justify-between">
+     
+
+
         <InputField
             type="text"
             placeholder="CVV"
-            label="Security Code"
+            // label="Security Code"
             name="securityCode"
             value={formData.securityCode}
             onChange={handleChange}
             variant="individual"
             className={`w-[318px] ${groteskText.className}`}
           />
-            <div className="flex w-[120px] ">
-            <Button variant="quinary" onClick={handleSave} className="w-full">
+            <div className="flex  ">
+            <Button style={{width: 77, height: 36, padding: 0}} variant="quinary" onClick={handleSave} className="w-full">
               Save
             </Button>
             {/* <Button variant="secondary" onClick={toggleDrawer}>

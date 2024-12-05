@@ -166,7 +166,7 @@ function CarProfile({
                 </div>
 
                 <div className="order-1 lg:order-2 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] lg:w-[359px] ">
-                  <div className="border border-b-[#C5D5F8] py-[12px] px-[16px]">
+                  <div className="border border-b-[#C5D5F8] py-[0.4rem] px-[16px]">
                     <h1
                       className={`text-[#212121] text-[20px] ${groteskTextMedium.className}`}
                     >
@@ -182,13 +182,13 @@ function CarProfile({
                           <NumberSVG />
                         </span>
                         <span
-                          className={`${groteskText.className} text-[16px] text-[#667185]`}
+                          className={`${groteskText.className} text-[1rem] text-[#667185]`}
                         >
                           Registration number:{" "}
                         </span>
                       </div>
                       <span
-                        className={`${groteskText.className}text-[#212121] text-[11px] self-end`}
+                        className={`${groteskText.className} text-[#212121] text-[11px] self-end`}
                       >
                         {car.registrationNumber}
                       </span>
@@ -201,7 +201,7 @@ function CarProfile({
                           <UserProfileSVG />
                         </span>
                         <span
-                          className={`${groteskText.className} text-[16px] text-[#667185]`}
+                          className={`${groteskText.className} text-[1rem] text-[#667185]`}
                         >
                           Owner:{" "}
                         </span>
@@ -221,7 +221,7 @@ function CarProfile({
                         identity={`${car.id}-ownership`}
                         infoText="Ownership status information"
                       />
-                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[18px] self-end">
                         {car.status}
                       </button>
                     </h2>
@@ -236,7 +236,7 @@ function CarProfile({
                         infoText="Contravention status information"
                       />
 
-                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[28px] self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[18px] self-end">
                         {/* {car.contraventionStatus} */}
                         {"No existing ticket"}
                       </button>
@@ -251,7 +251,7 @@ function CarProfile({
                         identity={`${car.id}-notification`}
                         infoText=" Notification recipient information"
                       />
-                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[28px]  self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[18px]  self-end">
                         {car.nominees.length > 1 ? "Added" : "Not Added"}
                       </button>
                     </h2>

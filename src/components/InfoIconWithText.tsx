@@ -40,7 +40,7 @@ export const InfoIconWithText = ({
     <div className="relative flex items-center gap-[5px]">
       <span>{icon}</span>
       <span
-        className={`${groteskText.className} text-[#667185] mr-[3px] ${className}`}
+        className={`${groteskText.className} text-[1rem] text-[#667185] mr-[3px] ${className}`}
       >
         {text}
       </span>

@@ -1,10 +1,10 @@
 "use client";
 
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import UserProfileSVG from "@/assets/svg/exportProfile.svg";
-import NumberSVG from "@/assets/svg/numbers.svg";
-import GroupUserSVG from "@/assets/svg/profile-2user.svg";
-import TicketSVG from "@/assets/svg/ticket.svg";
+import UserProfileSVG from "@/assets/svg/owner.svg";
+import NumberSVG from "@/assets/svg/regNo.svg";
+import GroupUserSVG from "@/assets/svg/nominee.svg";
+import TicketSVG from "@/assets/svg/ticket-status.svg";
 import { Button } from "@/components";
 
 import "@/components/Slider.css";
@@ -19,7 +19,7 @@ import Outline from "@/assets/svg/outlined.svg";
 import { useRef, useState } from "react";
 import EditSVG from "@/assets/svg/edit-vehicle.svg";
 import DeleteSVG from "@/assets/svg/delete-vehicle.svg";
-import CarFilter from "@/assets/svg/colorfilter.svg";
+import CarFilter from "@/assets/svg/color.svg";
 import CarMake from "@/assets/svg/carMake.svg";
 import UndoDelete from "@/assets/svg/undoDelete.svg";
 import ConfirmDeleteSVG from "@/assets/svg/confirmDelete.svg";

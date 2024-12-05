@@ -17,7 +17,7 @@ const DrawerHeader = ({
 }: DrawerHeaderProps) => {
   return (
     <div
-      className={`flex  pt-[60px] items-center justify-between px-2 md:px-0`}
+      className={`flex  pt-[60px] items-center justify-center px-2 md:px-0`}
     >
       <div className="flex  items-start md:items-center ">
         <div className="cursor-pointer" onClick={toggleDrawer}>

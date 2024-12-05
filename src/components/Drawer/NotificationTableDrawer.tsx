@@ -7,7 +7,7 @@ import DrawerHeader from "./DrawerHeader";
 import useIsMobile from "@/hooks/useIsMobile";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import useNotifications from "@/hooks/useNotification";
-
+import { FiTrash2 } from "react-icons/fi";
 
 type NotificationProps = {
   id: number;
@@ -16,7 +16,8 @@ type NotificationProps = {
   date: string;
   read: boolean;
   details: string;
-  checked?: boolean; }
+  checked?: boolean;
+};
 
 const NotificationsTableDrawer = ({ back }) => {
   const notificationsData = [
@@ -109,25 +110,25 @@ const NotificationsTableDrawer = ({ back }) => {
         "Your insurance premium payment, due on 30 Sep 2024, has not yet been received. Avoid policy cancellation by making the payment at your earliest convenience. Contact customer service if you need assistance.",
     },
   ];
-  
 
   const isMobile = useIsMobile();
- 
+
   const {
     currentNotifications,
     currentPage,
     totalPages,
-    selectAll,
+    isAllSelected,
     handleSelectAll,
-    handleCheckboxChange,
-    handleNext,
-    handlePrevious,
+    goToNextPage,
+    goToPreviousPage,
     setCurrentPage,
     itemsPerPage,
     totalNotifications,
     handleNotificationClick,
     handleCheckedAll,
-    selectedNotification
+    selectedNotification,
+    selectedNotificationsList,
+    updateSelectedNotifications,
   } = useNotifications(notificationsData, 5);
 
   return (
@@ -137,29 +138,37 @@ const NotificationsTableDrawer = ({ back }) => {
         title="Notifications"
         subTitle="Stay updated with your latest contraventions and important alerts."
       />
+      <div className="flex justify-between items-center mt-8">
+        {/* Add the FiTrash2 icon only when selectedNotification is true */}
+        {selectedNotificationsList.length > 0 && (
+          <FiTrash2 className="ml-2" size={20} color="red" />
+        )}
 
-      <div
-        className={` ${groteskTextMedium.className} text-end text-[18px] mt-8 text-[#4169E1] cursor-pointer`}
-        onClick={handleSelectAll}
-      >
-        Mark as read
+        {/* Use flex-grow or margins to push "Mark as read" to the right */}
+        <div
+          className={`ml-auto ${groteskTextMedium.className} text-end text-[18px] text-[#4169E1] cursor-pointer`}
+          onClick={handleSelectAll}
+        >
+          Mark as read
+        </div>
       </div>
+
       {isMobile ? (
         <>
           <div className="border rounded-[20px] border-2">
             <MobileViewNotification
               isDrawer={true}
               handleSelectAll={handleCheckedAll}
-              selectAll={selectAll}
-              handleCheckboxChange={handleCheckboxChange}
+              selectAll={isAllSelected}
               currentNotifications={currentNotifications}
               totalPages={totalPages}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
-              handleNext={handleNext}
-              handlePrevious={handlePrevious}
+              handleNext={goToNextPage}
+              handlePrevious={goToPreviousPage}
               onNotificationClick={handleNotificationClick}
-
+              updateSelectedNotifications={updateSelectedNotifications}
+              selectedNotificationsList={selectedNotificationsList}
             />
           </div>
         </>
@@ -168,18 +177,18 @@ const NotificationsTableDrawer = ({ back }) => {
           <DesktopViewNotification
             isDrawer={true}
             handleSelectAll={handleCheckedAll}
-            selectAll={selectAll}
-            handleCheckboxChange={handleCheckboxChange}
+            selectAll={isAllSelected}
             currentNotifications={currentNotifications}
             totalPages={totalPages}
             currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            handleNext={handleNext}
-            handlePrevious={handlePrevious}
+            handleNext={goToNextPage}
+            handlePrevious={goToPreviousPage}
             itemsPerPage={itemsPerPage}
             totalNotifications={totalNotifications}
             onNotificationClick={handleNotificationClick}
             textMaxLenght={40}
+            updateSelectedNotifications={updateSelectedNotifications}
+            selectedNotificationsList={selectedNotificationsList}
           />
         </div>
       )}
@@ -201,10 +210,13 @@ const ReadNotification = ({ selectedNotification }) => {
         <div className="mt-4 p-4 border-t border-gray-300">
           <h3
             className={` ${groteskText.className} text-black text-lg font-semibold`}
-            >
+          >
             {selectedNotification.type} Details
           </h3>
-            <h5 className={` ${groteskText.className} text-black text-sm`}> {selectedNotification.time}</h5>
+          <h5 className={` ${groteskText.className} text-black text-sm`}>
+            {" "}
+            {selectedNotification.time}
+          </h5>
           <p className={` text-black ${groteskText.className} mt-2`}>
             {selectedNotification.details}
           </p>

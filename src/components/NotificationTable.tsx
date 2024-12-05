@@ -119,7 +119,6 @@ interface MobileViewNotificationProps {
   isDrawer: boolean;
   handleSelectAll: () => void;
   selectAll: boolean;
-  handleCheckboxChange: (id: number) => void;
   currentNotifications: any;
   totalPages: number;
   currentPage: number;
@@ -127,6 +126,8 @@ interface MobileViewNotificationProps {
   handleNext: () => void;
   handlePrevious: () => void;
   onNotificationClick?: any;
+  selectedNotificationsList?: any;
+  updateSelectedNotifications?: any;
 }
 
 export const MobileViewNotification = ({
@@ -135,13 +136,14 @@ export const MobileViewNotification = ({
   handleSelectAll,
   selectAll,
   currentNotifications,
-  handleCheckboxChange,
   totalPages,
   currentPage,
   setCurrentPage,
   handlePrevious,
   handleNext,
   onNotificationClick,
+  selectedNotificationsList,
+  updateSelectedNotifications,
 }: MobileViewNotificationProps) => {
   const settings = {
     infinite: false,
@@ -178,7 +180,7 @@ export const MobileViewNotification = ({
         <Slider {...settings}>
           {Array.from({ length: totalPages }, (_, index) => (
             <div key={index} className=" w-full">
-              {currentNotifications.map((notification) => (
+              {currentNotifications?.map((notification) => (
                 <div
                   key={notification.id}
                   className={`rounded-lg flex items-center justify-between bg-white shadow-sm w-full ${
@@ -222,7 +224,10 @@ export const MobileViewNotification = ({
                   </div>
 
                   {/* Date and Checkbox */}
-                  <div className="flex flex-col items-end ">
+                  <div
+                    className="flex flex-col items-end "
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <span
                       className={`text-[12px] ${
                         notification.read ? "text-gray-400" : "text-black"
@@ -233,8 +238,10 @@ export const MobileViewNotification = ({
                     <input
                       type="checkbox"
                       className="form-checkbox w-4 h-4 mt-2"
-                      checked={notification.checked || false}
-                      onChange={() => handleCheckboxChange(notification.id)}
+                      checked={selectedNotificationsList?.some(
+                        (n) => n.id === notification.id
+                      )}
+                      onChange={() => updateSelectedNotifications(notification)}
                     />
                   </div>
                 </div>
@@ -274,36 +281,36 @@ export const MobileViewNotification = ({
 
 interface DesktopViewNotificationProps {
   isDrawer?: boolean;
-  handleSelectAll: () => void;
+  handleSelectAll: any;
   selectAll: boolean;
-  handleCheckboxChange: (id: number) => void;
   currentNotifications: any;
   totalPages: number;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
   handleNext: () => void;
   handlePrevious: () => void;
   itemsPerPage: number;
   totalNotifications: number;
   onNotificationClick?: any;
   textMaxLenght?: number;
+  updateSelectedNotifications?: any;
+  selectedNotificationsList?: any;
 }
 
 export const DesktopViewNotification = ({
   isDrawer,
   handleSelectAll,
   selectAll,
-  handleCheckboxChange,
   currentNotifications,
   totalPages,
   currentPage,
-  setCurrentPage,
   handleNext,
   handlePrevious,
   itemsPerPage,
   totalNotifications,
   onNotificationClick,
   textMaxLenght,
+  updateSelectedNotifications,
+  selectedNotificationsList,
 }: DesktopViewNotificationProps) => {
   return (
     <>
@@ -351,7 +358,7 @@ export const DesktopViewNotification = ({
         <div className="overflow-x-auto">
           <table className="min-w-[500px] w-full text-left mt-0">
             <tbody>
-              {currentNotifications.map((notification) => (
+              {currentNotifications?.map((notification) => (
                 <tr
                   key={notification.id}
                   className={`border-t border-gray-300 cursor-pointer ${
@@ -359,12 +366,17 @@ export const DesktopViewNotification = ({
                   } hover:bg-gray-100`}
                   onClick={() => onNotificationClick(notification)}
                 >
-                  <td className="pl-2 py-2 w-[5%]">
+                  <td
+                    className="pl-2 py-2 w-[5%] "
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <input
                       type="checkbox"
-                      className="form-checkbox"
-                      checked={notification.checked || false}
-                      onChange={() => handleCheckboxChange(notification.id)}
+                      className="form-checkbox cursor-pointer"
+                      checked={selectedNotificationsList?.some(
+                        (n) => n.id === notification.id
+                      )}
+                      onChange={() => updateSelectedNotifications(notification)}
                     />
                   </td>
                   <td className="px-1 py-2  w-[15%]">

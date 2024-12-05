@@ -108,15 +108,15 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
     currentNotifications,
     currentPage,
     totalPages,
-    selectAll,
+    isAllSelected,
     handleSelectAll,
     handleCheckboxChange,
-    handleNext,
-    handlePrevious,
+    goToNextPage,
+    goToPreviousPage,
     setCurrentPage,
     itemsPerPage,
     totalNotifications,
-  } = useNotifications(notificationsData, 5);
+  } = useNotifications(notificationsData, 7);
 
   const isMobile = useIsMobile();
 
@@ -125,14 +125,15 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
       openNotificationsDrawer={openNotificationsTable}
       isDrawer={isDrawer}
       handleSelectAll={handleSelectAll}
-      selectAll={selectAll}
+      selectAll={isAllSelected}
       handleCheckboxChange={handleCheckboxChange}
       currentNotifications={currentNotifications}
       totalPages={totalPages}
       currentPage={currentPage}
       setCurrentPage={setCurrentPage}
-      handleNext={handleNext}
-      handlePrevious={handlePrevious}
+      handleNext={goToNextPage}
+      handlePrevious={goToPreviousPage}
+      cardNotificationClick={openNotificationsTable}
     />
   ) : (
     <div className="hidden md:block bg-white p-4 rounded-[20px] border border-gray-200 w-full">
@@ -149,17 +150,17 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
       <DesktopViewNotification
         isDrawer={isDrawer}
         handleSelectAll={handleSelectAll}
-        selectAll={selectAll}
-        handleCheckboxChange={handleCheckboxChange}
+        selectAll={isAllSelected}
         currentNotifications={currentNotifications}
         totalPages={totalPages}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-        handleNext={handleNext}
-        handlePrevious={handlePrevious}
+        handleNext={goToNextPage}
+        handlePrevious={goToPreviousPage}
         itemsPerPage={itemsPerPage}
         totalNotifications={totalNotifications}
         textMaxLenght={48}
+        cardNotificationClick={openNotificationsTable}
       />
     </div>
   );

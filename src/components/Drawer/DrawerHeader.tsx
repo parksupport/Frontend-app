@@ -1,5 +1,3 @@
-
-
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import React, { ReactNode } from "react";
 import { IoArrowBack } from "react-icons/io5";
@@ -18,11 +16,12 @@ const DrawerHeader = ({
   className,
 }: DrawerHeaderProps) => {
   return (
-    <div className={`flex  pt-[60px] items-start justify-center px-2 md:px-0`}>
-      <div className="flex  items-start ">
-
+    <div
+      className={`flex  pt-[60px] items-center justify-between px-2 md:px-0`}
+    >
+      <div className="flex  items-start md:items-center ">
         <div className="cursor-pointer" onClick={toggleDrawer}>
-          <IoArrowBack className="w-6 h-6 md:w-8 md:h-8" color="#000000"/>
+          <IoArrowBack className="w-8 h-8 md:w-8 md:h-8" color="#000000" />
         </div>
         <div className="flex flex-col items-center">
           <h1
@@ -32,7 +31,7 @@ const DrawerHeader = ({
           </h1>
           {subTitle && (
             <p
-              className={`min-w-[350px] md:min-w-[400px] text-[#667185] text-center leading-none md:mx-[50px] ${groteskText.className}`}
+              className={`${className} text-[#667185] text-center leading-none md:mx-[50px] ${groteskText.className}`}
             >
               {subTitle}
             </p>
@@ -44,4 +43,3 @@ const DrawerHeader = ({
 };
 
 export default DrawerHeader;
-

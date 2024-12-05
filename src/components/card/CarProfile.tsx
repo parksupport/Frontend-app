@@ -19,6 +19,7 @@ import { useRef, useState } from "react";
 import { MoveDiagonal } from "lucide-react";
 import UserTickSVG from "@/assets/svg/user-tick.svg";
 import InfoIconWithText from "../InfoIconWithText";
+import SliderButton from "../SliderButton";
 
 interface CarProfileProps {
   openCarProfile: any;
@@ -37,22 +38,22 @@ function CarProfile({
   const sliderRef = useRef(null);
   const totalPages = vehicles.carDetails.length;
 
-  console.log("Carprofile", vehicles.carDetails);
-
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    beforeChange: (current) => setCurrentSlide(current),
+    // beforeChange: (current) => setCurrentSlide(current),
+    beforeChange: (current, next) => {
+      setCurrentSlide(next);
+    },
   };
 
   const goToPrevious = () => {
     if (sliderRef.current) {
       sliderRef.current.slickPrev();
     }
-    console.log("next");
   };
 
   const goToNext = () => {
@@ -84,7 +85,7 @@ function CarProfile({
                 <div className="items-center flex gap-[11px]">
                   <Button
                     variant="quinary"
-                    className=" py-[0.5rem] px-[12px]"
+                    className={`py-[9px] px-[12px] text-[16px] `}
                     onClick={addVehicleDetails}
                   >
                     Add vehicle
@@ -109,44 +110,63 @@ function CarProfile({
                       // className="max-w-[222px] "
                     />
                   </div>
-                  <div className="flex justify-between mt-auto items-center lg:hidden">
-                    <button
-                      className=" w-[97px] h-[28px] rounded-[0.25rem] items-center border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                  <div className="flex justify-between  mt-auto items-center lg:hidden">
+                    <SliderButton
+                      direction="previous"
+                      isDisabled={currentSlide === 0}
                       onClick={goToPrevious}
-                    >
-                      <ChevronLeft
-                        size={20}
-                        style={{ display: "inline-flex", marginBottom: 3 }}
-                      />
-                      Previous
-                    </button>
-                    <div className="flex items-center space-x-2  ">
-                      {Array.from({ length: totalPages }).map((_, index) => (
-                        <span
-                          key={index}
-                          className={`w-[8px] h-[8px] rounded-full ${
-                            currentSlide === index
-                              ? "bg-gray-500"
-                              : "bg-gray-200"
-                          }`}
-                        ></span>
-                      ))}
+                    />
+                    <div className="flex items-center space-x-2">
+                      {totalPages <= 3 ? (
+                        Array.from({ length: totalPages }).map((_, index) => (
+                          <span
+                            key={index}
+                            className={`w-[8px] h-[8px] rounded-full ${
+                              currentSlide === index
+                                ? "bg-gray-500"
+                                : "bg-gray-200"
+                            }`}
+                          ></span>
+                        ))
+                      ) : (
+                        <>
+                          {/* First dot */}
+                          <span
+                            className={`w-[8px] h-[8px] rounded-full ${
+                              currentSlide === 0 ? "bg-gray-500" : "bg-gray-200"
+                            }`}
+                          ></span>
+
+                          {/* Middle dot */}
+                          <span
+                            className={`w-[8px] h-[8px] rounded-full ${
+                              currentSlide > 0 && currentSlide < totalPages - 1
+                                ? "bg-gray-500"
+                                : "bg-gray-200"
+                            }`}
+                          ></span>
+
+                          {/* Last dot */}
+                          <span
+                            className={`w-[8px] h-[8px] rounded-full ${
+                              currentSlide === totalPages - 1
+                                ? "bg-gray-500"
+                                : "bg-gray-200"
+                            }`}
+                          ></span>
+                        </>
+                      )}
                     </div>
-                    <button
-                      className="w-[74px] h-[28px] items-center rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]"
+                    <SliderButton
+                      direction="next"
+                      isDisabled={currentSlide === totalPages - 1}
                       onClick={goToNext}
-                    >
-                      Next
-                      <ChevronRight
-                        size={20}
-                        style={{ display: "inline-flex", marginBottom: 3 }}
-                      />
-                    </button>
+                    />
                   </div>
                 </div>
 
                 <div className="order-1 lg:order-2 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] lg:w-[359px] ">
-                  <div className="border border-b-[#C5D5F8] py-[12px] px-[16px]">
+                  <div className="border border-b-[#C5D5F8] py-[0.4rem] px-[16px]">
                     <h1
                       className={`text-[#212121] text-[20px] ${groteskTextMedium.className}`}
                     >
@@ -162,13 +182,13 @@ function CarProfile({
                           <NumberSVG />
                         </span>
                         <span
-                          className={`${groteskText.className} text-[16px] text-[#667185]`}
+                          className={`${groteskText.className} text-[1rem] text-[#667185]`}
                         >
                           Registration number:{" "}
                         </span>
                       </div>
                       <span
-                        className={`${groteskText.className}text-[#212121] text-[11px] self-end`}
+                        className={`${groteskText.className} text-[#212121] text-[11px] self-end`}
                       >
                         {car.registrationNumber}
                       </span>
@@ -181,7 +201,7 @@ function CarProfile({
                           <UserProfileSVG />
                         </span>
                         <span
-                          className={`${groteskText.className} text-[16px] text-[#667185]`}
+                          className={`${groteskText.className} text-[1rem] text-[#667185]`}
                         >
                           Owner:{" "}
                         </span>
@@ -201,7 +221,7 @@ function CarProfile({
                         identity={`${car.id}-ownership`}
                         infoText="Ownership status information"
                       />
-                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[18px] self-end">
                         {car.status}
                       </button>
                     </h2>
@@ -216,7 +236,7 @@ function CarProfile({
                         infoText="Contravention status information"
                       />
 
-                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[28px] self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[18px] self-end">
                         {/* {car.contraventionStatus} */}
                         {"No existing ticket"}
                       </button>
@@ -231,26 +251,21 @@ function CarProfile({
                         identity={`${car.id}-notification`}
                         infoText=" Notification recipient information"
                       />
-                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[28px]  self-end">
+                      <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[18px]  self-end">
                         {car.nominees.length > 1 ? "Added" : "Not Added"}
                       </button>
                     </h2>
                   </div>
                 </div>
               </div>
-              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center ">
-                <button
-                  className={`${groteskText.className} w-[97px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
+              <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center md:w-[40%] ">
+                <SliderButton
+                  direction="previous"
+                  isDisabled={currentSlide === 0}
                   onClick={goToPrevious}
-                >
-                  <ChevronLeft
-                    size={20}
-                    style={{ display: "inline-flex", marginBottom: 3 }}
-                  />
-                  Previous
-                </button>
+                />
                 <div className="flex items-center space-x-2">
-                  {totalPages <= 2 ? (
+                  {totalPages <= 3 ? (
                     Array.from({ length: totalPages }).map((_, index) => (
                       <span
                         key={index}
@@ -288,16 +303,11 @@ function CarProfile({
                     </>
                   )}
                 </div>
-                <button
-                  className={`${groteskText.className} w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[1rem] text-[#1C1B1B]`}
+                <SliderButton
+                  direction="next"
+                  isDisabled={currentSlide === totalPages - 1}
                   onClick={goToNext}
-                >
-                  Next
-                  <ChevronRight
-                    size={20}
-                    style={{ display: "inline-flex", marginBottom: 3 }}
-                  />
-                </button>
+                />
               </div>
             </div>
           ))}

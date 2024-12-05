@@ -10,7 +10,7 @@ import DrawerHeader from "./DrawerHeader";
 type VehicleDetailsDrawerProps = {
   back: any;
   CheckVehicleOwner: () => void;
-  userRole?: any
+  userRole?: any;
 };
 
 const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
@@ -24,7 +24,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     car_model: "",
     car_color: "",
   });
-
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,8 +61,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
         title="Add Your Vehicle Details"
         subTitle="Let’s get your vehicle set up for tracking contraventions and staying on top of payments."
       />
-      <form onSubmit={handleSubmit} className="pt-12 px-[20px]">
-        <div className="flex flex-col gap-4 items-center md:w-[65%] mx-auto">
+      <form onSubmit={handleSubmit} className="pt-12 px-6 md:px-0 lg:px-10">
+        <div className="flex flex-col gap-4 items-center w-full md:w-[75%] lg:w-[75%] sm:w-[100%]  mx-auto">
           <div className="flex flex-col items-center w-full">
             <InputField
               type="text"
@@ -102,7 +101,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             variant="individual"
             className={`${groteskText.className} pb-4 w-full`}
           />
-
           <Button
             variant="quinary"
             className="py-[10px] px-[12px] w-full"
@@ -113,8 +111,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             Save Vehicle
           </Button>
           {userRole === "Corporate" && (
-            <div className="flex flex-col gap-4 items-center pb-[200px] cursor-pointer w-full">
-              <div className="w-[100%]">
+            <div className="flex flex-col gap-4 items-center pb-12 cursor-pointer w-full">
+              <div className="w-full">
                 <div className="flex-shrink-0">
                   <Image
                     src={DownloadTemplate}
@@ -147,7 +145,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
               >
                 Save Vehicle
               </Button>
-
               <input
                 type="file"
                 ref={fileInputRef}

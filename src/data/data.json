@@ -14,6 +14,7 @@
         {
           "name": "Wisdom Odili",
           "email": "Odiliwisdom5@gmail.com",
+          "status": "not-active",
           "phone": "+4456414644484",
           "lease": "8 months",
           "startDate": "2023-05-01",
@@ -22,6 +23,7 @@
         {
           "name": "Wisdom Odili",
           "email": "Odiliwisdom5@gmail.com",
+          "status": "active",
           "phone": "+4456414644484",
           "lease": "2 years",
           "startDate": "2023-05-01",
@@ -43,6 +45,7 @@
         {
           "name": "Jane Doe",
           "email": "jane.doe@gmail.com",
+          "status": "active",
           "phone": "+1234567890",
           "lease": "12 months",
           "startDate": "2023-11-02",
@@ -64,6 +67,7 @@
         {
           "name": "Michael Brown",
           "email": "michael.brown@gmail.com",
+          "status": "active",
           "phone": "+9876543210",
           "lease": "1 year",
           "startDate": "2023-11-03",
@@ -85,6 +89,7 @@
         {
           "name": "Omotayo Oyeniyi",
           "email": "omotayo.oyeniyi@gmail.com",
+          "status": "active",
           "phone": "+1234567890",
           "lease": "6 months",
           "startDate": "2023-11-04",
@@ -93,6 +98,7 @@
         {
           "name": "Tomi Oyeniyi",
           "email": "tomi.oyeniyi@gmail.com",
+          "status": "active",
           "phone": "+2345678901",
           "lease": "2 years",
           "startDate": "2023-11-04",
@@ -114,6 +120,7 @@
         {
           "name": "Chris Parker",
           "email": "chris.parker@gmail.com",
+          "status": "active",
           "phone": "+7894561230",
           "lease": "10 months",
           "startDate": "2023-11-05",

@@ -118,6 +118,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
             ? "This section is all about the user’s details."
             : "This section is all about the corporate’s details."
         }
+         className="min-w-[350px] md:min-w-[400px] "
       />
 
       <div
@@ -127,11 +128,34 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
         <div className="border border-[#D0D5DD] rounded-[16px] flex items-center justify-between bg-white p-4 w-full">
           {/* User Info */}
           <div className="flex items-center space-x-4 py-2 md:p-2">
-            <img
-              src={user?.profileImage || "https://via.placeholder.com/80"}
-              alt="Profile"
-              className="w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full object-cover"
-            />
+            {/* Circle for initials or fallback with edit icon */}
+            <div className="relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px] md:text-[36px] font-bold">
+              {user?.name ? (
+                `${user.name.split(" ")[0][0]}${
+                  user.name.split(" ")[1]?.[0] || ""
+                }`
+              ) : (
+                <img
+                  src="https://via.placeholder.com/80"
+                  alt="Profile"
+                  className="w-full h-full rounded-full object-cover"
+                />
+              )}
+
+              {/* Edit Icon */}
+              <button
+                className="absolute md:top-10 md:right-10 w-[20px] h-[20px] md:w-[24px] md:h-[24px] rounded-full flex items-center justify-center text-white"
+                onClick={() =>
+                  onEdit({
+                    type: userInfo === "User" ? "User" : "Company",
+                  })
+                }
+              >
+                <CiEdit color="black" size={20} />
+              </button>
+            </div>
+
+            {/* User details */}
             <div>
               <h1
                 className={`${groteskTextMedium.className} text-black text-[16px] md:text-[24px]`}
@@ -148,7 +172,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
 
           {/* Edit Button */}
 
-          <button
+          {/* <button
             className="  -mt-[30px]   md:-mt-[60px] flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
             onClick={() =>
               onEdit({
@@ -158,7 +182,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
           >
             <span className={` text-black ${groteskText.className}`}>Edit</span>
             <CiEdit color="black" size={20} />
-          </button>
+          </button> */}
         </div>
 
         {/* Dynamic Sections */}
@@ -174,21 +198,20 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
                 >
                   {section.title}
                 </h2>
-                {userInfo !== "User" && section.type !== "Company" && (
-                  <button
-                    className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
-                    onClick={() =>
-                      onEdit({
-                        type: section.type,
-                      })
-                    }
-                  >
-                    <span className={` text-black ${groteskText.className}`}>
-                      Edit
-                    </span>
-                    <CiEdit color="black" size={20} />
-                  </button>
-                )}
+
+                <button
+                  className=" -mt-3 flex items-center space-x-2 border border-gray-200 px-3 py-1 md:px-5 md:py-2 rounded-[30px] hover:bg-blue-100"
+                  onClick={() =>
+                    onEdit({
+                      type: section.type,
+                    })
+                  }
+                >
+                  <span className={` text-black ${groteskText.className}`}>
+                    Edit
+                  </span>
+                  <CiEdit color="black" size={20} />
+                </button>
               </div>
               <div
                 className={`grid   ${

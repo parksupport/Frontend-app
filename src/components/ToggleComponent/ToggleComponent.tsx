@@ -10,7 +10,7 @@ const ToggleButton = ({ initialState = "User", onToggle }) => {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 mb-[1rem]">
       <button
         onClick={handleToggle}
         className={`w-16 h-8 flex items-center px-1 rounded-full ${

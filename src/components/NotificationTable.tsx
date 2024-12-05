@@ -9,6 +9,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 import { MoveDiagonal } from "lucide-react";
 import TruncatedText from "./ToggleComponent/TruncatedText";
+import SliderButton from "./SliderButton";
 
 interface NotificationProps {
   id: number;
@@ -114,21 +115,27 @@ const NotificationsTable: React.FC<NotificationsTableProps> = ({
 export default NotificationsTable;
 
 interface MobileViewNotificationProps {
+  hasCheckbox?: boolean;
   openNotificationsDrawer?: () => void;
   isDrawer: boolean;
   handleSelectAll: () => void;
   selectAll: boolean;
-  handleCheckboxChange: (id: number) => void;
+  handleCheckboxChange?: (id: number) => void;
   currentNotifications: any;
   totalPages: number;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
+  setCurrentPage?: (page: number) => void;
   handleNext: () => void;
   handlePrevious: () => void;
   onNotificationClick?: any;
+  selectedNotificationsList?: any;
+  updateSelectedNotifications?: any;
+  cardNotificationClick?: any;
 }
 
 export const MobileViewNotification = ({
+  cardNotificationClick,
+  hasCheckbox = false,
   openNotificationsDrawer,
   isDrawer,
   handleSelectAll,
@@ -141,6 +148,8 @@ export const MobileViewNotification = ({
   handlePrevious,
   handleNext,
   onNotificationClick,
+  selectedNotificationsList,
+  updateSelectedNotifications,
 }: MobileViewNotificationProps) => {
   const settings = {
     infinite: false,
@@ -154,23 +163,23 @@ export const MobileViewNotification = ({
     <>
       <div className="bg-white px-2 py-3 rounded-[16px] max-w-[396px] sm:max-w-md md:max-w-[680px] w-full">
         {!isDrawer && (
-          <div className="flex justify-between pt-[4px]">
+          <div className="flex justify-between py-[10px]">
             <h2
               className={`text-[24px] text-black ${groteskTextMedium.className}`}
             >
               Notifications
             </h2>
 
-            <div className="flex items-center">
-              <div className="flex items-center px-6">
+            <div className="flex items-center ">
+              {hasCheckbox && <div className="flex items-center px-6">
                 <input
                   type="checkbox"
                   className="form-checkbox w-4 h-4"
                   onChange={handleSelectAll}
                   checked={selectAll}
                 />
-              </div>
-              <MoveDiagonal size={20} onClick={openNotificationsDrawer} />
+              </div>}
+              <MoveDiagonal size={24} onClick={openNotificationsDrawer} />
             </div>
           </div>
         )}
@@ -183,7 +192,11 @@ export const MobileViewNotification = ({
                   className={`rounded-lg flex items-center justify-between bg-white shadow-sm w-full ${
                     isDrawer ? "py-2" : "py-1"
                   }`}
-                  onClick={() => onNotificationClick(notification)}
+                  onClick={() =>
+                    isDrawer
+                      ? onNotificationClick(notification)
+                      : cardNotificationClick(notification)
+                  }
                 >
                   {/* Icon */}
                   <div
@@ -221,7 +234,10 @@ export const MobileViewNotification = ({
                   </div>
 
                   {/* Date and Checkbox */}
-                  <div className="flex flex-col items-end ">
+                  <div
+                    className="flex flex-col items-end "
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <span
                       className={`text-[12px] ${
                         notification.read ? "text-gray-400" : "text-black"
@@ -229,12 +245,18 @@ export const MobileViewNotification = ({
                     >
                       {notification.date}
                     </span>
-                    <input
-                      type="checkbox"
-                      className="form-checkbox w-4 h-4 mt-2"
-                      checked={notification.checked || false}
-                      onChange={() => handleCheckboxChange(notification.id)}
-                    />
+                    {hasCheckbox && (
+                      <input
+                        type="checkbox"
+                        className="form-checkbox w-4 h-4 mt-2"
+                        checked={selectedNotificationsList?.some(
+                          (n) => n.id === notification.id
+                        )}
+                        onChange={() =>
+                          updateSelectedNotifications(notification)
+                        }
+                      />
+                    )}
                   </div>
                 </div>
               ))}
@@ -243,17 +265,11 @@ export const MobileViewNotification = ({
         </Slider>
         {!isDrawer && (
           <div className="flex px-2 justify-between items-center mt-2">
-            <button
+            <SliderButton
+              direction="previous"
+              isDisabled={currentPage === 0}
               onClick={handlePrevious}
-              className={`w-[97px] h-[28px] rounded-[0.25rem] border text-[1rem] ${
-                currentPage === 0
-                  ? "border-gray-300 text-gray-400 cursor-not-allowed"
-                  : "border-[#D0D5DD] text-[#1C1B1B]"
-              }`}
-              disabled={currentPage === 0}
-            >
-              &lt; Previous
-            </button>
+            />
             <div className="flex space-x-1">
               {Array.from({ length: totalPages }, (_, index) => (
                 <span
@@ -264,17 +280,12 @@ export const MobileViewNotification = ({
                 ></span>
               ))}
             </div>
-            <button
+
+            <SliderButton
+              direction="next"
+              isDisabled={currentPage === totalPages - 1}
               onClick={handleNext}
-              className={`w-[74px] h-[28px] rounded-[0.25rem] border text-[1rem] ${
-                currentPage === totalPages - 1
-                  ? "border-gray-300 text-gray-400 cursor-not-allowed"
-                  : "border-[#D0D5DD] text-[#1C1B1B]"
-              }`}
-              disabled={currentPage === totalPages - 1}
-            >
-              Next &gt;
-            </button>
+            />
           </div>
         )}
       </div>
@@ -283,52 +294,58 @@ export const MobileViewNotification = ({
 };
 
 interface DesktopViewNotificationProps {
+  hasCheckbox?: boolean;
   isDrawer?: boolean;
-  handleSelectAll: () => void;
+  handleSelectAll: any;
   selectAll: boolean;
-  handleCheckboxChange: (id: number) => void;
+  handleCheckboxChange?: (id: number) => void;
   currentNotifications: any;
   totalPages: number;
   currentPage: number;
-  setCurrentPage: (page: number) => void;
+  setCurrentPage?: (page: number) => void;
   handleNext: () => void;
   handlePrevious: () => void;
   itemsPerPage: number;
   totalNotifications: number;
   onNotificationClick?: any;
   textMaxLenght?: number;
+  updateSelectedNotifications?: any;
+  selectedNotificationsList?: any;
+  cardNotificationClick?: any;
 }
 
 export const DesktopViewNotification = ({
+  cardNotificationClick,
+  hasCheckbox = false,
   isDrawer,
   handleSelectAll,
   selectAll,
-  handleCheckboxChange,
   currentNotifications,
   totalPages,
   currentPage,
-  setCurrentPage,
   handleNext,
   handlePrevious,
   itemsPerPage,
   totalNotifications,
   onNotificationClick,
-  textMaxLenght
+  textMaxLenght,
+  updateSelectedNotifications,
+  selectedNotificationsList,
 }: DesktopViewNotificationProps) => {
   return (
     <>
       <div className="rounded-[12px] border border-gray-200 overflow-hidden w-full">
         {!isDrawer && (
           <div className="bg-white px-2 py-2 flex items-center justify-between w-full">
-            <div className="flex items-center py-3">
+            {/* <div className="flex items-center py-3">
               <input
                 type="checkbox"
                 className="form-checkbox"
                 onChange={handleSelectAll}
                 checked={selectAll}
               />
-            </div>
-            <div className="flex justify-end space-x-2 items-center">
+            </div> */}
+            <div className="ml-auto text-end flex justify-end space-x-2 items-center">
               <span className={`${groteskText.className}  text-gray-500`}>
                 {`${currentPage * itemsPerPage + 1} - ${Math.min(
                   (currentPage + 1) * itemsPerPage,
@@ -358,52 +375,67 @@ export const DesktopViewNotification = ({
             </div>
           </div>
         )}
-          <div className="overflow-x-auto">
+        <div className="overflow-x-auto">
           <table className="min-w-[500px] w-full text-left mt-0">
-          <tbody>
-            {currentNotifications.map((notification) => (
-              <tr
-                key={notification.id}
-                className={`border-t border-gray-300 cursor-pointer ${
-                  notification.read ? "text-gray-400" : "text-black"
-                } hover:bg-gray-100`}
-                onClick={() => onNotificationClick(notification)}
-              >
-                <td className="pl-2 py-2 w-[5%]">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox"
-                    checked={notification.checked || false}
-                    onChange={() => handleCheckboxChange(notification.id)}
-                  />
-                </td>
-                <td className="px-1 py-2  w-[15%]">
-                  <div className="flex items-center">
-                    <div className="px-1">
-                      <LabelImportantSVG />
-                    </div>
-                    <span className={`${groteskText.className}`}>
-                      {notification.type}
-                    </span>
-                  </div>
-                </td>
-                <td className={`${groteskText.className}  {isDrawer ? 'px-0' : 'px-2'}  py-2 w-[50%] `}>
-                  <TruncatedText
-                    text={notification.message}
-                    maxLength={textMaxLenght}
-                    className={`${groteskTextMedium.className}`}
-                    showFullOnHover={false}
-                  />
-                </td>
-                <td
-                  className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'}  py-2 text-center w-[10%]`}
+            <tbody>
+              {currentNotifications?.map((notification) => (
+                <tr
+                  key={notification.id}
+                  className={`border-t border-gray-300 cursor-pointer ${
+                    notification.read ? "text-gray-400" : "text-black"
+                  } hover:bg-gray-100`}
+                  onClick={() =>
+                    isDrawer
+                      ? onNotificationClick(notification)
+                      : cardNotificationClick(notification)
+                  }
                 >
-                  {notification.date}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  {hasCheckbox && (
+                    <td
+                      className="pl-2 py-2 w-[5%]"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <input
+                        type="checkbox"
+                        className="form-checkbox"
+                        checked={selectedNotificationsList?.some(
+                          (n) => n.id === notification.id
+                        )}
+                        onChange={() =>
+                          updateSelectedNotifications(notification)
+                        }
+                      />
+                    </td>
+                  )}
+                  <td className="px-1 py-2  w-[15%]">
+                    <div className="flex items-center">
+                      <div className="pl-2 pr-4">
+                        <LabelImportantSVG />
+                      </div>
+                      <span className={`${groteskText.className}`}>
+                        {notification.type}
+                      </span>
+                    </div>
+                  </td>
+                  <td
+                    className={`${groteskText.className}  {isDrawer ? 'px-0' : 'px-2'}  py-2 w-[50%] `}
+                  >
+                    <TruncatedText
+                      text={notification.message}
+                      maxLength={textMaxLenght}
+                      className={`${groteskTextMedium.className}`}
+                      showFullOnHover={false}
+                    />
+                  </td>
+                  <td
+                    className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'}  py-2 text-center w-[10%]`}
+                  >
+                    {notification.date}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ThirdPartyNominees, {
   AddThirdPartyNominee,
 } from "../card/ThirdPartyNominee";
@@ -12,9 +12,8 @@ interface CarProfileDrawerProps {
   toggleDrawer: any;
   addVehicleDetails: any;
   user: any;
-  form:any,
+  form: boolean;
   openNominationHistory: any;
-
 }
 
 const CarProfileDrawer = ({
@@ -23,8 +22,7 @@ const CarProfileDrawer = ({
   addVehicleDetails,
   user,
   form,
-  openNominationHistory
-
+  openNominationHistory,
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
@@ -34,34 +32,43 @@ const CarProfileDrawer = ({
     setSelectedVehicleIndex(index); // Update the selected vehicle when slider changes
   };
 
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const handleButtonClick = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const renderNomineeSection = () => {
     if (isForm) {
       return (
-        <AddThirdPartyNominee
-          vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
-            value: vehicle.registrationNumber,
-            label: vehicle.registrationNumber, // You can customize the label here
-          }))}
-          toggleForm={setIsForm}
-          addVehicle={addVehicleDetails}
-          nominees={
-            vehicles?.carDetails?.[selectedVehicleIndex] || []}
-        />
+        <div ref={formRef}>
+          <AddThirdPartyNominee
+            vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
+              value: vehicle.registrationNumber,
+              label: vehicle.registrationNumber, // You can customize the label here
+            }))}
+            toggleForm={setIsForm}
+            addVehicle={addVehicleDetails}
+            nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
+          />
+        </div>
       );
     } else {
       return (
-        <ThirdPartyNominees
-          toggleForm={setIsForm}
-          nominees={
-            vehicles?.carDetails?.[selectedVehicleIndex] || []
-          }
-        />
+        <div ref={formRef}>
+          <ThirdPartyNominees
+            toggleForm={setIsForm}
+            nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
+          />
+        </div>
       );
     }
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-hidden">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Vehicle Overview"
@@ -74,16 +81,19 @@ const CarProfileDrawer = ({
             addVehicle={addVehicleDetails}
             onVehicleChange={handleVehicleChange}
             user={user}
+            setForm={setIsForm}
+            scrollToForm={handleButtonClick}
           />
           {renderNomineeSection()}
         </>
       ) : (
         <CorporateCarProfileDrawer
-        openNominationHistory={openNominationHistory}
+          openNominationHistory={openNominationHistory}
           vehicles={vehicles}
           addVehicleDetails={addVehicleDetails}
           toggleDrawer={toggleDrawer}
           user={user}
+          isForm={form}
         />
       )}
     </div>

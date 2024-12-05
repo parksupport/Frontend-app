@@ -246,7 +246,6 @@ export default function DashboardPage() {
   };
 
   const handleToggle = (newState) => {
-    console.log("Current State:", newState);
     setUser(newState);
   };
 
@@ -314,8 +313,8 @@ export default function DashboardPage() {
         </section>
 
         {/* Notifications and Calendar Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
-          <div className="w-full justify-center flex">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-4">
+          <div className="w-full justify-center">
             <Calendar />
           </div>
           <div className="w-full flex justify-center">
@@ -330,13 +329,13 @@ export default function DashboardPage() {
         </section>
 
         {/* FAQ Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6 relative justify-center items-center">
-          <div className="relative md:-mt-[30px] md:z-10 flex justify-center">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-4">
+          <div className="flex justify-center">
             <EducationalMaterials
               openEducationalMaterials={openEducationalMaterials}
             />
           </div>
-          <div className="relative md:-mt-[30px] md:z-20 flex justify-center">
+          <div className="flex justify-center">
             {/* <FAQAccordion /> */}
             <FAQComponents />
           </div>

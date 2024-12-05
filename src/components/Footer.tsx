@@ -65,7 +65,7 @@ export default function Footer({
         </div>
       </div>
 
-      <div className="container mx-auto pt-[32px] pb-[41px] border-t border-[#3957D7] text-center text-sm text-gray-500 ">
+      <div className="container mx-auto pt-[32px] pb-10 border-t border-[#3957D7] text-center text-sm text-gray-500 ">
         <div className="pb-5 flex gap-[20px] text-[#1D224E] justify-center text-lg md:hidden space-x-4 order-3">
           <FontIcon icon={faTwitter} url="#" />
           <FontIcon icon={faFacebook} url="#" />

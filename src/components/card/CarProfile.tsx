@@ -4,10 +4,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import UserProfileSVG from "@/assets/svg/exportProfile.svg";
-import NumberSVG from "@/assets/svg/numbers.svg";
+import UserProfileSVG from "@/assets/svg/owner.svg";
+import NumberSVG from "@/assets/svg/regNo.svg";
 import GroupUserSVG from "@/assets/svg/profile-2user.svg";
-import TicketSVG from "@/assets/svg/ticket.svg";
+import TicketSVG from "@/assets/svg/ticket-status.svg";
 import { Button } from "@/components";
 import VehiclceInfoSVG from "@/assets/svg/infoOutline.svg";
 import "@/components/Slider.css";
@@ -17,7 +17,7 @@ import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
 import { useRef, useState } from "react";
 import { MoveDiagonal } from "lucide-react";
-import UserTickSVG from "@/assets/svg/user-tick.svg";
+import UserTickSVG from "@/assets/svg/nominee.svg";
 import InfoIconWithText from "../InfoIconWithText";
 import SliderButton from "../SliderButton";
 
@@ -207,7 +207,7 @@ function CarProfile({
                         </span>
                       </div>
                       <span
-                        className={`${groteskText.className}text-[#212121] text-[11px] self-end`}
+                        className={`${groteskText.className} text-[#212121] text-[11px] self-end`}
                       >
                         {car.owner}
                       </span>

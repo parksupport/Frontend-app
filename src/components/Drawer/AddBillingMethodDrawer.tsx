@@ -10,7 +10,7 @@ import AmexIcon from "@/assets/svg/amex.svg";
 import DiscoverIcon from "@/assets/svg/discover.svg";
 import DinersIcon from "@/assets/svg/diners.svg";
 import Card from '@/assets/svg/card.svg'
-import IconRight from '@/assets/svg/iconRight.svg'
+import IconRight from '@/assets/svg/lock.svg'
 import IconCode from '@/assets/svg/securitycode.svg'
 import { CircleHelp } from "lucide-react";
 
@@ -137,7 +137,7 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
           </div>
           <div className="flex items-center gap-[8px] mt-[20px]">
         <h2 className={`text-[#000000] text-[16px] ${groteskText.className}`}>Security code</h2>
-        <CircleHelp />
+        <IconCode />
         </div>
         <div className=" flex items-center justify-between">
      

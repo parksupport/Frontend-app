@@ -64,7 +64,7 @@ const InputField: React.FC<InputFieldProps> = ({
       </label>
       <div className="relative">
         {iconLeft && (
-          <div className="absolute left-3 top-1/2 transform -translate-y-1/2 cursor-pointer mr-[8px]">
+          <div className="absolute left-3 top-[55%] transform -translate-y-1/2 cursor-pointer mr-[8px]">
             {iconLeft}
           </div>
         )}
@@ -82,7 +82,7 @@ const InputField: React.FC<InputFieldProps> = ({
           onBlur={handleBlur}
           className={`${groteskText.className} w-full  h-full px-[2rem] py-4 rounded-[6px] text-[14px] mt-1 border border-solid text-gray-500 focus:outline-none ${
             error ? "border-red-500" : "border-gray-300"
-          } ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
+        } ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
         />
         {textRight && (
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
@@ -90,7 +90,7 @@ const InputField: React.FC<InputFieldProps> = ({
           </div>
         )}
         {iconRight && (
-          <div className="absolute right-[132px] top-1/2 transform -translate-y-1/2 cursor-pointer">
+          <div className="absolute right-[121px] top-1/2 transform -translate-y-1/2 cursor-pointer">
             {iconRight}
           </div>
         )}

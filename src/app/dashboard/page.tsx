@@ -314,7 +314,7 @@ export default function DashboardPage() {
 
         {/* Notifications and Calendar Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
-          <div className="w-full justify-center">
+          <div className="w-full justify-center flex">
             <Calendar />
           </div>
           <div className="w-full flex justify-center">

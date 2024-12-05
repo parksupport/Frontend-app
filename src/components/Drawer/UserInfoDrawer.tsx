@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import { CiEdit } from "react-icons/ci";
+import  CiEdit  from "@/assets/svg/EditIconInprofilepages.svg";
 import TruncatedText from "../ToggleComponent/TruncatedText";
 
 const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
@@ -118,6 +118,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
             ? "This section is all about the user’s details."
             : "This section is all about the corporate’s details."
         }
+         className="min-w-[350px] md:min-w-[400px] "
       />
 
       <div
@@ -143,8 +144,12 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
 
               {/* Edit Icon */}
               <button
-                className="absolute top-10 right-10 w-[20px] h-[20px] md:w-[24px] md:h-[24px] rounded-full flex items-center justify-center text-white"
-                onClick={() => console.log("Edit button clicked")}
+                className="absolute md:top-10 md:right-10 w-[20px] h-[20px] md:w-[24px] md:h-[24px] rounded-full flex items-center justify-center text-white"
+                onClick={() =>
+                  onEdit({
+                    type: userInfo === "User" ? "User" : "Company",
+                  })
+                }
               >
                 <CiEdit color="black" size={20} />
               </button>

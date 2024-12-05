@@ -27,6 +27,7 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
         {invoice.fine_amount}
       </td>
       <span className="bg-[#B5E3C4] sm:self-end  rounded-[22px]    my-[0.75rem] text-left flex justify-center w-[44px] h-[22px] ">
+
                  <td
                    className={`text-center text-[#099137] text-[13px] text-left   ${groteskText.className}`}
                  >

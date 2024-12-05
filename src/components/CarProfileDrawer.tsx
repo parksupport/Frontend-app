@@ -2,7 +2,7 @@
 
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import UserProfileSVG from "@/assets/svg/exportProfile.svg";
-import NumberSVG from "@/assets/svg/numbers.svg";
+import NumberSVG from "@/assets/svg/regNo.svg";
 import GroupUserSVG from "@/assets/svg/profile-2user.svg";
 import TicketSVG from "@/assets/svg/ticket.svg";
 import { Button } from "@/components";

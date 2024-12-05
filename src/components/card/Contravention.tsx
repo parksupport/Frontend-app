@@ -41,7 +41,7 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
   };
 
   return (
-    <div className="max-w-[396px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-6 px-4 md:py-8 md:px-6 lg:px-8">
+    <div className="max-w-[396px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-6 px-4 md:py-9 md:px-6 lg:px-8">
       <div className="flex justify-between flex-row items-center">
         <h1
           className={`text-[24px] md:text-[2rem] text-[#000000] ${groteskTextMedium.className} `}

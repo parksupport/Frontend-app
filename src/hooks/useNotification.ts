@@ -106,17 +106,37 @@ const useNotifications = (
     setNotifications(updatedNotifications);
   };
 
-  const updateSelectedNotifications = (notification: Notification) => {
+  // const updateSelectedNotifications = (notification: Notification) => {
+  //   SetselectedNotificationsList((prevSelected) => {
+  //     const isAlreadySelected = prevSelected.find(
+  //       (n) => n.id === notification.id
+  //     );
+  //     if (isAlreadySelected) {
+  //       // Remove if already selected
+  //       return prevSelected.filter((n) => n.id !== notification.id);
+  //     } else {
+  //       // Add if not selected
+  //       return [...prevSelected, notification];
+  //     }
+  //   });
+  // };
+
+
+  const updateSelectedNotifications = (notificationOrList) => {
     SetselectedNotificationsList((prevSelected) => {
+      if (Array.isArray(notificationOrList)) {
+        // Reset the selected list if an array is passed
+        return notificationOrList;
+      }
       const isAlreadySelected = prevSelected.find(
-        (n) => n.id === notification.id
+        (n) => n.id === notificationOrList.id
       );
       if (isAlreadySelected) {
         // Remove if already selected
-        return prevSelected.filter((n) => n.id !== notification.id);
+        return prevSelected.filter((n) => n.id !== notificationOrList.id);
       } else {
         // Add if not selected
-        return [...prevSelected, notification];
+        return [...prevSelected, notificationOrList];
       }
     });
   };

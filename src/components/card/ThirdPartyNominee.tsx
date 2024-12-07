@@ -576,7 +576,7 @@ export function AddThirdPartyNominee({
   };
 
   return (
-    <div className="py-12 mb-12  ">
+    <div className="py-12 mb-24  ">
       <div className="flex flex-col">
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="flex flex-col items-center">

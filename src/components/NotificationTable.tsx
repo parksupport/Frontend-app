@@ -191,7 +191,7 @@ export const MobileViewNotification = ({
               {currentNotifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className={`rounded-lg flex items-center justify-between bg-white shadow-sm w-full ${
+                  className={`rounded-lg flex items-center justify-between bg-white  w-full ${
                     isDrawer ? "py-2" : "py-1"
                   }`}
                   onClick={() =>

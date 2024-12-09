@@ -158,6 +158,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                         customStyles={`${groteskText.className} text-[14px]`}
                         position={{ right: 0, top: -15 }}
                         isVehicle
+                        onClose={() => setOpenDropdownIndex(null)}
                         onAddNominee={() => {
                           setForm(true);
                           setTimeout(scrollToForm, 125);

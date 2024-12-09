@@ -141,7 +141,7 @@ const NotificationsTableDrawer = ({ back }) => {
       <div className="px-4 md:px-2 flex justify-between items-center mt-8 ">
         {/* Add the FiTrash2 icon only when selectedNotification is true */}
         {selectedNotificationsList.length > 0 && (
-          <FiTrash2 className="ml-2" size={20} color="red" />
+          <FiTrash2 className="ml-2 md:ml-0 cursor-pointer" size={20} color="red"  />
         )}
 
         {/* Use flex-grow or margins to push "Mark as read" to the right */}

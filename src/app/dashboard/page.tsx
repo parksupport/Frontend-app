@@ -65,7 +65,7 @@ export default function DashboardPage() {
     }
   };
 
-  const openCarProfile = (cars: any, form: any = false) => {
+  const openCarProfile = (cars: any, form: any = false,autoScrollToForm?: boolean) => {
     setDrawerContent(
       <CarProfileDrawer
       openNominationHistory={openNominationHistory}
@@ -74,6 +74,7 @@ export default function DashboardPage() {
         addVehicleDetails={addVehicleDetails}
         user={User}
         form={form}
+        autoScrollToForm={autoScrollToForm}
       />
     );
 
@@ -218,7 +219,8 @@ export default function DashboardPage() {
     setDrawerContent(
       <SettingsDrawer
         openCarProfile={() => {
-          openCarProfile(cars, true);
+          openCarProfile(cars, true,true);
+
         }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}

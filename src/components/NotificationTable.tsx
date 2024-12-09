@@ -171,14 +171,16 @@ export const MobileViewNotification = ({
             </h2>
 
             <div className="flex items-center ">
-              {hasCheckbox && <div className="flex items-center px-6">
-                <input
-                  type="checkbox"
-                  className="form-checkbox w-4 h-4"
-                  onChange={handleSelectAll}
-                  checked={selectAll}
-                />
-              </div>}
+              {hasCheckbox && (
+                <div className="flex items-center px-6">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox w-4 h-4"
+                    onChange={handleSelectAll}
+                    checked={selectAll}
+                  />
+                </div>
+              )}
               <MoveDiagonal size={24} onClick={openNotificationsDrawer} />
             </div>
           </div>
@@ -189,7 +191,7 @@ export const MobileViewNotification = ({
               {currentNotifications.map((notification) => (
                 <div
                   key={notification.id}
-                  className={`rounded-lg flex items-center justify-between bg-white shadow-sm w-full ${
+                  className={`rounded-lg flex items-center justify-between bg-white  w-full ${
                     isDrawer ? "py-2" : "py-1"
                   }`}
                   onClick={() =>
@@ -384,11 +386,16 @@ export const DesktopViewNotification = ({
                   className={`border-t border-gray-300 cursor-pointer ${
                     notification.read ? "text-gray-400" : "text-black"
                   } hover:bg-gray-100`}
-                  onClick={() =>
-                    isDrawer
-                      ? onNotificationClick(notification)
-                      : cardNotificationClick(notification)
-                  }
+                  onClick={() => {
+                    // Clear all selected checkboxes
+                    updateSelectedNotifications([]); // Reset selected notifications list
+                    // Handle the rest of the row click logic
+                    if (isDrawer) {
+                      onNotificationClick(notification);
+                    } else {
+                      cardNotificationClick(notification);
+                    }
+                  }}
                 >
                   {hasCheckbox && (
                     <td

@@ -83,16 +83,16 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
-                <th className={`py-2 pl-4 bg-gray-100 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Contravention Type
                 </th>
-                <th className={`py-2 pl-4 bg-gray-100 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Date Issued
                 </th>
-                <th className={`py-2 pl-4 bg-gray-100 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Fine
                 </th>
-                <th className={`py-2 pl-4 bg-gray-100 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
 
 
                   Status

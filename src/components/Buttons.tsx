@@ -67,7 +67,7 @@ const Button: React.FC<ButtonProps> = ({
     tertiary: "text-white",
     quaternary: `text-white ${groteskText.className}`,
     quinary: `text-white flex items-center text-[16px] ${groteskText.className}`,
-    link: `  ${groteskText.className}`,
+    link: `bg-transparent focus:outline-none focus:ring-0  ${groteskText.className}`,
   };
 
   const buttonStyle = variantStyles[variant];
@@ -89,6 +89,7 @@ const Button: React.FC<ButtonProps> = ({
       style={style}
       aria-busy={loading}
       aria-disabled={disabled || loading}
+      tabIndex={variant === "link" ? -1 : undefined}
     >
       <div className="flex items-center justify-center">
         {loading ? (

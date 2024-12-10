@@ -9,7 +9,7 @@
       "thirdPartyNominee": "Wisdom .O",
       "color": "Black",
       "make": "BMW",
-      "dateAdded": "2023-11-01",
+      "dateAdded": "01/11/2023",
       "nominees": [
         {
           "name": "Wisdom Odili",
@@ -17,8 +17,8 @@
           "status": "not-active",
           "phone": "+4456414644484",
           "lease": "8 months",
-          "startDate": "2023-05-01",
-          "endDate": "2024-01-01"
+          "startDate": "01/05/2023",
+          "endDate": "01/01/2024"
         },
         {
           "name": "Wisdom Odili",
@@ -26,8 +26,8 @@
           "status": "active",
           "phone": "+4456414644484",
           "lease": "2 years",
-          "startDate": "2023-05-01",
-          "endDate": "2025-05-01"
+          "startDate": "01/05/2023",
+          "endDate": "01/05/2025"
         }
       ]
     },
@@ -40,7 +40,7 @@
       "thirdPartyNominee": "John D.",
       "color": "White",
       "make": "Toyota",
-      "dateAdded": "2023-11-02",
+      "dateAdded": "02/11/2023",
       "nominees": [
         {
           "name": "Jane Doe",
@@ -48,8 +48,8 @@
           "status": "active",
           "phone": "+1234567890",
           "lease": "12 months",
-          "startDate": "2023-11-02",
-          "endDate": "2024-11-02"
+          "startDate": "02/11/2023",
+          "endDate": "02/11/2024"
         }
       ]
     },
@@ -62,7 +62,7 @@
       "thirdPartyNominee": "Michael B.",
       "color": "Blue",
       "make": "Ford",
-      "dateAdded": "2023-11-03",
+      "dateAdded": "03/11/2023",
       "nominees": [
         {
           "name": "Michael Brown",
@@ -70,8 +70,8 @@
           "status": "active",
           "phone": "+9876543210",
           "lease": "1 year",
-          "startDate": "2023-11-03",
-          "endDate": "2024-11-03"
+          "startDate": "03/11/2023",
+          "endDate": "03/11/2024"
         }
       ]
     },
@@ -84,7 +84,7 @@
       "thirdPartyNominee": "Sophia C.",
       "color": "Red",
       "make": "Tesla",
-      "dateAdded": "2023-11-04",
+      "dateAdded": "04/11/2023",
       "nominees": [
         {
           "name": "Omotayo Oyeniyi",
@@ -92,8 +92,8 @@
           "status": "active",
           "phone": "+1234567890",
           "lease": "6 months",
-          "startDate": "2023-11-04",
-          "endDate": "2024-05-04"
+          "startDate": "04/11/2023",
+          "endDate": "04/05/2024"
         },
         {
           "name": "Tomi Oyeniyi",
@@ -101,8 +101,8 @@
           "status": "active",
           "phone": "+2345678901",
           "lease": "2 years",
-          "startDate": "2023-11-04",
-          "endDate": "2025-11-04"
+          "startDate": "04/11/2023",
+          "endDate": "04/11/2025"
         }
       ]
     },
@@ -115,7 +115,7 @@
       "thirdPartyNominee": "Chris P.",
       "color": "Silver",
       "make": "Honda",
-      "dateAdded": "2023-11-05",
+      "dateAdded": "05/11/2023",
       "nominees": [
         {
           "name": "Chris Parker",
@@ -123,13 +123,12 @@
           "status": "active",
           "phone": "+7894561230",
           "lease": "10 months",
-          "startDate": "2023-11-05",
-          "endDate": "2024-09-05"
+          "startDate": "05/11/2023",
+          "endDate": "05/09/2024"
         }
       ]
     }
   ],
-
   "contravention": [
     {
       "ticket": "Parking Violation",
@@ -137,7 +136,7 @@
       "issuing_auth": "Odili wisdom",
       "fine_amount": "$50",
       "status": "Unpaid",
-      "date": "in 5 days"
+      "date": "14/12/2023"
     },
     {
       "ticket": "Speeding Violation",
@@ -145,15 +144,15 @@
       "issuing_auth": "Odili wisdom",
       "fine_amount": "$50",
       "status": "Unpaid",
-      "date": "in 5 days"
+      "date": "14/12/2023"
     },
     {
-      "ticket": "DUI Violaion",
+      "ticket": "DUI Violation",
       "reg_num": "16UK567Y",
       "issuing_auth": "Odili wisdom",
       "fine_amount": "$50",
       "status": "Unpaid",
-      "date": "in 5 days"
+      "date": "14/12/2023"
     },
     {
       "ticket": "Parking Ticket",
@@ -161,15 +160,15 @@
       "issuing_auth": "Odili wisdom",
       "fine_amount": "$50",
       "status": "Unpaid",
-      "date": "in 5 days"
+      "date": "14/12/2023"
     },
     {
       "ticket": "Parking Violation",
       "reg_num": "16UK567Y",
       "issuing_auth": "Odili wisdom",
-      "status": "Unpaid",
       "fine_amount": "$50",
-      "date": "in 5 days"
+      "status": "Unpaid",
+      "date": "14/12/2023"
     },
     {
       "ticket": "Parking Violation",
@@ -177,7 +176,7 @@
       "issuing_auth": "Odili wisdom",
       "fine_amount": "$50",
       "status": "Unpaid",
-      "date": "in 5 days"
+      "date": "17/12/2023"
     }
   ]
 }

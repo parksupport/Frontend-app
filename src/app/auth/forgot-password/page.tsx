@@ -3,7 +3,7 @@
 import { Button } from "@/components";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import { Input } from "@/components/ui/input";
-import { useForgotPassword } from "@/hooks/usepasswordReset";
+import { useForgotPassword } from "@/hooks/mutations/auth";
 import { useState } from "react";
 
 

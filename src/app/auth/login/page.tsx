@@ -3,7 +3,7 @@
 "use client";
 
 import { useState } from "react";
-import { useLogin } from "@/hooks/useLogin";
+import { useLogin } from "@/hooks/mutations/auth";
 import { InputField, Button, TextBlock, AuthPrompt } from "@/components"; // Adjust imports as needed
 import Link from "next/link";
 import { CiMail } from "react-icons/ci";

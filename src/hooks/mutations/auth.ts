@@ -48,10 +48,16 @@ export const useLogin = () => {
         router.push('/dashboard'); // Redirect after successful login
       },
       onError: (error: any) => {
-        // Handle error
-        const errorMessage = error.response?.data?.detail || 'Login failed';
-        console.error(errorMessage);
-      },
+        // Check if the error code is 'not_verified'
+        const errorCode = error.response?.data?.code;
+        if (errorCode === 'not_verified') {
+            const email = error.response?.data?.email; // Extract email if available
+            router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
+        } else {
+            // Log or handle other errors
+            console.error(error.response?.data?.detail || 'Login failed');
+        }
+    },
     });
     const { mutate: login,  isError, error } = mutation;
     return { login, isError, error };

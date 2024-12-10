@@ -2,7 +2,7 @@
   "carDetails": [
     {
       "id": 1,
-      "imageUrl": "essential-car.jpg",
+      "imageUrl": "essentail-car.jpg",
       "registrationNumber": "16UK567B",
       "owner": "Wisdom .O",
       "status": "Verified",

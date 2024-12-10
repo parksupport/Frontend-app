@@ -17,7 +17,7 @@ const VerifyOTPPage = () => {
 
   const handleVerify = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    verifyOtp({ email_address, otp_code });
+    verifyOtp({ email_address, otp:otp_code });
   };
 
   return (

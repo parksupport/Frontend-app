@@ -130,8 +130,8 @@ export const useVerifyOtp = () => {
   const router = useRouter();
 
   const mutation = useMutation<any, Error, VerifyOtpRequest>({
-    mutationFn: async ({ email_address, otp_code }) => {
-      return await verifyOtp({ email_address, otp_code });
+    mutationFn: async ({ email_address, otp }) => {
+      return await verifyOtp({ email_address, otp_code:otp });
     },
     onSuccess: (data) => {
       setToken(data.access);

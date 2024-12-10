@@ -6,6 +6,7 @@ import Button from './Buttons'
 import axios from 'axios';
 import { useAuthStore } from '@/lib/stores/authStore';
 import { useRouter } from 'next/navigation';
+import { useVerifyOtp } from '@/hooks/mutations/auth';
 
 const CorporateStepFour = () => {
 
@@ -26,27 +27,12 @@ const CorporateStepFour = () => {
       setOtp(newOtp); // Update state
     }
   };
-const handleSubmit =async (e: any) => {
-  e.preventDefault();
-if(isFilled){
-      otp.join('')
-  }
-  e.preventDefault();
-  try {
-    const response = await axios.post('http://localhost:8000/api/accounts/verify-otp/', {
-      email_address: email,
-      otp,
-    });
-    const data = response.data;
-    setToken(data.access);
-    setUser(data.user);
-    router.push('/dashboard');
-  } catch (error) {
-    console.error('OTP Verification failed:', error);
-    // Handle error (e.g., display error message)
-  }
-}
+  const { verifyOtp, isPending, isError, error } = useVerifyOtp();
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    verifyOtp({ email_address:email, otp });
+  };
   return (
     <div className='justify-center flex flex-col items-center max-w-[460px] w-full'>
      <div className='justify-center flex flex-col items-center mt-8'>

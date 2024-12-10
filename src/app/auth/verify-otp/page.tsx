@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useAuthStore } from '@/lib/stores/authStore';
+import { useVerifyOtp } from "@/hooks/mutations/auth";
 import { useRouter } from 'next/navigation';
 
 const VerifyOTPPage = () => {
@@ -12,21 +13,11 @@ const VerifyOTPPage = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
-  const handleVerify = async (e: React.FormEvent<HTMLFormElement>) => {
+  const { verifyOtp, isPending, isError, error } = useVerifyOtp();
+
+  const handleVerify = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8000/api/accounts/verify-otp/', {
-        email_address,
-        otp_code,
-      });
-      const data = response.data;
-      setToken(data.access);
-      setUser(data.user);
-      router.push('/dashboard');
-    } catch (error) {
-      console.error('OTP Verification failed:', error);
-      // Handle error (e.g., display error message)
-    }
+    verifyOtp({ email_address, otp_code });
   };
 
   return (

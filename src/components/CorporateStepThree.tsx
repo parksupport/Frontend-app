@@ -8,7 +8,7 @@ import { groteskText, groteskTextMedium } from '@/app/fonts'
 
 import { AuthPrompt } from "@/components/AuthPrompt";
 import { useSignupStore } from "@/lib/stores/authStore";
-import { useSignup } from "@/hooks/useRegister";
+import { useSignup } from "@/hooks/mutations/auth";
 
 const CorporateAdminSignupPage = ({onContinue}) => {
   const { formData, updateFormData } = useSignupStore();

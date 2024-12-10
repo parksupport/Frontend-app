@@ -2,7 +2,7 @@
 
 import { Button, InputField } from "@/components";
 import { AuthPrompt } from "@/components/AuthPrompt";
-import { useConfirmPassword } from "@/hooks/usepasswordReset";
+import { useConfirmPassword } from "@/hooks/mutations/auth";
 import { useEffect, useState } from "react";
 
 export default function SetNewPassword() {

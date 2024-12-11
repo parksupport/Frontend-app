@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLogin } from "@/hooks/mutations/auth";
 import { InputField, Button, TextBlock, AuthPrompt } from "@/components"; // Adjust imports as needed
 import Link from "next/link";
@@ -22,7 +22,20 @@ export default function LoginPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [rememberMe, setRememberMe] = useState(false);
-  const { login, isError, error } = useLogin();
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState<
+    string | null
+  >(null);
+
+  const { login, isError, error, isLoading } = useLogin();
+
+  // Use the error state to conditionally set the password error message
+  useEffect(() => {
+    if (isError) {
+      setPasswordErrorMessage("The password that you've entered is incorrect.");
+    } else {
+      setPasswordErrorMessage(null); // Clear the error message when no error
+    }
+  }, [isError]);
 
   // const { login, isLoggingIn } = useLogin();
 
@@ -102,25 +115,23 @@ export default function LoginPage() {
                 )
               }
               className="mt-4"
+              error={passwordErrorMessage}
             />
-            <div className="flex items-center justify-between mt-2 mb-6">
-              <div className="flex items-center space-x-1">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="cursor-pointer w-3 h-3 text-[#98A2B3]"
-                />
-                <label className="text-[#98A2B3] text-xs">Remember Me</label>
-              </div>
+            <div className="flex items-end mt-2 mb-6">
               <Link
                 href="/auth/forgot-password"
-                className="text-xs text-blue-600 hover:underline"
+                className="text-xs text-blue-600 hover:underline ml-auto"
               >
                 Forgot password
               </Link>
             </div>
-            <Button type="submit" className="w-full" variant="primary">
+
+            <Button
+              type="submit"
+              className="w-full"
+              variant="primary"
+              // loading
+            >
               Login
             </Button>
             {/* Social login buttons (if applicable) */}

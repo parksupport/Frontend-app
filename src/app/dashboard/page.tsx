@@ -19,7 +19,7 @@ import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
 import cars from "@/data/data.json";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDrawer";
@@ -33,37 +33,61 @@ import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
+import { useRouter } from 'next/navigation';
 
 
 import ThirdPartyNominees, { NomineeMobile } from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/NominationHistory";
 import { ToggleLeft } from "lucide-react";
+import useUserStore from "@/lib/stores/profileStore";
+import { useProfile } from "@/hooks/mutations/auth";
 
 
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
-  const [User, setUser] = useState("User");
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
 
   const drawerRef = useRef<any>(null);
+  const router = useRouter(); 
 
-  const scrollToTopFromParent = () => {
-    if (drawerRef.current) {
-      drawerRef.current.scrollToTop(); // Call the exposed method
-    }
-  };
 
-  let toggleDrawer = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const { data, error, isLoading } = useProfile();
 
-  const openDrawer = () => {
-    if (!isOpen) {
-      setIsOpen(true);
-    }
-  };
+
+
+
+  // Show loading indicator or nothing while fetching profile
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // If there's an error fetching the profile, handle it gracefully
+  if (error) {
+    return <div>Error fetching profile. Please try again later.</div>;
+  }
+
+  // Ensure that the profile is available before accessing properties
+  if (!data) {
+    router.push("/auth/login");
+    return null;
+  }
+
+  const { full_name="james doe", email_address, user_type="individual", date_of_birth, phone_number, postcode } = data;
+
+const [firstName, lastName] = full_name?.split(" ");
+
+const scrollToTopFromParent = () => {
+  if (drawerRef.current) {
+    drawerRef.current.scrollToTop();
+  }
+};
+
+const toggleDrawer = () => setIsOpen((prev) => !prev);
+const openDrawer = () => !isOpen && setIsOpen(true);
+
+
 
   const openCarProfile = (cars: any, form: any = false,autoScrollToForm?: boolean) => {
     setDrawerContent(
@@ -72,7 +96,7 @@ export default function DashboardPage() {
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
-        user={User}
+        user={user_type}
         form={form}
         autoScrollToForm={autoScrollToForm}
       />
@@ -97,7 +121,7 @@ export default function DashboardPage() {
       <UserInfoDrawer
         back={toggleDrawer}
         onEdit={openProfileEditDrawer}
-        userInfo={User}
+        userInfo={user_type}
       />
     );
     scrollToTopFromParent();
@@ -129,7 +153,7 @@ export default function DashboardPage() {
       <AddVehicleDetailsDrawer
         CheckVehicleOwner={CheckVehicleOwner}
         back={() => openCarProfile(cars)}
-        userRole={User}
+        userRole={user_type}
       />
     );
     scrollToTopFromParent();
@@ -176,7 +200,7 @@ export default function DashboardPage() {
       <VehicleOwnerDetails
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
-        user={User}
+        user={user_type}
       />
     );
     scrollToTopFromParent();
@@ -247,10 +271,6 @@ export default function DashboardPage() {
     return randomOutcome;
   };
 
-  const handleToggle = (newState) => {
-    setUser(newState);
-  };
-
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
       <DashboardHeader
@@ -275,7 +295,7 @@ export default function DashboardPage() {
               <h1
                 className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
               >
-                Welcome Back, Orobosa
+                Welcome Back, {full_name ? firstName : "User"}
               </h1>
               <button
                 className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
@@ -291,8 +311,6 @@ export default function DashboardPage() {
               Subscription
             </button>
           </div>
-
-          <ToggleButton initialState="User" onToggle={handleToggle} />
         </section>
 
         {/* Profile and Table Section */}

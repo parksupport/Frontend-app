@@ -25,19 +25,3 @@ export async function registerCorporate(userData) {
   }
 }
 
-// services/auth.js
-
-export async function loginUser(userData) {
-  try {
-    const response = await axios.post(
-      "http://localhost:8000/api/token/",
-      {
-        email_address: userData.email,
-        password: userData.password,
-      }
-    );
-    return response.data; // { access: 'access_token', refresh: 'refresh_token' }
-  } catch (error) {
-    throw error;
-  }
-}

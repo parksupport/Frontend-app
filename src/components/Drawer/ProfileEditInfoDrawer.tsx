@@ -4,6 +4,7 @@ import { groteskText } from "@/app/fonts";
 import Button from "../Buttons";
 import DrawerHeader from "./DrawerHeader";
 import { IoMdCheckmark } from "react-icons/io";
+import { useEditProfile, useProfile } from "@/hooks/mutations/auth";
 
 interface ProfileEditInfoDrawerProps {
   back?: () => void;
@@ -14,22 +15,49 @@ export function ProfileEditInfoDrawer({
   back,
   type,
 }: ProfileEditInfoDrawerProps) {
+
+
+  const { data, error, isLoading } = useProfile();
+
+
+
+  const {id, address, full_name, email_address, user_type, date_of_birth, phone_number, post_code } = data;
+  const [firstName, lastName] = full_name?.split(" ");
+
+  const addressParts = address.split(',').map(part => part.trim());
+
+  // Extract the state and country
+  const country = addressParts[addressParts.length - 1];
+  const state = addressParts[addressParts.length - 2];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   const [formData, setFormData] = useState({
-    name: "",
-    email_address: "",
-    vehicle: "",
-    phone_number: "",
-    address: "",
-    postal_code: "",
-    position: "",
+    id: id,
+    name: full_name,
+    email_address: email_address,
+    // vehicle: ,
+    phone_number: phone_number,
+    address: address,
+    postal_code: post_code,
+    position: ""
+    ,
   });
   const [isChecked, setIsChecked] = useState(false);
 
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();  vehicle: any;
-  //     toggleForm?: (state: boolean) => void;
-  //     // login(formData);
-  //   };
+  const { updateProfile, isError,  } = useEditProfile();
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,16 +77,18 @@ export function ProfileEditInfoDrawer({
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (type === "!User") {
-      // Logic to send the changes for admin approval
-      alert(
-        "Changes to company information have been sent for admin approval."
-      );
-    } else {
-      // Logic to save changes directly for individual users
+    // if (type === "!User") {
+    //   // Logic to send the changes for admin approval
+    //   alert(
+    //     "Changes to company information have been sent for admin approval."
+    //   );
+    // } else {
+    console.log(formData, "formdata")
+      updateProfile(formData);
       back();
-    }
+    // }
   };
+
 
   const UserInputFields = [
     {

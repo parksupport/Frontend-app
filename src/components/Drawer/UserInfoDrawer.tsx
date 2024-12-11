@@ -1,18 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import  CiEdit  from "@/assets/svg/EditIconInprofilepages.svg";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+import { useProfile } from "@/hooks/mutations/auth";
 
 const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
+
+  const { data, error, isLoading } = useProfile();
+
+
+
+  const {address, full_name, email_address, user_type, date_of_birth, phone_number, post_code } = data;
+  const [firstName, lastName] = full_name?.split(" ");
+
+  const addressParts = address.split(',').map(part => part.trim());
+
+  // Extract the state and country
+  const country = addressParts[addressParts.length - 1];
+  const state = addressParts[addressParts.length - 2];
+
+
+
   const [user, setUser] = useState({
     profileImage: "https://via.placeholder.com/80",
-    name: "Wisdom Odili",
+    name: full_name,
     role: "Lead's United Kingdom",
-    firstName: "Wisdom",
-    lastName: "Odili",
-    email: "odiliwisdom5@gmail.com",
-    phone: "+234 91 283 396 67",
+    firstName: firstName,
+    lastName: lastName,
+    email: email_address,
+    phone: phone_number,
     address: {
       country: "United Kingdom",
       city: "Birmingham",
@@ -26,22 +43,22 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
       title: "Personal information",
       type: "User",
       fields: [
-        { label: "First name", value: user?.firstName },
-        { label: "Last name", value: user?.lastName },
-        { label: "Email address", value: user?.email },
-        { label: "Phone", value: user?.phone },
+        { label: "First name", value:firstName },
+        { label: "Last name", value: lastName },
+        { label: "Email address", value:email_address },
+        { label: "Phone", value: phone_number },
       ],
     },
     {
       title: "Address",
       type: "User",
       fields: [
-        { label: "Country", value: user?.address?.country },
+        { label: "Country", value:country },
         {
           label: "City / State",
-          value: `${user?.address?.city}, ${user?.address?.state}`,
+          value: `${state}`,
         },
-        { label: "Postal Code", value: user?.address?.postalCode },
+        { label: "Postal Code", value: post_code },
       ],
     },
   ];
@@ -111,10 +128,10 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
       <DrawerHeader
         toggleDrawer={back}
         title={
-          userInfo === "User" ? "User Information" : " Corporate Information"
+          userInfo === "individual" ? "User Information" : " Corporate Information"
         }
         subTitle={
-          userInfo === "User"
+          userInfo === "individual"
             ? "This section is all about the user’s details."
             : "This section is all about the corporate’s details."
         }
@@ -130,9 +147,9 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
           <div className="flex items-center space-x-4 py-2 md:p-2">
             {/* Circle for initials or fallback with edit icon */}
             <div className="relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px] md:text-[36px] font-bold">
-              {user?.name ? (
-                `${user.name.split(" ")[0][0]}${
-                  user.name.split(" ")[1]?.[0] || ""
+              {full_name?.name ? (
+                `${full_name.split(" ")[0][0]}${
+                  full_name.split(" ")[1]?.[0] || ""
                 }`
               ) : (
                 <img
@@ -147,7 +164,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
                 className="absolute md:top-10 md:right-10 w-[20px] h-[20px] md:w-[24px] md:h-[24px] rounded-full flex items-center justify-center text-white"
                 onClick={() =>
                   onEdit({
-                    type: userInfo === "User" ? "User" : "Company",
+                    type: userInfo === "individual" ? "User" : "Company",
                   })
                 }
               >
@@ -160,7 +177,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
               <h1
                 className={`${groteskTextMedium.className} text-black text-[16px] md:text-[24px]`}
               >
-                {user?.name || "User Name"}
+                {full_name || "User Name"}
               </h1>
               <p
                 className={` ${groteskText.className} text-[16px] md:text-[20px] text-gray-500`}
@@ -186,7 +203,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
         </div>
 
         {/* Dynamic Sections */}
-        {(userInfo === "User" ? userInfoSections : conmpanyInfoSections).map(
+        {(userInfo === "individual" ? userInfoSections : conmpanyInfoSections).map(
           (section, index) => (
             <div
               key={index}
@@ -230,7 +247,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
                     <p
                       className={`${groteskText.className} text-black text-[16px] md:text-[18px]`}
                     >
-                      {userInfo === "User" ? (
+                      {userInfo === "individual" ? (
                         field.value || field.label
                       ) : (
                         <TruncatedText

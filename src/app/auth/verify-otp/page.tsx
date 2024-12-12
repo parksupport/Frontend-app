@@ -14,7 +14,7 @@ const VerifyOTPPage = () => {
   const handleVerify = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Make sure the backend expects 'otp' or 'otp_code' field name and match it here
-    verifyOtp({ email_address, otp: otp_code });
+    verifyOtp({email_address, otp: otp_code });
   };
 
   return (

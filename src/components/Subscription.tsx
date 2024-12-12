@@ -3,8 +3,9 @@
 import React from "react";
 import { Button } from "@/components";
 import { groteskTextMedium } from "@/app/fonts";
-
+import { useRouter } from "next/navigation";
 const SubscriptionPlans = () => {
+  const router = useRouter()
   const plans = [
     {
       name: "Starter Plan",
@@ -110,6 +111,7 @@ const SubscriptionPlans = () => {
                 {/* Price and Button */}
                 <div className="flex items-center mb-6">
                   <Button
+                  onClick={()=> router.push('/auth/login')}
                     variant={plan.isHighlighted ? "secondary" : "primary"}
                     className={`px-4 py-2 rounded ${
                       plan.isHighlighted

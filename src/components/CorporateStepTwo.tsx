@@ -1,5 +1,5 @@
 // app/signup/page.tsx
-"use client"
+"use client";
 import InputField from "@/components/InputField";
 import { useEffect, useState } from "react";
 import CreateAccountText from "@/components/CreateAccountText";
@@ -7,78 +7,84 @@ import Button from "@/components/Buttons";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import { FcGoogle } from "react-icons/fc";
 import { useSignupStore } from "@/lib/stores/authStore";
+import { useCheckEmail } from "@/hooks/mutations/auth";
 
-
-const CorporateSignupPage = ({onContinue}) => {
+const CorporateSignupPage = ({ onContinue }) => {
   const { formData, updateFormData } = useSignupStore();
 
   let isFormValid =
     formData.company_name &&
     formData.company_email &&
-    formData.address &&
     formData.company_phone_number &&
     formData.company_registration_number &&
     formData.company_registered_address;
 
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string | null>(
+    null
+  );
 
+  const { data, isLoading } = useCheckEmail(formData.company_email);
 
-  const handleChange = (e) => {
+  useEffect(() => {
+    if (data?.message) {
+      setEmailErrorMessage("Email exists");
+    } else {
+      setEmailErrorMessage(null); // Clear the error message when no error
+    }
+  }, [data]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    if (name === "company_email") setEmailErrorMessage(null);
     updateFormData({ [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isFormValid) {
-      onContinue();
+
+    if (!data?.message) {
+      if (isFormValid) {
+        onContinue(); // Proceed to the next step
+      }
     }
   };
 
-
-
-  const validateCompanyEmail = (email)=> {
+  const validateCompanyEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email) ? null : 'Invalid email format';
+    return emailRegex.test(email) ? null : "Invalid email format";
   };
 
+  // const validateRegNumber = (value) => {
+  //   const phoneNumberPattern = /^\d{10}$/;
 
+  //   return null;
+  // };
 
-  const validateRegNumber = (value) => {
-    const phoneNumberPattern = /^\d{10}$/;
-    
-    return null;
-  };
-
-  const validateCompanyNumber = (value) => {
-    const phoneNumberPattern = /^\d{10}$/;
-    if (!phoneNumberPattern.test(value)) {
-      return 'Company number must be 10 digits.';
-    }
-    return null;
-  };
-
+  // const validateCompanyNumber = (value) => {
+  //   const phoneNumberPattern = /^\d{10}$/;
+  //   if (!phoneNumberPattern.test(value)) {
+  //     return "Company number must be 10 digits.";
+  //   }
+  //   return null;
+  // };
 
   const validateBusinessAddress = (value) => {
-    if (value.trim() === '') {
-      return 'Business address cannot be empty.';
+    if (value.trim() === "") {
+      return "Business address cannot be empty.";
     }
     return null;
   };
 
-  
   const validateCompanyRegAddress = (value) => {
-    if (value?.trim() === '') {
-      return 'Company registered address cannot be empty.';
+    if (value?.trim() === "") {
+      return "Company registered address cannot be empty.";
     }
     return null;
   };
-
-
 
   return (
     <div className="max-w-[400px] w-full lg:mt-[32px]">
       <div className="flex flex-col justify-center w-full">
-    
         <CreateAccountText />
         <form className="mt-[24px] lg:mt-[2.5rem] 4 ">
           <div>
@@ -91,7 +97,7 @@ const CorporateSignupPage = ({onContinue}) => {
               name="company_name"
               value={formData.company_name}
               onChange={handleChange}
-              validationRules={(value) => value ? null : 'Name is required'}
+              validationRules={(value) => (value ? null : "Name is required")}
             />
           </div>
           {/* <div>
@@ -114,7 +120,6 @@ const CorporateSignupPage = ({onContinue}) => {
           </div> */}
           <div>
             <InputField
-            
               type="text"
               placeholder="Enter your company registered address"
               // icon={
@@ -127,19 +132,17 @@ const CorporateSignupPage = ({onContinue}) => {
               validationRules={validateCompanyRegAddress}
               variant="individual"
               className="mt-[16px]"
-             
             />
           </div>
           <div>
             <InputField
               type="number"
               placeholder="Enter your company registration number"
-            
               label="Company Registration Number"
               name="company_registration_number"
               value={formData.company_registration_number}
               onChange={handleChange}
-              validationRules={validateRegNumber}
+              // validationRules={validateRegNumber}
               variant="individual"
               className="mt-[16px] "
             />
@@ -156,6 +159,8 @@ const CorporateSignupPage = ({onContinue}) => {
               validationRules={validateCompanyEmail}
               variant="individual"
               className="mt-[16px]"
+              error={emailErrorMessage}
+              loadingMessage={isLoading && <p>Verifying your email...</p>}
             />
           </div>
           <div>
@@ -166,24 +171,23 @@ const CorporateSignupPage = ({onContinue}) => {
               name="company_phone_number"
               value={formData.company_phone_number}
               onChange={handleChange}
-              validationRules={validateCompanyNumber}
+              // validationRules={validateCompanyNumber}
               variant="individual"
               className="mt-[16px]"
             />
           </div>
 
           <div>
-
-          <Button
-            type="submit"
-            className="w-full lg:mt-[40px]"
-            variant='primary'
-            onClick={handleSubmit}
-            disabled={!isFormValid}
-          >
-            Continue
-          </Button>
-        </div>
+            <Button
+              type="submit"
+              className="w-full lg:mt-[40px]"
+              variant="primary"
+              onClick={handleSubmit}
+              disabled={!isFormValid}
+            >
+              Continue
+            </Button>
+          </div>
         </form>
         <div>
           <AuthPrompt
@@ -192,12 +196,9 @@ const CorporateSignupPage = ({onContinue}) => {
             url="/auth/login"
           />
         </div>
-      
       </div>
     </div>
   );
-
-
 };
 
 // const PageWithLayout = () => (
@@ -207,5 +208,3 @@ const CorporateSignupPage = ({onContinue}) => {
 // );
 
 export default CorporateSignupPage;
-
-

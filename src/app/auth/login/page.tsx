@@ -13,6 +13,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { PiHandWavingFill } from "react-icons/pi";
 import { Logo } from "@/components/logo";
 import Waving from "@/assets/svg/Waving Hand Medium Light Skin Tone.svg";
+import { groteskText } from "@/app/fonts";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -26,18 +27,8 @@ export default function LoginPage() {
     string | null
   >(null);
 
-  const { login, isError, error, isLoading } = useLogin();
+  const { login, isError, error,loading } = useLogin();
 
-  // Use the error state to conditionally set the password error message
-  useEffect(() => {
-    if (isError) {
-      setPasswordErrorMessage("The password that you've entered is incorrect.");
-    } else {
-      setPasswordErrorMessage(null); // Clear the error message when no error
-    }
-  }, [isError]);
-
-  // const { login, isLoggingIn } = useLogin();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -115,12 +106,13 @@ export default function LoginPage() {
                 )
               }
               className="mt-4"
-              error={passwordErrorMessage}
+              
+             
             />
             <div className="flex items-end mt-2 mb-6">
               <Link
                 href="/auth/forgot-password"
-                className="text-xs text-blue-600 hover:underline ml-auto"
+                className={`${groteskText.className}text-xs text-blue-600 hover:underline ml-auto`}
               >
                 Forgot password
               </Link>
@@ -132,7 +124,7 @@ export default function LoginPage() {
               variant="primary"
               // loading
             >
-              Login
+             { loading ? "Loading..." : "Login"}
             </Button>
             {/* Social login buttons (if applicable) */}
           </form>

@@ -5,6 +5,7 @@ import Button from "../Buttons";
 import DrawerHeader from "./DrawerHeader";
 import { IoMdCheckmark } from "react-icons/io";
 import { useEditProfile, useProfile } from "@/hooks/mutations/auth";
+import { useAuthStore } from "@/lib/stores/authStore";
 
 interface ProfileEditInfoDrawerProps {
   back?: () => void;
@@ -15,33 +16,30 @@ export function ProfileEditInfoDrawer({
   back,
   type,
 }: ProfileEditInfoDrawerProps) {
+  const profileUser = useAuthStore((state) => state.user);
 
-
-  const { data, error, isLoading } = useProfile();
-
-
-
-  const {id, address, full_name, email_address, user_type, date_of_birth, phone_number, post_code } = data;
+  const {
+    id,
+    address,
+    full_name,
+    email_address,
+    user_type,
+    date_of_birth,
+    phone_number,
+    post_code,
+    company_name,
+    company_registration_number,
+    company_email,
+    company_phone_number,
+    position,
+  } = profileUser;
   const [firstName, lastName] = full_name?.split(" ");
 
-  const addressParts = address.split(',').map(part => part.trim());
+  const addressParts = address.split(",").map((part) => part.trim());
 
   // Extract the state and country
   const country = addressParts[addressParts.length - 1];
   const state = addressParts[addressParts.length - 2];
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   const [formData, setFormData] = useState({
     id: id,
@@ -51,12 +49,12 @@ export function ProfileEditInfoDrawer({
     phone_number: phone_number,
     address: address,
     postal_code: post_code,
-    position: ""
-    ,
+    position: position,
   });
   const [isChecked, setIsChecked] = useState(false);
 
-  const { updateProfile, isError,  } = useEditProfile();
+  const { updateProfile, isError, error } = useEditProfile();
+
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,12 +81,11 @@ export function ProfileEditInfoDrawer({
     //     "Changes to company information have been sent for admin approval."
     //   );
     // } else {
-    console.log(formData, "formdata")
-      updateProfile(formData);
-      back();
+    console.log(formData, "formdata");
+    updateProfile(formData);
+    back();
     // }
   };
-
 
   const UserInputFields = [
     {

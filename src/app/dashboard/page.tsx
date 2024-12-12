@@ -33,16 +33,15 @@ import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
-
-import ThirdPartyNominees, { NomineeMobile } from "@/components/card/ThirdPartyNominee";
+import ThirdPartyNominees, {
+  NomineeMobile,
+} from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/NominationHistory";
 import { ToggleLeft } from "lucide-react";
-import useUserStore from "@/lib/stores/profileStore";
 import { useProfile } from "@/hooks/mutations/auth";
-
-
+import { useAuthStore } from "@/lib/stores/authStore";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,49 +49,53 @@ export default function DashboardPage() {
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
 
   const drawerRef = useRef<any>(null);
-  const router = useRouter(); 
+  const router = useRouter();
 
+  const user = useAuthStore((state) => state.user);
 
-  const { data, error, isLoading } = useProfile();
+  const { data: profileData } = useProfile();
+  useEffect(() => {
+    if (profileData) {
+      useAuthStore.setState({ user: profileData });
+    }else{
 
-
-
-
-  // Show loading indicator or nothing while fetching profile
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  // If there's an error fetching the profile, handle it gracefully
-  if (error) {
-    return <div>Error fetching profile. Please try again later.</div>;
-  }
+    }
+  })
 
   // Ensure that the profile is available before accessing properties
-  if (!data) {
+  if (!user) {
     router.push("/auth/login");
     return null;
   }
 
-  const { full_name="james doe", email_address, user_type="individual", date_of_birth, phone_number, postcode } = data;
+  const {
+    full_name = "james doe",
+    email_address,
+    user_type = "individual",
+    date_of_birth,
+    phone_number,
+    postcode,
+  } = user;
 
-const [firstName, lastName] = full_name?.split(" ");
+  const [firstName, lastName] = full_name?.split(" ");
 
-const scrollToTopFromParent = () => {
-  if (drawerRef.current) {
-    drawerRef.current.scrollToTop();
-  }
-};
+  const scrollToTopFromParent = () => {
+    if (drawerRef.current) {
+      drawerRef.current.scrollToTop();
+    }
+  };
 
-const toggleDrawer = () => setIsOpen((prev) => !prev);
-const openDrawer = () => !isOpen && setIsOpen(true);
+  const toggleDrawer = () => setIsOpen((prev) => !prev);
+  const openDrawer = () => !isOpen && setIsOpen(true);
 
-
-
-  const openCarProfile = (cars: any, form: any = false,autoScrollToForm?: boolean) => {
+  const openCarProfile = (
+    cars: any,
+    form: any = false,
+    autoScrollToForm?: boolean
+  ) => {
     setDrawerContent(
       <CarProfileDrawer
-      openNominationHistory={openNominationHistory}
+        openNominationHistory={openNominationHistory}
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
@@ -107,13 +110,12 @@ const openDrawer = () => !isOpen && setIsOpen(true);
   };
   const openNominationHistory = () => {
     setDrawerContent(
-      <NominationHistoryTable  
-      toggleDrawer={toggleDrawer}
-      back={CarProfileDrawer}
-       />
+      <NominationHistoryTable
+        toggleDrawer={toggleDrawer}
+        back={CarProfileDrawer}
+      />
     );
-    openDrawer()
-
+    openDrawer();
   };
 
   const openProfileDrawer = () => {
@@ -161,20 +163,17 @@ const openDrawer = () => !isOpen && setIsOpen(true);
     openDrawer();
   };
 
-
   const openNotificationRep = () => {
     setDrawerContent(
       <ThirdPartyNominees
-      toggleForm={toggleDrawer}
-      nominees={NomineeMobile}
+        toggleForm={toggleDrawer}
+        nominees={NomineeMobile}
         // OpenRecipient={OpenRecipient}
-       
       />
     );
 
     openDrawer();
   };
-
 
   const openEducationalMaterials = () => {
     setDrawerContent(
@@ -243,8 +242,7 @@ const openDrawer = () => !isOpen && setIsOpen(true);
     setDrawerContent(
       <SettingsDrawer
         openCarProfile={() => {
-          openCarProfile(cars, true,true);
-
+          openCarProfile(cars, true, true);
         }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
@@ -336,7 +334,6 @@ const openDrawer = () => !isOpen && setIsOpen(true);
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
           <div className="w-full justify-center flex">
-
             <Calendar />
           </div>
           <div className="w-full flex justify-center">

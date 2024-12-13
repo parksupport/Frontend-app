@@ -291,8 +291,8 @@ export default function DashboardPage() {
               Subscription
             </button>
           </div>
-
-          <ToggleButton initialState="User" onToggle={handleToggle} />
+{/* 
+        <ToggleButton initialState="User" onToggle={handleToggle} />  */}
         </section>
 
         {/* Profile and Table Section */}

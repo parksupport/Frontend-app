@@ -12,10 +12,13 @@ import DinersIcon from "@/assets/svg/diners.svg";
 import Card from '@/assets/svg/card.svg'
 import IconRight from '@/assets/svg/lock.svg'
 import IconCode from '@/assets/svg/securitycode.svg'
+import CVVSVG from '@/assets/svg/cvv.svg'
+import LayerSVG from '@/assets/svg/Layer_1.svg'
 import { CircleHelp } from "lucide-react";
 
 
 const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
+  const [isHovered, setIsHovered] = useState(false)
   const [formData, setFormData] = useState({
     cardNumber: "",
     firstName: "",
@@ -135,9 +138,22 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
               className={`w-1/2 ${groteskText.className}`}
             />
           </div>
-          <div className="flex items-center gap-[8px] mt-[20px]">
+     <div className="relative "
+
+     >
+      
+     <div className="flex items-center gap-[8px] mt-[20px]">
         <h2 className={`text-[#000000] text-[16px] ${groteskText.className}`}>Security code</h2>
-        <IconCode />
+       <div 
+       className="cursor-pointer"
+onMouseEnter={() => setIsHovered(true)}
+onMouseLeave={() => setIsHovered(false)}
+       >
+       <IconCode 
+        />
+
+       </div>
+     
         </div>
         <div className=" flex items-center justify-between">
      
@@ -162,6 +178,20 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
             </Button> */}
           </div>
         </div>
+        {isHovered && (
+        <div className="absolute top-5 left-0 px-[1rem] py-[1rem] w-[313px] bg-white border rounded-[8px] shadow-lg  z-999 ml-[3rem]">
+        
+          <p className={`text-[1.25rem] text-[#000000] ${groteskText.className}`}>
+          The 3-digit number located on the back right side of your card.
+          </p>
+          <div className="flex items-center gap-[17px] mt-[1rem]">
+         
+          <LayerSVG />
+          <CVVSVG />
+          </div>
+        </div>
+      )}
+     </div>
         
         </form>
       </div>

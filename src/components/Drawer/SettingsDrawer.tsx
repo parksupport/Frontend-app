@@ -12,8 +12,6 @@ import { useDisclosure } from "@chakra-ui/react";
 import ThirdPartyNominees from "../card/ThirdPartyNominee";
 import Drawer from "./Drawer";
 
-import { useLogout } from "@/hooks/mutations/auth";
-
 const SettingsDrawer = ({
   toggleDrawer,
   openAddBillingMethod,
@@ -21,8 +19,6 @@ const SettingsDrawer = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const [isOpen, setIsOpen] = useState(false);
-
-  const {logout} = useLogout();
 
   const [smsNotifications, setSmsNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -233,7 +229,7 @@ const SettingsDrawer = ({
             <div>
           <button
             className={` w-[60%]  ${groteskText.className}  px-4 py-2 gap-2 border text-[#CB1A14] border-[#CB1A14] rounded-[8px]`}
-            onClick={()=>logout()}
+            onClick={() => router.push("/")}
           >
           Logout
           </button>

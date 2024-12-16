@@ -1,20 +1,23 @@
 // pages/auth/verify-otp.tsx
 "use client";
 import { useState } from 'react';
+import axios from 'axios';
+import { useAuthStore } from '@/lib/stores/authStore';
 import { useVerifyOtp } from "@/hooks/mutations/auth";
 import { useRouter } from 'next/navigation';
 
 const VerifyOTPPage = () => {
   const [email_address, setEmail] = useState('');
   const [otp_code, setOtpCode] = useState('');
+  const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
   const { verifyOtp, isPending, isError, error } = useVerifyOtp();
 
   const handleVerify = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Make sure the backend expects 'otp' or 'otp_code' field name and match it here
-    verifyOtp({email_address, otp: otp_code });
+    verifyOtp({ email_address, otp_code });
   };
 
   return (
@@ -33,8 +36,7 @@ const VerifyOTPPage = () => {
         onChange={(e) => setOtpCode(e.target.value)}
         required
       />
-      <button type="submit" disabled={isPending}>Verify OTP</button>
-      {isError && <p>{error?.message || 'Verification failed'}</p>}
+      <button type="submit">Verify OTP</button>
     </form>
   );
 };

@@ -296,7 +296,7 @@ export default function DashboardPage() {
         </section>
 
         {/* Profile and Table Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center ">
           <div className="w-full">
             <CarProfile
               addVehicleDetails={addVehicleDetails}
@@ -306,7 +306,7 @@ export default function DashboardPage() {
             />
           </div>
 
-          <div className="w-full justify-center flex">
+          <div className="w-full justify-center flex items-center">
             <ContraventionTable
               invoices={undefined}
               openConventionTable={openConventionTable}

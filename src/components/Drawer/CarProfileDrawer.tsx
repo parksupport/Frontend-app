@@ -77,7 +77,7 @@ const CarProfileDrawer = ({
   };
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-hidden flex flex-col justify-center items-center">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Vehicle Overview"

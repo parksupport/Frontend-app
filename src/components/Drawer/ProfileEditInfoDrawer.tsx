@@ -4,8 +4,11 @@ import { groteskText } from "@/app/fonts";
 import Button from "../Buttons";
 import DrawerHeader from "./DrawerHeader";
 import { IoMdCheckmark } from "react-icons/io";
+<<<<<<< HEAD
 import { useEditProfile, useProfile } from "@/hooks/mutations/auth";
 import { useAuthStore } from "@/lib/stores/authStore";
+=======
+>>>>>>> first-repo/develop
 
 interface ProfileEditInfoDrawerProps {
   back?: () => void;
@@ -16,6 +19,7 @@ export function ProfileEditInfoDrawer({
   back,
   type,
 }: ProfileEditInfoDrawerProps) {
+<<<<<<< HEAD
   const profileUser = useAuthStore((state) => state.user);
 
   const {
@@ -55,6 +59,24 @@ export function ProfileEditInfoDrawer({
   const [isChecked, setIsChecked] = useState(false);
 
   const { updateProfile, isError, error } = useEditProfile();
+=======
+  const [formData, setFormData] = useState({
+    name: "",
+    email_address: "",
+    vehicle: "",
+    phone_number: "",
+    address: "",
+    postal_code: "",
+    position: "",
+  });
+  const [isChecked, setIsChecked] = useState(false);
+
+  //   const handleSubmit = (e) => {
+  //     e.preventDefault();  vehicle: any;
+  //     toggleForm?: (state: boolean) => void;
+  //     // login(formData);
+  //   };
+>>>>>>> first-repo/develop
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -74,6 +96,7 @@ export function ProfileEditInfoDrawer({
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
+<<<<<<< HEAD
     // if (type === "!User") {
     //   // Logic to send the changes for admin approval
     //   alert(
@@ -84,6 +107,17 @@ export function ProfileEditInfoDrawer({
     updateProfile(formData);
     back();
     // }
+=======
+    if (type === "!User") {
+      // Logic to send the changes for admin approval
+      alert(
+        "Changes to company information have been sent for admin approval."
+      );
+    } else {
+      // Logic to save changes directly for individual users
+      back();
+    }
+>>>>>>> first-repo/develop
   };
 
   const UserInputFields = [
@@ -118,6 +152,7 @@ export function ProfileEditInfoDrawer({
     },
     {
       type: "text",
+<<<<<<< HEAD
       placeholder: "Enter your city",
       label: "City",
       name: "city",
@@ -143,6 +178,12 @@ export function ProfileEditInfoDrawer({
       label: "Postal Code",
       name: "post_code",
       value: formData.post_code,
+=======
+      placeholder: "Enter your postal code",
+      label: "Postal Code",
+      name: "postal_code",
+      value: formData.postal_code,
+>>>>>>> first-repo/develop
     },
   ];
 

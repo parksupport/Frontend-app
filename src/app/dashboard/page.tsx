@@ -125,12 +125,13 @@ export default function DashboardPage() {
   };
   const openNominationHistory = () => {
     setDrawerContent(
-      <NominationHistoryTable
-        toggleDrawer={toggleDrawer}
-        back={CarProfileDrawer}
-      />
+      <NominationHistoryTable  
+      toggleDrawer={toggleDrawer}
+      back={CarProfileDrawer}
+       />
     );
-    openDrawer();
+    openDrawer()
+
   };
 
   const openProfileDrawer = () => {

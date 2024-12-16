@@ -2,7 +2,6 @@
 
 import { create } from 'zustand';
 
-
 interface AuthStoreState {
   token: string | null;
   user: any; // Use appropriate type instead of 'any' based on your user object

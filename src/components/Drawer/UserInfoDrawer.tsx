@@ -32,7 +32,7 @@ const [firstName, lastName] = (typeof full_name === "string" ? full_name.split("
   const [user, setUser] = useState({
     profileImage: "https://via.placeholder.com/80",
     name: full_name,
-    role: "Lead's United Kingdom",
+    uniqueNo: "10290390930930",
     firstName: firstName,
     lastName: lastName,
     email: email_address,
@@ -60,16 +60,16 @@ const [firstName, lastName] = (typeof full_name === "string" ? full_name.split("
       title: "Address",
       type: "User",
       fields: [
-        { label: "Country", value: country },
+        { label: "Country", value: country || " ----" },
         {
           label: "City / State",
-          value: `${city},${state}`,
+          value: `${city},${state}` || "----",
         },
         { label: "Postal Code", value: post_code },
       ],
     },
   ];
-
+ 
   const conmpanyInfoSections = [
     {
       title: "Manager Information",
@@ -169,7 +169,7 @@ const [firstName, lastName] = (typeof full_name === "string" ? full_name.split("
               <p
                 className={` ${groteskText.className} text-[16px] md:text-[20px] text-gray-500`}
               >
-                {user?.role || "User Role"}
+                {user?.uniqueNo || "239094090590585"}
               </p>
             </div>
           </div>

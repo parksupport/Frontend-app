@@ -78,22 +78,22 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
       {/* Contravention Table */}
 
-<Slider {...sliderSettings}>
-        <div className="flex mx-0 flex-col max-w-[396px] mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg ">
-          <table className="flex items-center  justify-between lg:flex lg:flex-col pr-[1rem] lg:pr-0">
+      <Slider {...sliderSettings}>
+        <div className="flex mx-0 flex-col mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg ">
+          <table className="flex items-center  justify-between lg:flex lg:flex-col ">
             <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
-                <th className={`lg:py-2 lg:pl-4 text-sm  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Contravention Type
                 </th>
-                <th className={`py-2 lg:pl-4 text-sm  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Date Issued
                 </th>
-                <th className={`py-2 lg:pl-4 text-sm  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Fine
                 </th>
-                <th className={`py-2 lg:pl-4 text-sm text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
 
 
                   Status

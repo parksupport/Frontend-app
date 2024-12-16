@@ -8,7 +8,7 @@ import { FcGoogle } from "react-icons/fc";
 import { HiMiniUser, HiUserGroup } from "react-icons/hi2";
 import { TiTick } from "react-icons/ti";
 import { groteskText } from "@/app/fonts";
-import '@/components/ProgressSteps.css'
+import "@/components/ProgressSteps.css";
 import CorporateStepThree from "@/components/CorporateStepThree";
 import IndividualStepThree from "@/components/IndividualStepThree";
 import CorporateStepTwo from "@/components/CorporateStepTwo";
@@ -18,40 +18,43 @@ import { Logo } from "@/components/logo";
 import Step from "@/components/Steps";
 import CorporateStepFour from "@/components/CorporateStepFour";
 import { useRouter } from "next/navigation";
-
-
+import { AuthPrompt } from "@/components";
 
 const CreateProfilePage = () => {
-  const router = useRouter()
-  const [selectedType, setSelectedType] = useState<"user" | "corporate" | null>(null);
+  const router = useRouter();
+  const [selectedType, setSelectedType] = useState<"user" | "corporate" | null>(
+    null
+  );
   const [currentStep, setCurrentStep] = useState(1);
   const isCorporate = true; // Replace this with your actual condition
 
-const steps = [
-  { label: "Step 1", component: '' },
-  { 
-    label: "Step 2", 
-    component: isCorporate 
-      ? <CorporateStepTwo onContinue={() => handleContinueClick()} /> 
-      : <IndividualStepTwo onContinue={() => handleContinueClick()} /> 
-  },
-  { 
-    label: "Step 3", 
-    component: isCorporate 
-      ? <CorporateStepThree onContinue={() => handleContinueClick()} /> 
-      : <IndividualStepThree onContinue={() => handleContinueClick()} /> 
-  },
-  { 
-    label: "Step 4", 
-    component: isCorporate 
-      ? <CorporateStepFour /> 
-      : <IndividualStepFour /> 
-  },
-];
+  const steps = [
+    { label: "Step 1", component: "" },
+    {
+      label: "Step 2",
+      component: isCorporate ? (
+        <CorporateStepTwo onContinue={() => handleContinueClick()} />
+      ) : (
+        <IndividualStepTwo onContinue={() => handleContinueClick()} />
+      ),
+    },
+    {
+      label: "Step 3",
+      component: isCorporate ? (
+        <CorporateStepThree onContinue={() => handleContinueClick()} />
+      ) : (
+        <IndividualStepThree onContinue={() => handleContinueClick()} />
+      ),
+    },
+    {
+      label: "Step 4",
+      component: isCorporate ? <CorporateStepFour /> : <IndividualStepFour />,
+    },
+  ];
 
   const handleCardClick = (type: "user" | "corporate") => {
     setSelectedType(type);
-    
+
     // setCurrentStep(2); // Move to the first step after selection
   };
 
@@ -62,22 +65,21 @@ const steps = [
       setCurrentStep((prev) => prev + 1);
     }
   };
-  
+
   return (
     <div className="flex flex-col items-center justify-center max-w-[500px] w-full lg:max-w-[637px] ">
-        <Logo className="pt-[138px] pb-[46px]"  />
-      <div className='hidden lg:flex xl:flex flex-col mt-[25px]'>
+      <Logo className="pt-[138px] pb-[46px]" />
+      <div className="hidden lg:flex xl:flex flex-col mt-[25px]">
         <div className="flex flex-row justify-center">
-        {steps.map((step, i) => (
-          <Step
-            key={i}
-            label={step.label}
-            index={i + 1}
-            currentStep={currentStep}
-            setCurrentStep={setCurrentStep}
-           
-          />
-        ))}
+          {steps.map((step, i) => (
+            <Step
+              key={i}
+              label={step.label}
+              index={i + 1}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+            />
+          ))}
         </div>
       </div>
 
@@ -101,32 +103,49 @@ const steps = [
           </div>
         </>
       ) : (
-        <>{selectedType === "user" && currentStep === 2 && <IndividualStepTwo onContinue={handleContinueClick}  />}
-        {selectedType === "corporate" && currentStep === 2 && <CorporateStepTwo onContinue={handleContinueClick}/>}
-        
-        {selectedType === "user" && currentStep === 3 && <IndividualStepThree onContinue={handleContinueClick}  />}
-        {selectedType === "corporate" && currentStep === 3 && <CorporateStepThree onContinue={handleContinueClick}/>}
-        {selectedType === "user" && currentStep === 4 && <IndividualStepFour   />}
-        {selectedType === "corporate" && currentStep === 4 && <CorporateStepFour   />}
+        <>
+          {selectedType === "user" && currentStep === 2 && (
+            <IndividualStepTwo onContinue={handleContinueClick} />
+          )}
+          {selectedType === "corporate" && currentStep === 2 && (
+            <CorporateStepTwo onContinue={handleContinueClick} />
+          )}
+
+          {selectedType === "user" && currentStep === 3 && (
+            <IndividualStepThree onContinue={handleContinueClick} />
+          )}
+          {selectedType === "corporate" && currentStep === 3 && (
+            <CorporateStepThree onContinue={handleContinueClick} />
+          )}
+          {selectedType === "user" && currentStep === 4 && (
+            <IndividualStepFour />
+          )}
+          {selectedType === "corporate" && currentStep === 4 && (
+            <CorporateStepFour />
+          )}
         </>
       )}
 
       <div className="w-full justify-center flex mt-[8px]">
-       {currentStep === 1 && (
-         <Button
-         type="button"
-         className="mt-[24px] w-full lg:mt-[40px] cursor-pointer"
-         variant="primary"
-         disabled={!selectedType} // Disable button if no type is selected
-         onClick={handleContinueClick}
-       >
-         Continue
-       </Button>
-       )}
-
-
+        {currentStep === 1 && (
+          <div className="flex flex-col w-full items-center justify-center">
+            <Button
+              type="button"
+              className="mt-[24px] w-full lg:mt-[40px] cursor-pointer"
+              variant="primary"
+              disabled={!selectedType} // Disable button if no type is selected
+              onClick={handleContinueClick}
+            >
+              Continue
+            </Button>
+            <AuthPrompt
+              link="back to Login"
+              url="/auth/login"
+            />
+          </div>
+        )}
       </div>
-      <Button
+      {/* <Button
          type="button"
          className="mt-[24px] w-full lg:mt-[40px] cursor-pointer"
          variant="primary"
@@ -134,11 +153,9 @@ const steps = [
          onClick={()=> router.push('/auth/login')}
        >
          Login
-       </Button>
+       </Button> */}
     </div>
   );
 };
-
-
 
 export default CreateProfilePage;

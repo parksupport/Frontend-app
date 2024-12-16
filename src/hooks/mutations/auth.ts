@@ -1,6 +1,5 @@
 // hooks/useSignup.ts
 "use client";
-<<<<<<< HEAD
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import {
@@ -32,20 +31,6 @@ export const useSignup = (value: string) => {
   const router = useRouter();
 
   // The mutation function for sign-up
-=======
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
-import { loginUser, registerUser,confirmPasswordReset, passwordReset as sendPasswordReset,verifyOtp } from '@/api/auth'; // Make sure this is your API function for registration
-import { SignupInput, SignupResponse,ForgotPasswordInput, PasswordResetResponse, LoginInput, LoginResponse,VerifyOtpRequest} from '@/types'; // Define types for signup
-import { useAuthStore } from '@/lib/stores/authStore';
-
-
-export const useSignup = (value:string) => {
-  const router = useRouter();
-
-  // The mutation function for sign-up
- 
->>>>>>> first-repo/develop
 
   const mutation = useMutation<SignupResponse, Error, SignupInput>({
     mutationFn: async (userData) => {
@@ -56,11 +41,7 @@ export const useSignup = (value:string) => {
     },
     onError: (error: any) => {
       // Handle error
-<<<<<<< HEAD
       const errorMessage = error.response?.data?.detail || "Signup failed";
-=======
-      const errorMessage = error.response?.data?.detail || 'Signup failed';
->>>>>>> first-repo/develop
       console.error(errorMessage);
     },
   });
@@ -72,7 +53,6 @@ export const useSignup = (value:string) => {
 };
 
 export const useLogin = () => {
-<<<<<<< HEAD
   const [loading, setLoading] = useState(false);
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
@@ -225,105 +205,11 @@ export const useConfirmPassword = () => {
 
 export const useVerifyOtp = () => {
   const [loading, setLoading] = useState(false); // Loading state
-=======
-    const setToken = useAuthStore((state) => state.setToken);
-    const setUser = useAuthStore((state) => state.setUser);
-    const router = useRouter();
-    const mutation = useMutation<LoginResponse, Error, LoginInput>({
-      mutationFn: async (credentials) => {
-          return await loginUser(credentials);
-        },
-      onSuccess: (data) => {
-        // Assume data contains access token and user info
-        setToken(data.access);
-        setUser(data.user); // Adjust based on your API response
-        router.push('/dashboard'); // Redirect after successful login
-      },
-      onError: (error: any) => {
-        // Handle error
-        const errorMessage = error.response?.data?.detail || 'Login failed';
-        console.error(errorMessage);
-      },
-    });
-    const { mutate: login,  isError, error } = mutation;
-    return { login, isError, error };
-  };
-  
-
-export const useForgotPassword = () => {
-    const mutation = useMutation<
-    PasswordResetResponse,
-      Error,
-      ForgotPasswordInput
-    >({
-      mutationFn: async (data) => {
-        return await sendPasswordReset(data);
-      },
-      onSuccess: (data) => {
-        // Handle success, maybe show a success message or redirect
-        console.log("Password reset link sent successfully", data);
-      },
-      onError: (error: any) => {
-        // Handle error
-        const errorMessage =
-          error.response?.data?.detail || "Password reset failed";
-        console.error(errorMessage);
-      },
-    });
-  
-    // Destructure the mutation object for return
-    const {
-      mutate: resetPassword,
-      
-      isError,
-      error,
-      status
-    } = mutation;
-  
-    return { resetPassword,  isError, error ,status};
-  };
-  
-export const useConfirmPassword = () => {
-    const mutation = useMutation<
-    PasswordResetResponse,
-      Error,
-      any
-    >({
-      mutationFn: async (data) => {
-        return await confirmPasswordReset(data);
-      },
-      onSuccess: (data) => {
-        // Handle success, maybe show a success message or redirect
-        console.log("Password changed successfully", data);
-  
-      },
-      onError: (error: any) => {
-        // Handle error
-        const errorMessage =
-          error.response?.data?.detail || "Password change failed";
-        console.error(errorMessage);
-      },
-    });
-  
-    // Destructure the mutation object for return
-    const {
-      mutate: confirmPassword,
-      isError,
-      error,
-      status
-    } = mutation;
-  
-    return { confirmPassword, isError, error ,status};
-  };
-
-export const useVerifyOtp = () => {
->>>>>>> first-repo/develop
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
   const mutation = useMutation<any, Error, VerifyOtpRequest>({
-<<<<<<< HEAD
     mutationFn: async ({ email_address, otp, password }) => {
       return await verifyOtp({ password, email_address, otp_code: otp });
     },
@@ -384,18 +270,6 @@ export const useVerifyOtp = () => {
         error.response?.data || error.message || error
       );
       setLoading(false); // Stop loading in case of an error
-=======
-    mutationFn: async ({ email_address, otp_code }) => {
-      return await verifyOtp({ email_address, otp_code });
-    },
-    onSuccess: (data) => {
-      setToken(data.access);
-      setUser(data.user);
-      router.push('/dashboard');
-    },
-    onError: (error: any) => {
-      console.error('OTP Verification failed:', error.response?.data || error.message || error);
->>>>>>> first-repo/develop
     },
   });
 

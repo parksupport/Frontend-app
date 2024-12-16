@@ -42,6 +42,7 @@ import NominationHistoryTable from "@/components/NominationHistory";
 import { ToggleLeft } from "lucide-react";
 import { useProfile } from "@/hooks/mutations/auth";
 import { useAuthStore } from "@/lib/stores/authStore";
+import DisplayCarProfile from "@/components/card/CarProfile";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -331,12 +332,19 @@ export default function DashboardPage() {
         {/* Profile and Table Section */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
           <div className="w-full">
-            <CarProfile
+            {/* <CarProfile
+              addVehicleDetails={addVehicleDetails}
+              openCarProfile={() => openCarProfile(cars)}
+              vehicles={cars}
+              // openNominationHistory={openNominationHistory}
+            /> */}
+            <DisplayCarProfile
               addVehicleDetails={addVehicleDetails}
               openCarProfile={() => openCarProfile(cars)}
               vehicles={cars}
               // openNominationHistory={openNominationHistory}
             />
+         
           </div>
 
           <div className="w-full justify-center flex">

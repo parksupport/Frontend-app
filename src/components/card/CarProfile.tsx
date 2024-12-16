@@ -20,12 +20,38 @@ import { MoveDiagonal } from "lucide-react";
 import UserTickSVG from "@/assets/svg/nominee.svg";
 import InfoIconWithText from "../InfoIconWithText";
 import SliderButton from "../SliderButton";
+import AddCard from "./AddIcon";
 
 interface CarProfileProps {
   openCarProfile: any;
   addVehicleDetails: any;
   vehicles: any;
 }
+
+
+
+const DisplayCarProfile = ({ vehicles, openCarProfile, addVehicleDetails }) => {
+  return (
+    <article className="flex justify-center">
+      <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4">
+        {vehicles && vehicles.carDetails.length > 0 ? (
+          <CarProfile
+            openCarProfile={openCarProfile}
+            addVehicleDetails={addVehicleDetails}
+            vehicles={vehicles}
+          />
+        ) : (
+          <div className="flex justify-center items-center h-full">
+            <AddCard /> {/* Ensure AddCard has styles to center or size correctly */}
+          </div>
+        )}
+      </div>
+    </article>
+  );
+};
+
+export default DisplayCarProfile
+
 
 function CarProfile({
   openCarProfile,
@@ -317,4 +343,4 @@ function CarProfile({
   );
 }
 
-export default CarProfile;
+// export default CarProfile;

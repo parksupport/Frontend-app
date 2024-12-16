@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 
 import Header from "@/components/Header";
 import { useRef, useState } from "react";
+import Footer from "@/components/Footer";
 
 export default function Privacy() {
     const router = useRouter()
@@ -36,7 +37,7 @@ export default function Privacy() {
         }
       };
     return (
-      <div className="p-10">
+      <div className="">
   <Header
         scrollToSection={scrollToSection}
         homeRef={home}
@@ -46,10 +47,12 @@ export default function Privacy() {
         subPlanRef={subscriptionPlan}
         router={router}
       />   
-          <div className="flex flex-col justify-center items-center mt-[10rem]">
-          <h1 className="text-2xl font-bold">Privacy Statement</h1>
-          <section className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Introduction</h2>
+          <div className="flex flex-col  mt-[10rem]">
+          <h1 className="text-2xl font-bold  text-center">Privacy Statement</h1>
+        <div className="flex flex-col justify-center items-center">
+       <div className=" w-[69%] ">
+       <section className="mb-6 flex flex-col ">
+        <h2 className="text-xl font-semibold mb-2 ">Introduction</h2>
         <p>
           At <strong>[Your Company Name]</strong>, we are committed to protecting your personal
           information and your right to privacy. This Privacy Statement explains how we
@@ -141,7 +144,7 @@ export default function Privacy() {
         </ul>
       </section>
 
-      <section className="mb-6">
+      <section className="mb-6 w-[69%] ">
         <h2 className="text-xl font-semibold mb-2">Security Measures</h2>
         <p>
           We implement robust security measures to safeguard your data, including encryption,
@@ -150,7 +153,7 @@ export default function Privacy() {
         </p>
       </section>
 
-      <section className="mb-6">
+      <section className="mb-6 w-[69%] ">
         <h2 className="text-xl font-semibold mb-2">Updates to This Policy</h2>
         <p>
           We may update this Privacy Statement periodically to reflect changes in our
@@ -159,7 +162,7 @@ export default function Privacy() {
         </p>
       </section>
 
-      <section>
+      <section className="mb-6">
         <h2 className="text-xl font-semibold mb-2">Contact Us</h2>
         <p>
           If you have any questions or concerns about this Privacy Statement, please contact
@@ -174,7 +177,20 @@ export default function Privacy() {
           </li>
         </ul>
       </section>
+       </div>
+        </div>
           </div>
+          <section>
+          <Footer
+            scrollToSection={scrollToSection}
+            homeRef={home}
+            searchRef={search}
+            featuresRef={features}
+            faqRef={faq}
+            subPlanRef={subscriptionPlan}
+            router={router}
+          />
+        </section>
       </div>
     );
   }

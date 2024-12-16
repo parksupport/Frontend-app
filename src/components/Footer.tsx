@@ -74,8 +74,8 @@ export default function Footer({
         </div>
         <div className=" flex flex-col md:flex-row justify-between items-center " >
           <nav className="text-[12px] hover:underline md:text-[16px] flex space-x-6 mb-3 md:mt-0 md:order-1">
-            <NavLinkComponent url="#" name=" Privacy Policy" />
-            <NavLinkComponent url="#" name="Terms & Conditions" />
+            <NavLinkComponent url="/privacy" name=" Privacy Policy" />
+            <NavLinkComponent url="/privacy" name="Terms & Conditions" />
           </nav>
           <div className="flex md:text-[16px]">
             © Copyright 2024, All Rights Reserved

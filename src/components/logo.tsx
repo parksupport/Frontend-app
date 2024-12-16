@@ -5,15 +5,17 @@ import carAlertImage from "@/assets/images/logo.jpg";
 
 interface LogoProps {
   className?: React.ReactNode;
+  onClick?: () => void;
 }
 
-export const Logo = ({ className, ...props }: LogoProps) => {
+export const Logo = ({onClick, className, ...props }: LogoProps) => {
   return (
-    <div className="flex flex-col items-center ml-[11px]">
+    <div className="flex flex-col cursor-pointer items-center ml-[11px]">
       <Image
         className="self-center "
         src={carAlertImage}
         alt="signup carAlert"
+        onClick={onClick}
       />
     </div>
   );

@@ -52,7 +52,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   return (
     <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center justify-between w-full">
-        <div className="flex items-center">
+        <div className="flex items-center cursor-pointer bg-green-300">
           <HeaderImage onClick={() => router.push("/")} />
         </div>
 

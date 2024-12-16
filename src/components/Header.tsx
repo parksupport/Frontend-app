@@ -54,7 +54,7 @@ const Header = ({
       className={`pr-2 md:pr-0 ${groteskText.className} bg-[#FFFFFF] w-full py-5 flex justify-between items-center border-b border-gray-300`}
     >
       <div className="max-w-[1440px] mx-auto flex justify-between items-center w-full md:w-4/5">
-        <Logo className="pt-[138px] pb-[46px]" />
+      <Logo className="pt-[138px] pb-[46px] cursor-pointer  " onClick={() => router.push("/")} />
 
         <nav
           className={`hidden md:flex space-x-12 text-[#0C0E0F] text-base lg:text-lg`}

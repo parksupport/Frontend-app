@@ -5,7 +5,7 @@ import diploSVG from '@/assets/svg/diploSVG.svg'
 
 const HeaderImage = ({ onClick }: { onClick?: () => void }) => {
   return (
-    <div className='flex justify-center'>
+    <div className='flex justify-center cursor-pointer'>
       <CarAlertImage onClick={onClick} />
         {/* <Image
        className="self-center "

@@ -14,6 +14,7 @@ interface CarProfileDrawerProps {
   user: any;
   form: boolean;
   openNominationHistory: any;
+  autoScrollToForm?: any;
 }
 
 const CarProfileDrawer = ({
@@ -23,6 +24,7 @@ const CarProfileDrawer = ({
   user,
   form,
   openNominationHistory,
+  autoScrollToForm = false
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
@@ -39,6 +41,13 @@ const CarProfileDrawer = ({
       formRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  React.useEffect(() => {
+    if (autoScrollToForm) {
+      handleButtonClick();
+    }
+  }, [autoScrollToForm]);
+
 
   const renderNomineeSection = () => {
     if (isForm) {
@@ -68,7 +77,7 @@ const CarProfileDrawer = ({
   };
 
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-hidden flex flex-col justify-center items-center">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Vehicle Overview"

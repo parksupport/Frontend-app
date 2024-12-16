@@ -3,7 +3,7 @@
 "use client";
 
 import { useState } from "react";
-import { useLogin } from "@/hooks/useLogin";
+import { useLogin } from "@/hooks/mutations/auth";
 import { InputField, Button, TextBlock, AuthPrompt } from "@/components"; // Adjust imports as needed
 import Link from "next/link";
 import { CiMail } from "react-icons/ci";
@@ -132,12 +132,12 @@ export default function LoginPage() {
           />
           <div className="px-10 text-sm text-center">
             By signing in or creating an account, you agree with our
-            <Link href="/" className="font-bold underline">
+            <Link href="/privacy" className="font-bold underline">
               {" "}
               Terms & Conditions
             </Link>{" "}
             and
-            <Link href="/" className="font-bold underline">
+            <Link href="/privacy" className="font-bold underline">
               {" "}
               Privacy Statement
             </Link>

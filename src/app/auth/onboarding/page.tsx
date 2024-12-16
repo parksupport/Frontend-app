@@ -17,8 +17,10 @@ import IndividualStepFour from "@/components/IndividualStepFour";
 import { Logo } from "@/components/logo";
 import Step from "@/components/Steps";
 import CorporateStepFour from "@/components/CorporateStepFour";
+import { useRouter } from "next/navigation";
 
 const CreateProfilePage = () => {
+  const router = useRouter()
   const [selectedType, setSelectedType] = useState<"user" | "corporate" | null>(null);
   const [currentStep, setCurrentStep] = useState(1);
   const isCorporate = true; // Replace this with your actual condition
@@ -111,7 +113,7 @@ const steps = [
        {currentStep === 1 && (
          <Button
          type="button"
-         className="mt-[24px] w-full lg:mt-[40px]"
+         className="mt-[24px] w-full lg:mt-[40px] cursor-pointer"
          variant="primary"
          disabled={!selectedType} // Disable button if no type is selected
          onClick={handleContinueClick}
@@ -119,7 +121,18 @@ const steps = [
          Continue
        </Button>
        )}
+
+
       </div>
+      <Button
+         type="button"
+         className="mt-[24px] w-full lg:mt-[40px] cursor-pointer"
+         variant="primary"
+        //  disabled={!selectedType} // Disable button if no type is selected
+         onClick={()=> router.push('/auth/login')}
+       >
+         Login
+       </Button>
     </div>
   );
 };

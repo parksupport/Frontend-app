@@ -65,7 +65,7 @@ export default function DashboardPage() {
     }
   };
 
-  const openCarProfile = (cars: any, form: any = false) => {
+  const openCarProfile = (cars: any, form: any = false,autoScrollToForm?: boolean) => {
     setDrawerContent(
       <CarProfileDrawer
       openNominationHistory={openNominationHistory}
@@ -74,6 +74,7 @@ export default function DashboardPage() {
         addVehicleDetails={addVehicleDetails}
         user={User}
         form={form}
+        autoScrollToForm={autoScrollToForm}
       />
     );
 
@@ -218,7 +219,8 @@ export default function DashboardPage() {
     setDrawerContent(
       <SettingsDrawer
         openCarProfile={() => {
-          openCarProfile(cars, true);
+          openCarProfile(cars, true,true);
+
         }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
@@ -289,12 +291,12 @@ export default function DashboardPage() {
               Subscription
             </button>
           </div>
-
-          <ToggleButton initialState="User" onToggle={handleToggle} />
+{/* 
+        <ToggleButton initialState="User" onToggle={handleToggle} />  */}
         </section>
 
         {/* Profile and Table Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center ">
           <div className="w-full">
             <CarProfile
               addVehicleDetails={addVehicleDetails}
@@ -304,7 +306,7 @@ export default function DashboardPage() {
             />
           </div>
 
-          <div className="w-full justify-center flex">
+          <div className="w-full justify-center flex items-center">
             <ContraventionTable
               invoices={undefined}
               openConventionTable={openConventionTable}

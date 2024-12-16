@@ -100,7 +100,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
   };
 
   return (
-    <article className="max-w-[428px] w-full md:max-w-[580px]">
+    <article className="max-w-[428px] w-full md:max-w-[580px] ">
       {user === "Corporate" && (
         <div className="flex justify-end ">
           <SearchSortModal data={data} setData={setData} />
@@ -113,7 +113,8 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
         </div>
       )}
       {data?.length >= 1 && (
-        <div className="bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[8px]">
+       
+   <div className="bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[8px]">
           <Slider ref={sliderRef} {...settings}>
             {data?.map((car, index) => (
               <div key={car.id}>
@@ -158,6 +159,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                         customStyles={`${groteskText.className} text-[14px]`}
                         position={{ right: 0, top: -15 }}
                         isVehicle
+                        onClose={() => setOpenDropdownIndex(null)}
                         onAddNominee={() => {
                           setForm(true);
                           setTimeout(scrollToForm, 125);
@@ -293,6 +295,8 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
             ))}
           </Slider>
         </div>
+       
+     
       )}
     </article>
   );

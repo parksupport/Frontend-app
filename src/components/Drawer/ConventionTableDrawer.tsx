@@ -77,6 +77,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
       />
 
       {/* Contravention Table */}
+
       <Slider {...sliderSettings}>
         <div className="flex mx-0 flex-col mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg ">
           <table className="flex items-center  justify-between lg:flex lg:flex-col ">
@@ -146,6 +147,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
           )}
         </div>
       </Slider>
+
 
       {/* Detailed Breakdown */}
       {selectedInvoice && (

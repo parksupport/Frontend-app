@@ -19,7 +19,7 @@ import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
 import cars from "@/data/data.json";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDrawer";
@@ -33,73 +33,46 @@ import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
-import { useRouter } from "next/navigation";
 
-import ThirdPartyNominees, {
-  NomineeMobile,
-} from "@/components/card/ThirdPartyNominee";
+
+import ThirdPartyNominees, { NomineeMobile } from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/NominationHistory";
 import { ToggleLeft } from "lucide-react";
-import { useProfile } from "@/hooks/mutations/auth";
-import { useAuthStore } from "@/lib/stores/authStore";
+
+
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
+  const [User, setUser] = useState("User");
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
 
   const drawerRef = useRef<any>(null);
-  const router = useRouter();
-
-  const user = useAuthStore((state) => state.user);
-
-  const { data: profileData } = useProfile();
-  useEffect(() => {
-    if (profileData) {
-      useAuthStore.setState({ user: profileData });
-    }else{
-
-    }
-  })
-
-  // Ensure that the profile is available before accessing properties
-  if (!user) {
-    router.push("/auth/login");
-    return null;
-  }
-
-  const {
-    full_name = "james doe",
-    email_address,
-    user_type = "individual",
-    date_of_birth,
-    phone_number,
-    postcode,
-  } = user;
-
-  const [firstName, lastName] = full_name?.split(" ");
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
-      drawerRef.current.scrollToTop();
+      drawerRef.current.scrollToTop(); // Call the exposed method
     }
   };
 
-  const toggleDrawer = () => setIsOpen((prev) => !prev);
-  const openDrawer = () => !isOpen && setIsOpen(true);
+  let toggleDrawer = () => {
+    setIsOpen((prev) => !prev);
+  };
 
-  const openCarProfile = (
-    cars: any,
-    form: any = false,
-    autoScrollToForm?: boolean
-  ) => {
+  const openDrawer = () => {
+    if (!isOpen) {
+      setIsOpen(true);
+    }
+  };
+
+  const openCarProfile = (cars: any, form: any = false,autoScrollToForm?: boolean) => {
     setDrawerContent(
       <CarProfileDrawer
-        openNominationHistory={openNominationHistory}
+      openNominationHistory={openNominationHistory}
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
-        user={user_type}
+        user={User}
         form={form}
         autoScrollToForm={autoScrollToForm}
       />
@@ -110,12 +83,13 @@ export default function DashboardPage() {
   };
   const openNominationHistory = () => {
     setDrawerContent(
-      <NominationHistoryTable
-        toggleDrawer={toggleDrawer}
-        back={CarProfileDrawer}
-      />
+      <NominationHistoryTable  
+      toggleDrawer={toggleDrawer}
+      back={CarProfileDrawer}
+       />
     );
-    openDrawer();
+    openDrawer()
+
   };
 
   const openProfileDrawer = () => {
@@ -123,7 +97,7 @@ export default function DashboardPage() {
       <UserInfoDrawer
         back={toggleDrawer}
         onEdit={openProfileEditDrawer}
-        userInfo={user_type}
+        userInfo={User}
       />
     );
     scrollToTopFromParent();
@@ -155,7 +129,7 @@ export default function DashboardPage() {
       <AddVehicleDetailsDrawer
         CheckVehicleOwner={CheckVehicleOwner}
         back={() => openCarProfile(cars)}
-        userRole={user_type}
+        userRole={User}
       />
     );
     scrollToTopFromParent();
@@ -163,17 +137,20 @@ export default function DashboardPage() {
     openDrawer();
   };
 
+
   const openNotificationRep = () => {
     setDrawerContent(
       <ThirdPartyNominees
-        toggleForm={toggleDrawer}
-        nominees={NomineeMobile}
+      toggleForm={toggleDrawer}
+      nominees={NomineeMobile}
         // OpenRecipient={OpenRecipient}
+       
       />
     );
 
     openDrawer();
   };
+
 
   const openEducationalMaterials = () => {
     setDrawerContent(
@@ -199,7 +176,7 @@ export default function DashboardPage() {
       <VehicleOwnerDetails
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
-        user={user_type}
+        user={User}
       />
     );
     scrollToTopFromParent();
@@ -242,7 +219,8 @@ export default function DashboardPage() {
     setDrawerContent(
       <SettingsDrawer
         openCarProfile={() => {
-          openCarProfile(cars, true, true);
+          openCarProfile(cars, true,true);
+
         }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
@@ -269,6 +247,10 @@ export default function DashboardPage() {
     return randomOutcome;
   };
 
+  const handleToggle = (newState) => {
+    setUser(newState);
+  };
+
   return (
     <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
       <DashboardHeader
@@ -293,7 +275,7 @@ export default function DashboardPage() {
               <h1
                 className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
               >
-                Welcome Back, {full_name ? firstName : "User"}
+                Welcome Back, Orobosa
               </h1>
               <button
                 className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
@@ -309,6 +291,8 @@ export default function DashboardPage() {
               Subscription
             </button>
           </div>
+{/* 
+        <ToggleButton initialState="User" onToggle={handleToggle} />  */}
         </section>
 
         {/* Profile and Table Section */}
@@ -334,6 +318,7 @@ export default function DashboardPage() {
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
           <div className="w-full justify-center flex">
+
             <Calendar />
           </div>
           <div className="w-full flex justify-center">

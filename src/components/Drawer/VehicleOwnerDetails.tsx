@@ -167,7 +167,7 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user }) => {
     1: "Hired/Lease",
   };
 
-  const owners = user === "individual" ? User : Corporate;
+  const owners = user === "User" ? User : Corporate;
 
   const [selectedKey, setSelectedKey] = useState("0");
 

@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLogin } from "@/hooks/mutations/auth";
 import { InputField, Button, TextBlock, AuthPrompt } from "@/components"; // Adjust imports as needed
 import Link from "next/link";
@@ -13,7 +13,6 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { PiHandWavingFill } from "react-icons/pi";
 import { Logo } from "@/components/logo";
 import Waving from "@/assets/svg/Waving Hand Medium Light Skin Tone.svg";
-import { groteskText } from "@/app/fonts";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -23,12 +22,9 @@ export default function LoginPage() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [inputType, setInputType] = useState("password");
   const [rememberMe, setRememberMe] = useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = useState<
-    string | null
-  >(null);
+  const { login, isError, error } = useLogin();
 
-  const { login, isError, error,loading } = useLogin();
-
+  // const { login, isLoggingIn } = useLogin();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -106,25 +102,26 @@ export default function LoginPage() {
                 )
               }
               className="mt-4"
-              
-             
             />
-            <div className="flex items-end mt-2 mb-6">
+            <div className="flex items-center justify-between mt-2 mb-6">
+              <div className="flex items-center space-x-1">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="cursor-pointer w-3 h-3 text-[#98A2B3]"
+                />
+                <label className="text-[#98A2B3] text-xs">Remember Me</label>
+              </div>
               <Link
                 href="/auth/forgot-password"
-                className={`${groteskText.className}text-xs text-blue-600 hover:underline ml-auto`}
+                className="text-xs text-blue-600 hover:underline"
               >
                 Forgot password
               </Link>
             </div>
-
-            <Button
-              type="submit"
-              className="w-full"
-              variant="primary"
-              // loading
-            >
-             { loading ? "Loading..." : "Login"}
+            <Button type="submit" className="w-full" variant="primary">
+              Login
             </Button>
             {/* Social login buttons (if applicable) */}
           </form>
@@ -135,12 +132,12 @@ export default function LoginPage() {
           />
           <div className="px-10 text-sm text-center">
             By signing in or creating an account, you agree with our
-            <Link href="/" className="font-bold underline">
+            <Link href="/privacy" className="font-bold underline">
               {" "}
               Terms & Conditions
             </Link>{" "}
             and
-            <Link href="/" className="font-bold underline">
+            <Link href="/privacy" className="font-bold underline">
               {" "}
               Privacy Statement
             </Link>

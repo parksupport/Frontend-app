@@ -1,7 +1,6 @@
 // Define the structure of the login response
 export interface LoginResponse {
     access: string;
-    refresh:string;
     user: {
       id: number;
       username: string;

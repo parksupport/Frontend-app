@@ -43,13 +43,19 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
     }
   };
 
-  
 
   const validatePassword = (value)=> {
     return value.length >= 6 ? null : 'Password must be at least 6 characters';
   };
 
 
+const validatePostalCode = (value: string)=> {
+    const postalCodePattern = /^\d{5}$/; // Pattern to match exactly 5 digits
+    if (!postalCodePattern.test(value)) {
+      return "Postal code must be exactly 5 digits.";
+    }
+    return null;
+  };
   
   const validateCarVeriNum = (value: string)=> {
     const carVeriNumPattern = /^[A-Za-z0-9]{7,10}$/; // Pattern to match 7 to 10 alphanumeric characters
@@ -79,6 +85,7 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
               name="post_code"
               value={formData.post_code}
               onChange={handleChange}
+              validationRules={validatePostalCode}
             />
           </div>
             <div>

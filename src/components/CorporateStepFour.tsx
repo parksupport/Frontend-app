@@ -1,63 +1,23 @@
 "use client";
 
-import { groteskText, groteskTextMedium } from "@/app/fonts";
-import React, { useEffect, useRef, useState } from "react";
-import Button from "./Buttons";
-import axios from "axios";
-import { useAuthStore, useSignupStore } from "@/lib/stores/authStore";
-import { useRouter } from "next/navigation";
-import { useVerifyOtp } from "@/hooks/mutations/auth";
+import { groteskText, groteskTextMedium } from '@/app/fonts'
+import React, { useState } from 'react'
+import Button from './Buttons'
+import axios from 'axios';
+import { useAuthStore } from '@/lib/stores/authStore';
+import { useRouter } from 'next/navigation';
 
 const CorporateStepFour = () => {
-  // Set up OTP input handling when component mounts
-  useEffect(() => {
-    const handlePaste = (e: ClipboardEvent) => {
-      if ((e.target as HTMLElement)?.localName !== "input") return;
-      e.preventDefault();
-      let pastedData = e.clipboardData?.getData("text") || "";
-      pastedData = pastedData.toUpperCase();
-      if (pastedData.length === otp.length) {
-        const newOtp = pastedData.split("").slice(0, otp.length);
-        setOtp(newOtp);
-      }
-    };
 
-    const inputs = document.querySelectorAll(
-      ".code_input"
-    ) as NodeListOf<HTMLInputElement>;
-    inputs.forEach((input, index, arr) => {
-      input.addEventListener("input", () => {
-        arr[index + 1]?.focus();
-      });
-    });
+  const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
+  const router = useRouter();
+  const email = useAuthStore((state) => state.email);
 
-    document.addEventListener("paste", handlePaste);
+  const [otp, setOtp] = useState(Array(6).fill(''));
+  const isFilled = otp.every((value) => value !== ""); // Check if all fields are filled
 
-    return () => {
-      document.removeEventListener("paste", handlePaste);
-    };
-  }, []);
-
-  const { formData } = useSignupStore();
-
-  const firstInputRef = useRef<HTMLInputElement | null>(null);
-  const [otp, setOtp] = useState(Array(6).fill(""));
-  const isFilled = otp.every((value) => value !== "");
-
-  const { verifyOtp, isPending, isError, error,loading } = useVerifyOtp();
-
-  console.log("loading",loading)
-
-  useEffect(() => {
-    if (firstInputRef.current) {
-      firstInputRef.current.focus();
-    }
-  }, []);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const { value } = e.target;
 
     if (/^[0-9]$/.test(value) || value === "") {
@@ -65,80 +25,71 @@ const CorporateStepFour = () => {
       newOtp[index] = value; // Update OTP value at specific index
       setOtp(newOtp); // Update state
     }
-    // Focus next input if filled
-    if (value !== "" && index < otp.length - 1) {
-      const nextInput = document.getElementById(
-        `otp-${index + 1}`
-      ) as HTMLInputElement;
-      if (nextInput) {
-        nextInput.focus();
-      }
-    }
   };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isFilled) {
-      verifyOtp({password: formData.password, email_address: formData.email_address, otp: otp.join("") });
-    } else {
-      console.error("Please enter the full 6-digit OTP.");
-    }
-  };
+const handleSubmit =async (e: any) => {
+  e.preventDefault();
+if(isFilled){
+      otp.join('')
+  }
+  e.preventDefault();
+  try {
+    const response = await axios.post('http://localhost:8000/api/accounts/verify-otp/', {
+      email_address: email,
+      otp,
+    });
+    const data = response.data;
+    setToken(data.access);
+    setUser(data.user);
+    router.push('/dashboard');
+  } catch (error) {
+    console.error('OTP Verification failed:', error);
+    // Handle error (e.g., display error message)
+  }
+}
 
   return (
-    <div className="justify-center flex flex-col items-center max-w-[460px] w-full">
-      <div className="justify-center flex flex-col items-center mt-8">
-        <h1
-          className={` text-[40px] text-[#000000]   ${groteskTextMedium.className}`}
-        >
-          Verification required
-        </h1>
-        <p
-          className={` text-[18px] text-[#667185] text-center  ${groteskText.className} block`}
-        >
-          Enter 6-digit code sent to your email {""}
-          <span
-            className={` text-[18px] text-[#667185]  ${groteskTextMedium.className}`}
+    <div className='justify-center flex flex-col items-center max-w-[460px] w-full'>
+     <div className='justify-center flex flex-col items-center mt-8'>
+     <h1 className={` text-[40px] text-[#000000]   ${groteskTextMedium.className}`}>Verification required</h1>
+      <p className={` text-[18px] text-[#667185] text-center  ${groteskText.className} block`}>Enter 6-digit code sent to your email {''}
+      <span className={` text-[18px] text-[#667185]  ${groteskTextMedium.className}`}>{email}</span></p>
+     </div>
+     <div className='mt-[24px] w-full'>
+          <form onSubmit={handleSubmit}>
+
+
+              <div className='flex flex-row max-w-[460px] justify-between' >
+                  {otp.map((value, index) => (
+                      <input
+                          key={index}
+                          type="text"
+                          value={value}
+                          onChange={(e) => handleChange(e, index)}
+                          className={`w-[47px] h-[47px] sm:w-[47px] sm:h-[47px] md:w-[60px] md:h-[60px]  rounded-[8px] border-[#98A2B3] border-solid border text-center text-[40px]  focus:outline-none ${groteskText.className}`}
+                          maxLength={1}
+                      />
+                  ))}
+              </div>
+
+
+
+          </form>
+          <div className='justify-center flex flex-col items-center'>
+          <Button 
+          type="submit" 
+          className="w-full lg:mt-[40px]"
+          variant='primary'
+          disabled={!isFilled}
+        
           >
-            {formData.email_address}
-          </span>
-        </p>
-      </div>
-      <div className="mt-[24px] w-full">
-        <form onSubmit={handleSubmit}>
-          <div className="flex flex-row max-w-[460px] justify-between">
-            {otp.map((value, index) => (
-              <input
-                key={index}
-                ref={index === 0 ? firstInputRef : null}
-                id={`otp-${index}`}
-                type="text"
-                value={value}
-                onChange={(e) => handleChange(e, index)}
-                className={`code_input w-[47px] h-[47px] sm:w-[47px] sm:h-[47px] md:w-[60px] md:h-[60px] rounded-[8px] border-[#98A2B3] border-solid border text-center text-[40px] focus:outline-none ${groteskText.className}`}
-                maxLength={1}
-              />
-            ))}
-          </div>
-          <div className="justify-center flex flex-col items-center">
-            <Button
-              type="submit"
-              className="w-full lg:mt-[40px]"
-              variant="primary"
-              disabled={!isFilled || isPending}
-            >
-              { loading ? "Verifying..." : "Continue"}
-            </Button>
-            {isError && (
-              <p className="text-red-500 mt-2">
-                {error?.message || "Verification failed. Try again."}
-              </p>
-            )}
-          </div>
-        </form>
+            Continue
+          </Button> 
+        </div>
       </div>
     </div>
-  );
-};
+  )
 
-export default CorporateStepFour;
+}
+
+export default CorporateStepFour
+

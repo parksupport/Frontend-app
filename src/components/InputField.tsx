@@ -17,8 +17,6 @@ interface InputFieldProps {
   iconRight?: any;
   textRight?: string;
   textLeft?: string;
-  error?: string;
-  loadingMessage?: ReactNode;
 
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -38,8 +36,6 @@ const InputField: React.FC<InputFieldProps> = ({
   iconRight,
   textLeft,
   textRight,
-  error: inputError,
-  loadingMessage,
 }) => {
   const [error, setError] = useState<string | null>(null);
 
@@ -60,28 +56,12 @@ const InputField: React.FC<InputFieldProps> = ({
 
   return (
     <div className={`input-field ${variant} ${className} `}>
-      <div className="flex justify-between items-center">
-        <label
-          htmlFor={name}
-          className={`text-[#000000] text-[16px] ${groteskText.className} lg`}
-        >
-          {label}
-        </label>
-        {loadingMessage && (
-          <span
-            className={` ${groteskText.className} text-red-500 text-[12px] ml-2}`}
-          >
-            {loadingMessage}
-          </span>
-        )}
-        {!loadingMessage && inputError && (
-          <span
-            className={` ${groteskText.className} text-red-500 text-[12px] ml-2`}
-          >
-            {inputError}
-          </span>
-        )}
-      </div>
+      <label
+        htmlFor={name}
+        className={`text-[#000000] text-[16px] ${groteskText.className} lg`}
+      >
+        {label}
+      </label>
       <div className="relative">
         {iconLeft && (
           <div className="absolute left-3 top-[55%] transform -translate-y-1/2 cursor-pointer mr-[8px]">
@@ -100,11 +80,9 @@ const InputField: React.FC<InputFieldProps> = ({
           name={name}
           onChange={onChange}
           onBlur={handleBlur}
-          className={`${
-            groteskText.className
-          } w-full  h-full px-[2rem] py-4 rounded-[6px] text-[14px] mt-1 border border-solid text-gray-500 focus:outline-none ${
+          className={`${groteskText.className} w-full  h-full px-[2rem] py-4 rounded-[6px] text-[14px] mt-1 border border-solid text-gray-500 focus:outline-none ${
             error ? "border-red-500" : "border-gray-300"
-          } ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
+        } ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
         />
         {textRight && (
           <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
@@ -117,11 +95,7 @@ const InputField: React.FC<InputFieldProps> = ({
           </div>
         )}
       </div>
-      {error && (
-        <p className={`${groteskText.className} mt-1 text-[12px] text-red-500`}>
-          {error}
-        </p>
-      )}
+      {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
     </div>
   );
 };

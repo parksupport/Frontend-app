@@ -14,7 +14,6 @@ import { useState } from "react";
 import useStore from "@/lib/stores/notification";
 import { groteskText } from "@/app/fonts";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { useRouter } from "next/navigation";
 
 interface DashboardHeaderProps {
   openNotification: () => void;
@@ -29,7 +28,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   const [isNotificationOpen, setIsNotificationOpen] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const [message, setMessage] = useState("");
-  const router = useRouter();
 
   const validateInput = (value) => {
     if (value === "wrongword1") {
@@ -52,8 +50,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   return (
     <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-center justify-between w-full">
-        <div className="flex items-center cursor-pointer bg-green-300">
-          <HeaderImage onClick={() => router.push("/")} />
+        <div className="flex items-center">
+          <HeaderImage />
         </div>
 
         <form

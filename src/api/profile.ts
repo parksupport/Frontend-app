@@ -8,14 +8,13 @@ export const updateProfileData = async (data: any, token: string) => {
   }
 
   try {
-    // Update only the full_name but pass the entire data object
+    console.log("Sending PATCH request to update profile...");
     const response = await axios.patch(
       `http://localhost:8000/api/accounts/profile/${data.id}/`,
       {
         full_name: data.name,
         ...data,
       },
-
       {
         headers: {
           "Content-Type": "application/json",
@@ -24,13 +23,15 @@ export const updateProfileData = async (data: any, token: string) => {
       }
     );
 
-
-    return response.data; 
+    console.log("Profile update successful:", response.data);
+    return response.data;
   } catch (error: any) {
-    console.error("Error updating profile:", error);
-    throw new Error(
-      error.response?.data?.message || "Failed to update profile"
-    );
+    // Log the exact error response for debugging
+    console.error("Error updating profile, response data:", error.response?.data);
+
+    // Re-throw the original Axios error for the mutationFn to handle
+    throw error;
   }
 };
+
 //

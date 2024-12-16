@@ -32,30 +32,29 @@ export function ProfileEditInfoDrawer({
     company_email,
     company_phone_number,
     position,
+    state,
+    country,
+    city,
   } = profileUser;
-  const [firstName, lastName] = full_name?.split(" ");
-
-  const addressParts = address.split(",").map((part) => part.trim());
-
-  // Extract the state and country
-  const country = addressParts[addressParts.length - 1];
-  const state = addressParts[addressParts.length - 2];
 
   const [formData, setFormData] = useState({
-    id: id,
-    name: full_name,
-    email_address: email_address,
-    // vehicle: ,
-    phone_number: phone_number,
-    address: address,
-    postal_code: post_code,
-    position: position,
+    id: id || "",
+    name: full_name || "",
+    email_address: email_address || "",
+    // vehicle: vehicle || "",
+    phone_number: phone_number || "",
+    company_phone_number: company_phone_number || "",
+    address: address || "",
+    post_code: post_code || "",
+    position: position || "",
+    city:city || "",
+    state: state || "",
+    country: country || "",
   });
+  
   const [isChecked, setIsChecked] = useState(false);
 
   const { updateProfile, isError, error } = useEditProfile();
-
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -119,10 +118,31 @@ export function ProfileEditInfoDrawer({
     },
     {
       type: "text",
+      placeholder: "Enter your city",
+      label: "City",
+      name: "city",
+      value: formData.city,
+    },
+    {
+      type: "text",
+      placeholder: "Enter your state",
+      label: "State",
+      name: "state",
+      value: formData.state,
+    },
+    {
+      type: "text",
+      placeholder: "Enter your country",
+      label: "Country",
+      name: "country",
+      value: formData.country,
+    },
+    {
+      type: "text",
       placeholder: "Enter your postal code",
       label: "Postal Code",
-      name: "postal_code",
-      value: formData.postal_code,
+      name: "post_code",
+      value: formData.post_code,
     },
   ];
 
@@ -146,8 +166,8 @@ export function ProfileEditInfoDrawer({
       type: "text",
       placeholder: "Enter your Company phone number",
       label: "Company Phone Number",
-      name: "phone_number",
-      value: formData.phone_number,
+      name: "company_phone_number",
+      value: formData.company_phone_number,
     },
     {
       type: "text",
@@ -158,10 +178,24 @@ export function ProfileEditInfoDrawer({
     },
     {
       type: "text",
+      placeholder: "Enter company state",
+      label: "State",
+      name: "state",
+      value: formData.state,
+    },
+    {
+      type: "text",
+      placeholder: "Enter company country",
+      label: "Country",
+      name: "country",
+      value: formData.country,
+    },
+    {
+      type: "text",
       placeholder: "Enter your company postal code",
       label: "Company Postal Code",
-      name: "postal_code",
-      value: formData.postal_code,
+      name: "post_code",
+      value: formData.post_code,
     },
   ];
   const CompanyManagerInputFields = [
@@ -212,7 +246,6 @@ export function ProfileEditInfoDrawer({
           type === "User" ? "Edit Information" : "Edit Corporate Information"
         }
         subTitle="Put in the same details that exist with DVLA"
-        className="min-w-[350px] md:min-w-[400px] "
       />
       {/* 
       <form className="pt-5 md:pt-10 px-[20px] md:mx-auto ">

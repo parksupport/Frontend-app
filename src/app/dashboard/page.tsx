@@ -50,34 +50,49 @@ export default function DashboardPage() {
 
   const drawerRef = useRef<any>(null);
   const router = useRouter();
-
   const user = useAuthStore((state) => state.user);
+  const setUser = useAuthStore((state) => state.setUser);
 
-  const { data: profileData } = useProfile();
+  // Add a loading state to prevent premature redirection
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    if (profileData) {
-      useAuthStore.setState({ user: profileData });
-    }else{
-
+    if (typeof window !== "undefined") {
+      try {
+        const storedUser = localStorage.getItem("userData");
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      } catch (error) {
+        console.error("Error syncing user data from localStorage:", error);
+      } finally {
+        setLoading(false); // Done with synchronization
+      }
     }
-  })
+  }, [setUser]);
 
-  // Ensure that the profile is available before accessing properties
-  if (!user) {
-    router.push("/auth/login");
-    return null;
-  }
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        console.log("User state is null or undefined, redirecting to login...");
+        router.push("/auth/login");
+      } else {
+        console.log("User state:", user);
+      }
+    }
+  }, [user, router, loading]);
 
   const {
-    full_name = "james doe",
+    full_name ,
     email_address,
-    user_type = "individual",
+    user_type ,
     date_of_birth,
     phone_number,
     postcode,
-  } = user;
+  } = user || {};
 
-  const [firstName, lastName] = full_name?.split(" ");
+ 
+  const [firstName, lastName] = (typeof full_name === "string" ? full_name.split(" ") : ["", ""]);
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
@@ -293,7 +308,8 @@ export default function DashboardPage() {
               <h1
                 className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
               >
-                Welcome Back, {full_name ? firstName : "User"}
+             Welcome Back, {full_name ? firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase() : "User"}
+
               </h1>
               <button
                 className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"

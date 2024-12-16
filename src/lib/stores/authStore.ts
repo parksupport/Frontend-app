@@ -87,12 +87,21 @@ export const useAuthStore = create<AuthStoreState>((set, get) => {
   let initialUser = null;
   let storedToken = null;
 
+
   if (typeof window !== "undefined") {
-    // Ensure this block only runs in the browser
-    const storedUser = localStorage.getItem("userProfileData");
-    initialUser = storedUser ? JSON.parse(storedUser) : null;
+    // Access localStorage only in the browser
+    try {
+      const storedUser = localStorage.getItem("userData");
+      if (storedUser) {
+        initialUser = JSON.parse(storedUser); // Safely parse
+      }
+    } catch (error) {
+      console.error("Error parsing user data from localStorage:", error);
+    }
+
     storedToken = localStorage.getItem("authToken");
   }
+
 
   return {
     email: "",
@@ -100,6 +109,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => {
 
     token: storedToken || null, // Initialize token from localStorage
     user: initialUser,
+    
 
     setToken: (token) => {
       if (typeof window !== "undefined") {
@@ -130,9 +140,9 @@ export const useAuthStore = create<AuthStoreState>((set, get) => {
     setUser: (user) => {
       if (typeof window !== "undefined") {
         if (user) {
-          localStorage.setItem("userProfileData", JSON.stringify(user));
+          localStorage.setItem("userData", JSON.stringify(user));
         } else {
-          localStorage.removeItem("userProfileData");
+          localStorage.removeItem("userData");
         }
       }
       set({ user });
@@ -140,7 +150,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => {
 
     logout: () => {
       if (typeof window !== "undefined") {
-        localStorage.removeItem("userProfileData");
+        localStorage.removeItem("userData");
         localStorage.removeItem("authToken");
       }
       set({ token: null, user: null });

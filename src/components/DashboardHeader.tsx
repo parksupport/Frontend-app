@@ -45,7 +45,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     validateInput(value);
   };
   const profileUser = useAuthStore((state) => state.user);
-  const { full_name } = profileUser;
+  const { full_name } = profileUser || {};
 
   return (
     <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -81,11 +81,11 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
           <div
             onClick={openProfileSlider}
-            className="cursor-pointer w-[50px] h-[50px] rounded-full bg-green-300 flex items-center justify-center text-black text-[20px]  font-bold"
+            className="cursor-pointer w-[50px] h-[50px] rounded-full bg-green-300 flex items-center justify-center text-black text-[20px] font-bold"
           >
             {full_name ? (
-              `${full_name.split(" ")[0][0]} ${
-                full_name.split(" ")[1]?.[0] || ""
+              `${full_name.split(" ")[0][0].toUpperCase()}${
+                full_name.split(" ")[1]?.[0]?.toUpperCase() || ""
               }`
             ) : (
               <img

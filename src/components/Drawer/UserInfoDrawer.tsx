@@ -9,7 +9,6 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
   const profileUser = useAuthStore((state) => state.user);
 
   const {
-    address,
     full_name,
     email_address,
     user_type,
@@ -21,14 +20,14 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
     company_email,
     company_phone_number,
     position,
+    state,
+    country,
+    city,
   } = profileUser;
-  const [firstName, lastName] = full_name?.split(" ");
+ 
+const [firstName, lastName] = (typeof full_name === "string" ? full_name.split(" ") : ["", ""]);
 
-  const addressParts = address.split(",").map((part) => part.trim());
 
-  // Extract the state and country
-  const country = addressParts[addressParts.length - 1];
-  const state = addressParts[addressParts.length - 2];
 
   const [user, setUser] = useState({
     profileImage: "https://via.placeholder.com/80",
@@ -64,7 +63,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
         { label: "Country", value: country },
         {
           label: "City / State",
-          value: `${state}`,
+          value: `${city},${state}`,
         },
         { label: "Postal Code", value: post_code },
       ],
@@ -94,12 +93,12 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
         },
         { label: "Email Address", value: company_email },
         { label: "Company Phone", value: company_phone_number },
-        { label: "Country", value: country },
+        { label: "Country", value: country || " ----" },
         {
           label: "City / State",
-          value: state,
+          value: state || "----",
         },
-        { label: "Postal Code", value: post_code },
+        { label: "Postal Code", value: post_code || "----" },
       ],
     },
     // {
@@ -124,7 +123,6 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
             ? "This section is all about the user’s details."
             : "This section is all about the corporate’s details."
         }
-        className="min-w-[350px] md:min-w-[400px] "
       />
 
       <div
@@ -239,7 +237,11 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
                     className={`${groteskText.className} text-black text-[16px] md:text-[18px]`}
                   >
                     {userInfo === "individual" ? (
-                      field.value || field.label
+                     <TruncatedText
+                     text={field.value || field.label}
+                     maxLength={18}
+                     className={`${groteskText.className}`}
+                   />
                     ) : (
                       <TruncatedText
                         text={field.value || field.label}

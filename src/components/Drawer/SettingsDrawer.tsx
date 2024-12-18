@@ -7,7 +7,7 @@ import PlusButtonSVG from "@/assets/svg/normal.svg";
 import { Switch } from "@/components/ui/switch";
 import InputField from "../InputField";
 import { useRouter } from "next/navigation";
-import ModalComponent from "../ModalComponent";
+import ModalComponent from "./ModalComponent";
 import { useDisclosure } from "@chakra-ui/react";
 import ThirdPartyNominees from "../card/ThirdPartyNominee";
 import Drawer from "./Drawer";
@@ -68,6 +68,7 @@ const SettingsDrawer = ({
         onClose={onClose}
         onOpen={onOpen}
         toggleDrawer={toggleDrawer}
+        openAddBillingMethod={openAddBillingMethod}
       />
 
       <div className="px-4 mt-[3rem] mb-[200px]">

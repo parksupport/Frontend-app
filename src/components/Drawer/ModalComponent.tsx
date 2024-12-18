@@ -10,9 +10,9 @@ import {
   Button,
   useDisclosure,
 } from '@chakra-ui/react';
-import SubscriptionPlans from './Subscription';
+import SubscriptionPlans from '../Subscription';
 
-function ModalComponent({ isOpen, onClose, onOpen, toggleDrawer }) {
+function ModalComponent({ isOpen, onClose, onOpen, toggleDrawer,openAddBillingMethod }) {
 
   return (
     
@@ -35,7 +35,7 @@ function ModalComponent({ isOpen, onClose, onOpen, toggleDrawer }) {
       height="48px"
     />
     <ModalBody p="0">
-      <SubscriptionPlans />
+      <SubscriptionPlans openAddBillingMethod={openAddBillingMethod} />
     </ModalBody>
   </ModalContent>
 </Modal>

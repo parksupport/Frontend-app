@@ -32,13 +32,13 @@ import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer
 import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
-import ModalComponent from "@/components/ModalComponent";
+import ModalComponent from "@/components/Drawer/ModalComponent";
 import { useRouter } from "next/navigation";
 
 import ThirdPartyNominees, {
   NomineeMobile,
 } from "@/components/card/ThirdPartyNominee";
-import NominationHistoryTable from "@/components/NominationHistory";
+import NominationHistoryTable from "@/components/Drawer/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
 import DisplayCarProfile from "@/components/card/CarProfile";
 
@@ -98,7 +98,7 @@ export default function DashboardPage() {
     setDrawerContent(
       <NominationHistoryTable
         toggleDrawer={toggleDrawer}
-        back={CarProfileDrawer}
+        back={openCarProfile}
       />
     );
     openDrawer();

@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "@/components";
 import { groteskTextMedium } from "@/app/fonts";
 import { useRouter } from "next/navigation";
-const SubscriptionPlans = () => {
+const SubscriptionPlans = ({openAddBillingMethod}) => {
   const router = useRouter()
   const plans = [
     {
@@ -24,7 +24,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Personal Plan",
-      price: "$9/month",
+      price: "£5/month",
       features: [
         "Free vehicle check on the website",
         "Details of the contravention",
@@ -41,7 +41,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Family Plan",
-      price: "$9/month",
+      price: "£9/month",
       features: [
         "Designed for families to manage multiple vehicles",
         "Free vehicle check on the website",
@@ -58,8 +58,8 @@ const SubscriptionPlans = () => {
       isHighlighted: false,
     },
     {
-      name: "Unlimited Plan",
-      price: "$9/month",
+      name: "Corporate plan ",
+      price: "£15/month",
       features: [
         "Free vehicle check on the website",
         "Details of the contravention",
@@ -111,7 +111,7 @@ const SubscriptionPlans = () => {
                 {/* Price and Button */}
                 <div className="flex items-center mb-6">
                   <Button
-                  onClick={()=> router.push('/auth/login')}
+                  onClick={openAddBillingMethod}
                     variant={plan.isHighlighted ? "secondary" : "primary"}
                     className={`px-4 py-2 rounded ${
                       plan.isHighlighted

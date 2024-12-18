@@ -114,8 +114,6 @@ export default function LandingPage() {
                 </Button>
 
                 <AniminateButton
-                  // variant="primary"
-
                   text="Sign Up"
                   onClick={() => router.push("/auth/onboarding")}
                 />
@@ -124,13 +122,6 @@ export default function LandingPage() {
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
                 <ArrowToText style={{ height: 132 }} />
                 <AnimationText />
-                {/* <Image
-                  src={ArrowToText}
-                  alt="car"
-                  width={303}
-                  height={278}
-                  className="object-cover h-full"
-                /> */}
               </div>
             </div>
             <div className=" flex-shrink-0">

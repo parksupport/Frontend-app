@@ -10,14 +10,14 @@ const VerifyOTPPage = () => {
   const [email_address, setEmail] = useState('');
   const [otp_code, setOtpCode] = useState('');
   const setToken = useAuthStore((state) => state.setToken);
-  const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
   const { verifyOtp, isPending, isError, error } = useVerifyOtp();
 
   const handleVerify = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    verifyOtp({ email_address, otp_code });
+    // Make sure the backend expects 'otp' or 'otp_code' field name and match it here
+    verifyOtp({email_address, otp: otp_code });
   };
 
   return (
@@ -36,7 +36,8 @@ const VerifyOTPPage = () => {
         onChange={(e) => setOtpCode(e.target.value)}
         required
       />
-      <button type="submit">Verify OTP</button>
+      <button type="submit" disabled={isPending}>Verify OTP</button>
+      {isError && <p>{error?.message || 'Verification failed'}</p>}
     </form>
   );
 };

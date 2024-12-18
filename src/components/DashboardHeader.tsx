@@ -13,6 +13,7 @@ import NotificationsTable from "./NotificationTable";
 import { useState } from "react";
 import useStore from "@/lib/stores/notification";
 import { groteskText } from "@/app/fonts";
+import { useAuthStore } from "@/lib/stores/authStore";
 
 interface DashboardHeaderProps {
   openNotification: () => void;
@@ -24,28 +25,27 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   openSettingsDrawer,
   openProfileSlider,
 }) => {
-
   const [isNotificationOpen, setIsNotificationOpen] = useState(true);
-  const [inputValue, setInputValue] = useState('');
-  const [message, setMessage] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [message, setMessage] = useState("");
 
   const validateInput = (value) => {
-    if (value === 'wrongword1') {
-      setMessage('Scenario 1: This is not a valid word.');
-    } else if (value === 'wrongword2') {
-      setMessage('Scenario 2: This word is not allowed.');
+    if (value === "wrongword1") {
+      setMessage("Scenario 1: This is not a valid word.");
+    } else if (value === "wrongword2") {
+      setMessage("Scenario 2: This word is not allowed.");
     } else {
-      setMessage('');
+      setMessage("");
     }
   };
-
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setInputValue(value);
     validateInput(value);
   };
-
+  const profileUser = useAuthStore((state) => state.user);
+  const { full_name } = profileUser || {};
 
   return (
     <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -68,7 +68,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         </form>
         {message && <p className="mt-2 text-red-500">{message}</p>}
 
-
         <div className="flex items-center space-x-4">
           {/* <OpenNotification /> */}
           {/* <button className="cursor-pointer"  onClick={toggleProfile}>
@@ -79,9 +78,23 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             <SettingSVG size={24} color="grey" />
           </button>
           <div className="hidden sm:block">|</div>
-          <button className="cursor-pointer" onClick={openProfileSlider}>
-            <ProfileSVG />
-          </button>
+
+          <div
+            onClick={openProfileSlider}
+            className="cursor-pointer w-[50px] h-[50px] rounded-full bg-green-300 flex items-center justify-center text-black text-[20px] font-bold"
+          >
+            {full_name ? (
+              `${full_name.split(" ")[0][0].toUpperCase()}${
+                full_name.split(" ")[1]?.[0]?.toUpperCase() || ""
+              }`
+            ) : (
+              <img
+                src="https://via.placeholder.com/80"
+                alt="Profile"
+                className="w-full h-full rounded-full object-cover"
+              />
+            )}
+          </div>
         </div>
       </div>
 

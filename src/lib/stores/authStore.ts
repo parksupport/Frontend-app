@@ -2,37 +2,115 @@
 
 import { create } from 'zustand';
 
-interface StoreState {
-  count: number;
-  increaseCount: () => void;
-  resetCount: () => void;
-  
-}
 interface AuthStoreState {
   token: string | null;
-  user: any; // Use appropriate type instead of 'any' based on your user object
+  user: any;
   setToken: (token: string | null) => void;
-  setUser: (user: any) => void; // Use appropriate type instead of 'any' based on your user object
+  setUser: (user: any) => void; 
   logout: () => void;
-  email: string;
-  setEmail: (email: string) => void;
+  // email: string;
+  // setEmail: (email: string) => void;
 }
 
-export const useStore = create<StoreState>((set) => ({
-  count: 0,
-  increaseCount: () => set((state) => ({ count: state.count + 1 })),
-  resetCount: () => set({ count: 0 }),
-}));
 
-export const useAuthStore =  create<AuthStoreState>((set) => ({
-  email: '',
-  setEmail: (email) => set({ email }),
-  token: null,
-  user: null,
-  setToken: (token) => set({ token }),
-  setUser: (user) => set({ user }),
-  logout: () => set({ token: null, user: null }),
-}));
+const DemoUser = {
+  "id": 5,
+  "uid": "8650052488",
+  "full_name": "John Mike",
+  "email_address": "tmoscotayo@gmail.com",
+  "user_type": "individual",
+  "address": "20 Harrison Ojemen Street Abesan Estate Ipaja",
+  "date_of_birth": "2024-12-02",
+  "phone_number": "09060998169",
+  "car_verification_number": "DQ851ABJ",
+  "post_code": "100281",
+  "company_name": null,
+  "company_registration_number": null,
+  "company_email": null,
+  "company_phone_number": null,
+  "position": null,
+  "city": null,
+  "state": null,
+  "country": null
+}
+
+export const useAuthStore = create<AuthStoreState>((set, get) => {
+  let initialUser = DemoUser;
+  let storedToken = null;
+
+
+  if (typeof window !== "undefined") {
+    // Access localStorage only in the browser
+    try {
+      const storedUser = localStorage.getItem("userData");
+      if (storedUser) {
+        initialUser = JSON.parse(storedUser); // Safely parse
+      }
+    } catch (error) {
+      console.error("Error parsing user data from localStorage:", error);
+    }
+
+    storedToken = localStorage.getItem("authToken");
+  }
+
+
+  return {
+    token: storedToken || null, // Initialize token from localStorage
+    user: initialUser,
+    
+
+    setToken: (token) => {
+      if (typeof window !== "undefined") {
+        if (token) {
+          localStorage.setItem("authToken", token);
+        } else {
+          localStorage.removeItem("authToken");
+        }
+      }
+      set({ token });
+    },
+
+    getToken: () => {
+      if (typeof window !== "undefined") {
+        const stateToken = get().token;
+        if (stateToken) return stateToken;
+
+        const localStorageToken = localStorage.getItem("authToken");
+        if (localStorageToken) {
+          set({ token: localStorageToken }); // Sync token with the state
+          return localStorageToken;
+        }
+      }
+
+      return null; // No token found
+    },
+
+    setUser: (user) => {
+      if (typeof window !== "undefined") {
+        if (user) {
+          localStorage.setItem("userData", JSON.stringify(user));
+        } else {
+          localStorage.removeItem("userData");
+        }
+      }
+      set({ user });
+    },
+
+    logout: () => {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("userData");
+        localStorage.removeItem("authToken");
+      }
+      set({ token: null, user: null });
+    },
+  };
+});
+
+
+
+
+
+
 
 // useSignupStore.ts
 

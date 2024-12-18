@@ -1,12 +1,13 @@
 "use client";
 
+import { groteskText } from "@/app/fonts";
 import { Button, InputField } from "@/components";
 import { AuthPrompt } from "@/components/AuthPrompt";
 import { useConfirmPassword } from "@/hooks/mutations/auth";
 import { useEffect, useState } from "react";
 
 export default function SetNewPassword() {
-  const { confirmPassword,  isError, error, status } =
+  const { confirmPassword } =
     useConfirmPassword();
   const [formData, setFormData] = useState({
     userId: "",
@@ -46,8 +47,8 @@ export default function SetNewPassword() {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-md p-8 space-y-6">
-        <h1 className="text-2xl font-bold text-center">Set New Password</h1>
-        <p className="text-center text-gray-600">
+        <h1 className={` ${groteskText.className} text-2xl font-bold text-center`}>Set New Password</h1>
+        <p className={` ${groteskText.className} text-center text-gray-600`}>
           It must be at least 8 characters
         </p>
         <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
@@ -86,11 +87,6 @@ export default function SetNewPassword() {
             </Button>
           </div>
         </form>
-        {status === "success" && (
-          <div className="text-center border">
-            <p> Password changed successfully go back to login</p>
-          </div>
-        )}
         <div>
           <AuthPrompt link="Back to Login" url="/auth/login" />
         </div>

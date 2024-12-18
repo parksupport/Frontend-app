@@ -19,7 +19,7 @@ import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
 import cars from "@/data/data.json";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
 import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDrawer";
@@ -33,46 +33,59 @@ import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/ModalComponent";
+import { useRouter } from "next/navigation";
 
-
-import ThirdPartyNominees, { NomineeMobile } from "@/components/card/ThirdPartyNominee";
+import ThirdPartyNominees, {
+  NomineeMobile,
+} from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/NominationHistory";
-import { ToggleLeft } from "lucide-react";
-
-
+import { useAuthStore } from "@/lib/stores/authStore";
+import DisplayCarProfile from "@/components/card/CarProfile";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
-  const [User, setUser] = useState("User");
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
 
   const drawerRef = useRef<any>(null);
+  const router = useRouter();
+  const user = useAuthStore((state) => state.user);
+
+  useEffect(() => {
+    if (!user) {
+      console.log("User state is null or undefined, redirecting to login...");
+      router.push("/auth/login");
+    } else {
+      console.log("User state:", user);
+    }
+  }, [user, router]);
+
+  const { full_name, user_type } = user || {};
+
+  const [firstName, lastName] =
+    typeof full_name === "string" ? full_name.split(" ") : ["", ""];
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
-      drawerRef.current.scrollToTop(); // Call the exposed method
+      drawerRef.current.scrollToTop();
     }
   };
 
-  let toggleDrawer = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const toggleDrawer = () => setIsOpen((prev) => !prev);
+  const openDrawer = () => !isOpen && setIsOpen(true);
 
-  const openDrawer = () => {
-    if (!isOpen) {
-      setIsOpen(true);
-    }
-  };
-
-  const openCarProfile = (cars: any, form: any = false,autoScrollToForm?: boolean) => {
+  const openCarProfile = (
+    cars: any,
+    form: any = false,
+    autoScrollToForm?: boolean
+  ) => {
     setDrawerContent(
       <CarProfileDrawer
-      openNominationHistory={openNominationHistory}
+        openNominationHistory={openNominationHistory}
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
-        user={User}
+        user={user_type}
         form={form}
         autoScrollToForm={autoScrollToForm}
       />
@@ -83,13 +96,12 @@ export default function DashboardPage() {
   };
   const openNominationHistory = () => {
     setDrawerContent(
-      <NominationHistoryTable  
-      toggleDrawer={toggleDrawer}
-      back={CarProfileDrawer}
-       />
+      <NominationHistoryTable
+        toggleDrawer={toggleDrawer}
+        back={CarProfileDrawer}
+      />
     );
-    openDrawer()
-
+    openDrawer();
   };
 
   const openProfileDrawer = () => {
@@ -97,7 +109,7 @@ export default function DashboardPage() {
       <UserInfoDrawer
         back={toggleDrawer}
         onEdit={openProfileEditDrawer}
-        userInfo={User}
+        userInfo={user_type}
       />
     );
     scrollToTopFromParent();
@@ -129,7 +141,7 @@ export default function DashboardPage() {
       <AddVehicleDetailsDrawer
         CheckVehicleOwner={CheckVehicleOwner}
         back={() => openCarProfile(cars)}
-        userRole={User}
+        userRole={user_type}
       />
     );
     scrollToTopFromParent();
@@ -137,20 +149,17 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-
   const openNotificationRep = () => {
     setDrawerContent(
       <ThirdPartyNominees
-      toggleForm={toggleDrawer}
-      nominees={NomineeMobile}
+        toggleForm={toggleDrawer}
+        nominees={NomineeMobile}
         // OpenRecipient={OpenRecipient}
-       
       />
     );
 
     openDrawer();
   };
-
 
   const openEducationalMaterials = () => {
     setDrawerContent(
@@ -176,7 +185,7 @@ export default function DashboardPage() {
       <VehicleOwnerDetails
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
-        user={User}
+        user={user_type}
       />
     );
     scrollToTopFromParent();
@@ -219,8 +228,7 @@ export default function DashboardPage() {
     setDrawerContent(
       <SettingsDrawer
         openCarProfile={() => {
-          openCarProfile(cars, true,true);
-
+          openCarProfile(cars, true, true);
         }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
@@ -247,107 +255,114 @@ export default function DashboardPage() {
     return randomOutcome;
   };
 
-  const handleToggle = (newState) => {
-    setUser(newState);
-  };
-
   return (
-    <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-      <DashboardHeader
-        openSettingsDrawer={openSettingsDrawer}
-        openProfileSlider={openProfileDrawer}
-        openNotificationsTable={openNotificationsTable}
-        openNotification={OpenNotification}
-      />
-      <ModalComponent
-        isOpen={isDisclosureOpen}
-        onClose={onClose}
-        onOpen={onOpen}
-        toggleDrawer={toggleDrawer}
-      />
+    <>
+      {user ? (
+        <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
+          <DashboardHeader
+            openSettingsDrawer={openSettingsDrawer}
+            openProfileSlider={openProfileDrawer}
+            openNotificationsTable={openNotificationsTable}
+            openNotification={OpenNotification}
+          />
+          <ModalComponent
+            isOpen={isDisclosureOpen}
+            onClose={onClose}
+            onOpen={onOpen}
+            toggleDrawer={toggleDrawer}
+          />
 
-      {/* Main Content */}
-      <main className=" px-[1rem] flex flex-col items-center w-full">
-        <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
-          {/* Welcome Section */}
-          <div className="flex items-start justify-between space-x-2">
-            <div className="flex items-start space-x-2">
-              <h1
-                className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
-              >
-                Welcome Back, Orobosa
-              </h1>
-              <button
-                className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
-                onClick={onOpen}
-              >
-                Free plan
-              </button>
-            </div>
-            <button
-              className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-black text-[10px] md:text-[12px]"
-              onClick={onOpen}
-            >
-              Subscription
-            </button>
-          </div>
-{/* 
-        <ToggleButton initialState="User" onToggle={handleToggle} />  */}
-        </section>
+          {/* Main Content */}
+          <main className=" px-[1rem] flex flex-col items-center w-full">
+            <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
+              {/* Welcome Section */}
+              <div className="flex items-start justify-between space-x-2">
+                <div className="flex items-start space-x-2">
+                  <h1
+                    className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
+                  >
+                    Welcome Back,{" "}
+                    {full_name
+                      ? firstName.charAt(0).toUpperCase() +
+                        firstName.slice(1).toLowerCase()
+                      : "User"}
+                  </h1>
+                  <button
+                    className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
+                    onClick={onOpen}
+                  >
+                    Free plan
+                  </button>
+                </div>
+                <button
+                  className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-black text-[10px] md:text-[12px]"
+                  onClick={onOpen}
+                >
+                  Subscription
+                </button>
+              </div>
+            </section>
 
-        {/* Profile and Table Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center ">
-          <div className="w-full">
-            <CarProfile
+            {/* Profile and Table Section */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
+              <div className="w-full">
+                {/* <CarProfile
               addVehicleDetails={addVehicleDetails}
               openCarProfile={() => openCarProfile(cars)}
               vehicles={cars}
               // openNominationHistory={openNominationHistory}
-            />
-          </div>
+            /> */}
+                <DisplayCarProfile
+                  addVehicleDetails={addVehicleDetails}
+                  openCarProfile={() => openCarProfile(cars)}
+                  vehicles={cars}
+                  // openNominationHistory={openNominationHistory}
+                />
+              </div>
 
-          <div className="w-full justify-center flex items-center">
-            <ContraventionTable
-              invoices={undefined}
-              openConventionTable={openConventionTable}
-            />
-          </div>
-        </section>
+              <div className="w-full justify-center flex">
+                <ContraventionTable
+                  invoices={undefined}
+                  openConventionTable={openConventionTable}
+                />
+              </div>
+            </section>
 
-        {/* Notifications and Calendar Section */}
+            {/* Notifications and Calendar Section */}
 
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
-          <div className="w-full justify-center flex">
-
-            <Calendar />
-          </div>
-          <div className="w-full flex justify-center">
-            {/* <NotificationsTable
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
+              <div className="w-full justify-center flex">
+                <Calendar />
+              </div>
+              <div className="w-full flex justify-center">
+                {/* <NotificationsTable
               openNotificationsTable={openNotificationsTable}
             /> */}
-            <DashboardNotifications
-              openNotificationsTable={openNotificationsTable}
-              isDrawer={false}
-            />
-          </div>
-        </section>
+                <DashboardNotifications
+                  openNotificationsTable={openNotificationsTable}
+                  isDrawer={false}
+                />
+              </div>
+            </section>
 
-        {/* FAQ Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-4">
-          <div className="flex justify-center">
-            <EducationalMaterials
-              openEducationalMaterials={openEducationalMaterials}
-            />
-          </div>
-          <div className="flex justify-center">
-            {/* <FAQAccordion /> */}
-            <FAQComponents />
-          </div>
-        </section>
-      </main>
-      <Drawer ref={drawerRef} isOpen={isOpen} toggleDrawer={toggleDrawer}>
-        {drawerContent}
-      </Drawer>
-    </div>
+            {/* FAQ Section */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-4">
+              <div className="flex justify-center">
+                <EducationalMaterials
+                  openEducationalMaterials={openEducationalMaterials}
+                />
+              </div>
+              <div className="flex justify-center">
+                {/* <FAQAccordion /> */}
+                <FAQComponents />
+              </div>
+            </section>
+          </main>
+          <Drawer ref={drawerRef} isOpen={isOpen} toggleDrawer={toggleDrawer}>
+            {drawerContent}
+          </Drawer>
+        </div>
+      ) : null}
+    </>
   );
 }

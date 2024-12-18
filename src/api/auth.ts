@@ -99,12 +99,11 @@ export const confirmPasswordReset = async (userData) => {
   }
 };
 
-export const verifyOtp = async ({ email_address, otp_code,password }) => {
+export const verifyOtp = async ({ email_address, otp_code }) => {
   try {
     const response = await Axios.post("/api/accounts/verify-otp/", {
       email_address,
       otp: otp_code,
-      password,
     });
     return response.data;
   } catch (error) {

@@ -60,19 +60,19 @@ const DeleteRowModal = ({
       style={position}
       ref={modalRef} // Attach the ref to the modal container
     >
-      <div className="border shadow-lg border-gray-200 rounded-[8px] p-[1px]">
+      <div className="border shadow-lg border-gray-200 rounded-[8px] p-[1px] ">
         {!removeAddButton && (
           <button
-            className={`w-full flex items-center px-[1px] py-2 text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
+            className={`w-full flex items-center px-[1px] pr-2 py-2 text-[14px] md:text-[16px] text-black hover:bg-gray-100 ${groteskText.className}`}
             onClick={onAddNominee}
           >
-            <Plus className="mr-2" />
+            <Plus className="mr-2 " />
             Add Nominee
           </button>
         )}
         {isVehicle ? (
           <button
-            className={`w-full flex items-center px-[1px] py-2 text-[14px] text-red-600 hover:bg-gray-100  ${groteskText.className}`}
+            className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[16px]  text-red-600 hover:bg-gray-100  ${groteskText.className}`}
             onClick={onRemove}
           >
             <FiTrash2 className="mr-2" />
@@ -80,7 +80,7 @@ const DeleteRowModal = ({
           </button>
         ) : (
           <button
-            className={`w-full flex items-center px-[1px] py-2 text-[14px] ${
+            className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[16px] ${
               expiredLease
                 ? "text-gray-400 bg-gray-200 cursor-not-allowed"
                 : "text-red-600 hover:bg-gray-100"

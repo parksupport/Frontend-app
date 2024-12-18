@@ -48,7 +48,7 @@ const AddBillingMethodDrawer = ({back, toggleDrawer }) => {
         
       />
 
-      <div className="rounded-[1rem] border border-[#D0D5DD] py-[20px] px-[17px] mt-[48px]">
+      <div className="flex flex-col items-center mx-auto rounded-[1rem] border border-[#D0D5DD] py-[20px] px-[17px] mt-[48px]">
      <div className="flex  justify-between">
      <h2
           className={`${groteskTextMedium.className} text-[1.75rem] text-[#000000] `}

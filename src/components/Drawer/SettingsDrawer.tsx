@@ -57,7 +57,7 @@ const SettingsDrawer = ({
   };
 
   return (
-    <div className="">
+    <div className="flex flex-col items-center mx-auto md:w-[900px]">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Settings"
@@ -74,7 +74,7 @@ const SettingsDrawer = ({
         {/* My Vehicles Settings */}
         <div className="mt-[40px]">
           <h2
-            className={`${groteskTextMedium.className} text-[#000000] text-[22px] `}
+            className={`${groteskTextMedium.className} text-[#000000] text-[22px] md:text-[30px] leading-none`}
           >
             My Vehicles Settings
           </h2>
@@ -83,7 +83,7 @@ const SettingsDrawer = ({
             <Button
               variant="link"
               style={{ color: "#000000" }}
-              className={`${groteskText.className}  text-[#000000] text-[20px] `}
+              className={`${groteskText.className}  text-[#000000] text-[20px] md:text-[24px] leading-none `}
             >
               Add a Notification Recipient
             </Button>
@@ -95,19 +95,19 @@ const SettingsDrawer = ({
         {/* Billing and Payment */}
         <div className="mt-[40px]">
           <h2
-            className={`${groteskTextMedium.className} text-[#000000] leading-none text-[22px]`}
+            className={`${groteskTextMedium.className} text-[#000000] leading-none text-[22px] md:text-[30px] leading-none`}
           >
             Billing and Payment
           </h2>
           <p
-            className={`${groteskText.className}  text-[#667185] text-[16px] leading-none `}
+            className={`${groteskText.className}  text-[#667185] text-[16px] md:text-[18px] leading-none `}
           >
             Add, update, or remove your billing methods.
           </p>
           <div className="flex gap-2 items-center mt-[1rem]">
             <Button
               variant="link"
-              className={`${groteskText.className}  text-[#000000] text-[20px] leading-none `}
+              className={`${groteskText.className}  text-[#000000] text-[20px] md:text-[24px] leading-none `}
             >
               Add payment method
             </Button>
@@ -117,12 +117,12 @@ const SettingsDrawer = ({
         {/* Notification Settings */}
         <div className="mt-[40px]">
           <h2
-            className={`${groteskTextMedium.className} text-[#000000] text-[22px] leading-none`}
+            className={`${groteskTextMedium.className} text-[#000000] text-[22px] md:text-[30px] leading-none`}
           >
             Notification Settings
           </h2>
           <p
-            className={`${groteskText.className}  text-[#667185] text-[16px] leading-none `}
+            className={`${groteskText.className}  text-[#667185] text-[16px] md:text-[18px] leading-none `}
           >
             Choose how you want receive your notification
           </p>
@@ -161,7 +161,7 @@ const SettingsDrawer = ({
         {/* Password and Security */}
         <div className="flex items-center gap-[1rem] mt-[40px]">
           <h2
-            className={`${groteskTextMedium.className} text-[#000000] text-[22px] leading-none`}
+            className={`${groteskTextMedium.className} text-[#000000] text-[22px] md:text-[30px] leading-none`}
           >
             Subscription
           </h2>
@@ -172,18 +172,18 @@ const SettingsDrawer = ({
 
         <div className="mt-[40px] ">
           <h2
-            className={`${groteskTextMedium.className} text-[#000000] text-[22px] leading-none`}
+            className={`${groteskTextMedium.className} text-[#000000] text-[22px] md:text-[30px] leading-none`}
           >
             Password and Security
           </h2>
           <p
-            className={`${groteskText.className}  text-[#667185] text-[16px] leading-none `}
+            className={`${groteskText.className}  text-[#667185] text-[16px] md:text-[18px] leading-none `}
           >
             You can change your password
           </p>
           <div className="mt-[1rem]">
             <h2
-              className={`${groteskText.className} text-[#000000] text-[16px] md:text-[18px] leadining-none`}
+              className={`${groteskText.className} text-[#000000] text-[16px] md:text-[20px] leadining-none`}
             >
               You`ve set a CarAlert password
               <a
@@ -232,7 +232,7 @@ const SettingsDrawer = ({
             <h1 className={` ${groteskTextMedium.className} text-[24px]`}>Logout your account</h1>
             <div>
           <button
-            className={` w-[60%]  ${groteskText.className}  px-4 py-2 gap-2 border text-[#CB1A14] border-[#CB1A14] rounded-[8px]`}
+            className={` w-[60%]  ${groteskText.className} text-[16px] md:text-[18px] px-4 py-2 gap-2 border text-[#CB1A14] border-[#CB1A14] rounded-[8px]`}
             onClick={()=>logout()}
           >
           Logout

@@ -259,7 +259,7 @@ export function ProfileEditInfoDrawer({
       {/* 
       <form className="pt-5 md:pt-10 px-[20px] md:mx-auto ">
         <div className="flex flex-col gap-4 items-center "> */}
-      <form className="pt-12 px-[20px]">
+      <form className="pt-12 px-[20px] md:mx-auto md:w-[55%]">
         <div className="flex flex-col gap-4 items-center md:w-[65%] mx-auto">
           {/* Map through the inputFields array */}
           {getInputFields(type).map((field) => (

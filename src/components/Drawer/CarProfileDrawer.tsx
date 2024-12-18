@@ -24,7 +24,7 @@ const CarProfileDrawer = ({
   user,
   form,
   openNominationHistory,
-  autoScrollToForm = false
+  autoScrollToForm = false,
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
@@ -48,11 +48,10 @@ const CarProfileDrawer = ({
     }
   }, [autoScrollToForm]);
 
-
   const renderNomineeSection = () => {
     if (isForm) {
       return (
-        <div ref={formRef}>
+        <div className="flex flex-col md:items-center" ref={formRef}>
           <AddThirdPartyNominee
             vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
               value: vehicle.registrationNumber,
@@ -66,7 +65,7 @@ const CarProfileDrawer = ({
       );
     } else {
       return (
-        <div ref={formRef}>
+        <div className="flex flex-col md:items-center" ref={formRef}>
           <ThirdPartyNominees
             toggleForm={setIsForm}
             nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
@@ -77,23 +76,25 @@ const CarProfileDrawer = ({
   };
 
   return (
-    <div className="w-full overflow-hidden flex flex-col justify-center items-center">
+    <div className="w-full overflow-hidden flex flex-col ">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Vehicle Overview"
-        subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account.."
+        subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account."
       />
-      {user === "User" || isMobile ? (
+      {user === "individual" || isMobile ? (
         <>
-          <CarProfileSlider
-            vehicles={vehicles}
-            addVehicle={addVehicleDetails}
-            onVehicleChange={handleVehicleChange}
-            user={user}
-            setForm={setIsForm}
-            scrollToForm={handleButtonClick}
-          />
-          {renderNomineeSection()}
+          <div className="mx-2 mt-10">
+            <CarProfileSlider
+              vehicles={vehicles}
+              addVehicle={addVehicleDetails}
+              onVehicleChange={handleVehicleChange}
+              user={user}
+              setForm={setIsForm}
+              scrollToForm={handleButtonClick}
+            />
+            {renderNomineeSection()}
+          </div>
         </>
       ) : (
         <CorporateCarProfileDrawer

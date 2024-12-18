@@ -103,7 +103,7 @@ export const verifyOtp = async ({ email_address, otp_code }) => {
   try {
     const response = await Axios.post("/api/accounts/verify-otp/", {
       email_address,
-      otp: otp_code,
+      otp_code,
     });
     return response.data;
   } catch (error) {

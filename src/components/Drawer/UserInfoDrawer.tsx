@@ -23,27 +23,11 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
     state,
     country,
     city,
+    uid,
   } = profileUser;
- 
-const [firstName, lastName] = (typeof full_name === "string" ? full_name.split(" ") : ["", ""]);
 
-
-
-  const [user, setUser] = useState({
-    profileImage: "https://via.placeholder.com/80",
-    name: full_name,
-    uniqueNo: "10290390930930",
-    firstName: firstName,
-    lastName: lastName,
-    email: email_address,
-    phone: phone_number,
-    address: {
-      country: "United Kingdom",
-      city: "Birmingham",
-      state: "England",
-      postalCode: "ERT 63574",
-    },
-  });
+  const [firstName, lastName] =
+    typeof full_name === "string" ? full_name.split(" ") : ["", ""];
 
   const userInfoSections = [
     {
@@ -63,13 +47,13 @@ const [firstName, lastName] = (typeof full_name === "string" ? full_name.split("
         { label: "Country", value: country || " ----" },
         {
           label: "City / State",
-          value: `${city},${state}` || "----",
+          value: `${city || "----"}/${state || "----"}`,
         },
         { label: "Postal Code", value: post_code },
       ],
     },
   ];
- 
+
   const conmpanyInfoSections = [
     {
       title: "Manager Information",
@@ -96,7 +80,7 @@ const [firstName, lastName] = (typeof full_name === "string" ? full_name.split("
         { label: "Country", value: country || " ----" },
         {
           label: "City / State",
-          value: state || "----",
+          value: `${city || "----"}/${state || "----"}`,
         },
         { label: "Postal Code", value: post_code || "----" },
       ],
@@ -169,7 +153,7 @@ const [firstName, lastName] = (typeof full_name === "string" ? full_name.split("
               <p
                 className={` ${groteskText.className} text-[16px] md:text-[20px] text-gray-500`}
               >
-                {user?.uniqueNo || "239094090590585"}
+                {uid}
               </p>
             </div>
           </div>
@@ -237,11 +221,11 @@ const [firstName, lastName] = (typeof full_name === "string" ? full_name.split("
                     className={`${groteskText.className} text-black text-[16px] md:text-[18px]`}
                   >
                     {userInfo === "individual" ? (
-                     <TruncatedText
-                     text={field.value || field.label}
-                     maxLength={18}
-                     className={`${groteskText.className}`}
-                   />
+                      <TruncatedText
+                        text={field.value || field.label}
+                        maxLength={18}
+                        className={`${groteskText.className}`}
+                      />
                     ) : (
                       <TruncatedText
                         text={field.value || field.label}

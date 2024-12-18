@@ -1,30 +1,29 @@
 // hooks/useSignup.ts
 "use client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import {
-  loginUser,
-  registerUser,
   confirmPasswordReset,
+  loginUser,
+  refreshAccessToken,
+  registerUser,
   passwordReset as sendPasswordReset,
   verifyOtp,
-  refreshAccessToken,
 } from "@/api/auth"; // Make sure this is your API function for registration
+import { updateProfileData } from "@/api/profile";
+import { checkEmail } from "@/api/register";
+import { useAuthStore } from "@/lib/stores/authStore";
 import {
-  SignupInput,
-  SignupResponse,
   ForgotPasswordInput,
-  PasswordResetResponse,
   LoginInput,
   LoginResponse,
+  PasswordResetResponse,
+  SignupInput,
+  SignupResponse,
   VerifyOtpRequest,
 } from "@/types"; // Define types for signup
-import { useAuthStore } from "@/lib/stores/authStore";
-import axios from "axios";
-import { updateProfileData } from "@/api/profile";
-import queryClient from "@/lib/tanstack-query/queryClient";
-import { checkEmail } from "@/api/register";
 import { useToast } from "@chakra-ui/react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export const useSignup = (value: string) => {
@@ -54,8 +53,6 @@ export const useSignup = (value: string) => {
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
-  const setToken = useAuthStore((state) => state.setToken);
-  const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
   const toast = useToast();
 
@@ -65,29 +62,12 @@ export const useLogin = () => {
       return await loginUser(credentials);
     },
     onSuccess: async (data) => {
-      console.log(data.user, "data.user")
+      console.log(data.user, "data.user");
       setLoading(true); // Start loading
       // Store token in localStorage
       localStorage.setItem("authToken", data.access);
       localStorage.setItem("refreshToken", data.refresh);
       localStorage.setItem("userData", JSON.stringify(data.user));
-
-
-      // try {
-      //   setToken(data.access);
-      //   const profileData = await fetchProfileData();
-
-      //   // Set the fetched user profile in the store
-      //   setUser(profileData);
-      // } catch (error) {
-      //   console.error("Error updating profile data:", error);
-      // } finally {
-      //   setLoading(false); // Stop loading
-      // }
-
-      // console.log("loading", loading);
-
-      // Redirect to dashboard
       router.push("/dashboard");
     },
 
@@ -113,7 +93,6 @@ export const useLogin = () => {
   });
   const { mutate: login, isError, error } = mutation;
 
-  // return { login, isError, error };
   return { login, isError, error, loading };
 };
 
@@ -145,11 +124,6 @@ export const useForgotPassword = () => {
         duration: 3000,
         isClosable: true,
       });
-      // Handle error
-      // const errorMessage =
-      //   error.response?.data?.detail || "Password reset failed";
-      // console.error(errorMessage);
-      // console.log("error")
     },
   });
 
@@ -183,10 +157,6 @@ export const useConfirmPassword = () => {
       router.push("/auth/login");
     },
     onError: (error: any) => {
-      // Handle error
-      // const errorMessage =
-      //   error.response?.data?.detail || "Password change failed";
-      // console.error(errorMessage);
       toast({
         title: "Password change failed",
         description: error?.data?.message || "Link expired",
@@ -210,48 +180,21 @@ export const useVerifyOtp = () => {
   const router = useRouter();
 
   const mutation = useMutation<any, Error, VerifyOtpRequest>({
-    mutationFn: async ({ email_address, otp, password }) => {
-      return await verifyOtp({ password, email_address, otp_code: otp });
+    mutationFn: async ({ email_address, otp }) => {
+      return await verifyOtp({ email_address, otp_code: otp });
     },
-
-    // onSuccess: async (data) => {
-    //   try {
-    //     setToken(data.access);
-
-    //     // Fetch profile data after setting the token
-    //     const profileData = await fetchProfileData();
-    //     localStorage.setItem("userProfileData", JSON.stringify(profileData));
-
-    //     // Set the fetched user profile in the store
-    //     setUser(profileData);
-
-    //     // Navigate to the dashboard
-    //     router.push("/dashboard");
-    //   } catch (error) {
-    //     console.error(
-    //       "Error fetching profile data after OTP verification:",
-    //       error
-    //     );
-    //   }
-    // },
-    // onError: (error: any) => {
-    //   console.error(
-    //     "OTP Verification failed:",
-    //     error.response?.data || error.message || error
-    //   );
-    // },
 
     onSuccess: async (data) => {
       setLoading(true); // Start loading
       try {
         setToken(data.access);
 
-        // Fetch profile data after setting the token
-        const profileData = await fetchProfileData();
-        localStorage.setItem("userProfileData", JSON.stringify(profileData));
+        localStorage.setItem("authToken", data.access);
+        localStorage.setItem("refreshToken", data.refresh);
+        localStorage.setItem("userData", JSON.stringify(data.user));
 
         // Set the fetched user profile in the store
-        setUser(profileData);
+        setUser(data.user);
 
         // Navigate to the dashboard
         await router.push("/dashboard");
@@ -280,7 +223,6 @@ export const useVerifyOtp = () => {
 export const useLogout = () => {
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
-  const setEmail = useAuthStore((state) => state.setEmail);
   const router = useRouter();
 
   const logout = () => {
@@ -292,7 +234,6 @@ export const useLogout = () => {
     // Clear Zustand state
     setToken(null);
     setUser(null);
-    setEmail("");
 
     // Redirect to login or home page
     router.push("/auth/login"); // Adjust path as needed
@@ -303,6 +244,8 @@ export const useLogout = () => {
 
 // Fetch profile data from the API
 const fetchProfileData = async () => {
+  const router = useRouter();
+
   try {
     let token = localStorage.getItem("authToken"); // Get token from localStorage or state
 
@@ -311,11 +254,14 @@ const fetchProfileData = async () => {
     }
 
     // Attempt to fetch the profile data
-    let response = await axios.get("http://localhost:8000/api/accounts/profile", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    let response = await axios.get(
+      "http://localhost:8000/api/accounts/profile",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data; // Return the profile data from the response
   } catch (error) {
@@ -330,9 +276,12 @@ const fetchProfileData = async () => {
       if (refreshToken) {
         try {
           // Make a request to refresh the token
-          const refreshResponse = await axios.post("http://localhost:8000/api/token/refresh/", {
-            refresh: refreshToken,
-          });
+          const refreshResponse = await axios.post(
+            "http://localhost:8000/api/token/refresh/",
+            {
+              refresh: refreshToken,
+            }
+          );
 
           // Extract the new access token from the response
           const newAccessToken = refreshResponse.data.access;
@@ -340,18 +289,24 @@ const fetchProfileData = async () => {
 
           console.log("Token refreshed, retrying profile fetch...");
           // Retry the profile fetch with the new access token
-         let response = await axios.get("http://localhost:8000/api/accounts/profile", {
-            headers: {
-              Authorization: `Bearer ${newAccessToken}`,
-            },
-          });
+          let response = await axios.get(
+            "http://localhost:8000/api/accounts/profile",
+            {
+              headers: {
+                Authorization: `Bearer ${newAccessToken}`,
+              },
+            }
+          );
 
           return response.data; // Return the profile data from the new request
         } catch (refreshError) {
           console.error("Error refreshing token:", refreshError);
+          router.push("/auth/login");
+
           throw new Error("Failed to refresh token. Please log in again.");
         }
       } else {
+        router.push("/auth/login"); // Adjust path as needed
         throw new Error("Refresh token not found. Please log in again.");
       }
     }
@@ -360,7 +315,6 @@ const fetchProfileData = async () => {
     throw error;
   }
 };
-
 
 export const useProfile = () => {
   // Use the query hook to fetch profile data
@@ -385,12 +339,11 @@ export const useCheckEmail = (email) => {
   });
 };
 
-
-
 export const useEditProfile = () => {
   const toast = useToast();
   const setUser = useAuthStore((state) => state.setUser); // Function to update user in global store
   const queryClient = useQueryClient(); // Ensure you have access to React Query's client
+  const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
@@ -421,11 +374,15 @@ export const useEditProfile = () => {
               // Retry the profile update with the new token
               return await updateProfileData(data, token);
             } catch (refreshError) {
+              router.push("/auth/login"); // Adjust path as needed
               console.error("Failed to refresh token:", refreshError);
               throw new Error("Unable to refresh token. Please log in again.");
             }
           } else {
-            console.error("No refresh token available. Redirecting to login...");
+            router.push("/auth/login"); // Adjust path as needed
+            console.error(
+              "No refresh token available. Redirecting to login..."
+            );
             throw new Error("Session expired. Please log in again.");
           }
         }
@@ -490,4 +447,3 @@ export const useEditProfile = () => {
 
   return { updateProfile, isError, error };
 };
-

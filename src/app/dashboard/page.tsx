@@ -39,8 +39,6 @@ import ThirdPartyNominees, {
   NomineeMobile,
 } from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/NominationHistory";
-import { ToggleLeft } from "lucide-react";
-import { useProfile } from "@/hooks/mutations/auth";
 import { useAuthStore } from "@/lib/stores/authStore";
 import DisplayCarProfile from "@/components/card/CarProfile";
 
@@ -52,48 +50,20 @@ export default function DashboardPage() {
   const drawerRef = useRef<any>(null);
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
-  const setUser = useAuthStore((state) => state.setUser);
-
-  // Add a loading state to prevent premature redirection
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const storedUser = localStorage.getItem("userData");
-        if (storedUser) {
-          setUser(JSON.parse(storedUser));
-        }
-      } catch (error) {
-        console.error("Error syncing user data from localStorage:", error);
-      } finally {
-        setLoading(false); // Done with synchronization
-      }
+    if (!user) {
+      console.log("User state is null or undefined, redirecting to login...");
+      router.push("/auth/login");
+    } else {
+      console.log("User state:", user);
     }
-  }, [setUser]);
+  }, [user, router]);
 
-  useEffect(() => {
-    if (!loading) {
-      if (!user) {
-        console.log("User state is null or undefined, redirecting to login...");
-        router.push("/auth/login");
-      } else {
-        console.log("User state:", user);
-      }
-    }
-  }, [user, router, loading]);
+  const { full_name, user_type } = user || {};
 
-  const {
-    full_name ,
-    email_address,
-    user_type ,
-    date_of_birth,
-    phone_number,
-    postcode,
-  } = user || {};
-
- 
-  const [firstName, lastName] = (typeof full_name === "string" ? full_name.split(" ") : ["", ""]);
+  const [firstName, lastName] =
+    typeof full_name === "string" ? full_name.split(" ") : ["", ""];
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
@@ -126,13 +96,12 @@ export default function DashboardPage() {
   };
   const openNominationHistory = () => {
     setDrawerContent(
-      <NominationHistoryTable  
-      toggleDrawer={toggleDrawer}
-      back={CarProfileDrawer}
-       />
+      <NominationHistoryTable
+        toggleDrawer={toggleDrawer}
+        back={CarProfileDrawer}
+      />
     );
-    openDrawer()
-
+    openDrawer();
   };
 
   const openProfileDrawer = () => {
@@ -287,107 +256,113 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
-      <DashboardHeader
-        openSettingsDrawer={openSettingsDrawer}
-        openProfileSlider={openProfileDrawer}
-        openNotificationsTable={openNotificationsTable}
-        openNotification={OpenNotification}
-      />
-      <ModalComponent
-        isOpen={isDisclosureOpen}
-        onClose={onClose}
-        onOpen={onOpen}
-        toggleDrawer={toggleDrawer}
-      />
+    <>
+      {user ? (
+        <div className="bg-[#F4F4FA] flex flex-col overflow-hidden pb-[3.5rem]">
+          <DashboardHeader
+            openSettingsDrawer={openSettingsDrawer}
+            openProfileSlider={openProfileDrawer}
+            openNotificationsTable={openNotificationsTable}
+            openNotification={OpenNotification}
+          />
+          <ModalComponent
+            isOpen={isDisclosureOpen}
+            onClose={onClose}
+            onOpen={onOpen}
+            toggleDrawer={toggleDrawer}
+          />
 
-      {/* Main Content */}
-      <main className=" px-[1rem] flex flex-col items-center w-full">
-        <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
-          {/* Welcome Section */}
-          <div className="flex items-start justify-between space-x-2">
-            <div className="flex items-start space-x-2">
-              <h1
-                className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
-              >
-             Welcome Back, {full_name ? firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase() : "User"}
+          {/* Main Content */}
+          <main className=" px-[1rem] flex flex-col items-center w-full">
+            <section className="flex flex-col max-w-[1380px] w-full pt-[1.5rem]">
+              {/* Welcome Section */}
+              <div className="flex items-start justify-between space-x-2">
+                <div className="flex items-start space-x-2">
+                  <h1
+                    className={`text-[20px] lg:text-[2rem] text-[#000000] ${groteskTextMedium.className}`}
+                  >
+                    Welcome Back,{" "}
+                    {full_name
+                      ? firstName.charAt(0).toUpperCase() +
+                        firstName.slice(1).toLowerCase()
+                      : "User"}
+                  </h1>
+                  <button
+                    className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
+                    onClick={onOpen}
+                  >
+                    Free plan
+                  </button>
+                </div>
+                <button
+                  className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-black text-[10px] md:text-[12px]"
+                  onClick={onOpen}
+                >
+                  Subscription
+                </button>
+              </div>
+            </section>
 
-              </h1>
-              <button
-                className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
-                onClick={onOpen}
-              >
-                Free plan
-              </button>
-            </div>
-            <button
-              className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-black text-[10px] md:text-[12px]"
-              onClick={onOpen}
-            >
-              Subscription
-            </button>
-          </div>
-        </section>
-
-        {/* Profile and Table Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
-          <div className="w-full">
-            {/* <CarProfile
+            {/* Profile and Table Section */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
+              <div className="w-full">
+                {/* <CarProfile
               addVehicleDetails={addVehicleDetails}
               openCarProfile={() => openCarProfile(cars)}
               vehicles={cars}
               // openNominationHistory={openNominationHistory}
             /> */}
-            <DisplayCarProfile
-              addVehicleDetails={addVehicleDetails}
-              openCarProfile={() => openCarProfile(cars)}
-              vehicles={cars}
-              // openNominationHistory={openNominationHistory}
-            />
-         
-          </div>
+                <DisplayCarProfile
+                  addVehicleDetails={addVehicleDetails}
+                  openCarProfile={() => openCarProfile(cars)}
+                  vehicles={cars}
+                  // openNominationHistory={openNominationHistory}
+                />
+              </div>
 
-          <div className="w-full justify-center flex">
-            <ContraventionTable
-              invoices={undefined}
-              openConventionTable={openConventionTable}
-            />
-          </div>
-        </section>
+              <div className="w-full justify-center flex">
+                <ContraventionTable
+                  invoices={undefined}
+                  openConventionTable={openConventionTable}
+                />
+              </div>
+            </section>
 
-        {/* Notifications and Calendar Section */}
+            {/* Notifications and Calendar Section */}
 
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
-          <div className="w-full justify-center flex">
-            <Calendar />
-          </div>
-          <div className="w-full flex justify-center">
-            {/* <NotificationsTable
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
+              <div className="w-full justify-center flex">
+                <Calendar />
+              </div>
+              <div className="w-full flex justify-center">
+                {/* <NotificationsTable
               openNotificationsTable={openNotificationsTable}
             /> */}
-            <DashboardNotifications
-              openNotificationsTable={openNotificationsTable}
-              isDrawer={false}
-            />
-          </div>
-        </section>
+                <DashboardNotifications
+                  openNotificationsTable={openNotificationsTable}
+                  isDrawer={false}
+                />
+              </div>
+            </section>
 
-        {/* FAQ Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-4">
-          <div className="flex justify-center">
-            <EducationalMaterials
-              openEducationalMaterials={openEducationalMaterials}
-            />
-          </div>
-          <div className="flex justify-center">
-            {/* <FAQAccordion /> */}
-            <FAQComponents />
-          </div>
-        </section>
-      </main>
-      <Drawer ref={drawerRef} isOpen={isOpen} toggleDrawer={toggleDrawer}>
-        {drawerContent}
-      </Drawer>
-    </div>
+            {/* FAQ Section */}
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-4">
+              <div className="flex justify-center">
+                <EducationalMaterials
+                  openEducationalMaterials={openEducationalMaterials}
+                />
+              </div>
+              <div className="flex justify-center">
+                {/* <FAQAccordion /> */}
+                <FAQComponents />
+              </div>
+            </section>
+          </main>
+          <Drawer ref={drawerRef} isOpen={isOpen} toggleDrawer={toggleDrawer}>
+            {drawerContent}
+          </Drawer>
+        </div>
+      ) : null}
+    </>
   );
 }

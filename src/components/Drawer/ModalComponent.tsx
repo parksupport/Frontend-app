@@ -35,7 +35,7 @@ function ModalComponent({ isOpen, onClose, onOpen, toggleDrawer,openAddBillingMe
       height="48px"
     />
     <ModalBody p="0">
-      <SubscriptionPlans openAddBillingMethod={openAddBillingMethod} />
+      <SubscriptionPlans onClick={openAddBillingMethod} />
     </ModalBody>
   </ModalContent>
 </Modal>

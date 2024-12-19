@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "@/components";
 import { groteskTextMedium } from "@/app/fonts";
 import { useRouter } from "next/navigation";
-const SubscriptionPlans = ({openAddBillingMethod}) => {
+const SubscriptionPlans = ({onClick}) => {
   const router = useRouter()
   const plans = [
     {
@@ -111,7 +111,7 @@ const SubscriptionPlans = ({openAddBillingMethod}) => {
                 {/* Price and Button */}
                 <div className="flex items-center mb-6">
                   <Button
-                  onClick={openAddBillingMethod}
+                  onClick={onClick}
                     variant={plan.isHighlighted ? "secondary" : "primary"}
                     className={`px-4 py-2 rounded ${
                       plan.isHighlighted

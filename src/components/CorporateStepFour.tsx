@@ -79,7 +79,7 @@ const CorporateStepFour = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (isFilled) {
-      verifyOtp({password: formData.password, email_address: formData.email_address, otp: otp.join("") });
+      verifyOtp({email_address: formData.email_address, otp: otp.join("") });
     } else {
       console.error("Please enter the full 6-digit OTP.");
     }

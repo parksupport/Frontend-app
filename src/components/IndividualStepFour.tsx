@@ -75,7 +75,6 @@ const IndividualStepFour = () => {
     e.preventDefault();
     if (isFilled) {
       verifyOtp({
-        password: formData.password,
         email_address: formData.email_address,
         otp: otp.join(""),
       });

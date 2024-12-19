@@ -197,7 +197,7 @@ const CorporateAdminSignupPage = ({ onContinue }) => {
           <AuthPrompt
             text="Already have an account? "
             link="Login"
-            url="/login"
+            url="auth/login"
           />
         </div>
       </div>

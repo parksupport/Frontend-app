@@ -79,7 +79,7 @@ function CarProfile({
               <h2
                 className={` ${groteskTextMedium.className} leading-none mt-4 text-[28px]`}
               >
-                Let's Get Started With Your First Vehicle
+                Lets Get Started With Your First Vehicle
               </h2>
               <div className="self-center flex flex-col max-w-[253px]">
                 <Image

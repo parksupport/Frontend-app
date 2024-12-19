@@ -34,7 +34,7 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
         className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap 
                     text-end lg:text-left
                     w-full lg:w-2/12 
-                    lg:pl-[3.5rem] 
+                    lg:pl-[2.5rem] 
                     ${groteskText.className}`}
       >
         {invoice.date}
@@ -45,7 +45,7 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
         className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap 
                     text-end lg:text-left
                     w-full lg:w-2/12 
-                    lg:pl-[3.5rem] 
+                    lg:pl-[1.5rem] 
                     ${groteskText.className}`}
       >
         {invoice.fine_amount}

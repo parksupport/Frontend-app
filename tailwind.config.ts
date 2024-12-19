@@ -13,6 +13,10 @@ const config: Config = {
      fontSize: {
         'responsive-base': 'clamp(1rem, 2vw + 0.5rem, 2rem)', // Example values for base text
         'responsive-lg': 'clamp(1.75rem, 1.2vw + 1rem, 3.125rem)', // Example values for larger text
+        'clamp-xl': 'clamp(1.5rem, 5vw, 4.5rem)',
+        'clamp-md': 'clamp(1rem, 2.5vw, 1.5rem)',
+
+
       },
       fontFamily: {
         // Add your custom font here
@@ -22,6 +26,7 @@ const config: Config = {
         '90px': '90px',
         '44px': '44px',
         '18px': '18px',
+        '84px': '84px',
       },
       colors: {
         customBlue: "#3957D7",

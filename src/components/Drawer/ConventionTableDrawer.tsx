@@ -241,7 +241,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             </section>
 
             {/* Photo Evidence */}
-            <section className='mt-8 '>
+            <section className='mt-8 justify-center items-center flex flex-col '>
               <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Photo Evidence</h1>
               <div className='flex space-y-4 '>
 

@@ -1,25 +1,38 @@
-// services/axiosInstance.js
+import axios from "axios";
+import { BASEURL } from "@/config";
+import { useAuthStore } from "@/lib/stores/authStore";
 
-import axios from 'axios';
-import { useAuthStore } from '@/lib/stores/authStore';
-import Router from 'next/router';
-import { BASEURL } from '@/config';
-
-
-
+// Create Axios instance
 export const Axios = axios.create({
   baseURL: BASEURL,
-  timeout: 40000, // 40s API call timeout
+  timeout: 40000,
 });
 
-// Helper function to get the token (handling SSR)
+// Helper function to get the current token
 const getToken = () => {
-  if (typeof window !== 'undefined') {
-    // Access the Zustand store
-    const { token } = useAuthStore.getState();
-    return token;
+  if (typeof window !== "undefined") {
+    return localStorage.getItem("authToken");
   }
   return null;
+};
+
+// Refresh token logic
+const refreshAccessToken = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!refreshToken) throw new Error("Refresh token not found.");
+
+  try {
+    const response = await axios.post(`${BASEURL}/api/token/refresh/`, {
+      refresh: refreshToken,
+    });
+
+    const newAccessToken = response.data.access;
+    localStorage.setItem("authToken", newAccessToken);
+    return newAccessToken;
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    throw new Error("Unable to refresh token. Please log in again.");
+  }
 };
 
 // Request interceptor
@@ -38,28 +51,27 @@ Axios.interceptors.request.use(
 Axios.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // Handle error responses
-    console.error('Error from Axios:', error);
-
     if (error.response) {
       const { status } = error.response;
 
-      // Handle 401 Unauthorized errors (e.g., token expired)
       if (status === 401) {
-        // Optionally, redirect to login page
-        Router.push('/login');
+        try {
+          const newAccessToken = await refreshAccessToken();
+          error.config.headers.Authorization = `Bearer ${newAccessToken}`;
+          return Axios.request(error.config); // Retry the original request
+        } catch (refreshError) {
+          console.error("Token refresh failed. Clearing auth state.");
+          const authStore = useAuthStore.getState();
+          authStore.logout(); // Clear state and let the HOC handle redirection
+          return Promise.reject(refreshError);
+        }
       }
-
-      // Return the error response
-      return Promise.reject(error.response);
-    } else {
-      // Handle network errors or server not responding
-      console.error('Network Error or Server Not Responding');
-      return Promise.reject('Network Error or Server Not Responding');
     }
+
+    console.error("Axios error:", error);
+    return Promise.reject(error);
   }
 );
 
-// Export Axios methods
-const { get, post, put, delete: destroy } = Axios;
-export { get, post, put, destroy };
+const { get, post, put, patch, delete: destroy } = Axios;
+export { get, post, put, patch, destroy };

@@ -9,8 +9,8 @@ import DrawerHeader from "./DrawerHeader";
 
 type VehicleDetailsDrawerProps = {
   back: any;
-  CheckVehicleOwner: () => void;
-  userRole?: any;
+  CheckVehicleOwner: (formData:any) => void;
+  userRole?: string;
 };
 
 const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
@@ -23,11 +23,14 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     license_number: "",
     car_model: "",
     car_color: "",
+    postcode: "", // Add postcode if needed for verification
+    year: "", // Add year if needed for verification
+    make: "" // Add make if needed
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Add form submission logic here
+    // handle form submission if needed
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,15 +104,49 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             variant="individual"
             className={`${groteskText.className} pb-4 w-full`}
           />
+
+          {/* Add other necessary fields like Postcode, Year, Make if required by backend */}
+          <InputField
+            type="text"
+            placeholder="Enter your postcode"
+            label="Postcode"
+            name="postcode"
+            value={formData.postcode}
+            onChange={handleChange}
+            variant="individual"
+            className={`${groteskText.className} w-full`}
+          />
+          <InputField
+            type="text"
+            placeholder="Enter vehicle make"
+            label="Make"
+            name="make"
+            value={formData.make}
+            onChange={handleChange}
+            variant="individual"
+            className={`${groteskText.className} w-full`}
+          />
+          <InputField
+            type="text"
+            placeholder="Enter vehicle year"
+            label="Year"
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
+            variant="individual"
+            className={`${groteskText.className} w-full`}
+          />
+
           <Button
             variant="quinary"
             className="py-[10px] px-[12px] w-full"
             icon={<IoMdCheckmark size={25} />}
             iconPosition="right"
-            onClick={CheckVehicleOwner}
+            onClick={() => CheckVehicleOwner(formData)}
           >
             Save Vehicle
           </Button>
+
           {userRole === "Corporate" && (
             <div className="flex flex-col gap-4 items-center pb-12 cursor-pointer w-full">
               <div className="w-full">
@@ -141,7 +178,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
                 className="py-[10px] px-[12px] w-full"
                 icon={<IoMdCheckmark size={25} />}
                 iconPosition="right"
-                onClick={CheckVehicleOwner}
+                onClick={() => CheckVehicleOwner(formData)}
               >
                 Save Vehicle
               </Button>

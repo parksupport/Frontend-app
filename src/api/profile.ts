@@ -1,37 +1,34 @@
-import axios from "axios";
+// services/profileService.ts
+
+import { Axios } from "@/api/axios";
 
 
 
-export const updateProfileData = async (data: any, token: string) => {
-  if (!token) {
-    throw new Error("Authorization token is required");
-  }
-
+export const updateProfileData = async (data: any) => {
   try {
-    console.log("Sending PATCH request to update profile...");
-    const response = await axios.patch(
-      `http://localhost:8000/api/accounts/profile/${data.id}/`,
-      {
-        full_name: data.name,
-        ...data,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await Axios.patch(`/api/accounts/profile/${data.id}/`, {
+      full_name: data.name,
+      ...data,
+    });
 
     console.log("Profile update successful:", response.data);
     return response.data;
-  } catch (error: any) {
-    // Log the exact error response for debugging
-    console.error("Error updating profile, response data:", error.response?.data);
-
-    // Re-throw the original Axios error for the mutationFn to handle
+  } catch (error) {
+    console.error("Error updating profile:", error.response?.data || error.message);
     throw error;
   }
 };
+
+
+export const fetchProfileData = async () => {
+  try {
+    const response = await Axios.get("/api/accounts/profile");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching profile data:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
 
 //

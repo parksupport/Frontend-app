@@ -1,28 +1,23 @@
-// app/stores/useStore.ts
-
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface AuthStoreState {
   token: string | null;
   user: any;
   setToken: (token: string | null) => void;
-  setUser: (user: any) => void; 
+  setUser: (user: any) => void;
   logout: () => void;
-  // email: string;
-  // setEmail: (email: string) => void;
+  isAuth: boolean;
 }
 
 export const useAuthStore = create<AuthStoreState>((set, get) => {
   let initialUser = null;
   let storedToken = null;
 
-
   if (typeof window !== "undefined") {
-    // Access localStorage only in the browser
     try {
       const storedUser = localStorage.getItem("userData");
       if (storedUser) {
-        initialUser = JSON.parse(storedUser); // Safely parse
+        initialUser = JSON.parse(storedUser);
       }
     } catch (error) {
       console.error("Error parsing user data from localStorage:", error);
@@ -31,11 +26,10 @@ export const useAuthStore = create<AuthStoreState>((set, get) => {
     storedToken = localStorage.getItem("authToken");
   }
 
-
   return {
-    token: storedToken || null, // Initialize token from localStorage
+    token: storedToken || null,
     user: initialUser,
-    
+    isAuth: !!storedToken,
 
     setToken: (token) => {
       if (typeof window !== "undefined") {
@@ -45,22 +39,7 @@ export const useAuthStore = create<AuthStoreState>((set, get) => {
           localStorage.removeItem("authToken");
         }
       }
-      set({ token });
-    },
-
-    getToken: () => {
-      if (typeof window !== "undefined") {
-        const stateToken = get().token;
-        if (stateToken) return stateToken;
-
-        const localStorageToken = localStorage.getItem("authToken");
-        if (localStorageToken) {
-          set({ token: localStorageToken }); // Sync token with the state
-          return localStorageToken;
-        }
-      }
-
-      return null; // No token found
+      set({ token, isAuth: !!token });
     },
 
     setUser: (user) => {
@@ -78,17 +57,12 @@ export const useAuthStore = create<AuthStoreState>((set, get) => {
       if (typeof window !== "undefined") {
         localStorage.removeItem("userData");
         localStorage.removeItem("authToken");
+        localStorage.removeItem("refreshToken");
       }
-      set({ token: null, user: null });
+      set({ token: null, user: null, isAuth: false });
     },
   };
 });
-
-
-
-
-
-
 
 // useSignupStore.ts
 

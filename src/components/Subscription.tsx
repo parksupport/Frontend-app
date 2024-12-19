@@ -4,8 +4,12 @@ import React from "react";
 import { Button } from "@/components";
 import { groteskTextMedium } from "@/app/fonts";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/lib/stores/authStore"; // Assume this is your auth store
+
 const SubscriptionPlans = () => {
-  const router = useRouter()
+  const router = useRouter();
+  const isAuthenticated = useAuthStore((state) => state.token !== null); // Check authentication status
+
   const plans = [
     {
       name: "Starter Plan",
@@ -24,7 +28,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Personal Plan",
-      price: "$9/month",
+      price: "£7/month",
       features: [
         "Free vehicle check on the website",
         "Details of the contravention",
@@ -41,7 +45,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Family Plan",
-      price: "$9/month",
+      price: "£12/month",
       features: [
         "Designed for families to manage multiple vehicles",
         "Free vehicle check on the website",
@@ -59,7 +63,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Unlimited Plan",
-      price: "$9/month",
+      price: "£20/month",
       features: [
         "Free vehicle check on the website",
         "Details of the contravention",
@@ -89,7 +93,7 @@ const SubscriptionPlans = () => {
             Simple pricing for all your needs.
           </p>
         </div>
-        
+
         {/* Plans Container */}
         <div className="flex flex-col md:flex-row justify-center items-stretch gap-6">
           {plans.map((plan, index) => (
@@ -100,18 +104,25 @@ const SubscriptionPlans = () => {
                   ? "bg-gray-800 text-white"
                   : "bg-white text-gray-900"
               }`}
-              style={{ minHeight: "450px" }} // Adjust as needed
+              style={{ minHeight: "450px" }}
             >
               <div className="px-6 py-8 flex flex-col flex-grow">
                 {/* Plan Name */}
                 <h3 className="text-xl font-semibold mb-4">{plan.name}</h3>
+
+                {/* Price */}
                 <div className="flex items-center mb-6">
                   <p className="text-3xl font-bold mr-4">{plan.price}</p>
-                  </div>
-                {/* Price and Button */}
+                </div>
+
+                {/* Get Started Button */}
                 <div className="flex items-center mb-6">
                   <Button
-                  onClick={()=> router.push('/auth/login')}
+                    onClick={() =>
+                      isAuthenticated
+                        ? router.push("/dashboard") // Redirect authenticated users
+                        : router.push("/auth/login") // Redirect unauthenticated users
+                    }
                     variant={plan.isHighlighted ? "secondary" : "primary"}
                     className={`px-4 py-2 rounded ${
                       plan.isHighlighted
@@ -119,10 +130,10 @@ const SubscriptionPlans = () => {
                         : "bg-blue-600 text-white hover:bg-blue-700"
                     }`}
                   >
-                    Get Started
+                    {isAuthenticated ? "Go to Dashboard" : "Get Started"}
                   </Button>
                 </div>
-                
+
                 {/* Features List */}
                 <ul className="mb-8 space-y-3 text-sm">
                   {plan.features.map((feature, idx) => (
@@ -148,13 +159,7 @@ const SubscriptionPlans = () => {
                     </li>
                   ))}
                 </ul>
-                
-                {/* Spacer to push content up */}
-                <div className="flex-grow"></div>
               </div>
-              
-              {/* Optional Footer or Additional Content */}
-              {/* If you want the button only once, you can remove this section */}
             </div>
           ))}
         </div>

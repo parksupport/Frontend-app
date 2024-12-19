@@ -46,7 +46,7 @@ export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
-
+  const [vehicleData, setVehicleData] = useState(null); 
   const drawerRef = useRef<any>(null);
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
@@ -136,16 +136,75 @@ export default function DashboardPage() {
     openDrawer();
   };
 
+  const checkVehicleStatus = async () => {
+    // Call backend to add vehicle and verify ownership
+    const response = await fetch("/api/vehicles/add/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        registration_number: vehicleData.vegRegNumber,
+        make: vehicleData.make,
+        model: vehicleData.car_model,
+        year: vehicleData.year,
+        postcode: vehicleData.postcode,
+      }),
+    });
+  
+    if (!response.ok) {
+      return "failed";
+    }
+  
+    const data = await response.json();
+    const verificationStatus = data?.vehicle?.verification_status;
+    if (verificationStatus === "Verified") {
+      return "success";
+    }
+    return "failed";
+  };
+  
+  const VehicleStatus = async () => {
+    const status = await checkVehicleStatus();
+    if (status === "failed") {
+      handleFailed();
+    } else if (status === "success") {
+      handleSuccess();
+    }
+  };
+  
+  const CheckVehicleOwner = (data) => {
+    setVehicleData(data); // Save form data to use in VehicleStatus check
+    setDrawerContent(
+      <VehicleOwnerCheck
+        back={addVehicleDetails}
+        OwnerInfoDrawer={OwnerInfoDrawer}
+        vehicleStatus={VehicleStatus}
+      />
+    );
+    scrollToTopFromParent();
+    openDrawer();
+  };
+  
+  const OwnerInfoDrawer = () => {
+    setDrawerContent(
+      <VehicleOwnerDetails
+        toggleDrawer={toggleDrawer}
+        VehicleStatus={VehicleStatus}
+        user={user_type}
+      />
+    );
+    scrollToTopFromParent();
+    openDrawer();
+  };
+  
   const addVehicleDetails = () => {
     setDrawerContent(
       <AddVehicleDetailsDrawer
+        back={toggleDrawer}
         CheckVehicleOwner={CheckVehicleOwner}
-        back={() => openCarProfile(cars)}
         userRole={user_type}
       />
     );
     scrollToTopFromParent();
-
     openDrawer();
   };
 
@@ -169,28 +228,8 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const CheckVehicleOwner = () => {
-    setDrawerContent(
-      <VehicleOwnerCheck
-        back={addVehicleDetails}
-        OwnerInfoDrawer={OwnerInfoDrawer}
-        vehicleStatus={VehicleStatus}
-      />
-    );
-    scrollToTopFromParent();
-    openDrawer();
-  };
-  const OwnerInfoDrawer = () => {
-    setDrawerContent(
-      <VehicleOwnerDetails
-        toggleDrawer={toggleDrawer}
-        VehicleStatus={VehicleStatus}
-        user={user_type}
-      />
-    );
-    scrollToTopFromParent();
-    openDrawer();
-  };
+ 
+
 
   const handleSuccess = () => {
     setDrawerContent(
@@ -213,15 +252,6 @@ export default function DashboardPage() {
     );
     scrollToTopFromParent();
     openDrawer();
-  };
-
-  const VehicleStatus = () => {
-    const status = checkVehicleStatus();
-    if (status === "failed") {
-      handleFailed();
-    } else if (status === "success") {
-      handleSuccess();
-    }
   };
 
   const openSettingsDrawer = () => {
@@ -249,11 +279,6 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const checkVehicleStatus = () => {
-    // Replace this with actual conditions or API call
-    const randomOutcome = Math.random() > 0.5 ? "success" : "failed";
-    return randomOutcome;
-  };
 
   return (
     <>

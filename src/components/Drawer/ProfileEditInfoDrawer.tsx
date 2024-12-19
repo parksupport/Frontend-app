@@ -4,8 +4,9 @@ import { groteskText } from "@/app/fonts";
 import Button from "../Buttons";
 import DrawerHeader from "./DrawerHeader";
 import { IoMdCheckmark } from "react-icons/io";
-import { useEditProfile, useProfile } from "@/hooks/mutations/auth";
+import { useGetProfile } from "@/hooks/queries/profile";
 import { useAuthStore } from "@/lib/stores/authStore";
+import { useEditProfile } from "@/hooks/mutations/profile";
 
 interface ProfileEditInfoDrawerProps {
   back?: () => void;

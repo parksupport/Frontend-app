@@ -3,18 +3,24 @@ import Image from "next/image";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText } from "@/app/fonts";
 
-const VehicleOwnerCheck = ({ back, OwnerInfoDrawer, vehicleStatus }) => {
+type VehicleOwnerCheckProps = {
+  back: () => void;
+  OwnerInfoDrawer: () => void;
+  vehicleStatus: () => Promise<void>;
+};
+
+const VehicleOwnerCheck = ({ back, OwnerInfoDrawer, vehicleStatus }: VehicleOwnerCheckProps) => {
   return (
     <div>
       <DrawerHeader
         toggleDrawer={back}
         title="Are you the registered owner of this vehicle?"
       />
-      <div className="flex  flex-col items-center justify-center bg-white p-4">
+      <div className="flex flex-col items-center justify-center bg-white p-4">
         <div className="py-10">
           <Image
             src={owner}
-            alt={"success"}
+            alt={"Owner check"}
             width={504}
             height={377}
             className="rounded-lg object-cover h-full "

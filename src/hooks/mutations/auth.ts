@@ -8,7 +8,7 @@ import {
   passwordReset as sendPasswordReset,
   verifyOtp,
 } from "@/api/auth"; // Make sure this is your API function for registration
-import { updateProfileData } from "@/api/profile";
+import { fetchProfileData, updateProfileData } from "@/api/profile";
 import { checkEmail } from "@/api/register";
 import { useAuthStore } from "@/lib/stores/authStore";
 import {
@@ -53,7 +53,7 @@ export const useSignup = (value: string) => {
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const router = useRouter()
   const toast = useToast();
 
   const mutation = useMutation<LoginResponse, Error, LoginInput>({
@@ -62,23 +62,21 @@ export const useLogin = () => {
       return await loginUser(credentials);
     },
     onSuccess: async (data) => {
-      console.log(data.user, "data.user");
       setLoading(true); // Start loading
-      // Store token in localStorage
+      // Store token and user data
       localStorage.setItem("authToken", data.access);
       localStorage.setItem("refreshToken", data.refresh);
       localStorage.setItem("userData", JSON.stringify(data.user));
+
+      // Specific routing after login success
       router.push("/dashboard");
     },
-
     onError: (error: any) => {
-      // Check if the error code is 'not_verified'
       const errorCode = error.response?.data?.code;
       if (errorCode === "not_verified") {
-        const email = error.response?.data?.email; // Extract email if available
+        const email = error.response?.data?.email;
         router.push(`/auth/verify-otp?email=${encodeURIComponent(email)}`);
       } else {
-        // Log or handle other errors
         toast({
           title: "Login Failed",
           description: "The email or password you entered is incorrect.",
@@ -86,14 +84,12 @@ export const useLogin = () => {
           duration: 3000,
           isClosable: true,
         });
-        console.error(error.response?.data?.detail || "Login failed");
-        setLoading(false);
       }
+      setLoading(false);
     },
   });
-  const { mutate: login, isError, error } = mutation;
 
-  return { login, isError, error, loading };
+  return { login: mutation.mutate, isError: mutation.isError, error: mutation.error, loading };
 };
 
 export const useForgotPassword = () => {
@@ -223,111 +219,20 @@ export const useVerifyOtp = () => {
 export const useLogout = () => {
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
-  const router = useRouter();
 
   const logout = () => {
-    // Remove token and profile from localStorage
     localStorage.removeItem("authToken");
-    localStorage.removeItem("profile"); // Adjust the key based on your actual storage key for the profile
-    localStorage.removeItem("refreshToken"); // Adjust the key based on your actual storage key for the profile
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("userData");
 
-    // Clear Zustand state
+    // Clear Zustand store
     setToken(null);
     setUser(null);
 
-    // Redirect to login or home page
-    router.push("/auth/login"); // Adjust path as needed
+    // No need for explicit routing; let `isAuth` HOC redirect
   };
 
   return { logout };
-};
-
-// Fetch profile data from the API
-const fetchProfileData = async () => {
-  const router = useRouter();
-
-  try {
-    let token = localStorage.getItem("authToken"); // Get token from localStorage or state
-
-    if (!token) {
-      throw new Error("No token found");
-    }
-
-    // Attempt to fetch the profile data
-    let response = await axios.get(
-      "http://localhost:8000/api/accounts/profile",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    return response.data; // Return the profile data from the response
-  } catch (error) {
-    console.error("Error fetching profile data:", error);
-
-    // Handle token expiration (401 Unauthorized)
-    if (error.response?.status === 401) {
-      console.log("Token expired, attempting to refresh...");
-
-      const refreshToken = localStorage.getItem("refreshToken"); // Get refresh token
-
-      if (refreshToken) {
-        try {
-          // Make a request to refresh the token
-          const refreshResponse = await axios.post(
-            "http://localhost:8000/api/token/refresh/",
-            {
-              refresh: refreshToken,
-            }
-          );
-
-          // Extract the new access token from the response
-          const newAccessToken = refreshResponse.data.access;
-          localStorage.setItem("authToken", newAccessToken); // Save the new access token in localStorage
-
-          console.log("Token refreshed, retrying profile fetch...");
-          // Retry the profile fetch with the new access token
-          let response = await axios.get(
-            "http://localhost:8000/api/accounts/profile",
-            {
-              headers: {
-                Authorization: `Bearer ${newAccessToken}`,
-              },
-            }
-          );
-
-          return response.data; // Return the profile data from the new request
-        } catch (refreshError) {
-          console.error("Error refreshing token:", refreshError);
-          router.push("/auth/login");
-
-          throw new Error("Failed to refresh token. Please log in again.");
-        }
-      } else {
-        router.push("/auth/login"); // Adjust path as needed
-        throw new Error("Refresh token not found. Please log in again.");
-      }
-    }
-
-    // If the error is not related to token expiration, throw the error for higher-level handling
-    throw error;
-  }
-};
-
-export const useProfile = () => {
-  // Use the query hook to fetch profile data
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["profile"], // Pass the query key as an array
-    queryFn: fetchProfileData, // Pass the query function to fetch the data
-  });
-
-  return {
-    data,
-    error,
-    isLoading,
-  };
 };
 
 export const useCheckEmail = (email) => {
@@ -339,111 +244,4 @@ export const useCheckEmail = (email) => {
   });
 };
 
-export const useEditProfile = () => {
-  const toast = useToast();
-  const setUser = useAuthStore((state) => state.setUser); // Function to update user in global store
-  const queryClient = useQueryClient(); // Ensure you have access to React Query's client
-  const router = useRouter();
 
-  const mutation = useMutation({
-    mutationFn: async (data: any) => {
-      let token = localStorage.getItem("authToken");
-
-      try {
-        console.log("Attempting profile update with data:", data);
-        // Attempt the profile update
-        return await updateProfileData(data, token);
-      } catch (error: any) {
-        console.error("Error during profile update:", error);
-
-        // Check if the error is due to an expired token
-        if (error?.response?.status === 401) {
-          console.log("Token expired. Attempting to refresh...");
-          const refreshToken = localStorage.getItem("refreshToken");
-          if (refreshToken) {
-            try {
-              console.log("Refreshing access token...");
-              // Refresh the access token
-              const newAccessToken = await refreshAccessToken(refreshToken);
-              console.log("Access token refreshed:", newAccessToken);
-
-              // Store the new token for subsequent requests
-              localStorage.setItem("authToken", newAccessToken);
-              token = newAccessToken;
-
-              // Retry the profile update with the new token
-              return await updateProfileData(data, token);
-            } catch (refreshError) {
-              router.push("/auth/login"); // Adjust path as needed
-              console.error("Failed to refresh token:", refreshError);
-              throw new Error("Unable to refresh token. Please log in again.");
-            }
-          } else {
-            router.push("/auth/login"); // Adjust path as needed
-            console.error(
-              "No refresh token available. Redirecting to login..."
-            );
-            throw new Error("Session expired. Please log in again.");
-          }
-        }
-
-        // Re-throw other errors
-        throw error;
-      }
-    },
-
-    onMutate: (variables) => {
-      // Optimistically update the profile data
-      queryClient.setQueryData(["profile"], (oldData: any) => ({
-        ...oldData,
-        ...variables,
-      }));
-    },
-
-    onSuccess: async (data) => {
-      try {
-        // Update user state in the global store
-        setUser(data);
-
-        // Update localStorage with the new user data
-        localStorage.setItem("userData", JSON.stringify(data));
-
-        // Ensure React Query's cache is updated with the latest profile data
-        queryClient.setQueryData(["profile"], data);
-
-        console.log("Profile updated successfully:", data);
-
-        // Optional: Invalidate queries to ensure fresh data is fetched
-        await queryClient.invalidateQueries({ queryKey: ["profile"] });
-
-        // Show success toast
-        toast({
-          title: "Profile updated successfully",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-      } catch (error) {
-        console.error("Error handling success:", error);
-      }
-    },
-
-    onError: (mutationError: any) => {
-      console.error("Error occurred:", mutationError);
-      toast({
-        title: "Failed to update profile",
-        description:
-          mutationError?.message ||
-          "An error occurred while updating the profile.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    },
-  });
-
-  // Extracting the mutate function and states
-  const { mutate: updateProfile, isError, error } = mutation;
-
-  return { updateProfile, isError, error };
-};

@@ -54,6 +54,9 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
   setForm,
   scrollToForm,
 }) => {
+
+console.log("vehicles",vehicles)  
+
   const {
     openDropdownIndex,
     data,
@@ -65,7 +68,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
     cancelDelete,
     setData,
     setOpenDropdownIndex,
-  } = useDeleteRow(vehicles?.carDetails);
+  } = useDeleteRow(vehicles);
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);
@@ -186,7 +189,7 @@ const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
                         {
                           icon: <NumberSVG />,
                           label: "Registration number:",
-                          value: car.registrationNumber,
+                          value: car.registration_number,
                         },
                         {
                           icon: <UserProfileSVG />,

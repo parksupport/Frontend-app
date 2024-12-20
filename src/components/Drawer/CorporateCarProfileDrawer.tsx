@@ -38,7 +38,7 @@ export const CorporateCarProfileDrawer = ({
     setOpenDropdownIndex,
   } = useDeleteRow(vehicles.carDetails);
 
-  const [selectedNominee, setSelectedNominee] = useState(data[0] || {});
+  const [selectedNominee, setSelectedNominee] = useState(data?.[0] || {});
 
   const nextComponentRef = useRef<HTMLDivElement>(null);
 
@@ -114,7 +114,7 @@ export const CorporateCarProfileDrawer = ({
             </thead>
 
             <tbody>
-              {data.map((item, index) => (
+              {data?.map((item, index) => (
                 <tr
                   key={index}
                   className={`border-t border-gray-200 text-[18px] ${

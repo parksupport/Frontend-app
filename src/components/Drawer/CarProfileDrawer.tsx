@@ -30,6 +30,9 @@ const CarProfileDrawer = ({
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const isMobile = useIsMobile();
 
+
+  console.log("vejicles",vehicles)
+
   const handleVehicleChange = (index: number) => {
     setSelectedVehicleIndex(index); // Update the selected vehicle when slider changes
   };
@@ -54,7 +57,7 @@ const CarProfileDrawer = ({
       return (
         <div ref={formRef}>
           <AddThirdPartyNominee
-            vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
+            vehiclesRegNunbers={vehicles.map((vehicle) => ({
               value: vehicle.registrationNumber,
               label: vehicle.registrationNumber, // You can customize the label here
             }))}

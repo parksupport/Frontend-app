@@ -18,7 +18,7 @@ import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
-import cars from "@/data/data.json";
+// import cars from "@/data/data.json";
 import { useEffect, useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
@@ -41,29 +41,45 @@ import ThirdPartyNominees, {
 import NominationHistoryTable from "@/components/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
 import DisplayCarProfile from "@/components/card/CarProfile";
+import { useAddVehicle } from "@/hooks/mutations/vehicles";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
-  const [vehicleData, setVehicleData] = useState(null); 
+  const [vehicleData, setVehicleData] = useState({});
   const drawerRef = useRef<any>(null);
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
+
+  
+  useEffect(() => {
+    if (vehicleData) {
+      console.log("Updated vehicleData:", vehicleData); // Now it will log the updated state
+      checkVehicleStatus(); // Optionally call the function after data update
+    }
+  }, [vehicleData]); // This will run when vehicleData changes
+  
 
   useEffect(() => {
     if (!user) {
       console.log("User state is null or undefined, redirecting to login...");
       router.push("/auth/login");
     } else {
-      console.log("User state:", user);
+      console.log("User state:", user.vehicles);
     }
   }, [user, router]);
 
-  const { full_name, user_type } = user || {};
+  // const { full_name, user_type, vehicles } = user || {};
+
+  // const VehicleDetails = {full_name,...vehicles}
+  const { full_name, user_type, vehicles = {} } = user || {};
+
+  const VehicleDetails = { full_name, ...vehicles };
 
   const [firstName, lastName] =
     typeof full_name === "string" ? full_name.split(" ") : ["", ""];
+
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
@@ -75,14 +91,14 @@ export default function DashboardPage() {
   const openDrawer = () => !isOpen && setIsOpen(true);
 
   const openCarProfile = (
-    cars: any,
+    vehicles: any,
     form: any = false,
     autoScrollToForm?: boolean
   ) => {
     setDrawerContent(
       <CarProfileDrawer
         openNominationHistory={openNominationHistory}
-        vehicles={cars}
+        vehicles={VehicleDetails}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
         user={user_type}
@@ -136,30 +152,111 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const checkVehicleStatus = async () => {
-    // Call backend to add vehicle and verify ownership
-    const response = await fetch("/api/vehicles/add/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        registration_number: vehicleData.vegRegNumber,
-        make: vehicleData.make,
-        model: vehicleData.car_model,
-        year: vehicleData.year,
-        postcode: vehicleData.postcode,
-      }),
-    });
+  const refreshAuthToken = async () => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (!refreshToken) {
+        console.error("Refresh token is missing!");
+        return null;
+      }
   
-    if (!response.ok) {
+      const response = await fetch("http://localhost:8000/api/auth/refresh/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ refresh: refreshToken }),
+      });
+  
+      if (!response.ok) {
+        console.error("Failed to refresh token:", response.statusText);
+        return null;
+      }
+  
+      const data = await response.json();
+      const newAuthToken = data?.access;
+  
+      if (newAuthToken) {
+        localStorage.setItem("authToken", newAuthToken);
+        return newAuthToken;
+      }
+      return null;
+    } catch (error) {
+      console.error("Token refresh failed:", error);
+      return null;
+    }
+  };
+  
+  const checkVehicleStatus = async () => {
+    console.log("vehicleData:", vehicleData);
+    try {
+      let authToken = localStorage.getItem("authToken");
+      if (!authToken) {
+        console.error("Authentication token is missing!");
+        return "failed";
+      }
+  
+      const response = await fetch("http://localhost:8000/api/vehicles/add/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          registration_number: vehicleData?.vegRegNumber,
+          make: vehicleData?.make,
+          model: vehicleData?.car_model,
+          year: vehicleData?.year,
+          postcode: vehicleData?.postcode,
+        }),
+      });
+  
+      if (response.status === 403 || response.status === 401) {
+        console.warn("Token might be expired. Attempting to refresh...");
+        authToken = await refreshAuthToken();
+        if (!authToken) return "failed";
+  
+        // Retry the request with the new token
+        const retryResponse = await fetch(
+          "http://localhost:8000/api/vehicles/add/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({
+              registration_number: vehicleData?.vegRegNumber,
+              make: vehicleData?.make,
+              model: vehicleData?.car_model,
+              year: vehicleData?.year,
+              postcode: vehicleData?.postcode,
+            }),
+          }
+        );
+  
+        if (!retryResponse.ok) {
+          console.error("Retry failed:", retryResponse.statusText);
+          return "failed";
+        }
+  
+        const retryData = await retryResponse.json();
+        const verificationStatus = retryData?.vehicle?.verification_status;
+        return verificationStatus === "Verified" ? "success" : "failed";
+      }
+  
+      if (!response.ok) {
+        console.error("Error:", response.statusText);
+        return "failed";
+      }
+  
+      const data = await response.json();
+      const verificationStatus = data?.vehicle?.verification_status;
+      return verificationStatus === "Verified" ? "success" : "failed";
+    } catch (error) {
+      console.error("Fetch failed:", error);
       return "failed";
     }
-  
-    const data = await response.json();
-    const verificationStatus = data?.vehicle?.verification_status;
-    if (verificationStatus === "Verified") {
-      return "success";
-    }
-    return "failed";
   };
   
   const VehicleStatus = async () => {
@@ -170,8 +267,9 @@ export default function DashboardPage() {
       handleSuccess();
     }
   };
-  
+
   const CheckVehicleOwner = (data) => {
+    console.log("dataddd", data);
     setVehicleData(data); // Save form data to use in VehicleStatus check
     setDrawerContent(
       <VehicleOwnerCheck
@@ -183,7 +281,7 @@ export default function DashboardPage() {
     scrollToTopFromParent();
     openDrawer();
   };
-  
+
   const OwnerInfoDrawer = () => {
     setDrawerContent(
       <VehicleOwnerDetails
@@ -195,7 +293,7 @@ export default function DashboardPage() {
     scrollToTopFromParent();
     openDrawer();
   };
-  
+
   const addVehicleDetails = () => {
     setDrawerContent(
       <AddVehicleDetailsDrawer
@@ -228,9 +326,6 @@ export default function DashboardPage() {
     openDrawer();
   };
 
- 
-
-
   const handleSuccess = () => {
     setDrawerContent(
       <VehicleAddedSuccess
@@ -258,7 +353,7 @@ export default function DashboardPage() {
     setDrawerContent(
       <SettingsDrawer
         openCarProfile={() => {
-          openCarProfile(cars, true, true);
+          openCarProfile(vehicles, true, true);
         }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
@@ -278,7 +373,6 @@ export default function DashboardPage() {
     scrollToTopFromParent();
     openDrawer();
   };
-
 
   return (
     <>
@@ -339,8 +433,8 @@ export default function DashboardPage() {
             /> */}
                 <DisplayCarProfile
                   addVehicleDetails={addVehicleDetails}
-                  openCarProfile={() => openCarProfile(cars)}
-                  vehicles={cars}
+                  openCarProfile={() => openCarProfile(vehicles)}
+                  vehicles={vehicles}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>

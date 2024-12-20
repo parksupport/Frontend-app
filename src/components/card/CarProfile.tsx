@@ -36,7 +36,7 @@ function CarProfile({
   const [hovered, setHovered] = useState({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);
-  const totalPages = vehicles?.carDetails?.length || 0;
+  const totalPages = vehicles?.length || 0;
 
   const settings = {
     dots: true,
@@ -105,7 +105,7 @@ function CarProfile({
         <article className="flex justify-center">
           <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4 ">
             <Slider ref={sliderRef} {...settings}>
-              {vehicles.carDetails.map((car, index) => (
+              {vehicles?.map((car, index) => (
                 <div key={car.id} className="">
                   <div className="flex justify-between">
                     <h1
@@ -134,14 +134,24 @@ function CarProfile({
                   <div className="flex flex-col  lg:flex lg:flex-row justify-center  mt-[14px] items-center">
                     <div className="order-2 w-full lg:order-1 flex flex-col lg:w-[257px]">
                       <div className=" self-center flex flex-col max-w-[253px] ">
-                        <Image
-                          src={
-                            require(`@/assets/images/${car.imageUrl}`).default
-                          }
-                          alt=""
-                          sizes="width: 222px"
-                          // className="max-w-[222px] "
-                        />
+                        {vehicles?.type ? (
+                          <Image
+                            src={
+                              require(`@/assets/images/${vehicles?.type}.imageUrl}`)
+                                .default
+                            }
+                            alt=""
+                            sizes="width: 222px"
+                            // className="max-w-[222px] "
+                          />
+                        ) : (
+                          <Image
+                            src={require(`@/assets/images/essentail-car.jpg`)}
+                            alt=""
+                            sizes="width: 222px"
+                            // className="max-w-[222px] "
+                          />
+                        )}
                       </div>
                       <div className="flex justify-between  mt-auto items-center lg:hidden">
                         <SliderButton
@@ -226,9 +236,9 @@ function CarProfile({
                             </span>
                           </div>
                           <span
-                            className={`${groteskText.className} text-[#212121] text-[11px] self-end`}
+                            className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {car.registrationNumber}
+                            {car.registration_number}
                           </span>
                         </h2>
                         <h2
@@ -245,9 +255,9 @@ function CarProfile({
                             </span>
                           </div>
                           <span
-                            className={`${groteskText.className} text-[#212121] text-[11px] self-end`}
+                            className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {car.owner}
+                            {car.full_name || "Dan Smith"}
                           </span>
                         </h2>
                         <h2
@@ -259,8 +269,16 @@ function CarProfile({
                             identity={`${car.id}-ownership`}
                             infoText="Ownership status information"
                           />
-                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[18px] self-end">
-                            {car.status}
+                          <button
+                            className={`text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end ${
+                              car.verification_status === "Pending"
+                                ? "text-[#B38B00] bg-[#FFECB3]" 
+                                : car.verification_status === "Verified"
+                                ? "text-[#099137] bg-[#B5E3C4]" 
+                                : "text-[#B00020] bg-[#FFCDD2]" 
+                            }`}
+                          >
+                            {car.verification_status}
                           </button>
                         </h2>
 
@@ -290,7 +308,7 @@ function CarProfile({
                             infoText=" Notification recipient information"
                           />
                           <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[18px]  self-end">
-                            {car.nominees.length > 1 ? "Added" : "Not Added"}
+                            {car?.nominees?.length > 1 ? "Added" : "Not Added"}
                           </button>
                         </h2>
                       </div>

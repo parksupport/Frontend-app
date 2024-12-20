@@ -48,21 +48,29 @@ Axios.interceptors.request.use(
 );
 
 // Response interceptor
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 Axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response) {
-      const { status } = error.response;
+      const { status, config } = error.response;
 
-      if (status === 401) {
+      config.retryCount = config.retryCount || 0;
+
+      if (status === 401 && config.retryCount < 3) {
+        config.retryCount += 1;
         try {
           const newAccessToken = await refreshAccessToken();
-          error.config.headers.Authorization = `Bearer ${newAccessToken}`;
-          return Axios.request(error.config); // Retry the original request
+          config.headers.Authorization = `Bearer ${newAccessToken}`;
+          await delay(config.retryCount * 1000); // Exponential backoff
+          return Axios.request(config);
         } catch (refreshError) {
           console.error("Token refresh failed. Clearing auth state.");
           const authStore = useAuthStore.getState();
-          authStore.logout(); // Clear state and let the HOC handle redirection
+          authStore.logout();
           return Promise.reject(refreshError);
         }
       }
@@ -72,6 +80,7 @@ Axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 const { get, post, put, patch, delete: destroy } = Axios;
 export { get, post, put, patch, destroy };

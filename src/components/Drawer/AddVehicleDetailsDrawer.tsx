@@ -20,7 +20,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
 }) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
-    license_number: "",
     car_model: "",
     car_color: "",
     postcode: "", // Add postcode if needed for verification
@@ -28,9 +27,13 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     make: "" // Add make if needed
   });
 
+
+
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle form submission if needed
+    
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

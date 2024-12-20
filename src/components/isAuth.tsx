@@ -14,7 +14,7 @@ const IsAuth = ({ children }: IsAuthProps) => {
 
   useEffect(() => {
     if (!isAuth) {
-      router.push("/login");
+      router.push("/auth/login");
     }
   }, [isAuth, router]);
 

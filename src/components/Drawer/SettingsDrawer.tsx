@@ -22,7 +22,7 @@ const SettingsDrawer = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const [isOpen, setIsOpen] = useState(false);
 
-  const {logout} = useLogout();
+  const { logout } = useLogout();
 
   const [smsNotifications, setSmsNotifications] = useState(true);
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -229,15 +229,17 @@ const SettingsDrawer = ({
           </div>
 
           <div className="pt-10 flex flex-col gap-2">
-            <h1 className={` ${groteskTextMedium.className} text-[24px]`}>Logout your account</h1>
+            <h1 className={` ${groteskTextMedium.className} text-[24px]`}>
+              Logout your account
+            </h1>
             <div>
-          <button
-            className={` w-[60%]  ${groteskText.className}  px-4 py-2 gap-2 border text-[#CB1A14] border-[#CB1A14] rounded-[8px]`}
-            onClick={()=>logout()}
-          >
-          Logout
-          </button>
-        </div>
+              <button
+                className={` w-[60%]  ${groteskText.className}  px-4 py-2 gap-2 border text-[#CB1A14] border-[#CB1A14] rounded-[8px]`}
+                onClick={() => logout()}
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>

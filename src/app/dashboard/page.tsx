@@ -47,18 +47,11 @@ export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
-  const [vehicleData, setVehicleData] = useState({});
+  const [vehicleData, setVehicleData] = useState(null);
   const drawerRef = useRef<any>(null);
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
 
-  
-  useEffect(() => {
-    if (vehicleData) {
-      console.log("Updated vehicleData:", vehicleData); // Now it will log the updated state
-      checkVehicleStatus(); // Optionally call the function after data update
-    }
-  }, [vehicleData]); // This will run when vehicleData changes
   
 
   useEffect(() => {
@@ -160,7 +153,7 @@ export default function DashboardPage() {
         return null;
       }
   
-      const response = await fetch("http://localhost:8000/api/auth/refresh/", {
+      const response = await fetch("http://localhost:8000/api/token/refresh/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -269,7 +262,6 @@ export default function DashboardPage() {
   };
 
   const CheckVehicleOwner = (data) => {
-    console.log("dataddd", data);
     setVehicleData(data); // Save form data to use in VehicleStatus check
     setDrawerContent(
       <VehicleOwnerCheck

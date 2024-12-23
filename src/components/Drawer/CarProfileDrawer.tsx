@@ -53,7 +53,7 @@ const CarProfileDrawer = ({
   const renderNomineeSection = () => {
     if (isForm) {
       return (
-        <div ref={formRef}>
+        <div className="flex flex-col md:items-center" ref={formRef}>
           <AddThirdPartyNominee
             vehiclesRegNunbers={vehicles.map((vehicle) => ({
               value: vehicle.registration_number,
@@ -67,7 +67,7 @@ const CarProfileDrawer = ({
       );
     } else {
       return (
-        <div ref={formRef}>
+        <div className="flex flex-col md:items-center" ref={formRef}>
           <ThirdPartyNominees
             toggleForm={setIsForm}
             nominees={vehicles?.carDetails?.[selectedVehicleIndex] || []}
@@ -78,11 +78,11 @@ const CarProfileDrawer = ({
   };
 
   return (
-    <div className="w-full overflow-hidden flex flex-col justify-center items-center">
+    <div className="w-full overflow-hidden flex flex-col ">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Vehicle Overview"
-        subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account.."
+        subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account."
       />
       {user_type === "individual" || isMobile ? (
         <>

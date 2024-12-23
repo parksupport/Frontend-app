@@ -336,7 +336,7 @@ export const DesktopViewNotification = ({
 }: DesktopViewNotificationProps) => {
   return (
     <>
-      <div className="rounded-[12px] border border-gray-200 overflow-hidden w-full">
+      <div className="rounded-[12px] border border-gray-200  w-full">
         {!isDrawer && (
           <div className="bg-white px-2 py-2 flex items-center justify-between w-full">
             {/* <div className="flex items-center py-3">
@@ -378,7 +378,7 @@ export const DesktopViewNotification = ({
           </div>
         )}
         <div className="overflow-x-auto">
-          <table className="min-w-[500px] w-full text-left mt-0">
+          <table className=" mx-auto min-w-full text-left mt-0">
             <tbody>
               {currentNotifications?.map((notification) => (
                 <tr
@@ -414,7 +414,7 @@ export const DesktopViewNotification = ({
                       />
                     </td>
                   )}
-                  <td className="px-1 py-2  w-[15%]">
+                  <td className="px-1 py-2 md:text-[18px] w-[15%]">
                     <div className="flex items-center">
                       <div className="pl-2 pr-4">
                         <LabelImportantSVG />
@@ -425,7 +425,7 @@ export const DesktopViewNotification = ({
                     </div>
                   </td>
                   <td
-                    className={`${groteskText.className}  {isDrawer ? 'px-0' : 'px-2'}  py-2 w-[50%] `}
+                    className={`${groteskText.className} md:text-[18px] {isDrawer ? 'px-0' : 'px-2'} py-2 w-[50%]`}
                   >
                     <TruncatedText
                       text={notification.message}
@@ -435,7 +435,7 @@ export const DesktopViewNotification = ({
                     />
                   </td>
                   <td
-                    className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'}  py-2 text-center w-[10%]`}
+                    className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'} py-2 text-center w-[10%]`}
                   >
                     {notification.date}
                   </td>

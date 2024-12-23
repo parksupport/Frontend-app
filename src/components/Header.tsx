@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import Button from "./Buttons";
+
 import NavLinkComponent from "./NavLinkComponent";
-import { groteskText } from "@/app/fonts";
+import { groteskText, groteskTextMedium } from "@/app/fonts";
 import { Logo } from "./logo";
 
 export interface HeaderProps {
@@ -25,39 +26,20 @@ const Header = ({
   router,
 }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    if (isMenuOpen) {
-      document.addEventListener("click", handleOutsideClick);
-    } else {
-      document.removeEventListener("click", handleOutsideClick);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, [isMenuOpen]);
-
   return (
     <header
-      className={`pr-2 md:pr-0 ${groteskText.className} bg-[#FFFFFF] w-full py-5 flex justify-between items-center border-b border-gray-300`}
+      className={`pr-2 md:pr-0 ${groteskText.className} bg-[#FFFFFF]  w-full py-5  flex justify-between items-center border-b border-gray-300 `}
     >
       <div className="max-w-[1440px] mx-auto flex justify-between items-center w-full md:w-4/5">
       <Logo className="pt-[138px] pb-[46px] cursor-pointer  " onClick={() => router.push("/")} />
 
         <nav
-          className={`hidden md:flex space-x-12 text-[#0C0E0F] text-base lg:text-lg`}
+          className={`hidden md:flex space-x-12 text-[#0C0E0F]  text-base lg:text-lg `}
         >
           <NavLinkComponent
             name="Home"
@@ -86,7 +68,7 @@ const Header = ({
           />
         </nav>
 
-        <div className="pl-[20px] flex items-center md:hidden space-x-4">
+        <div className="pl-[20px] flex items-center  md:hidden space-x-4  ">
           <Button
             type="button"
             className="rounded-xl px-8 py-[8px] whitespace-nowrap mb-3"
@@ -101,15 +83,12 @@ const Header = ({
         </div>
 
         {isMenuOpen && (
-          <div
-            ref={menuRef}
-            className="absolute top-16 left-0 w-full bg-white shadow-md py-4 flex flex-col items-center space-y-4 z-50 md:hidden"
-          >
+          <div className="absolute top-16 left-0 w-full bg-white shadow-md py-4 flex flex-col items-center space-y-4 z-50 md:hidden">
             <div
-              className="cursor-pointer hover:text-blue-500"
+              className="cursor-pointer focus:bg-blue-700 bg-red-500 hover:text-blue-500"
+              // tabIndex={0}
               onClick={() => {
-                scrollToSection(homeRef);
-                toggleMenu();
+                scrollToSection(homeRef), toggleMenu();
               }}
             >
               Home
@@ -117,8 +96,7 @@ const Header = ({
             <div
               className="cursor-pointer hover:text-blue-500"
               onClick={() => {
-                scrollToSection(searchRef);
-                toggleMenu();
+                scrollToSection(searchRef), toggleMenu();
               }}
             >
               Search
@@ -126,8 +104,7 @@ const Header = ({
             <div
               className="cursor-pointer hover:text-blue-500"
               onClick={() => {
-                scrollToSection(featuresRef);
-                toggleMenu();
+                scrollToSection(featuresRef), toggleMenu();
               }}
             >
               Features
@@ -135,8 +112,7 @@ const Header = ({
             <div
               className="cursor-pointer hover:text-blue-500"
               onClick={() => {
-                scrollToSection(faqRef);
-                toggleMenu();
+                scrollToSection(faqRef), toggleMenu();
               }}
             >
               FAQ
@@ -144,8 +120,7 @@ const Header = ({
             <div
               className="cursor-pointer hover:text-blue-500"
               onClick={() => {
-                scrollToSection(subPlanRef);
-                toggleMenu();
+                scrollToSection(subPlanRef), toggleMenu();
               }}
             >
               Pricing

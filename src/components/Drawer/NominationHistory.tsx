@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import DrawerHeader from "./Drawer/DrawerHeader";
+import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import { MdHistory } from "react-icons/md";
 import SortSVG from "@/assets/svg/sort.svg";
 import SearchSVG from "@/assets/svg/search-normal.svg";
-import TruncatedText from "./ToggleComponent/TruncatedText";
+import TruncatedText from "../ToggleComponent/TruncatedText";
 
 interface NominationHistoryTableProps {
   toggleDrawer: () => void;

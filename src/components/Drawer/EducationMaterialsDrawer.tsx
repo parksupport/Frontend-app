@@ -9,7 +9,7 @@ import { groteskText, groteskTextMedium } from "@/app/fonts";
 
 const EducationalMaterialsDrawer = ({ toggleDrawer }) => {
   return (
-    <div className="w-full h-full bg-white p-6 overflow-y-auto">
+    <div className=" w-full h-full bg-white p-6 overflow-y-auto">
       {/* Drawer Header */}
       <DrawerHeader
         toggleDrawer={toggleDrawer}
@@ -19,7 +19,7 @@ const EducationalMaterialsDrawer = ({ toggleDrawer }) => {
 
       {/* Contextual Information */}
       <div className="mt-12 mb-6">
-        <p className={` ${groteskText.className}text-gray-700`}>
+        <p className={` ${groteskText.className}text-gray-700 text-[16px] md:text-[18px]`}>
           Explore the sections below to find helpful resources on safe driving,
           contraventions, and road safety guidelines.
         </p>
@@ -28,14 +28,14 @@ const EducationalMaterialsDrawer = ({ toggleDrawer }) => {
       {/* Educational Sections */}
       {educationalMaterials.map((material, index) => (
         <div key={index} className="mt-6">
-          <h2 className={`${groteskTextMedium.className} text-xl mb-4`}>
+          <h2 className={`${groteskTextMedium.className} text-xl md:text-[28px] mb-4`}>
             {material.category}
           </h2>
           <ul className="space-y-2">
             {material.topics.map((topic, idx) => (
               <li key={idx}>
                 <Link href="#">
-                  <span className={` text-[18px] ${groteskText.className} text-blue-600 text-base hover:underline`}>{topic}</span>
+                  <span className={` text-[18px] ${groteskText.className} text-blue-600 text-base md:text-[22px] hover:underline`}>{topic}</span>
                 </Link>
               </li>
             ))}

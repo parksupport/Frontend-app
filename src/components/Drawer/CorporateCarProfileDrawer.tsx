@@ -51,74 +51,81 @@ export const CorporateCarProfileDrawer = ({
 
   return (
     <>
-      <div className="flex justify-end ">
+    <div className=" flex flex-col min-w-[900px]  mx-auto">
+      <div className="flex items-center justify-between  ">
         <SearchSortModal data={data} setData={setData} />
-        <button
+        {/* <button
           onClick={openNominationHistory}
           className=" ml-4  w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center mt-8"
         >
           <MdHistory size={20} />
+        </button> */}
+        <button onClick={openNominationHistory} className={`${groteskText.className} -mb-4 border border-gray-200 rounded-[8px] text-[18px] py-2 px-4 hover:bg-gray-100` }>
+          Nomination History
         </button>
       </div>
 
-      <div className="w-full z-0 rounded-[16px] border border-gray-200 relative">
-        <div className="overflow-x-auto" style={{ paddingBottom: "50px" }}>
-          <table className="min-w-full bg-white m-0">
+      <div className=" mx-auto z-0 rounded-[16px] border border-gray-200 relative flex items-center justify-center">
+        <div className="w-full ">
+          {" "}
+          {/* Wider container */}
+          <table className="min-w-[900px] min-h-[200px]">
+            {" "}
+            {/* Full-width table */}
             <thead>
-              <tr className={`${groteskTextMedium.className} text-[17px]`}>
+              <tr className={`${groteskTextMedium.className} text-[20px]`}>
                 <th
-                  className={`py-2 px-2 bg-gray-100 text-right font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-4 bg-gray-100 text-right font-semibold text-gray-500 w-[5%] ${groteskTextMedium.className}`}
                 ></th>
                 <th
-                  className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  className={`whitespace-nowrap py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-[15%] ${groteskTextMedium.className}`}
                 >
                   Reg No.
                 </th>
                 <th
-                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-[15%] ${groteskTextMedium.className}`}
                 >
                   Owner
                 </th>
                 <th
-                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-[10%] ${groteskTextMedium.className}`}
                 >
                   <InfoIconWithText
                     text="Status"
                     identity={`verificationStatus`}
                     infoText="Verification Status"
-                    className={`${groteskTextMedium.className}`}
+                    className={`${groteskTextMedium.className} text-[20px]`}
                     verticalAligment={"-mt-[4px]"}
                   />
                 </th>
                 <th
-                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-2/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-[25%] ${groteskTextMedium.className}`}
                 >
                   <InfoIconWithText
                     text="Recipient"
                     identity={`verificationStatus`}
                     infoText="Notification Recipient"
-                    className={`${groteskTextMedium.className}`}
+                    className={`${groteskTextMedium.className} text-[20px]`}
                     verticalAligment={"-mt-[4px]"}
                   />
                 </th>
                 <th
-                  className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-[10%] ${groteskTextMedium.className}`}
                 >
                   Color
                 </th>
                 <th
-                  className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-1/12 ${groteskTextMedium.className}`}
+                  className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-[10%] ${groteskTextMedium.className}`}
                 >
                   Make
                 </th>
               </tr>
             </thead>
-
             <tbody>
               {data?.map((item, index) => (
                 <tr
                   key={index}
-                  className={`border-t border-gray-200 text-[18px] ${
+                  className={` border-t border-gray-200 text-[18px] ${
                     item.registrationNumber ===
                     selectedNominee?.registrationNumber
                       ? "bg-gray-300 text-white"
@@ -127,7 +134,7 @@ export const CorporateCarProfileDrawer = ({
                   onClick={() => setSelectedNominee(item)}
                 >
                   <td
-                    className={` ${groteskText.className} relative pt-2 text-center whitespace-nowrap w-1/12`}
+                    className={` ${groteskText.className} relative pt-2 text-[24px] text-center whitespace-nowrap w-[5%]`}
                   >
                     <button
                       className="text-gray-500 hover:text-gray-900 pl-2"
@@ -137,7 +144,7 @@ export const CorporateCarProfileDrawer = ({
                     </button>
                     {openDropdownIndex === index && (
                       <DeleteRowModal
-                        position={{ right: -100, top: 40 }}
+                        position={{ right: -110, top: 40 }}
                         showConfirmButton={showConfirmButton}
                         onEdit={() => {}}
                         onRemove={() => showDeleteConfirmation(index)}
@@ -159,21 +166,21 @@ export const CorporateCarProfileDrawer = ({
                     )}
                   </td>
                   <td
-                    className={` ${groteskText.className} px-6 text-sm text-gray-700 w-2/12 whitespace-nowrap`}
+                    className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 w-[15%] whitespace-nowrap`}
                   >
                     {item.registration_number}
                   </td>
                   <td
-                    className={` ${groteskText.className} px-4 text-sm text-gray-700 leading-none w-1/12 whitespace-nowrap`}
+                    className={` ${groteskText.className} px-4 text-sm md:text-[18px] text-gray-700 leading-none w-[15%] whitespace-nowrap`}
                   >
                     <TruncatedText
                       text={item.full_name}
-                      maxLength={10}
+                      maxLength={20}
                       className={`${groteskText.className}`}
                     />
                   </td>
                   <td
-                    className={` ${groteskText.className} px-4 text-sm text-gray-700 leading-none w-2/12 whitespace-nowrap`}
+                    className={` ${groteskText.className} px-4 text-sm md:text-[18px] text-gray-700 leading-none w-[10%] whitespace-nowrap`}
                   >
                     <span
                       className={` ${
@@ -194,23 +201,22 @@ export const CorporateCarProfileDrawer = ({
                       </div>
                     </span>
                   </td>
-
                   <td
-                    className={` ${groteskText.className} px-6 text-sm text-gray-700 leading-none w-2/12 whitespace-nowrap`}
+                    className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[25%] whitespace-nowrap`}
                   >
                     <TruncatedText
                       text={item.thirdPartyNominee}
-                      maxLength={10}
+                      maxLength={20}
                       className={`${groteskText.className}`}
                     />
                   </td>
                   <td
-                    className={` ${groteskText.className} px-6 text-sm text-gray-700 leading-none w-1/12 whitespace-nowrap`}
+                    className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[10%] whitespace-nowrap`}
                   >
                     {item.color}
                   </td>
                   <td
-                    className={` ${groteskText.className} px-6 text-sm text-gray-700 leading-none w-1/12 whitespace-nowrap`}
+                    className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[10%] whitespace-nowrap`}
                   >
                     {item.make}
                   </td>
@@ -220,8 +226,9 @@ export const CorporateCarProfileDrawer = ({
           </table>
         </div>
       </div>
+      </div>
 
-      <div ref={nextComponentRef}>
+      <div className="flex items-center justify-center" ref={nextComponentRef}>
         {form ? (
           <AddThirdPartyNominee
             vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({

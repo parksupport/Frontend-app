@@ -110,14 +110,14 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
       />
 
       <div
-        className={`${groteskText.className} flex flex-col items-center justify-center gap-5 mt-12 md:mx-2 mb-[150px]`}
+        className={`${groteskText.className} md:w-[900px] flex flex-col items-center justify-center gap-5 mt-12 mx-2 md:mx-auto mb-[150px]`}
       >
         {/* Header Section */}
         <div className="border border-[#D0D5DD] rounded-[16px] flex items-center justify-between bg-white p-4 w-full">
           {/* User Info */}
           <div className="flex items-center space-x-4 py-2 md:p-2">
             {/* Circle for initials or fallback with edit icon */}
-            <div className="relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px] md:text-[36px] font-bold">
+            <div className="relative w-[60px] h-[60px] md:w-[100px] md:h-[100px] rounded-full bg-gray-300 flex items-center justify-center text-white text-[20px] md:text-[38px] font-bold">
               {full_name ? (
                 `${full_name.split(" ")[0][0]}${
                   full_name.split(" ")[1]?.[0] || ""
@@ -146,12 +146,12 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
             {/* User details */}
             <div>
               <h1
-                className={`${groteskTextMedium.className} text-black text-[16px] md:text-[24px]`}
+                className={`${groteskTextMedium.className} text-black text-[16px] md:text-[28px] leading-none`}
               >
                 {full_name || "User Name"}
               </h1>
               <p
-                className={` ${groteskText.className} text-[16px] md:text-[20px] text-gray-500`}
+                className={` ${groteskText.className} text-[16px] md:text-[22px] leading-none text-gray-500`}
               >
                 {uid}
               </p>
@@ -184,7 +184,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
           >
             <div className="flex items-center justify-between">
               <h2
-                className={`${groteskTextMedium.className} text-black text-[20px] md:text-[24px] mb-4`}
+                className={`${groteskTextMedium.className} text-black text-[20px] md:text-[26px] mb-4`}
               >
                 {section.title}
               </h2>
@@ -213,12 +213,12 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
               {section.fields.map((field, fieldIndex) => (
                 <div key={fieldIndex} className="py-1">
                   <p
-                    className={`${groteskText.className} text-[16px] md:text-[18px] text-[#667185] text-wrap`}
+                    className={`${groteskText.className} text-[16px] md:text-[22px] text-[#667185] text-wrap`}
                   >
                     {field.label}
                   </p>
                   <p
-                    className={`${groteskText.className} text-black text-[16px] md:text-[18px]`}
+                    className={`${groteskText.className} text-black text-[16px] md:text-[22px]`}
                   >
                     {userInfo === "individual" ? (
                       <TruncatedText

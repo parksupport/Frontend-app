@@ -61,7 +61,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   };
 
   return (
-    <div className="">
+    <div className="mx-auto ">
       <DrawerHeader
         toggleDrawer={back}
         title="Add Your Vehicle Details"

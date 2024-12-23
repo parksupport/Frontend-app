@@ -28,7 +28,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Personal Plan",
-      price: "£7/month",
+      price: "£5/month",
       features: [
         "Free vehicle check on the website",
         "Details of the contravention",
@@ -45,7 +45,7 @@ const SubscriptionPlans = () => {
     },
     {
       name: "Family Plan",
-      price: "£12/month",
+      price: "£9/month",
       features: [
         "Designed for families to manage multiple vehicles",
         "Free vehicle check on the website",
@@ -62,8 +62,8 @@ const SubscriptionPlans = () => {
       isHighlighted: false,
     },
     {
-      name: "Unlimited Plan",
-      price: "£20/month",
+      name: "Corporate plan ",
+      price: "£15/month",
       features: [
         "Free vehicle check on the website",
         "Details of the contravention",

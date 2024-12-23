@@ -98,7 +98,7 @@ const CarProfileSlider = ({
   };
 
   return (
-    <article className="max-w-[428px] w-full md:max-w-[580px]">
+    <article className="max-w-[428px] w-full md:max-w-[900px] mx-auto">
       {user === "Corporate" && (
         <div className="flex justify-end ">
           <SearchSortModal data={data} setData={setData} />
@@ -118,7 +118,7 @@ const CarProfileSlider = ({
                 {/* Header */}
                 <div className="flex justify-between">
                   <h1
-                    className={`text-[20px] text-[#000000] ${groteskTextMedium.className}`}
+                    className={`text-[20px] md:text-[24px] text-[#000000] ${groteskTextMedium.className}`}
                   >
                     My Vehicle
                   </h1>
@@ -143,7 +143,7 @@ const CarProfileSlider = ({
                 {/* Main Content */}
                 <div className="flex-col flex md:flex-row mt-[14px] items-center relative">
                   {/* Image Section */}
-                  <div className="order-2 flex flex-col max-w-[253px] w-full">
+                  <div className="order-2 flex flex-col max-w-[253px] items-center md:max-w-[359px] w-full">
                     {openDropdownIndex === index && (
                       <DeleteRowModal
                         showConfirmButton={showConfirmButton}
@@ -187,10 +187,10 @@ const CarProfileSlider = ({
                   </div>
 
                   {/* Car Details Section */}
-                  <div className="order-1 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px]">
+                  <div className="order-1 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px] md:max-w-[480px]">
                     <div className="border-b border-[#C5D5F8] py-[8px] px-[8px]">
                       <h1
-                        className={`text-[#212121] text-[20px] ${groteskTextMedium.className}`}
+                        className={`text-[#212121] text-[20px] md:text-[24px] ${groteskTextMedium.className}`}
                       >
                         Car Details
                       </h1>
@@ -246,9 +246,11 @@ const CarProfileSlider = ({
                         >
                           <div className="flex items-center">
                             <span>{item.icon}</span>
-                            <span className="text-[13px]">{item.label}</span>
+                            <span className="text-[13px] md:text-[16px]">
+                              {item.label}
+                            </span>
                           </div>
-                          <span className="text-[#212121] text-[13px] self-end">
+                          <span className="text-[#212121] text-[13px] md:text-[16px]  self-end">
                             {item.value}
                           </span>
                         </h2>

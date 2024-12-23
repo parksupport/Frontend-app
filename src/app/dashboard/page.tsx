@@ -329,8 +329,6 @@ export default function DashboardPage() {
                 <CarProfile
                   addVehicleDetails={addVehicleDetails}
                   openCarProfile={() => openCarProfile(vehicles)}
-                  vehicles={vehicles}
-                  owner={full_name}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>

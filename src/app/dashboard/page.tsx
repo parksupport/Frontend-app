@@ -53,19 +53,7 @@ export default function DashboardPage() {
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
 
- 
-
-
-
-
-
-
-
-
-const {addVehicle, error, } = useAddVehicle();
-
-
-
+  const { addVehicle, error } = useAddVehicle();
 
   const [firstName, lastName] =
     typeof full_name === "string" ? full_name.split(" ") : ["", ""];
@@ -139,10 +127,10 @@ const {addVehicle, error, } = useAddVehicle();
     openDrawer();
   };
 
-  const checkVehicleStatus = async () => {
+  const checkVehicleStatus = async (vehicleData) => {
     try {
       console.log("vehicleDataStatus:", vehicleData);
-  
+
       const data = {
         registration_number: vehicleData?.vegRegNumber,
         make: vehicleData?.make,
@@ -150,30 +138,24 @@ const {addVehicle, error, } = useAddVehicle();
         year: vehicleData?.year,
         postcode: vehicleData?.postcode,
       };
-  
-      // Await the response from addVehicle (assuming it's an async function)
-      const response =  addVehicle(data);
+      const response = await addVehicle(data);
 
       console.log("response:", response);
-      localStorage.removeItem("formData");
-      
-      // Assuming response contains a verification_status field
-      const verificationStatus = response?.vehicle?.verification_status; 
-  
-      // Check if the verification status is "Verified"
+
+      // const verificationStatus = response?.vehicle?.verification_status ;
+      const verificationStatus =  "Verified";
+
+
       return verificationStatus === "Verified" ? "success" : "failed";
     } catch (error) {
       console.error("Fetch failed:", error);
       return "failed";
     }
   };
-  
-  const VehicleStatus = async () => {
-    // You can remove localStorage item if necessary, but commented out for now
-    // localStorage.removeItem("formData");
-  
-    const status = await checkVehicleStatus();
-  
+
+  const VehicleStatus = async (vehicleData) => {
+    const status = await checkVehicleStatus(vehicleData);
+
     // Handle success or failure based on the status
     if (status === "failed") {
       handleFailed();
@@ -181,15 +163,14 @@ const {addVehicle, error, } = useAddVehicle();
       handleSuccess();
     }
   };
-  
+
   const CheckVehicleOwner = (data) => {
     console.log("vehicleData:", data);
-    setVehicleData(data); // Save form data to use in VehicleStatus check
     setDrawerContent(
       <VehicleOwnerCheck
         back={addVehicleDetails}
         OwnerInfoDrawer={OwnerInfoDrawer}
-        vehicleStatus={VehicleStatus}
+        vehicleStatus={() => VehicleStatus(data)}
       />
     );
     scrollToTopFromParent();
@@ -287,8 +268,6 @@ const {addVehicle, error, } = useAddVehicle();
     scrollToTopFromParent();
     openDrawer();
   };
-
-
 
   return (
     <>

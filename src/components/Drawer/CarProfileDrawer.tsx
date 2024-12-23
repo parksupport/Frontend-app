@@ -9,14 +9,11 @@ import CorporateCarProfileDrawer from "./CorporateCarProfileDrawer";
 import { useAuthStore } from "@/lib/stores/authStore";
 
 interface CarProfileDrawerProps {
-  vehicles: any;
   toggleDrawer: any;
   addVehicleDetails: any;
-  user_type: any;
   form: boolean;
   openNominationHistory: any;
   autoScrollToForm?: any;
-  owner:string;
 }
 
 const CarProfileDrawer = ({
@@ -29,6 +26,7 @@ const CarProfileDrawer = ({
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const isMobile = useIsMobile();
+
     const user = useAuthStore((state) => state.user);
     const { full_name, user_type, vehicles } = user || {};
 
@@ -101,10 +99,8 @@ const CarProfileDrawer = ({
       ) : (
         <CorporateCarProfileDrawer
           openNominationHistory={openNominationHistory}
-          vehicles={vehicles}
           addVehicleDetails={addVehicleDetails}
           toggleDrawer={toggleDrawer}
-          user={user_type}
           isForm={form}
           
         />

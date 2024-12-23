@@ -12,16 +12,17 @@ import TruncatedText from "../ToggleComponent/TruncatedText";
 import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import InfoIconWithText from "../InfoIconWithText";
 import { MdHistory } from "react-icons/md";
+import { useAuthStore } from "@/lib/stores/authStore";
 
 export const CorporateCarProfileDrawer = ({
   toggleDrawer,
   addVehicleDetails,
-  vehicles,
-  user,
   isForm,
   openNominationHistory,
 }) => {
-  const isMobile = useIsMobile();
+    const user = useAuthStore((state) => state.user);
+    const { full_name, user_type, vehicles } = user || {};
+
 
   const [form, setForm] = useState(isForm);
 
@@ -36,7 +37,7 @@ export const CorporateCarProfileDrawer = ({
     cancelDelete,
     setData,
     setOpenDropdownIndex,
-  } = useDeleteRow(vehicles.carDetails);
+  } = useDeleteRow(vehicles);
 
   const [selectedNominee, setSelectedNominee] = useState(data?.[0] || {});
 
@@ -160,13 +161,13 @@ export const CorporateCarProfileDrawer = ({
                   <td
                     className={` ${groteskText.className} px-6 text-sm text-gray-700 w-2/12 whitespace-nowrap`}
                   >
-                    {item.registrationNumber}
+                    {item.registration_number}
                   </td>
                   <td
                     className={` ${groteskText.className} px-4 text-sm text-gray-700 leading-none w-1/12 whitespace-nowrap`}
                   >
                     <TruncatedText
-                      text={item.owner}
+                      text={item.full_name}
                       maxLength={10}
                       className={`${groteskText.className}`}
                     />
@@ -189,7 +190,7 @@ export const CorporateCarProfileDrawer = ({
                         ) : (
                           <IoMdClose size={14} className="mr-1" />
                         )}
-                        {item.status}
+                        {item.verification_status}
                       </div>
                     </span>
                   </td>

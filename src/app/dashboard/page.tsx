@@ -284,6 +284,7 @@ export default function DashboardPage() {
             onClose={onClose}
             onOpen={onOpen}
             toggleDrawer={toggleDrawer}
+            openAddBillingMethod={openAddBillingMethod}
           />
 
           {/* Main Content */}

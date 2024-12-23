@@ -6,8 +6,7 @@ import { groteskTextMedium } from "@/app/fonts";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/authStore"; // Assume this is your auth store
 
-const SubscriptionPlans = () => {
-  const router = useRouter();
+const SubscriptionPlans = ({ onClick}) => {
   const isAuthenticated = useAuthStore((state) => state.token !== null); // Check authentication status
 
   const plans = [
@@ -118,11 +117,7 @@ const SubscriptionPlans = () => {
                 {/* Get Started Button */}
                 <div className="flex items-center mb-6">
                   <Button
-                    onClick={() =>
-                      isAuthenticated
-                        ? router.push("/dashboard") // Redirect authenticated users
-                        : router.push("/auth/login") // Redirect unauthenticated users
-                    }
+                    onClick={onClick}
                     variant={plan.isHighlighted ? "secondary" : "primary"}
                     className={`px-4 py-2 rounded ${
                       plan.isHighlighted

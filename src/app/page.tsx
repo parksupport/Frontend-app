@@ -225,6 +225,11 @@ export default function LandingPage() {
         {/* Subscription Plans Section */}
         <section ref={subscriptionPlan}>
           <SubscriptionPlans onClick={() => router.push("/auth/login")} />
+          {/* onClick={() =>
+                      isAuthenticated
+                        ? router.push("/dashboard") // Redirect authenticated users
+                        : router.push("/auth/login") // Redirect unauthenticated users
+                    } */}
         </section>
         <section>
           <Footer

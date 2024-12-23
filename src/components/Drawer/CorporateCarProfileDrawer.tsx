@@ -23,6 +23,8 @@ export const CorporateCarProfileDrawer = ({
     const user = useAuthStore((state) => state.user);
     const { full_name, user_type, vehicles } = user || {};
 
+    console.log("user:", user);
+
 
   const [form, setForm] = useState(isForm);
 
@@ -174,7 +176,7 @@ export const CorporateCarProfileDrawer = ({
                     className={` ${groteskText.className} px-4 text-sm md:text-[18px] text-gray-700 leading-none w-[15%] whitespace-nowrap`}
                   >
                     <TruncatedText
-                      text={item.full_name}
+                      text={full_name}
                       maxLength={20}
                       className={`${groteskText.className}`}
                     />
@@ -231,8 +233,8 @@ export const CorporateCarProfileDrawer = ({
       <div className="flex items-center justify-center" ref={nextComponentRef}>
         {form ? (
           <AddThirdPartyNominee
-            vehiclesRegNunbers={vehicles.carDetails.map((vehicle) => ({
-              value: vehicle.registrationNumber,
+            vehiclesRegNunbers={vehicles?.map((vehicle) => ({
+              value: vehicle.registration_number,
               label: vehicle.registrationNumber, // You can customize the label here
             }))}
             toggleForm={setForm}

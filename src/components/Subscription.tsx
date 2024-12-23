@@ -2,11 +2,11 @@
 
 import React from "react";
 import { Button } from "@/components";
-import { groteskTextMedium } from "@/app/fonts";
+import { groteskText, groteskTextMedium } from "@/app/fonts";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/authStore"; // Assume this is your auth store
 
-const SubscriptionPlans = ({ onClick}) => {
+const SubscriptionPlans = ({ onClick }) => {
   const isAuthenticated = useAuthStore((state) => state.token !== null); // Check authentication status
 
   const plans = [
@@ -119,13 +119,13 @@ const SubscriptionPlans = ({ onClick}) => {
                   <Button
                     onClick={onClick}
                     variant={plan.isHighlighted ? "secondary" : "primary"}
-                    className={`px-4 py-2 rounded ${
+                    className={` ${groteskText.className} px-4 py-2 rounded ${
                       plan.isHighlighted
                         ? "bg-white text-gray-800 hover:bg-gray-200"
                         : "bg-blue-600 text-white hover:bg-blue-700"
                     }`}
                   >
-                    {isAuthenticated ? "Go to Dashboard" : "Get Started"}
+                    Get Started
                   </Button>
                 </div>
 

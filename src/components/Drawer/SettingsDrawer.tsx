@@ -205,7 +205,7 @@ const SettingsDrawer = ({
                   placeholder="Enter new password"
                   value={formData.newPassword}
                   onChange={handleChange}
-                  className="py-4 md:py-3 w-[60%]"
+                  className="py-4 md:py-3 w-[100%]"
                 />
 
                 <InputField
@@ -215,11 +215,11 @@ const SettingsDrawer = ({
                   placeholder="Confirm new password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="py-4 md:py-3 w-[60%]"
+                  className="py-4 md:py-3 w-[100%]"
                 />
                 <Button
                   type="button"
-                  className="w-[30%] rounded-[0.75rem] whitespace-nowrap py-[8px] px-[12px] w-[60%] "
+                  className="w-[30%] mx-auto rounded-[0.75rem] whitespace-nowrap py-[8px] px-[12px] w-[60%] "
                   variant="quinary"
                   // onClick={CheckVehicleOwner}
                 >

@@ -25,6 +25,7 @@ import { groteskText, groteskTextMedium } from "./fonts";
 import SubscriptionPlans from "@/components/Subscription";
 import useIsMobile from "@/hooks/useIsMobile";
 import AnimationText from "@/components/AnimationText";
+import { useAuthStore } from "@/lib/stores/authStore";
 
 export default function LandingPage() {
   const [vehicleNo, setVehicleNo] = useState("");
@@ -34,6 +35,8 @@ export default function LandingPage() {
   const isMobile = useIsMobile();
 
   const router = useRouter();
+
+   const isAuthenticated = useAuthStore((state) => state.token !== null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -224,7 +227,7 @@ export default function LandingPage() {
         </section>
         {/* Subscription Plans Section */}
         <section ref={subscriptionPlan}>
-          <SubscriptionPlans onClick={() => router.push("/auth/login")} />
+          <SubscriptionPlans onClick={isAuthenticated ? () => router.push("/dashboard") : () => router.push("/auth/login")} />
           {/* onClick={() =>
                       isAuthenticated
                         ? router.push("/dashboard") // Redirect authenticated users

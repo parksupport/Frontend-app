@@ -40,39 +40,35 @@ import ThirdPartyNominees, {
 } from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
-import DisplayCarProfile from "@/components/card/CarProfile";
-import { useAddVehicle } from "@/hooks/mutations/vehicles";
+
+import { useAddVehicle, useGetVehicles } from "@/hooks/mutations/vehicles";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
-  const [vehicleData, setVehicleData] = useState(null);
+
   const drawerRef = useRef<any>(null);
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
+  const { full_name, user_type, vehicles } = user || {};
 
-  
+ 
 
-  useEffect(() => {
-    if (!user) {
-      console.log("User state is null or undefined, redirecting to login...");
-      router.push("/auth/login");
-    } else {
-      console.log("User state:", user.vehicles);
-    }
-  }, [user, router]);
 
-  // const { full_name, user_type, vehicles } = user || {};
 
-  // const VehicleDetails = {full_name,...vehicles}
-  const { full_name, user_type, vehicles = {} } = user || {};
 
-  const VehicleDetails = { full_name, ...vehicles };
+
+
+
+
+const {addVehicle, error, } = useAddVehicle();
+
+
+
 
   const [firstName, lastName] =
     typeof full_name === "string" ? full_name.split(" ") : ["", ""];
-
 
   const scrollToTopFromParent = () => {
     if (drawerRef.current) {
@@ -91,10 +87,8 @@ export default function DashboardPage() {
     setDrawerContent(
       <CarProfileDrawer
         openNominationHistory={openNominationHistory}
-        vehicles={VehicleDetails}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
-        user={user_type}
         form={form}
         autoScrollToForm={autoScrollToForm}
       />
@@ -145,106 +139,28 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const refreshAuthToken = async () => {
-    try {
-      const refreshToken = localStorage.getItem("refreshToken");
-      if (!refreshToken) {
-        console.error("Refresh token is missing!");
-        return null;
-      }
-  
-      const response = await fetch("http://localhost:8000/api/token/refresh/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ refresh: refreshToken }),
-      });
-  
-      if (!response.ok) {
-        console.error("Failed to refresh token:", response.statusText);
-        return null;
-      }
-  
-      const data = await response.json();
-      const newAuthToken = data?.access;
-  
-      if (newAuthToken) {
-        localStorage.setItem("authToken", newAuthToken);
-        return newAuthToken;
-      }
-      return null;
-    } catch (error) {
-      console.error("Token refresh failed:", error);
-      return null;
-    }
-  };
-  
   const checkVehicleStatus = async () => {
-    console.log("vehicleData:", vehicleData);
     try {
-      let authToken = localStorage.getItem("authToken");
-      if (!authToken) {
-        console.error("Authentication token is missing!");
-        return "failed";
-      }
+      console.log("vehicleDataStatus:", vehicleData);
   
-      const response = await fetch("http://localhost:8000/api/vehicles/add/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({
-          registration_number: vehicleData?.vegRegNumber,
-          make: vehicleData?.make,
-          model: vehicleData?.car_model,
-          year: vehicleData?.year,
-          postcode: vehicleData?.postcode,
-        }),
-      });
+      const data = {
+        registration_number: vehicleData?.vegRegNumber,
+        make: vehicleData?.make,
+        model: vehicleData?.car_model,
+        year: vehicleData?.year,
+        postcode: vehicleData?.postcode,
+      };
   
-      if (response.status === 403 || response.status === 401) {
-        console.warn("Token might be expired. Attempting to refresh...");
-        authToken = await refreshAuthToken();
-        if (!authToken) return "failed";
+      // Await the response from addVehicle (assuming it's an async function)
+      const response =  addVehicle(data);
+
+      console.log("response:", response);
+      localStorage.removeItem("formData");
+      
+      // Assuming response contains a verification_status field
+      const verificationStatus = response?.vehicle?.verification_status; 
   
-        // Retry the request with the new token
-        const retryResponse = await fetch(
-          "http://localhost:8000/api/vehicles/add/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${authToken}`,
-            },
-            body: JSON.stringify({
-              registration_number: vehicleData?.vegRegNumber,
-              make: vehicleData?.make,
-              model: vehicleData?.car_model,
-              year: vehicleData?.year,
-              postcode: vehicleData?.postcode,
-            }),
-          }
-        );
-  
-        if (!retryResponse.ok) {
-          console.error("Retry failed:", retryResponse.statusText);
-          return "failed";
-        }
-  
-        const retryData = await retryResponse.json();
-        const verificationStatus = retryData?.vehicle?.verification_status;
-        return verificationStatus === "Verified" ? "success" : "failed";
-      }
-  
-      if (!response.ok) {
-        console.error("Error:", response.statusText);
-        return "failed";
-      }
-  
-      const data = await response.json();
-      const verificationStatus = data?.vehicle?.verification_status;
+      // Check if the verification status is "Verified"
       return verificationStatus === "Verified" ? "success" : "failed";
     } catch (error) {
       console.error("Fetch failed:", error);
@@ -253,15 +169,21 @@ export default function DashboardPage() {
   };
   
   const VehicleStatus = async () => {
+    // You can remove localStorage item if necessary, but commented out for now
+    // localStorage.removeItem("formData");
+  
     const status = await checkVehicleStatus();
+  
+    // Handle success or failure based on the status
     if (status === "failed") {
       handleFailed();
     } else if (status === "success") {
       handleSuccess();
     }
   };
-
+  
   const CheckVehicleOwner = (data) => {
+    console.log("vehicleData:", data);
     setVehicleData(data); // Save form data to use in VehicleStatus check
     setDrawerContent(
       <VehicleOwnerCheck
@@ -366,6 +288,8 @@ export default function DashboardPage() {
     openDrawer();
   };
 
+
+
   return (
     <>
       {user ? (
@@ -423,10 +347,11 @@ export default function DashboardPage() {
               vehicles={cars}
               // openNominationHistory={openNominationHistory}
             /> */}
-                <DisplayCarProfile
+                <CarProfile
                   addVehicleDetails={addVehicleDetails}
                   openCarProfile={() => openCarProfile(vehicles)}
                   vehicles={vehicles}
+                  owner={full_name}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>

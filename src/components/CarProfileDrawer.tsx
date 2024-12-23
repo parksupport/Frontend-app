@@ -26,17 +26,19 @@ import UndoDelete from "@/assets/svg/undoDelete.svg";
 import ConfirmDeleteSVG from "@/assets/svg/confirmDelete.svg";
 import { IoArrowBack } from "react-icons/io5";
 interface CarProfileDrawerProps {
-  car: {
-    imageUrl: string;
-    registrationNo: string;
-    ownerName: string;
-    contraventionStatus: string;
-    thirdPartyNominate: string;
+  updatedVehicles: {
+    // imageUrl: string;
+    // registrationNo: string;
+    // ownerName: string;
+    // contraventionStatus: string;
+    // thirdPartyNominate: string;
     // Add any other properties you need from the car object
   };
 }
 
-const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
+const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ updatedVehicles }) => {
+
+  console.log(updatedVehicles, "updatedVehicles");
   // const [isOpen, setIsOpen] = useState(false)
   const [isOpenVehicle, setIsOpenVehicle] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -192,7 +194,7 @@ const CarProfileDrawer: React.FC<CarProfileDrawerProps> = ({ car }) => {
                         </span>
                       </div>
                       <span className="text-[#212121] text-[13px] self-end">
-                        {car.registrationNumber}
+                        {car.registration_number}
                       </span>
                     </h2>
                     <h2

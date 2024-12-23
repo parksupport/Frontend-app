@@ -60,7 +60,7 @@ Axios.interceptors.response.use(
 
       config.retryCount = config.retryCount || 0;
 
-      if (status === 401 && config.retryCount < 3) {
+      if (status === 401 || status === 403 && config.retryCount < 3) {
         config.retryCount += 1;
         try {
           const newAccessToken = await refreshAccessToken();

@@ -11,7 +11,6 @@ import TicketSVG from "@/assets/svg/ticket-status.svg";
 import { Button } from "@/components";
 import VehiclceInfoSVG from "@/assets/svg/infoOutline.svg";
 import "@/components/Slider.css";
-import { useAuthStore } from "@/lib/stores/useStore";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
@@ -20,23 +19,25 @@ import { MoveDiagonal } from "lucide-react";
 import UserTickSVG from "@/assets/svg/nominee.svg";
 import InfoIconWithText from "../InfoIconWithText";
 import SliderButton from "../SliderButton";
+import { useAuthStore } from "@/lib/stores/authStore";
 
 interface CarProfileProps {
   openCarProfile: any;
   addVehicleDetails: any;
-  vehicles: any;
 }
 
 function CarProfile({
   openCarProfile,
   addVehicleDetails,
-  vehicles,
 }: CarProfileProps) {
   const user = useAuthStore((state) => state.user);
+  const {full_name, vehicles } = user || {};
   const [hovered, setHovered] = useState({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);
   const totalPages = vehicles?.length || 0;
+
+
 
   const settings = {
     dots: true,
@@ -125,7 +126,7 @@ function CarProfile({
                       <button>
                         <MoveDiagonal
                           size={24}
-                          onClick={() => openCarProfile(car)}
+                          onClick={openCarProfile}
                         />
                       </button>
                     </div>
@@ -257,7 +258,7 @@ function CarProfile({
                           <span
                             className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {car.full_name || "Dan Smith"}
+                            {full_name}
                           </span>
                         </h2>
                         <h2

@@ -8,7 +8,6 @@ import TicketSVG from "@/assets/svg/ticket-status.svg";
 import { Button } from "@/components";
 
 import "@/components/Slider.css";
-import { useAuthStore } from "@/lib/stores/useStore";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
@@ -33,29 +32,25 @@ import useDeleteRow from "@/hooks/useDeleteRow";
 import { MdHistory } from "react-icons/md";
 import DeleteRowModal from "./DeleteRowModal";
 import SliderButton from "./SliderButton";
+import { useAuthStore } from "@/lib/stores/authStore";
+
 interface CarProfileSliderProps {
-  vehicles: any;
   addVehicle: () => void;
-  onVehicleChange?: any;
-  user?: "User" | "Corporate";
-  setForm: any;
-  scrollToForm: any;
+  onVehicleChange?: (vehicle: any) => void;
+  setForm: (form: any) => void;
+  scrollToForm: () => void;
 }
 
-// const deleteCar = async (carId: string): Promise<void> => {
-//   // await axios.delete(`/api/cars/${carId}`);
-// };
-
-const CarProfileSlider: React.FC<CarProfileSliderProps> = ({
-  vehicles,
+const CarProfileSlider = ({
   addVehicle,
   onVehicleChange,
-  user,
   setForm,
   scrollToForm,
-}) => {
+}: CarProfileSliderProps) => {
+  const user = useAuthStore((state) => state.user);
+  const { full_name, vehicles } = user || {};
 
-console.log("vehicles",vehicles)  
+  console.log("vericles", vehicles);
 
   const {
     openDropdownIndex,
@@ -169,10 +164,26 @@ console.log("vehicles",vehicles)
                         }}
                       />
                     )}
-                    <Image
-                      src={require(`@/assets/images/${car.imageUrl}`).default}
-                      alt=""
-                    />
+                    <div className=" self-center flex flex-col max-w-[253px] ">
+                      {vehicles?.type ? (
+                        <Image
+                          src={
+                            require(`@/assets/images/${vehicles?.type}.imageUrl}`)
+                              .default
+                          }
+                          alt=""
+                          sizes="width: 222px"
+                          // className="max-w-[222px] "
+                        />
+                      ) : (
+                        <Image
+                          src={require(`@/assets/images/essentail-car.jpg`)}
+                          alt=""
+                          sizes="width: 222px"
+                          // className="max-w-[222px] "
+                        />
+                      )}
+                    </div>
                   </div>
 
                   {/* Car Details Section */}
@@ -194,14 +205,22 @@ console.log("vehicles",vehicles)
                         {
                           icon: <UserProfileSVG />,
                           label: "Owner:",
-                          value: car.owner,
+                          value: full_name,
                         },
                         {
                           icon: <TicketSVG />,
                           label: "Verification Status:",
                           value: (
-                            <button className="text-[#099137] text-[13px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[28px] self-end">
-                              {car.status}
+                            <button
+                              className={`text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end ${
+                                car.verification_status === "Pending"
+                                  ? "text-[#B38B00] bg-[#FFECB3]"
+                                  : car.verification_status === "Verified"
+                                  ? "text-[#099137] bg-[#B5E3C4]"
+                                  : "text-[#B00020] bg-[#FFCDD2]"
+                              }`}
+                            >
+                              {car.verification_status}
                             </button>
                           ),
                         },

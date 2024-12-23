@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useDeleteVehicle } from "./mutations/vehicles";
 
 
 
@@ -22,6 +23,10 @@ export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
   const [showConfirmButton, setShowConfirmButton] = useState(false);
   const [selectedDataIndex, setSelectedDataIndex] = useState<number | null>(null);
 
+ const {deleteVehicle,isError,error} =  useDeleteVehicle()
+
+
+
   useEffect(() => {
     if (JSON.stringify(data) !== JSON.stringify(externalNominees)) {
       setData(externalNominees);
@@ -37,8 +42,13 @@ export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
     setShowConfirmButton(false);
   };
 
-  const handleDelete = (index: number) => {
-    setData((prevNominees) => prevNominees.filter((_, nomineeIndex) => nomineeIndex !== index));
+  const handleDelete =(index: number) => {
+    // setData((prevNominees) => prevNominees.filter((_, nomineeIndex) => nomineeIndex !== index));
+
+    console.log("dataa",data[index]?.registration_number)
+    const id = data[index]?.registration_number;
+    deleteVehicle(id)
+
     setShowConfirmButton(false);
     setOpenDropdownIndex(null);
     setSelectedDataIndex(null); 

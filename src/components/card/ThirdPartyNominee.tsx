@@ -360,7 +360,7 @@ export const NomineeMobile = ({
 
         {/* Slider Component */}
         <Slider ref={sliderRef} {...settings}>
-          {nominees.map((nominee, index) => {
+          {nominees?.map((nominee, index) => {
             const endDate = new Date(nominee.end_date);
             const today = new Date();
             const expiredLease = endDate < today;
@@ -466,7 +466,7 @@ export const NomineeMobile = ({
           </button>
 
           <div className="flex space-x-1">
-            {nominees.map((_, index) => (
+            {nominees?.map((_, index) => (
               <span
                 key={index}
                 className={`w-2 h-2 rounded-full ${
@@ -479,11 +479,11 @@ export const NomineeMobile = ({
           <button
             onClick={handleNext}
             className={`w-[74px] h-[28px] rounded-[0.25rem] border border-[#D0D5DD] text-[14px] ${
-              currentIndex === nominees.length - 1
+              currentIndex === nominees?.length - 1
                 ? "text-gray-400 cursor-not-allowed"
                 : "text-[#1C1B1B]"
             }`}
-            disabled={currentIndex === nominees.length - 1}
+            disabled={currentIndex === nominees?.length - 1}
           >
             Next &gt;
           </button>

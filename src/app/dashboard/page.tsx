@@ -42,6 +42,7 @@ import NominationHistoryTable from "@/components/Drawer/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
 
 import { useAddVehicle, useGetVehicles } from "@/hooks/mutations/vehicles";
+import { useGetNominees } from "@/hooks/mutations/nominee";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,6 +53,33 @@ export default function DashboardPage() {
   const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
+  // const {nominees} = useGetNominees()
+  const { vehiclesData} = useGetVehicles();
+
+
+  useEffect(() => {
+    // Sync nominees to localStorage
+    // if (nominees) {
+    //   const storedNominees = localStorage.getItem("nomineeData");
+    //   const parsedNominees = storedNominees ? JSON.parse(storedNominees) : null;
+
+    //   // Save only if data has changed
+    //   if (JSON.stringify(nominees) !== JSON.stringify(parsedNominees)) {
+    //     localStorage.setItem("nomineeData", JSON.stringify(nominees));
+    //   }
+    // }
+
+    // Sync vehiclesData to localStorage
+    if (vehiclesData) {
+      const storedVehicles = localStorage.getItem("vehicleData");
+      const parsedVehicles = storedVehicles ? JSON.parse(storedVehicles) : null;
+
+      // Save only if data has changed
+      if (JSON.stringify(vehiclesData) !== JSON.stringify(parsedVehicles)) {
+        localStorage.setItem("vehicleData", JSON.stringify(vehiclesData));
+      }
+    }
+  }, [ vehiclesData]);
 
   const { addVehicle, error } = useAddVehicle();
 

@@ -95,26 +95,17 @@ export const useGetVehicles = () => {
 
   useEffect(() => {
     if (!isLoading && data) {
-      const storedUserData = JSON.parse(
-        localStorage.getItem("userData") || "{}"
-      );
-
-      const updatedUserData = {
-        ...storedUserData,
-        vehicles: data,
-      };
-      console.log("Updated  use vehicle user data:", updatedUserData);
       // Save the updated userData to localStorage
-      localStorage.setItem("userData", JSON.stringify(updatedUserData));
+      localStorage.setItem("vehicleData", JSON.stringify(data));
     }
   }, [data, isLoading]); // Only run when data or isLoading changes
 
-  return { vehicles: data, error, isLoading };
+  return { vehiclesData: data, error, isLoading };
 };
 
 export const useDeleteVehicle = () => {
   const toast = useToast();
-  const setUser = useAuthStore((state) => state.setUser);
+  const setVehicle = useAuthStore((state) => state.setVehicle);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -146,20 +137,11 @@ export const useDeleteVehicle = () => {
     },
 
     onSuccess: async (data) => {
-      const updatedVehicles = data?.vehicles || [];
-      const storedUserData = JSON.parse(
-        localStorage.getItem("userData") || "{}"
-      );
+      console.log("Updated User Data: ", data);
+      setVehicle(data); // Make sure this is updating the state correctly
+      localStorage.setItem("vehicleData", JSON.stringify(data));
 
-      const updatedUserData = {
-        ...storedUserData,
-        vehicles: updatedVehicles,
-      };
-      console.log("Updated User Data: ", updatedUserData);
-      setUser(updatedUserData); // Make sure this is updating the state correctly
-      localStorage.setItem("userData", JSON.stringify(updatedUserData));
-
-      queryClient.setQueryData(["vehicle"], updatedVehicles);
+      queryClient.setQueryData(["vehicle"], data);
       await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
       toast({
         title: "Vehicle deleted successfully",

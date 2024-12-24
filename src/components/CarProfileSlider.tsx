@@ -35,22 +35,25 @@ import SliderButton from "./SliderButton";
 import { useAuthStore } from "@/lib/stores/authStore";
 
 interface CarProfileSliderProps {
+  vehicles: any[];
   addVehicle: () => void;
   onVehicleChange?: (vehicle: any) => void;
   setForm: (form: any) => void;
   scrollToForm: () => void;
+  user_type: string;
+  full_name: string;
 }
 
 const CarProfileSlider = ({
+  vehicles,
   addVehicle,
   onVehicleChange,
   setForm,
   scrollToForm,
+  user_type,
+  full_name,
 }: CarProfileSliderProps) => {
-  const user = useAuthStore((state) => state.user);
-  const { full_name, vehicles } = user || {};
 
-  console.log("vericles", vehicles);
 
   const {
     openDropdownIndex,
@@ -99,7 +102,7 @@ const CarProfileSlider = ({
 
   return (
     <article className="max-w-[428px] w-full md:max-w-[900px] mx-auto">
-      {user === "Corporate" && (
+      {user_type === "Corporate" && (
         <div className="flex justify-end ">
           <SearchSortModal data={data} setData={setData} />
           <button

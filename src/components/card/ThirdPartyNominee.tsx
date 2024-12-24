@@ -14,18 +14,24 @@ import DeleteRowModal from "../DeleteRowModal";
 import { CiEdit } from "react-icons/ci";
 import TruncatedText from "../ToggleComponent/TruncatedText";
 import StartDateForm, { CustomDatePicker } from "../dataPicker";
+import { useAddNominee } from "@/hooks/mutations/nominee";
 
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
   nominees: any;
+  vehiclesRegNunbers: any;
 }
 
 export default function ThirdPartyNominees({
   toggleForm,
-
+  vehiclesRegNunbers,
+  selectedVehicle,
   nominees,
 }: ThirdPartyNomineesProps) {
+  console.log("selectedVehicle", selectedVehicle);
   const ThirdPartyNominee = nominees.nominees;
+
+  console.log("thirdPartyNominees", ThirdPartyNominee);
   const {
     openDropdownIndex,
     data,
@@ -37,7 +43,7 @@ export default function ThirdPartyNominees({
     cancelDelete,
     setShowConfirmButton,
     setOpenDropdownIndex,
-  } = useDeleteRow(ThirdPartyNominee);
+  } = useDeleteRow(selectedVehicle);
 
   const handleCloseModal = () => {
     setOpenDropdownIndex(null);
@@ -52,7 +58,7 @@ export default function ThirdPartyNominees({
           <h1
             className={`text-wrap text-black text-[22px] md:text-[30px] ${groteskTextMedium.className}`}
           >
-            {`Vehicle ${nominees.registrationNumber}`}
+            {`Vehicle ${vehiclesRegNunbers}`}
           </h1>
           <h1
             className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}
@@ -498,7 +504,7 @@ interface AddThirdPartyNomineeProps {
   vehiclesRegNunbers?: any;
   toggleForm?: any;
   addVehicle?: () => void;
-  nominees?: any;
+  selectedVehicle?: any;
   user?: any;
 }
 
@@ -506,7 +512,7 @@ export function AddThirdPartyNominee({
   vehiclesRegNunbers,
   toggleForm,
   addVehicle,
-  nominees,
+  selectedVehicle,
   user,
 }: AddThirdPartyNomineeProps) {
   const [hasError, setHasError] = useState(false);
@@ -514,13 +520,19 @@ export function AddThirdPartyNominee({
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
-    vehicle: "",
+    // vehicle: "",
     phone_number: "",
-    start_date: new Date(),
-    end_date: isIndefiniteEndDate
-      ? new Date(new Date().setFullYear(new Date().getFullYear() + 50))
-      : new Date(),
+    // start_date: new Date(),
+    // end_date: isIndefiniteEndDate
+    //   ? new Date(new Date().setFullYear(new Date().getFullYear() + 50))
+    //   : new Date(),
+    start_date: "2024-01-01",
+    end_date: "2024-01-30",
   });
+
+ console.log("selectedVehicle",selectedVehicle)
+
+  const { addNominee, isError, error } = useAddNominee();
 
   const UserInputFields = [
     {
@@ -553,8 +565,7 @@ export function AddThirdPartyNominee({
     handleDateValidation();
 
     if (!hasError) {
-      // Proceed with form submission logic, e.g., addVehicle();
-      // toggleForm(false); // Close the form after submission
+      addNominee({ registration_number: vehiclesRegNunbers, data: formData });
     }
   };
 
@@ -584,7 +595,7 @@ export function AddThirdPartyNominee({
             <h1
               className={`text-wrap text-black text-[22px] md:text-[32px] leading-none ${groteskTextMedium.className}`}
             >
-              {`Vehicle ${nominees.registrationNumber}`}
+              {`Vehicle ${vehiclesRegNunbers}`}
             </h1>
             <h1
               className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}

@@ -20,14 +20,16 @@ interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
   nominees: any;
   vehiclesRegNunbers: any;
+  user_type: "individual" | "corporate";
 }
 
 export default function ThirdPartyNominees({
+  user_type,
   toggleForm,
   vehiclesRegNunbers,
   nominees,
 }: ThirdPartyNomineesProps) {
-console.log("nominee", nominees)
+  console.log("nominee", nominees);
 
   const {
     openDropdownIndex,
@@ -40,7 +42,7 @@ console.log("nominee", nominees)
     cancelDelete,
     setShowConfirmButton,
     setOpenDropdownIndex,
-  } = useDeleteRow(nominees,"nominee");
+  } = useDeleteRow(nominees, "nominee");
 
   const handleCloseModal = () => {
     setOpenDropdownIndex(null);
@@ -73,7 +75,8 @@ console.log("nominee", nominees)
 
       {isMobile ? (
         <NomineeMobile
-        registratingNumber={vehiclesRegNunbers}
+          user_type={user_type}
+          registarationNumber={vehiclesRegNunbers}
           nominees={data}
           showDeleteConfirmation={showDeleteConfirmation}
           showConfirmButton={showConfirmButton}
@@ -84,7 +87,8 @@ console.log("nominee", nominees)
         />
       ) : (
         <NomineeDesktop
-        registratingNumber={vehiclesRegNunbers}
+          user_type={user_type}
+          registarationNumber={vehiclesRegNunbers}
           nominees={data}
           showDeleteConfirmation={showDeleteConfirmation}
           showConfirmButton={showConfirmButton}
@@ -101,6 +105,7 @@ console.log("nominee", nominees)
 }
 
 const NomineeDesktop = ({
+  user_type,
   nominees,
   showDeleteConfirmation,
   showConfirmButton,
@@ -110,7 +115,7 @@ const NomineeDesktop = ({
   handleDelete,
   selectedDataIndex,
   onCloseModal,
-  registratingNumber
+  registarationNumber,
 }) => {
   return (
     <div className="   rounded-[12px] border border-gray-300 pb-2 ">
@@ -144,16 +149,20 @@ const NomineeDesktop = ({
             >
               Phone Number
             </th>
-            <th
-              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  `}
-            >
-              Start Date
-            </th>
-            <th
-              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  `}
-            >
-              End Date
-            </th>
+            {user_type === "corporate" && (
+              <>
+                <th
+                  className={` ${groteskText.className} whitespace-nowrap px-2   text-left  `}
+                >
+                  Start Date
+                </th>
+                <th
+                  className={` ${groteskText.className} whitespace-nowrap px-2   text-left  `}
+                >
+                  End Date
+                </th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -176,7 +185,9 @@ const NomineeDesktop = ({
                       onEdit={() => {}}
                       onRemove={() => showDeleteConfirmation(index)}
                       onCancelDelete={cancelDelete}
-                      onConfirmDelete={() => handleDelete(index,registratingNumber)}
+                      onConfirmDelete={() =>
+                        handleDelete(index, registarationNumber)
+                      }
                       selectedDataIndex={selectedDataIndex}
                       index={index}
                       customStyles={`${groteskText.className} text-[14px]`}
@@ -224,24 +235,28 @@ const NomineeDesktop = ({
                 >
                   {nominee.phone}
                 </td>
-                <td
-                  className={`pt-2 px-2  text-[18px] whitespace-nowrap ${groteskText.className}`}
-                >
-                  <TruncatedText
-                    text={nominee.startDate}
-                    maxLength={10}
-                    className={` ${groteskText.className}`}
-                  />
-                </td>
-                <td
-                  className={`pt-2 px-2  text-[18px] whitespace-nowrap ${groteskText.className}`}
-                >
-                  <TruncatedText
-                    text={nominee.endDate}
-                    maxLength={10}
-                    className={` ${groteskText.className}`}
-                  />
-                </td>
+                {user_type === "corporate" && (
+                  <>
+                    <td
+                      className={`pt-2 px-2  text-[18px] whitespace-nowrap ${groteskText.className}`}
+                    >
+                      <TruncatedText
+                        text={nominee.startDate}
+                        maxLength={10}
+                        className={` ${groteskText.className}`}
+                      />
+                    </td>
+                    <td
+                      className={`pt-2 px-2  text-[18px] whitespace-nowrap ${groteskText.className}`}
+                    >
+                      <TruncatedText
+                        text={nominee.endDate}
+                        maxLength={10}
+                        className={` ${groteskText.className}`}
+                      />
+                    </td>
+                  </>
+                )}
               </tr>
             );
           })}
@@ -252,6 +267,8 @@ const NomineeDesktop = ({
 };
 
 export const NomineeMobile = ({
+  user_type,
+  registarationNumber,
   nominees,
   showDeleteConfirmation,
   showConfirmButton,
@@ -428,32 +445,41 @@ export const NomineeMobile = ({
                     {nominee.phone}
                   </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className={`${groteskText.className} text-gray-500`}>
-                    Start Date
-                  </span>
+                {user_type === "corporate" && (
+                  <>
+                    {" "}
+                    <div className="flex justify-between">
+                      <span
+                        className={`${groteskText.className} text-gray-500`}
+                      >
+                        Start Date
+                      </span>
 
-                  <div className={`${groteskText.className} text-black`}>
-                    <TruncatedText
-                      text={nominee.startDate}
-                      maxLength={22}
-                      className={`${groteskText.className} text-black`}
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  <span className={`${groteskText.className} text-gray-500`}>
-                    End Date
-                  </span>
+                      <div className={`${groteskText.className} text-black`}>
+                        <TruncatedText
+                          text={nominee.startDate}
+                          maxLength={22}
+                          className={`${groteskText.className} text-black`}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <span
+                        className={`${groteskText.className} text-gray-500`}
+                      >
+                        End Date
+                      </span>
 
-                  <div className={`${groteskText.className} text-black`}>
-                    <TruncatedText
-                      text={nominee.endDate}
-                      maxLength={22}
-                      className={`${groteskText.className} text-black`}
-                    />
-                  </div>
-                </div>
+                      <div className={`${groteskText.className} text-black`}>
+                        <TruncatedText
+                          text={nominee.endDate}
+                          maxLength={22}
+                          className={`${groteskText.className} text-black`}
+                        />
+                      </div>
+                    </div>{" "}
+                  </>
+                )}
               </div>
             );
           })}
@@ -503,7 +529,7 @@ export const NomineeMobile = ({
 interface AddThirdPartyNomineeProps {
   vehiclesRegNunbers?: any;
   toggleForm?: any;
-  addVehicle?: () => void;
+  openAddVehicleDetailsDrawer?: () => void;
   selectedVehicle?: any;
   user?: any;
 }
@@ -511,7 +537,7 @@ interface AddThirdPartyNomineeProps {
 export function AddThirdPartyNominee({
   vehiclesRegNunbers,
   toggleForm,
-  addVehicle,
+  openAddVehicleDetailsDrawer,
   selectedVehicle,
   user,
 }: AddThirdPartyNomineeProps) {
@@ -530,7 +556,7 @@ export function AddThirdPartyNominee({
     end_date: "2024-01-30",
   });
 
- console.log("selectedVehicle",selectedVehicle)
+  console.log("selectedVehicle", selectedVehicle);
 
   const { addNominee, isError, error } = useAddNominee();
 
@@ -566,6 +592,7 @@ export function AddThirdPartyNominee({
 
     if (!hasError) {
       addNominee({ registration_number: vehiclesRegNunbers, data: formData });
+      toggleForm();
     }
   };
 
@@ -627,7 +654,7 @@ export function AddThirdPartyNominee({
               />
             ))}
 
-            {user === "Corporate" && (
+            {user === "corporate" && (
               <div className="flex flex-col">
                 <div className="flex gap-3">
                   <CustomDatePicker

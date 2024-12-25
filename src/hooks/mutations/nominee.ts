@@ -67,10 +67,8 @@ export const useAddNominee = () => {
 
       // const updatedNomineeData = [...(existingNomineeData || []), updatedUserData];
       const updatedNomineeData = Array.isArray(existingNomineeData)
-  ? [...existingNomineeData, updatedUserData]
-  : [updatedUserData];  // If it's not an array, just create a new array with the updatedUserData.
-
-
+        ? [...existingNomineeData, updatedUserData]
+        : [updatedUserData]; // If it's not an array, just create a new array with the updatedUserData.
 
       localStorage.setItem("nomineeData", JSON.stringify(updatedNomineeData));
 
@@ -113,29 +111,18 @@ export const useAddNominee = () => {
 
 // Custom hook to fetch and cache nominees
 export const useGetNominees = (registration_number: string) => {
-  const {
-    data: nominees,
-    error,
-    isLoading,
-  } = useQuery({
-    queryKey: ["nominee", registration_number], // Use a unique key per registration number
-    queryFn: () => getNominee(registration_number), // Pass the registration number to the query function
-    enabled: !!registration_number, // Only fetch when registration_number is provided
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["nominee", registration_number],
+    queryFn: () => getNominee(registration_number),
+    enabled: Boolean(registration_number),
   });
 
-  useEffect(() => {
-    if (!isLoading && nominees) {
-      // Save the updated data to localStorage
-      localStorage.setItem("nomineeData", JSON.stringify(nominees));
-    }
-  }, [nominees, isLoading]);
-
-  return { nominees, error, isLoading };
+  return { nominees: data, error, isLoading };
 };
 
 export const useDeleteNominee = () => {
   const toast = useToast();
-  const setNominee = useAuthStore((state) => state.setNominee);
+  // const setNominee = useAuthStore((state) => state.setNominee);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -153,22 +140,7 @@ export const useDeleteNominee = () => {
         throw error;
       }
     },
-    onSuccess: (data, { registration_number, user_id }) => {
-      // Remove the nominee from the local state/cache
-      setNominee(null); // Clearing the nominee from the store if necessary
-
-      // Update the localStorage: remove the deleted nominee
-      const existingNomineeData = JSON.parse(localStorage.getItem("nomineeData") || "[]");
-
-      // Filter out the deleted nominee using registration_number and user_id
-      const updatedNomineeData = existingNomineeData.filter(
-        (nominee: any) =>
-          nominee.registration_number !== registration_number || nominee.id !== user_id
-      );
-
-      // Save the updated data back to localStorage
-      localStorage.setItem("nomineeData", JSON.stringify(updatedNomineeData));
-
+    onSuccess: () => {
       // Invalidate the cache for nominees to trigger a refetch
       queryClient.invalidateQueries({ queryKey: ["nominee"] });
 

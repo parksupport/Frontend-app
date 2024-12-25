@@ -35,8 +35,8 @@ import SliderButton from "./SliderButton";
 import { useAuthStore } from "@/lib/stores/authStore";
 
 interface CarProfileSliderProps {
-  vehicles: any[];
-  addVehicle: () => void;
+  vehicles: any;
+  openAddVehicleDetailsDrawer: () => void;
   onVehicleChange?: (vehicle: any) => void;
   setForm: (form: any) => void;
   scrollToForm: () => void;
@@ -46,7 +46,7 @@ interface CarProfileSliderProps {
 
 const CarProfileSlider = ({
   vehicles,
-  addVehicle,
+  openAddVehicleDetailsDrawer,
   onVehicleChange,
   setForm,
   scrollToForm,
@@ -129,7 +129,7 @@ const CarProfileSlider = ({
                     <div className="flex items-center">
                       <div
                         className="flex items-center gap-[11px]"
-                        onClick={addVehicle}
+                        onClick={openAddVehicleDetailsDrawer}
                       >
                         <button className="bg-[#3957D7] flex items-center text-white cursor-pointer rounded-[8px] py-[0.2rem] px-[8px] text-[16px]">
                           Add vehicle

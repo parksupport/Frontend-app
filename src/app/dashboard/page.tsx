@@ -54,32 +54,7 @@ export default function DashboardPage() {
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
   // const {nominees} = useGetNominees()
-  const { vehiclesData} = useGetVehicles();
-
-
-  useEffect(() => {
-    // Sync nominees to localStorage
-    // if (nominees) {
-    //   const storedNominees = localStorage.getItem("nomineeData");
-    //   const parsedNominees = storedNominees ? JSON.parse(storedNominees) : null;
-
-    //   // Save only if data has changed
-    //   if (JSON.stringify(nominees) !== JSON.stringify(parsedNominees)) {
-    //     localStorage.setItem("nomineeData", JSON.stringify(nominees));
-    //   }
-    // }
-
-    // Sync vehiclesData to localStorage
-    if (vehiclesData) {
-      const storedVehicles = localStorage.getItem("vehicleData");
-      const parsedVehicles = storedVehicles ? JSON.parse(storedVehicles) : null;
-
-      // Save only if data has changed
-      if (JSON.stringify(vehiclesData) !== JSON.stringify(parsedVehicles)) {
-        localStorage.setItem("vehicleData", JSON.stringify(vehiclesData));
-      }
-    }
-  }, [ vehiclesData]);
+  const { vehiclesData,isLoading} = useGetVehicles();
 
   const { addVehicle, error } = useAddVehicle();
 
@@ -104,8 +79,9 @@ export default function DashboardPage() {
       <CarProfileDrawer
         openNominationHistory={openNominationHistory}
         toggleDrawer={toggleDrawer}
-        addVehicleDetails={addVehicleDetails}
+        openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
         form={form}
+        vehicles={vehiclesData?.vehicles}
         autoScrollToForm={autoScrollToForm}
       />
     );
@@ -196,8 +172,8 @@ export default function DashboardPage() {
     console.log("vehicleData:", data);
     setDrawerContent(
       <VehicleOwnerCheck
-        back={addVehicleDetails}
-        OwnerInfoDrawer={OwnerInfoDrawer}
+        back={openAddVehicleDetailsDrawer}
+        selectownerDrawer={() =>selectownerDrawer(data)}
         vehicleStatus={() => VehicleStatus(data)}
       />
     );
@@ -205,9 +181,10 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const OwnerInfoDrawer = () => {
+  const selectownerDrawer = (data) => {
     setDrawerContent(
       <VehicleOwnerDetails
+      vehicleData={data}
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
         user={user_type}
@@ -217,7 +194,7 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const addVehicleDetails = () => {
+  const openAddVehicleDetailsDrawer = () => {
     setDrawerContent(
       <AddVehicleDetailsDrawer
         back={toggleDrawer}
@@ -229,17 +206,17 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openNotificationRep = () => {
-    setDrawerContent(
-      <ThirdPartyNominees
-        toggleForm={toggleDrawer}
-        nominees={NomineeMobile}
-        // OpenRecipient={OpenRecipient}
-      />
-    );
+  // const openNotificationRep = () => {
+  //   setDrawerContent(
+  //     <ThirdPartyNominees
+  //       toggleForm={toggleDrawer}
+  //       nominees={NomineeMobile}
+  //       // OpenRecipient={OpenRecipient}
+  //     />
+  //   );
 
-    openDrawer();
-  };
+  //   openDrawer();
+  // };
 
   const openEducationalMaterials = () => {
     setDrawerContent(
@@ -265,7 +242,7 @@ export default function DashboardPage() {
       <VehicleAddedFailed
         toggleDrawer={toggleDrawer}
         Success={handleSuccess}
-        back={addVehicleDetails}
+        back={openAddVehicleDetailsDrawer}
       />
     );
     scrollToTopFromParent();
@@ -356,8 +333,9 @@ export default function DashboardPage() {
               // openNominationHistory={openNominationHistory}
             /> */}
                 <CarProfile
-                  addVehicleDetails={addVehicleDetails}
+                  openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
                   openCarProfile={() => openCarProfile(vehicles)}
+                  vehicles={vehiclesData?.vehicles}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>

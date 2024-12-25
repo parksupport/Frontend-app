@@ -1,10 +1,12 @@
+"use client"
+
 import SubscriptionPlans from '@/components/Subscription'
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-      <SubscriptionPlans />
+      <SubscriptionPlans onClick={() => console.log("subscribed")} />
     </div>
   )
 }

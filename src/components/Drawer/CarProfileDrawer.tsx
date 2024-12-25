@@ -9,25 +9,27 @@ import { useGetNominees } from "@/hooks/mutations/nominee";
 
 interface CarProfileDrawerProps {
   toggleDrawer: () => void;
-  addVehicleDetails: (details: any) => void;
+  openAddVehicleDetailsDrawer: () => void;
   form: boolean;
   openNominationHistory: () => void;
   autoScrollToForm?: boolean;
+  vehicles:any
 }
 
 const CarProfileDrawer = ({
   toggleDrawer,
-  addVehicleDetails,
+  openAddVehicleDetailsDrawer,
   form,
   openNominationHistory,
   autoScrollToForm = false,
+  vehicles
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const isMobile = useIsMobile();
 
   const user = useAuthStore((state) => state.user);
-  const { full_name,  vehicles } = user || {};
+  const { full_name} = user || {};
   const user_type = "individual";
 
   const handleVehicleChange = (index: number) => {
@@ -63,13 +65,14 @@ const CarProfileDrawer = ({
         <AddThirdPartyNominee
           vehiclesRegNunbers={registrationNumber}
           toggleForm={setIsForm}
-          addVehicle={addVehicleDetails}
+          openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
           selectedVehicle={nominees?.nominations || []}
         />
       </div>
     ) : (
       <div className="flex flex-col md:items-center" ref={formRef}>
         <ThirdPartyNominees
+          user_type={user_type}
           vehiclesRegNunbers={registrationNumber}
           toggleForm={setIsForm}
           nominees={nominees?.nominations || []}
@@ -91,7 +94,7 @@ const CarProfileDrawer = ({
             full_name={full_name}
             user_type={user_type}
             vehicles={vehicles}
-            addVehicle={addVehicleDetails}
+            openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
             onVehicleChange={handleVehicleChange}
             setForm={setIsForm}
             scrollToForm={() => formRef.current?.scrollIntoView({ behavior: "smooth" })}
@@ -101,7 +104,7 @@ const CarProfileDrawer = ({
       ) : (
         <CorporateCarProfileDrawer
           openNominationHistory={openNominationHistory}
-          addVehicleDetails={addVehicleDetails}
+          openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
           toggleDrawer={toggleDrawer}
           isForm={isForm}
         />

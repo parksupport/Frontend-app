@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import Button from "../Buttons";
 import InputField from "../InputField";
@@ -91,7 +91,7 @@ const formConfigurations = {
   },
 };
 
-function DynamicForm({ formType, status }) {
+function DynamicForm({ formType, status ,clear, vehicleData}) {
   const [formData, setFormData] = useState(
     formConfigurations[formType]?.fields.reduce((acc, field) => {
       acc[field.name] = "";
@@ -99,6 +99,18 @@ function DynamicForm({ formType, status }) {
     }, {})
   );
 
+
+    // Reset form data when 'clear' prop is true
+    useEffect(() => {
+      if (clear) {
+        setFormData(
+          formConfigurations[formType]?.fields.reduce((acc, field) => {
+            acc[field.name] = "";
+            return acc;
+          }, {})
+        );
+      }
+    }, [clear, formType]); 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -107,9 +119,46 @@ function DynamicForm({ formType, status }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform form submission logic here
+
+ 
+
+    // Validation (optional, depending on your requirements)
+    for (const field in formData) {
+      if (!formData[field]) {
+        alert(`${field} is required.`);
+        return;
+      }
+    }
+
+    const mergedData = { ...formData, ...vehicleData };
+    console.log("formData", mergedData);
+    // You can create a form submission logic here
+    try {
+      // If you're sending this data to a server
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      // If successful, handle response (optional)
+      const result = await response.json();
+      console.log("Form submission successful", result);
+
+      // Optionally, navigate to a different page or show a success message
+      // status(); // Assuming `status` is passed as a prop to move to the next step
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle error (e.g., show an error message to the user)
+    }
   };
 
   const formConfig = formConfigurations[formType];
@@ -143,7 +192,7 @@ function DynamicForm({ formType, status }) {
           <Button
             variant="quinary"
             className="py-[10px] px-[12px] w-full"
-            onClick={status}
+            type="submit"
           >
             Continue to validate
           </Button>
@@ -153,7 +202,7 @@ function DynamicForm({ formType, status }) {
   );
 }
 
-const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user }) => {
+const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user ,vehicleData}) => {
   // Owner options
 
   const User = {
@@ -170,16 +219,23 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user }) => {
   const owners = user === "individual" ? User : Corporate;
 
   const [selectedKey, setSelectedKey] = useState("0");
+  const [isClearForm, setClearForm] = useState(false);
+
+  function clearForm() {
+    setClearForm(true);
+  }
 
   // Handle owner selection
   const handleSelect = (key) => {
     setSelectedKey(key);
     console.log("Form confirmed for:", owners[key]);
+    clearForm();
+
   };
 
   // Render the dynamic form based on selectedKey
   const renderForm = () => {
-    return <DynamicForm formType={selectedKey} status={VehicleStatus} />;
+    return <DynamicForm formType={selectedKey} status={VehicleStatus} clear={isClearForm} vehicleData={vehicleData} />;
   };
 
   const icons = {
@@ -193,7 +249,6 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user }) => {
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Which of these best describes your ownership of the vehicle?"
-        
       />
       <div className="flex b flex-col md:items-center">
         <div

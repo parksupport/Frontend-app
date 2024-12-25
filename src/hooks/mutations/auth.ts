@@ -53,7 +53,7 @@ export const useSignup = (value: string) => {
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const toast = useToast();
 
   const mutation = useMutation<LoginResponse, Error, LoginInput>({
@@ -89,7 +89,12 @@ export const useLogin = () => {
     },
   });
 
-  return { login: mutation.mutate, isError: mutation.isError, error: mutation.error, loading };
+  return {
+    login: mutation.mutate,
+    isError: mutation.isError,
+    error: mutation.error,
+    loading,
+  };
 };
 
 export const useForgotPassword = () => {
@@ -219,23 +224,15 @@ export const useVerifyOtp = () => {
 export const useLogout = () => {
   const setToken = useAuthStore((state) => state.setToken);
   const setUser = useAuthStore((state) => state.setUser);
-  const setVehicle = useAuthStore((state) => state.setVehicle);
-  const setNominee = useAuthStore((state) => state.setNominee);
 
   const logout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("userData");
-    localStorage.removeItem("nomineeData");
-    localStorage.removeItem("vehicleData");
 
     // Clear Zustand store
     setToken(null);
     setUser(null);
-    setVehicle(null);
-    setNominee(null);
-
-    // No need for explicit routing; let `isAuth` HOC redirect
   };
 
   return { logout };
@@ -249,5 +246,3 @@ export const useCheckEmail = (email) => {
     retry: false, // Disable retries (optional, for better control over error handling)
   });
 };
-
-

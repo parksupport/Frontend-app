@@ -66,7 +66,7 @@ const CarProfileSlider = ({
     cancelDelete,
     setData,
     setOpenDropdownIndex,
-  } = useDeleteRow(vehicles);
+  } = useDeleteRow(vehicles,"vehicle");
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);

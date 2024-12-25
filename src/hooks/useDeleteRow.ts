@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDeleteVehicle } from "./mutations/vehicles";
+import { useDeleteNominee } from "./mutations/nominee";
 
 
 
@@ -17,22 +18,31 @@ interface useDeleteRowProps {
   setOpenDropdownIndex:any
 }
 
-export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
+export default function useDeleteRow(externalData: any, type: "vehicle" | "nominee"  ): useDeleteRowProps {
   const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
-  const [data, setData] = useState<any[]>(externalNominees);
+  const [data, setData] = useState<any[]>(externalData);
   const [showConfirmButton, setShowConfirmButton] = useState(false);
   const [selectedDataIndex, setSelectedDataIndex] = useState<number | null>(null);
 
- const {deleteVehicle,isError,error} =  useDeleteVehicle()
-
-
+  const {
+    deleteVehicle: deleteVehicle,
+    isError: isDeleteVehicleError,
+    error: deleteVehicleError,
+  } = useDeleteVehicle();
+  
+  const {
+    deleteNominee: deleteNominee,
+    isError: isDeleteNomineeError,
+    error: deleteNomineeError,
+  } = useDeleteNominee();
+  
 
   useEffect(() => {
-    if (JSON.stringify(data) !== JSON.stringify(externalNominees)) {
-      setData(externalNominees);
+    if (JSON.stringify(data) !== JSON.stringify(externalData)) {
+      setData(externalData);
     }
-  }, [externalNominees]);
-  // }, [externalNominees, data]);
+  }, [externalData]);
+  // }, [externalData, data]);
 
   
   
@@ -42,12 +52,27 @@ export default function useDeleteRow(externalNominees: any): useDeleteRowProps {
     setShowConfirmButton(false);
   };
 
-  const handleDelete =(index: number) => {
-    // setData((prevNominees) => prevNominees.filter((_, nomineeIndex) => nomineeIndex !== index));
+  const handleDelete = (index: number, registration_number?: string) => {
+    // Get the item based on the index
+    const item = data[index];
+  
+    if (type === "vehicle") {
+      const id = item?.registration_number;
+      if (id) {
+        deleteVehicle(id); // Deleting vehicle by registration number
+      }
+    } else if (type === "nominee") {
+      const user_id = item?.id;
+      if (registration_number && user_id) {
+        deleteNominee({ registration_number, user_id }); // Pass both as an object
+      }
+    }
 
-    console.log("dataa",data[index]?.registration_number)
-    const id = data[index]?.registration_number;
-    deleteVehicle(id)
+    setData((prevData) => prevData.filter((_, i) => i !== index));
+
+    // console.log("dataa",data[index]?.registration_number)
+    // const id = data[index]?.registration_number;
+    // deleteVehicle(id)
 
     setShowConfirmButton(false);
     setOpenDropdownIndex(null);

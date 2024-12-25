@@ -25,10 +25,10 @@ export const addNominee = async (registration_number,userData) => {
   }
 };
 
-export const deleteVehicle = async (registration_number) => {
+export const deleteNominee = async (registration_number,user_id) => {
   try {
     const response = await Axios.delete(
-      `http://localhost:8000/api/vehicles/${registration_number}/delete/`
+      `http://localhost:8000/api/vehicles/${registration_number}/nominations/${user_id}/delete/`
     );
     return response.data;
   } catch (error) {

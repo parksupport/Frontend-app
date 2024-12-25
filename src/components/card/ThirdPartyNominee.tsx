@@ -25,13 +25,10 @@ interface ThirdPartyNomineesProps {
 export default function ThirdPartyNominees({
   toggleForm,
   vehiclesRegNunbers,
-  selectedVehicle,
   nominees,
 }: ThirdPartyNomineesProps) {
-  console.log("selectedVehicle", selectedVehicle);
-  const ThirdPartyNominee = nominees.nominees;
+console.log("nominee", nominees)
 
-  console.log("thirdPartyNominees", ThirdPartyNominee);
   const {
     openDropdownIndex,
     data,
@@ -43,7 +40,7 @@ export default function ThirdPartyNominees({
     cancelDelete,
     setShowConfirmButton,
     setOpenDropdownIndex,
-  } = useDeleteRow(selectedVehicle);
+  } = useDeleteRow(nominees,"nominee");
 
   const handleCloseModal = () => {
     setOpenDropdownIndex(null);
@@ -76,6 +73,7 @@ export default function ThirdPartyNominees({
 
       {isMobile ? (
         <NomineeMobile
+        registratingNumber={vehiclesRegNunbers}
           nominees={data}
           showDeleteConfirmation={showDeleteConfirmation}
           showConfirmButton={showConfirmButton}
@@ -86,6 +84,7 @@ export default function ThirdPartyNominees({
         />
       ) : (
         <NomineeDesktop
+        registratingNumber={vehiclesRegNunbers}
           nominees={data}
           showDeleteConfirmation={showDeleteConfirmation}
           showConfirmButton={showConfirmButton}
@@ -111,6 +110,7 @@ const NomineeDesktop = ({
   handleDelete,
   selectedDataIndex,
   onCloseModal,
+  registratingNumber
 }) => {
   return (
     <div className="   rounded-[12px] border border-gray-300 pb-2 ">
@@ -176,7 +176,7 @@ const NomineeDesktop = ({
                       onEdit={() => {}}
                       onRemove={() => showDeleteConfirmation(index)}
                       onCancelDelete={cancelDelete}
-                      onConfirmDelete={() => handleDelete(index)}
+                      onConfirmDelete={() => handleDelete(index,registratingNumber)}
                       selectedDataIndex={selectedDataIndex}
                       index={index}
                       customStyles={`${groteskText.className} text-[14px]`}

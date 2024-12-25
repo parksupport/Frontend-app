@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/authStore";
 import axios from "axios";
 import { useEffect } from "react";
-import { addNominee, getNominee } from "@/api/nominee";
+import { addNominee, deleteNominee, getNominee } from "@/api/nominee";
 
 export const useAddNominee = () => {
   const toast = useToast();
@@ -46,9 +46,13 @@ export const useAddNominee = () => {
 
       const previousUserData = queryClient.getQueryData(["nominee"]);
 
+      // Ensure the existing data is properly added to and the new nominee is appended
       queryClient.setQueryData(["nominee"], (oldData: any) => {
         return {
-          nominee: [...(oldData?.nominee || []), newNominee],
+          nominee: [
+            ...(oldData?.nominee || []),
+            newNominee, // Append the new nominee
+          ],
         };
       });
 
@@ -56,21 +60,32 @@ export const useAddNominee = () => {
     },
     onSuccess: async (updatedUserData) => {
       setUser(updatedUserData);
-      console.log("Updated user data:", updatedUserData);
-      localStorage.setItem("nomineeData", JSON.stringify(updatedUserData));
+
+      const existingNomineeData = JSON.parse(
+        localStorage.getItem("nomineeData") || "[]"
+      );
+
+      // const updatedNomineeData = [...(existingNomineeData || []), updatedUserData];
+      const updatedNomineeData = Array.isArray(existingNomineeData)
+  ? [...existingNomineeData, updatedUserData]
+  : [updatedUserData];  // If it's not an array, just create a new array with the updatedUserData.
+
+
+
+      localStorage.setItem("nomineeData", JSON.stringify(updatedNomineeData));
 
       queryClient.setQueryData(["nominee"], updatedUserData);
       await queryClient.invalidateQueries({ queryKey: ["nominee"] });
 
       toast({
-        title: "user nominated successfully",
+        title: "User nominated successfully",
         status: "success",
         duration: 3000,
         isClosable: true,
       });
     },
     onError: (mutationError: any, newNominee, context) => {
-      console.log("Updated user data:", newNominee);
+      console.log("Failed to add nominee:", newNominee);
 
       // Rollback the cache to its previous state
       queryClient.setQueryData(["nominee"], context?.previousUserData);
@@ -96,25 +111,91 @@ export const useAddNominee = () => {
   };
 };
 
-  
-  // Custom hook to fetch and cache nominees
-  export const useGetNominees = (registration_number: string) => {
-    const {
-      data: nominees,
-      error,
-      isLoading,
-    } = useQuery({
-      queryKey: ["nominee", registration_number], // Use a unique key per registration number
-      queryFn: () => getNominee(registration_number), // Pass the registration number to the query function
-      enabled: !!registration_number, // Only fetch when registration_number is provided
-    });
-  
-    useEffect(() => {
-      if (!isLoading && nominees) {
-        // Save the updated data to localStorage
-        localStorage.setItem("nomineeData", JSON.stringify(nominees));
+// Custom hook to fetch and cache nominees
+export const useGetNominees = (registration_number: string) => {
+  const {
+    data: nominees,
+    error,
+    isLoading,
+  } = useQuery({
+    queryKey: ["nominee", registration_number], // Use a unique key per registration number
+    queryFn: () => getNominee(registration_number), // Pass the registration number to the query function
+    enabled: !!registration_number, // Only fetch when registration_number is provided
+  });
+
+  useEffect(() => {
+    if (!isLoading && nominees) {
+      // Save the updated data to localStorage
+      localStorage.setItem("nomineeData", JSON.stringify(nominees));
+    }
+  }, [nominees, isLoading]);
+
+  return { nominees, error, isLoading };
+};
+
+export const useDeleteNominee = () => {
+  const toast = useToast();
+  const setNominee = useAuthStore((state) => state.setNominee);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async ({
+      registration_number,
+      user_id,
+    }: {
+      registration_number: string;
+      user_id: string;
+    }) => {
+      try {
+        // This function should send the registration number and user ID to the backend for deletion
+        return await deleteNominee(registration_number, user_id);
+      } catch (error: any) {
+        throw error;
       }
-    }, [nominees, isLoading]);
-  
-    return { nominees, error, isLoading };
+    },
+    onSuccess: (data, { registration_number, user_id }) => {
+      // Remove the nominee from the local state/cache
+      setNominee(null); // Clearing the nominee from the store if necessary
+
+      // Update the localStorage: remove the deleted nominee
+      const existingNomineeData = JSON.parse(localStorage.getItem("nomineeData") || "[]");
+
+      // Filter out the deleted nominee using registration_number and user_id
+      const updatedNomineeData = existingNomineeData.filter(
+        (nominee: any) =>
+          nominee.registration_number !== registration_number || nominee.id !== user_id
+      );
+
+      // Save the updated data back to localStorage
+      localStorage.setItem("nomineeData", JSON.stringify(updatedNomineeData));
+
+      // Invalidate the cache for nominees to trigger a refetch
+      queryClient.invalidateQueries({ queryKey: ["nominee"] });
+
+      // Show a success toast
+      toast({
+        title: "Nominee deleted successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+    onError: (error: any) => {
+      // Show an error toast
+      toast({
+        title: "Error deleting nominee.",
+        description: error?.response?.data?.message || "Something went wrong.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+  });
+
+  return {
+    deleteNominee: mutation.mutate,
+    isError: mutation.isError,
+    error: mutation.error,
+    // isLoading: mutation.isLoading,
   };
+};

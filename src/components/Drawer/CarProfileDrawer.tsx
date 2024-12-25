@@ -72,8 +72,7 @@ const CarProfileDrawer = ({
         <ThirdPartyNominees
           vehiclesRegNunbers={registrationNumber}
           toggleForm={setIsForm}
-          nominees={nominees || {}}
-          selectedVehicle={nominees?.nominations || []}
+          nominees={nominees?.nominations || []}
         />
       </div>
     );

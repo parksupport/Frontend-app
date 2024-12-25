@@ -24,14 +24,16 @@ import { useAuthStore } from "@/lib/stores/authStore";
 interface CarProfileProps {
   openCarProfile: any;
   addVehicleDetails: any;
+  vehicles:any
 }
 
 function CarProfile({
   openCarProfile,
   addVehicleDetails,
+  vehicles
 }: CarProfileProps) {
   const user = useAuthStore((state) => state.user);
-  const {full_name, vehicles } = user || {};
+  const {full_name} = user || {};
   const [hovered, setHovered] = useState({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);

@@ -97,24 +97,13 @@ export const useAddNominee = () => {
 };
 
   
-  // Custom hook to fetch and cache nominees
-  export const useGetNominees = (registration_number: string) => {
-    const {
-      data: nominees,
-      error,
-      isLoading,
-    } = useQuery({
-      queryKey: ["nominee", registration_number], // Use a unique key per registration number
-      queryFn: () => getNominee(registration_number), // Pass the registration number to the query function
-      enabled: !!registration_number, // Only fetch when registration_number is provided
-    });
-  
-    useEffect(() => {
-      if (!isLoading && nominees) {
-        // Save the updated data to localStorage
-        localStorage.setItem("nomineeData", JSON.stringify(nominees));
-      }
-    }, [nominees, isLoading]);
-  
-    return { nominees, error, isLoading };
-  };
+
+export const useGetNominees = (registration_number: string) => {
+  const { data, error, isLoading }  = useQuery({
+    queryKey: ["nominee", registration_number],
+    queryFn: () => getNominee(registration_number),
+    enabled: Boolean(registration_number),
+  });
+
+  return { nominees: data, error, isLoading };
+};

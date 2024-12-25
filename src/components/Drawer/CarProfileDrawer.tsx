@@ -13,6 +13,7 @@ interface CarProfileDrawerProps {
   form: boolean;
   openNominationHistory: () => void;
   autoScrollToForm?: boolean;
+  vehicles:any
 }
 
 const CarProfileDrawer = ({
@@ -21,13 +22,14 @@ const CarProfileDrawer = ({
   form,
   openNominationHistory,
   autoScrollToForm = false,
+  vehicles
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const isMobile = useIsMobile();
 
   const user = useAuthStore((state) => state.user);
-  const { full_name,  vehicles } = user || {};
+  const { full_name} = user || {};
   const user_type = "individual";
 
   const handleVehicleChange = (index: number) => {

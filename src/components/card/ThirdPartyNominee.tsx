@@ -18,6 +18,7 @@ import { useAddNominee } from "@/hooks/mutations/nominee";
 
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
+  selectedVehicle:any;
   nominees: any;
   vehiclesRegNunbers: any;
 }
@@ -28,10 +29,7 @@ export default function ThirdPartyNominees({
   selectedVehicle,
   nominees,
 }: ThirdPartyNomineesProps) {
-  console.log("selectedVehicle", selectedVehicle);
   const ThirdPartyNominee = nominees.nominees;
-
-  console.log("thirdPartyNominees", ThirdPartyNominee);
   const {
     openDropdownIndex,
     data,

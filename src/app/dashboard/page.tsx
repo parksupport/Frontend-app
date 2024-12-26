@@ -43,6 +43,7 @@ import { useAuthStore } from "@/lib/stores/authStore";
 
 import { useAddVehicle, useGetVehicles } from "@/hooks/mutations/vehicles";
 import { useGetNominees } from "@/hooks/mutations/nominee";
+import VehicleVerificationDrawer from "@/components/Drawer/VehicleVerificationDrawer";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,7 +55,7 @@ export default function DashboardPage() {
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
   // const {nominees} = useGetNominees()
-  const { vehiclesData,isLoading} = useGetVehicles();
+  const { vehiclesData, isLoading } = useGetVehicles();
 
   const { addVehicle, error } = useAddVehicle();
 
@@ -96,6 +97,12 @@ export default function DashboardPage() {
         back={openCarProfile}
       />
     );
+    openDrawer();
+  };
+
+  const openVerifyMyVehicleDrawer = () => {
+    setDrawerContent(<VehicleVerificationDrawer back={toggleDrawer} />);
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -147,8 +154,7 @@ export default function DashboardPage() {
       console.log("response:", response);
 
       // const verificationStatus = response?.vehicle?.verification_status ;
-      const verificationStatus =  "Verified";
-
+      const verificationStatus = "Verified";
 
       return verificationStatus === "Verified" ? "success" : "failed";
     } catch (error) {
@@ -173,7 +179,7 @@ export default function DashboardPage() {
     setDrawerContent(
       <VehicleOwnerCheck
         back={openAddVehicleDetailsDrawer}
-        selectownerDrawer={() =>selectownerDrawer(data)}
+        selectownerDrawer={() => selectownerDrawer(data)}
         vehicleStatus={() => VehicleStatus(data)}
       />
     );
@@ -184,7 +190,7 @@ export default function DashboardPage() {
   const selectownerDrawer = (data) => {
     setDrawerContent(
       <VehicleOwnerDetails
-      vehicleData={data}
+        vehicleData={data}
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
         user={user_type}
@@ -336,6 +342,7 @@ export default function DashboardPage() {
                   openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
                   openCarProfile={() => openCarProfile(vehicles)}
                   vehicles={vehiclesData?.vehicles}
+                  verify = {openVerifyMyVehicleDrawer}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>

@@ -6,6 +6,7 @@ import useIsMobile from "@/hooks/useIsMobile";
 import CorporateCarProfileDrawer from "./CorporateCarProfileDrawer";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useGetNominees } from "@/hooks/mutations/nominee";
+import Spinner from "../Spinner";
 
 interface CarProfileDrawerProps {
   toggleDrawer: () => void;
@@ -29,8 +30,7 @@ const CarProfileDrawer = ({
   const isMobile = useIsMobile();
 
   const user = useAuthStore((state) => state.user);
-  const { full_name} = user || {};
-  const user_type = "individual";
+  const { full_name, user_type = "individual" } = user || {};
 
   const handleVehicleChange = (index: number) => {
     setSelectedVehicleIndex(index); // Update selected vehicle index when slider changes
@@ -53,7 +53,7 @@ const CarProfileDrawer = ({
 
   const renderNomineeSection = () => {
     if (isLoading) {
-      return <p>Loading nominees...</p>;
+      return <Spinner/>;
     }
 
     if (error) {
@@ -72,7 +72,7 @@ const CarProfileDrawer = ({
     ) : (
       <div className="flex flex-col md:items-center" ref={formRef}>
         <ThirdPartyNominees
-          user_type={user_type}
+          user_type={user_type.toLowerCase() as "individual" | "corporate"}
           vehiclesRegNunbers={registrationNumber}
           toggleForm={setIsForm}
           nominees={nominees?.nominations || []}
@@ -88,26 +88,30 @@ const CarProfileDrawer = ({
         title="Vehicle Overview"
         subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account."
       />
-      {user_type === "individual" || isMobile ? (
-        <>
-          <CarProfileSlider
-            full_name={full_name}
-            user_type={user_type}
-            vehicles={vehicles}
-            openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
-            onVehicleChange={handleVehicleChange}
-            setForm={setIsForm}
-            scrollToForm={() => formRef.current?.scrollIntoView({ behavior: "smooth" })}
-          />
-          {renderNomineeSection()}
-        </>
-      ) : (
+      {user_type.toLowerCase() === "corporate" && !isMobile ? (
+        // If the user is corporate and on a desktop, load corporate drawer
         <CorporateCarProfileDrawer
           openNominationHistory={openNominationHistory}
           openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
           toggleDrawer={toggleDrawer}
           isForm={isForm}
         />
+      ) : (
+        // Otherwise, use the individual + mobile flow
+        <>
+          <CarProfileSlider
+            full_name={full_name}
+            user_type={user_type.toLowerCase()}
+            vehicles={vehicles}
+            openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
+            onVehicleChange={handleVehicleChange}
+            setForm={setIsForm}
+            scrollToForm={() =>
+              formRef.current?.scrollIntoView({ behavior: "smooth" })
+            }
+          />
+          {renderNomineeSection()}
+        </>
       )}
     </div>
   );

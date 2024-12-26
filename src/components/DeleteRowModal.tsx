@@ -7,7 +7,7 @@ import { groteskText } from "@/app/fonts";
 import { Plus } from "lucide-react";
 
 interface DeleteRowModalProps {
-  position?: { right: number; top: number };
+  position?: { right: number; top: number; left?:any };
   showConfirmButton?: boolean;
   onEdit?: () => void;
   onRemove?: () => void;
@@ -24,7 +24,7 @@ interface DeleteRowModalProps {
 }
 
 const DeleteRowModal = ({
-  position = { right: 0, top: 0 },
+  position = { right: 0, top: 0},
   showConfirmButton = false,
   onEdit,
   onRemove,
@@ -56,8 +56,15 @@ const DeleteRowModal = ({
 
   return (
     <div
-      className={`rounded-[8px] bg-white absolute z-10 ${customStyles}`}
-      style={position}
+    style={{
+      position: "absolute",
+      top: position.top,
+      left: position.left,
+      right: position.right,
+      // e.g. a higher z-index
+      zIndex: 9999,
+    }}
+    className="bg-white shadow-md rounded p-2"
       ref={modalRef} // Attach the ref to the modal container
     >
       <div className="border shadow-lg border-gray-200 rounded-[8px] p-[1px] ">

@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
-import { groteskText, groteskTextMedium } from "@/app/fonts";
-import UserProfileSVG from "@/assets/svg/owner.svg";
-import NumberSVG from "@/assets/svg/regNo.svg";
-import GroupUserSVG from "@/assets/svg/profile-2user.svg";
-import TicketSVG from "@/assets/svg/ticket-status.svg";
-import { Button } from "@/components";
-import VehiclceInfoSVG from "@/assets/svg/infoOutline.svg";
-import "@/components/Slider.css";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import Image from "next/image";
-import { AiOutlineExpand } from "react-icons/ai";
-import { useEffect, useRef, useState } from "react";
-import { MoveDiagonal } from "lucide-react";
-import UserTickSVG from "@/assets/svg/nominee.svg";
-import InfoIconWithText from "../InfoIconWithText";
-import SliderButton from "../SliderButton";
-import { useAuthStore } from "@/lib/stores/authStore";
-import { useGetNominees } from "@/hooks/mutations/nominee";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import { groteskText, groteskTextMedium } from '@/app/fonts';
+import UserProfileSVG from '@/assets/svg/owner.svg';
+import NumberSVG from '@/assets/svg/regNo.svg';
+import GroupUserSVG from '@/assets/svg/profile-2user.svg';
+import TicketSVG from '@/assets/svg/ticket-status.svg';
+import { Button } from '@/components';
+import VehiclceInfoSVG from '@/assets/svg/infoOutline.svg';
+import '@/components/Slider.css';
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
+import Image from 'next/image';
+import { AiOutlineExpand } from 'react-icons/ai';
+import { useEffect, useRef, useState } from 'react';
+import { MoveDiagonal } from 'lucide-react';
+import UserTickSVG from '@/assets/svg/nominee.svg';
+import InfoIconWithText from '../InfoIconWithText';
+import SliderButton from '../SliderButton';
+import { useAuthStore } from '@/lib/stores/authStore';
+import { useGetNominees } from '@/hooks/mutations/nominee';
 
 interface CarProfileProps {
   openCarProfile: any;
@@ -40,52 +40,24 @@ const CarProfile = ({
   const sliderRef = useRef(null);
   const totalPages = vehicles?.length || 0;
 
-
-
-
   const [nomineeData, setNomineeData] = useState([]);
-  
+
   const getNomineeData = async (registrationNumber: string) => {
     try {
-      console.log("Fetching data for registration number:", registrationNumber);
+      console.log('Fetching data for registration number:', registrationNumber);
       const { nominees, error } = await useGetNominees(registrationNumber);
-      
+
       if (error) {
-        console.error("Error fetching nominees:", error);
+        console.error('Error fetching nominees:', error);
         return null; // Return null if there's an error
       }
-      console.log("Nominee data:", nominees);
-      return nominees;  // Return nominee data if successful
+      console.log('Nominee data:', nominees);
+      return nominees; // Return nominee data if successful
     } catch (error) {
-      console.error("Error in getNomineeData:", error.message);
-      return null;  // Return null if there's a catchable error
+      console.error('Error in getNomineeData:', error.message);
+      return null; // Return null if there's a catchable error
     }
   };
-  
-  useEffect(() => {
-    // Run the hook for each car's registration number
-    const fetchNomineeData = async () => {
-      console.log("Fetching nominee data...");
-      const data = await Promise.all(
-        vehicles.map(async (car) => {
-          const nomineeInfo = await getNomineeData(car.registration_number);
-          return { nomineeInfo };
-        })
-      );
-      console.log("Fetched nominee data:", data);
-      setNomineeData(data);  // Update state with the fetched data
-    };
-  
-    if (vehicles && vehicles.length > 0) {
-      fetchNomineeData();
-    } else {
-      console.log("No vehicles found.");
-    }
-  }, [vehicles]);
-  
-  console.log("Final nominee data:", nomineeData);
-  
-  
 
   const settings = {
     dots: true,
@@ -122,54 +94,54 @@ const CarProfile = ({
     <div>
       {/* Show this if there are no vehicles */}
       {totalPages === 0 ? (
-        <div className="max-w-[396px]  w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4">
-          <div className="flex justify-center items-center flex-col">
-            <div className="flex flex-col justify-center items-center  text-4xl">
+        <div className='max-w-[396px]  w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4'>
+          <div className='flex justify-center items-center flex-col'>
+            <div className='flex flex-col justify-center items-center  text-4xl'>
               <h2
                 className={` ${groteskTextMedium.className} leading-none mt-4 text-[28px]`}
               >
                 Lets Get Started With Your First Vehicle
               </h2>
-              <div className="self-center flex flex-col max-w-[253px]">
+              <div className='self-center flex flex-col max-w-[253px]'>
                 <Image
                   src={require(`@/assets/images/Essential illustrations.jpg`)}
-                  alt=""
-                  sizes="width: 222px"
+                  alt=''
+                  sizes='width: 222px'
                 />
               </div>
             </div>
 
             <Button
-              variant="quinary"
-              className=" py-[9px] px-[12px] text-[16px]"
+              variant='quinary'
+              className=' py-[9px] px-[12px] text-[16px]'
               onClick={openAddVehicleDetailsDrawer}
             >
               Add vehicle
-              <Plus className="inline-block ml-[8px]" />
+              <Plus className='inline-block ml-[8px]' />
             </Button>
           </div>
         </div>
       ) : (
         /* Show the article if vehicles exist */
-        <article className="flex justify-center">
-          <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4 ">
+        <article className='flex justify-center'>
+          <div className='max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4 '>
             <Slider ref={sliderRef} {...settings}>
               {vehicles?.map((car, index) => (
-                <div key={car.id} className="">
-                  <div className="flex justify-between">
+                <div key={car.id} className=''>
+                  <div className='flex justify-between'>
                     <h1
                       className={`text-[24px] md:text-[2rem] text-[#000000] ${groteskTextMedium.className} `}
                     >
                       My Vehicle
                     </h1>
-                    <div className="items-center flex gap-[11px]">
+                    <div className='items-center flex gap-[11px]'>
                       <Button
-                        variant="quinary"
+                        variant='quinary'
                         className={`py-[9px] px-[12px] text-[16px] `}
                         onClick={openAddVehicleDetailsDrawer}
                       >
                         Add vehicle
-                        <Plus className="inline-block" />
+                        <Plus className='inline-block' />
                       </Button>
                       <button>
                         <MoveDiagonal size={24} onClick={openCarProfile} />
@@ -177,35 +149,35 @@ const CarProfile = ({
                     </div>
                   </div>
 
-                  <div className="flex flex-col  lg:flex lg:flex-row justify-center  mt-[14px] items-center">
-                    <div className="order-2 w-full lg:order-1 flex flex-col lg:w-[257px]">
-                      <div className=" self-center flex flex-col max-w-[253px] ">
+                  <div className='flex flex-col  lg:flex lg:flex-row justify-center  mt-[14px] items-center'>
+                    <div className='order-2 w-full lg:order-1 flex flex-col lg:w-[257px]'>
+                      <div className=' self-center flex flex-col max-w-[253px] '>
                         {vehicles?.type ? (
                           <Image
                             src={
                               require(`@/assets/images/${vehicles?.type}.imageUrl}`)
                                 .default
                             }
-                            alt=""
-                            sizes="width: 222px"
+                            alt=''
+                            sizes='width: 222px'
                             // className="max-w-[222px] "
                           />
                         ) : (
                           <Image
                             src={require(`@/assets/images/essentail-car.jpg`)}
-                            alt=""
-                            sizes="width: 222px"
+                            alt=''
+                            sizes='width: 222px'
                             // className="max-w-[222px] "
                           />
                         )}
                       </div>
-                      <div className="flex justify-between  mt-auto items-center lg:hidden">
+                      <div className='flex justify-between  mt-auto items-center lg:hidden'>
                         <SliderButton
-                          direction="previous"
+                          direction='previous'
                           isDisabled={currentSlide === 0}
                           onClick={goToPrevious}
                         />
-                        <div className="flex items-center space-x-2">
+                        <div className='flex items-center space-x-2'>
                           {totalPages <= 3 ? (
                             Array.from({ length: totalPages }).map(
                               (_, index) => (
@@ -213,8 +185,8 @@ const CarProfile = ({
                                   key={index}
                                   className={`w-[8px] h-[8px] rounded-full ${
                                     currentSlide === index
-                                      ? "bg-gray-500"
-                                      : "bg-gray-200"
+                                      ? 'bg-gray-500'
+                                      : 'bg-gray-200'
                                   }`}
                                 ></span>
                               )
@@ -225,8 +197,8 @@ const CarProfile = ({
                               <span
                                 className={`w-[8px] h-[8px] rounded-full ${
                                   currentSlide === 0
-                                    ? "bg-gray-500"
-                                    : "bg-gray-200"
+                                    ? 'bg-gray-500'
+                                    : 'bg-gray-200'
                                 }`}
                               ></span>
 
@@ -235,8 +207,8 @@ const CarProfile = ({
                                 className={`w-[8px] h-[8px] rounded-full ${
                                   currentSlide > 0 &&
                                   currentSlide < totalPages - 1
-                                    ? "bg-gray-500"
-                                    : "bg-gray-200"
+                                    ? 'bg-gray-500'
+                                    : 'bg-gray-200'
                                 }`}
                               ></span>
 
@@ -244,41 +216,41 @@ const CarProfile = ({
                               <span
                                 className={`w-[8px] h-[8px] rounded-full ${
                                   currentSlide === totalPages - 1
-                                    ? "bg-gray-500"
-                                    : "bg-gray-200"
+                                    ? 'bg-gray-500'
+                                    : 'bg-gray-200'
                                 }`}
                               ></span>
                             </>
                           )}
                         </div>
                         <SliderButton
-                          direction="next"
+                          direction='next'
                           isDisabled={currentSlide === totalPages - 1}
                           onClick={goToNext}
                         />
                       </div>
                     </div>
 
-                    <div className="order-1 lg:order-2 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] lg:w-[359px] ">
-                      <div className="border border-b-[#C5D5F8] py-[0.4rem] px-[16px]">
+                    <div className='order-1 lg:order-2 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] lg:w-[359px] '>
+                      <div className='border border-b-[#C5D5F8] py-[0.4rem] px-[16px]'>
                         <h1
                           className={`text-[#212121] text-[20px] ${groteskTextMedium.className}`}
                         >
                           Car Details
                         </h1>
                       </div>
-                      <div className="py-[12px] px-[13px]">
+                      <div className='py-[12px] px-[13px]'>
                         <h2
                           className={`flex items-center gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                         >
-                          <div className="flex items-center gap-[5px]">
+                          <div className='flex items-center gap-[5px]'>
                             <span>
                               <NumberSVG />
                             </span>
                             <span
                               className={`${groteskText.className} text-[1rem] text-[#667185]`}
                             >
-                              Registration number:{" "}
+                              Registration number:{' '}
                             </span>
                           </div>
                           <span
@@ -290,14 +262,14 @@ const CarProfile = ({
                         <h2
                           className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
                         >
-                          <div className="flex items-center gap-[5px]">
+                          <div className='flex items-center gap-[5px]'>
                             <span>
                               <UserProfileSVG />
                             </span>
                             <span
                               className={`${groteskText.className} text-[1rem] text-[#667185]`}
                             >
-                              Owner:{" "}
+                              Owner:{' '}
                             </span>
                           </div>
                           <span
@@ -311,17 +283,17 @@ const CarProfile = ({
                         >
                           <InfoIconWithText
                             icon={<UserTickSVG />}
-                            text="Ownership status:"
+                            text='Ownership status:'
                             identity={`${car.id}-ownership`}
-                            infoText="Ownership status information"
+                            infoText='Ownership status information'
                           />
                           <button
                             className={`text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end ${
-                              car.verification_status === "Pending"
-                                ? "text-[#B38B00] bg-[#FFECB3]"
-                                : car.verification_status === "Verified"
-                                ? "text-[#099137] bg-[#B5E3C4]"
-                                : "text-[#B00020] bg-[#FFCDD2]"
+                              car.verification_status === 'Pending'
+                                ? 'text-[#B38B00] bg-[#FFECB3]'
+                                : car.verification_status === 'Verified'
+                                ? 'text-[#099137] bg-[#B5E3C4]'
+                                : 'text-[#B00020] bg-[#FFCDD2]'
                             }`}
                           >
                             {car.verification_status}
@@ -333,14 +305,14 @@ const CarProfile = ({
                         >
                           <InfoIconWithText
                             icon={<TicketSVG />}
-                            text="Contravention status:"
+                            text='Contravention status:'
                             identity={`${car.id}-contravention`}
-                            infoText="Contravention status information"
+                            infoText='Contravention status information'
                           />
 
-                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[18px] self-end">
+                          <button className='text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[18px] self-end'>
                             {/* {car.contraventionStatus} */}
-                            {"No existing ticket"}
+                            {'No existing ticket'}
                           </button>
                         </h2>
 
@@ -349,38 +321,38 @@ const CarProfile = ({
                         >
                           <InfoIconWithText
                             icon={<UserTickSVG />}
-                            text=" Notification Recipients:"
+                            text=' Notification Recipients:'
                             identity={`${car.id}-notification`}
-                            infoText=" Notification recipient information"
+                            infoText=' Notification recipient information'
                           />
                           <button
                             className={`text-[11px] rounded-[2rem] w-[62px] h-[18px] self-end ${
-                              nomineeData?.length > 1
-                                ? "text-[#099137] bg-[#B5E3C4]" 
-                                : "text-[#D9534F] bg-[#F2D1D1]" 
+                              car.has_nominee
+                                ? 'text-[#099137] bg-[#B5E3C4]'
+                                : 'text-[#D9534F] bg-[#F2D1D1]'
                             }`}
                           >
-                            {nomineeData?.length > 1 ? "Added" : "Not Added"}
+                            {car.has_nominee ? 'Added' : 'Not Added'}
                           </button>
                         </h2>
                       </div>
                     </div>
                   </div>
-                  <div className="hidden lg:flex justify-between mt-[-28px] w-[270px] items-center md:w-[40%] ">
+                  <div className='hidden lg:flex justify-between mt-[-28px] w-[270px] items-center md:w-[40%] '>
                     <SliderButton
-                      direction="previous"
+                      direction='previous'
                       isDisabled={currentSlide === 0}
                       onClick={goToPrevious}
                     />
-                    <div className="flex items-center space-x-2">
+                    <div className='flex items-center space-x-2'>
                       {totalPages <= 3 ? (
                         Array.from({ length: totalPages }).map((_, index) => (
                           <span
                             key={index}
                             className={`w-[8px] h-[8px] rounded-full ${
                               currentSlide === index
-                                ? "bg-gray-500"
-                                : "bg-gray-200"
+                                ? 'bg-gray-500'
+                                : 'bg-gray-200'
                             }`}
                           ></span>
                         ))
@@ -389,7 +361,7 @@ const CarProfile = ({
                           {/* First dot */}
                           <span
                             className={`w-[8px] h-[8px] rounded-full ${
-                              currentSlide === 0 ? "bg-gray-500" : "bg-gray-200"
+                              currentSlide === 0 ? 'bg-gray-500' : 'bg-gray-200'
                             }`}
                           ></span>
 
@@ -397,8 +369,8 @@ const CarProfile = ({
                           <span
                             className={`w-[8px] h-[8px] rounded-full ${
                               currentSlide > 0 && currentSlide < totalPages - 1
-                                ? "bg-gray-500"
-                                : "bg-gray-200"
+                                ? 'bg-gray-500'
+                                : 'bg-gray-200'
                             }`}
                           ></span>
 
@@ -406,15 +378,15 @@ const CarProfile = ({
                           <span
                             className={`w-[8px] h-[8px] rounded-full ${
                               currentSlide === totalPages - 1
-                                ? "bg-gray-500"
-                                : "bg-gray-200"
+                                ? 'bg-gray-500'
+                                : 'bg-gray-200'
                             }`}
                           ></span>
                         </>
                       )}
                     </div>
                     <SliderButton
-                      direction="next"
+                      direction='next'
                       isDisabled={currentSlide === totalPages - 1}
                       onClick={goToNext}
                     />

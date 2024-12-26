@@ -5,47 +5,32 @@ import UserProfileSVG from "@/assets/svg/owner.svg";
 import NumberSVG from "@/assets/svg/regNo.svg";
 import GroupUserSVG from "@/assets/svg/nominee.svg";
 import TicketSVG from "@/assets/svg/ticket-status.svg";
-import { Button } from "@/components";
-
-import "@/components/Slider.css";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
-import Image from "next/image";
-import { AiOutlineExpand } from "react-icons/ai";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
 import Outline from "@/assets/svg/outlined.svg";
-import { useRef, useState } from "react";
-import EditSVG from "@/assets/svg/edit-vehicle.svg";
-import DeleteSVG from "@/assets/svg/delete-vehicle.svg";
 import CarFilter from "@/assets/svg/color.svg";
 import CarMake from "@/assets/svg/carMake.svg";
-import UndoDelete from "@/assets/svg/undoDelete.svg";
-import ConfirmDeleteSVG from "@/assets/svg/confirmDelete.svg";
-import queryClient from "@/lib/tanstack-query/queryClient";
-import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
-import { useDeleteCar } from "@/lib/tanstack-query/useDelete";
-import vehicle from "@/api/vehicle";
-import SearchSortModal from "./SearchSortModal";
-import useDeleteRow from "@/hooks/useDeleteRow";
-import { MdHistory } from "react-icons/md";
+import Slider from "react-slick";
+import Image from "next/image";
+import { useRef, useState } from "react";
+import { Plus } from "lucide-react";
 import DeleteRowModal from "./DeleteRowModal";
+import useDeleteRow from "@/hooks/useDeleteRow";
 import SliderButton from "./SliderButton";
-import { useAuthStore } from "@/lib/stores/authStore";
+import { groteskText as globalText } from "@/assets/fonts";
+import SearchSortModal from "./SearchSortModal";
+import { MdHistory } from "react-icons/md";
 
 interface CarProfileSliderProps {
-  vehicles: any;
+  vehicles: any[];
   openAddVehicleDetailsDrawer: () => void;
-  onVehicleChange?: (vehicle: any) => void;
-  setForm: (form: any) => void;
+  onVehicleChange?: (index: number) => void;
+  setForm: (form: boolean) => void;
   scrollToForm: () => void;
   user_type: string;
   full_name: string;
 }
 
 const CarProfileSlider = ({
-  vehicles,
+  vehicles = [],
   openAddVehicleDetailsDrawer,
   onVehicleChange,
   setForm,
@@ -53,8 +38,6 @@ const CarProfileSlider = ({
   user_type,
   full_name,
 }: CarProfileSliderProps) => {
-
-
   const {
     openDropdownIndex,
     data,
@@ -66,139 +49,124 @@ const CarProfileSlider = ({
     cancelDelete,
     setData,
     setOpenDropdownIndex,
-  } = useDeleteRow(vehicles,"vehicle");
+  } = useDeleteRow(vehicles, "vehicle");
 
   const [currentSlide, setCurrentSlide] = useState(0);
-  const sliderRef = useRef(null);
-  const totalPages = data?.length;
+  const sliderRef = useRef<Slider>(null);
+  const totalPages = data?.length || 0;
+
   const settings = {
     dots: true,
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    beforeChange: (current) => setCurrentSlide(current),
     afterChange: (current: number) => {
       setCurrentSlide(current);
-      handleSliderChange(current); // Corrected here to use afterChange
+      if (onVehicleChange) {
+        onVehicleChange(current);
+      }
     },
   };
 
   const goToPrevious = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickPrev();
-    }
+    sliderRef.current?.slickPrev();
   };
 
   const goToNext = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickNext();
-    }
-  };
-
-  const handleSliderChange = (index: number) => {
-    onVehicleChange(index); // Notify the parent about the vehicle change
+    sliderRef.current?.slickNext();
   };
 
   return (
     <article className="max-w-[428px] w-full md:max-w-[900px] mx-auto">
       {user_type === "Corporate" && (
-        <div className="flex justify-end ">
+        <div className="flex justify-end">
           <SearchSortModal data={data} setData={setData} />
           <button
             onClick={() => console.log("hi")}
-            className=" ml-4  w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center mt-8"
+            className="ml-4 w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center mt-8"
           >
             <MdHistory size={20} />
           </button>
         </div>
       )}
-      {data?.length >= 1 && (
-        <div className="bg-[#FFFFFF] rounded-[20px] border border-solid border-[#C5D5F8] px-[8px] pt-[20px] pb-[13px] mt-[8px]">
+
+      {data?.length > 0 && (
+        <div className="bg-white rounded-[20px] border border-solid border-[#C5D5F8] px-2 pt-5 pb-3 mt-2">
           <Slider ref={sliderRef} {...settings}>
-            {data?.map((car, index) => (
-              <div key={car.id}>
+            {data.map((car, index) => (
+              <div key={car.id} className="px-2">
                 {/* Header */}
-                <div className="flex justify-between">
+                <div className="flex justify-between mb-2">
                   <h1
-                    className={`text-[20px] md:text-[24px] text-[#000000] ${groteskTextMedium.className}`}
+                    className={`text-[20px] md:text-[24px] text-black ${groteskTextMedium.className}`}
                   >
                     My Vehicle
                   </h1>
-                  <div className="flex flex-col">
-                    <div className="flex items-center">
-                      <div
-                        className="flex items-center gap-[11px]"
-                        onClick={openAddVehicleDetailsDrawer}
-                      >
-                        <button className="bg-[#3957D7] flex items-center text-white cursor-pointer rounded-[8px] py-[0.2rem] px-[8px] text-[16px]">
-                          Add vehicle
-                          <Plus className="inline-block" size={20} />
-                        </button>
-                      </div>
-                      <div className="cursor-pointer">
-                        <Outline onClick={() => toggleDropdown(index)} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                {/* Main Content */}
-                <div className="flex-col flex md:flex-row mt-[14px] items-center relative">
-                  {/* Image Section */}
-                  <div className="order-2 flex flex-col max-w-[253px] items-center md:max-w-[359px] w-full">
+                  {/* (UPDATED) Wrap the entire button+icon+modal in a relative container */}
+                  <div className="flex items-center space-x-3 relative">
+                    <button
+                      onClick={openAddVehicleDetailsDrawer}
+                      className="bg-[#3957D7] flex items-center text-white rounded-[8px] py-[0.2rem] px-[8px] text-[16px] hover:opacity-90"
+                    >
+                      Add vehicle
+                      <Plus size={20} className="ml-1" />
+                    </button>
+
+                    {/* The Outline icon - we toggle the dropdown here */}
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => toggleDropdown(index)}
+                    >
+                      <Outline />
+                    </div>
+
+                    {/* If openDropdownIndex matches index, show the modal here */}
                     {openDropdownIndex === index && (
                       <DeleteRowModal
                         showConfirmButton={showConfirmButton}
                         onEdit={() => {}}
                         onRemove={() => showDeleteConfirmation(index)}
                         onCancelDelete={cancelDelete}
-                        onConfirmDelete={() => handleDelete(index)}
+                        onConfirmDelete={() => {
+                          handleDelete(index);
+                          if (
+                            currentSlide >= data.length - 1 &&
+                            data.length > 1
+                          ) {
+                            setCurrentSlide((s) => s - 1);
+                          }
+                        }}
                         selectedDataIndex={selectedDataIndex}
                         index={index}
-                        customStyles={`${groteskText.className} text-[14px]`}
-                        position={{ right: 0, top: -15 }}
+                        customStyles={`${globalText.className} text-[14px]`}
+                        // (UPDATED) shift it below the icon
+                        position={{ top: "calc(100% + 6px)", left: "auto", right: 0 }}
                         isVehicle
                         onClose={() => setOpenDropdownIndex(null)}
                         onAddNominee={() => {
                           setForm(true);
-                          setTimeout(scrollToForm, 125);
+                          setTimeout(scrollToForm, 100);
                           setOpenDropdownIndex(null);
                         }}
                       />
                     )}
-                    <div className=" self-center flex flex-col max-w-[253px] ">
-                      {vehicles?.type ? (
-                        <Image
-                          src={
-                            require(`@/assets/images/${vehicles?.type}.imageUrl}`)
-                              .default
-                          }
-                          alt=""
-                          sizes="width: 222px"
-                          // className="max-w-[222px] "
-                        />
-                      ) : (
-                        <Image
-                          src={require(`@/assets/images/essentail-car.jpg`)}
-                          alt=""
-                          sizes="width: 222px"
-                          // className="max-w-[222px] "
-                        />
-                      )}
-                    </div>
                   </div>
+                </div>
 
-                  {/* Car Details Section */}
-                  <div className="order-1 border border-solid border-[#C5D5F8] rounded-[12px] pb-[6px] w-full max-w-[359px] md:max-w-[480px]">
-                    <div className="border-b border-[#C5D5F8] py-[8px] px-[8px]">
+                {/* Content Section */}
+                <div className="flex flex-col md:flex-row mt-3 items-center">
+                  {/* Car Details: left box */}
+                  <div className="border border-[#C5D5F8] rounded-[12px] pb-2 w-full max-w-[480px]">
+                    <div className="border-b border-[#C5D5F8] py-2 px-2">
                       <h1
-                        className={`text-[#212121] text-[20px] md:text-[24px] ${groteskTextMedium.className}`}
+                        className={`text-black text-[20px] md:text-[24px] ${groteskTextMedium.className}`}
                       >
                         Car Details
                       </h1>
                     </div>
-                    <div className="py-[4px] px-[8px]">
+                    <div className="py-2 px-2">
                       {[
                         {
                           icon: <NumberSVG />,
@@ -215,7 +183,7 @@ const CarProfileSlider = ({
                           label: "Verification Status:",
                           value: (
                             <button
-                              className={`text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end ${
+                              className={`text-[11px] rounded-[6.25rem] px-2 py-1 self-end ${
                                 car.verification_status === "Pending"
                                   ? "text-[#B38B00] bg-[#FFECB3]"
                                   : car.verification_status === "Verified"
@@ -243,83 +211,87 @@ const CarProfileSlider = ({
                           value: car.make,
                         },
                       ].map((item, idx) => (
-                        <h2
+                        <div
                           key={idx}
-                          className={`flex items-center mt-[0.75rem] gap-[2.5px] text-[#757575] justify-between ${groteskText.className}`}
+                          className={`flex items-center justify-between my-2 text-[#757575] ${groteskText.className}`}
                         >
-                          <div className="flex items-center">
-                            <span>{item.icon}</span>
+                          <div className="flex items-center gap-[2.5px]">
+                            {item.icon}
                             <span className="text-[13px] md:text-[16px]">
                               {item.label}
                             </span>
                           </div>
-                          <span className="text-[#212121] text-[13px] md:text-[16px]  self-end">
+                          <span className="text-[#212121] text-[13px] md:text-[16px]">
                             {item.value}
                           </span>
-                        </h2>
+                        </div>
                       ))}
                     </div>
                   </div>
-                </div>
 
-                {/* Navigation */}
-                <div className="w-full flex justify-between mt-[11px] gap-5 px-5 md:px-0 lg:w-[55%]">
-                  <SliderButton
-                    direction="previous"
-                    isDisabled={currentSlide === 0}
-                    onClick={goToPrevious}
-                  />
-
-                  <div className="flex items-center space-x-2">
-                    {totalPages <= 2 ? (
-                      Array.from({ length: totalPages }).map((_, index) => (
-                        <span
-                          key={index}
-                          className={`w-[8px] h-[8px] rounded-full ${
-                            currentSlide === index
-                              ? "bg-gray-500"
-                              : "bg-gray-200"
-                          }`}
-                        ></span>
-                      ))
+                  {/* Car Image: right box */}
+                  <div className="mt-4 md:mt-0 md:ml-4 max-w-[359px]">
+                    {car.type ? (
+                      <Image
+                        src={`/assets/images/${car.type}.png`}
+                        alt="Car Type"
+                        width={250}
+                        height={150}
+                        className="mx-auto"
+                      />
                     ) : (
-                      <>
-                        {/* First dot */}
-                        <span
-                          className={`w-[8px] h-[8px] rounded-full ${
-                            currentSlide === 0 ? "bg-gray-500" : "bg-gray-200"
-                          }`}
-                        ></span>
-
-                        {/* Middle dot */}
-                        <span
-                          className={`w-[8px] h-[8px] rounded-full ${
-                            currentSlide > 0 && currentSlide < totalPages - 1
-                              ? "bg-gray-500"
-                              : "bg-gray-200"
-                          }`}
-                        ></span>
-
-                        {/* Last dot */}
-                        <span
-                          className={`w-[8px] h-[8px] rounded-full ${
-                            currentSlide === totalPages - 1
-                              ? "bg-gray-500"
-                              : "bg-gray-200"
-                          }`}
-                        ></span>
-                      </>
+                      <Image
+                        src={require(`@/assets/images/essentail-car.jpg`)}
+                        alt="Default Car"
+                        width={250}
+                        height={150}
+                        className="mx-auto"
+                      />
                     )}
                   </div>
-                  <SliderButton
-                    direction="next"
-                    isDisabled={currentSlide === totalPages - 1}
-                    onClick={goToNext}
-                  />
                 </div>
               </div>
             ))}
           </Slider>
+
+          {/* Slider Nav Buttons */}
+          <div className="w-full flex justify-between mt-4 gap-5 px-5 md:px-0 lg:w-[55%] mx-auto">
+            <SliderButton
+              direction="previous"
+              isDisabled={currentSlide === 0}
+              onClick={goToPrevious}
+            />
+            {/* Dot indicators */}
+            <div className="flex items-center space-x-2">
+              {Array.from({ length: totalPages }).map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`w-[8px] h-[8px] rounded-full ${
+                    currentSlide === idx ? "bg-gray-500" : "bg-gray-200"
+                  }`}
+                ></span>
+              ))}
+            </div>
+            <SliderButton
+              direction="next"
+              isDisabled={currentSlide === totalPages - 1}
+              onClick={goToNext}
+            />
+          </div>
+        </div>
+      )}
+
+      {data?.length === 0 && (
+        <div className="bg-white rounded-[20px] border border-solid border-[#C5D5F8] p-4 mt-2 text-center">
+          <p className="text-gray-700 mb-4">
+            You have no vehicles yet. Add one to get started.
+          </p>
+          <button
+            onClick={openAddVehicleDetailsDrawer}
+            className="bg-[#3957D7] text-white px-4 py-2 rounded"
+          >
+            Add vehicle
+          </button>
         </div>
       )}
     </article>

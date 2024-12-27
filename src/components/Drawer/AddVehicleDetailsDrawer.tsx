@@ -10,13 +10,13 @@ import DrawerHeader from "./DrawerHeader";
 type VehicleDetailsDrawerProps = {
   back: any;
   CheckVehicleOwner: (formData:any) => void;
-  userRole?: string;
+  user_type?: string;
 };
 
 const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   back,
   CheckVehicleOwner,
-  userRole,
+  user_type,
 }) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
@@ -140,7 +140,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             className={`${groteskText.className} w-full`}
           />
 
-          <Button
+        { user_type === "individual" &&  <Button
             variant="quinary"
             className="py-[10px] px-[12px] w-full"
             icon={<IoMdCheckmark size={25} />}
@@ -148,17 +148,17 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             onClick={() => CheckVehicleOwner(formData)}
           >
             Save Vehicle
-          </Button>
+          </Button>}
 
-          {userRole === "Corporate" && (
+          {user_type === "corporate" && (
             <div className="flex flex-col gap-4 items-center pb-12 cursor-pointer w-full">
               <div className="w-full">
                 <div className="flex-shrink-0">
                   <Image
                     src={DownloadTemplate}
                     alt="Download Template for CSV"
-                    width={600}
-                    height={642}
+                    width={300}
+                    height={342}
                     className="rounded-lg object-cover h-full cursor-pointer"
                     onClick={handleImageClick}
                   />

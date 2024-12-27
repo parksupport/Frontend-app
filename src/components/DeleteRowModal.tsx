@@ -64,7 +64,7 @@ const DeleteRowModal = ({
       // e.g. a higher z-index
       zIndex: 9999,
     }}
-    className="bg-white shadow-md rounded p-2"
+    className="bg-white rounded p-2"
       ref={modalRef} // Attach the ref to the modal container
     >
       <div className="border shadow-lg border-gray-200 rounded-[8px] p-[1px] ">

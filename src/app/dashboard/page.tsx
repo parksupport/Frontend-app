@@ -205,7 +205,7 @@ export default function DashboardPage() {
       <AddVehicleDetailsDrawer
         back={toggleDrawer}
         CheckVehicleOwner={CheckVehicleOwner}
-        userRole={user_type}
+        user_type={user_type}
       />
     );
     scrollToTopFromParent();

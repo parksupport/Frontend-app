@@ -33,7 +33,7 @@ const CarProfile = ({
   openCarProfile,
   openAddVehicleDetailsDrawer,
   vehicles,
-  verify
+  verify,
 }: CarProfileProps) => {
   const user = useAuthStore((state) => state.user);
   const { full_name } = user || {};
@@ -41,48 +41,6 @@ const CarProfile = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);
   const totalPages = vehicles?.length || 0;
-
-  const [nomineeData, setNomineeData] = useState([]);
-
-  const getNomineeData = async (registrationNumber: string) => {
-    try {
-      console.log("Fetching data for registration number:", registrationNumber);
-      const { nominees, error } = await useGetNominees(registrationNumber);
-
-      if (error) {
-        console.error("Error fetching nominees:", error);
-        return null; // Return null if there's an error
-      }
-      console.log("Nominee data:", nominees);
-      return nominees; // Return nominee data if successful
-    } catch (error) {
-      console.error("Error in getNomineeData:", error.message);
-      return null; // Return null if there's a catchable error
-    }
-  };
-
-  useEffect(() => {
-    // Run the hook for each car's registration number
-    const fetchNomineeData = async () => {
-      console.log("Fetching nominee data...");
-      const data = await Promise.all(
-        vehicles.map(async (car) => {
-          const nomineeInfo = await getNomineeData(car.registration_number);
-          return { nomineeInfo };
-        })
-      );
-      console.log("Fetched nominee data:", data);
-      setNomineeData(data); // Update state with the fetched data
-    };
-
-    if (vehicles && vehicles.length > 0) {
-      fetchNomineeData();
-    } else {
-      console.log("No vehicles found.");
-    }
-  }, [vehicles]);
-
-  console.log("Final nominee data:", nomineeData);
 
   const settings = {
     dots: true,
@@ -313,7 +271,11 @@ const CarProfile = ({
                             infoText="Ownership status information"
                           />
                           <button
-                           onClick={car.verification_status === "Pending" ? verify : undefined}
+                            onClick={
+                              car.verification_status === "Pending"
+                                ? verify
+                                : undefined
+                            }
                             className={`relative text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end overflow-hidden ${
                               car.verification_status === "Pending"
                                 ? "text-[#B38B00] bg-[#FFECB3]"
@@ -339,7 +301,7 @@ const CarProfile = ({
                             infoText="Contravention status information"
                           />
 
-                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[18px] self-end">
+                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4]  cursor-auto rounded-[2rem] w-[97px]  h-[18px] self-end">
                             {/* {car.contraventionStatus} */}
                             {"No existing ticket"}
                           </button>
@@ -355,13 +317,13 @@ const CarProfile = ({
                             infoText=" Notification recipient information"
                           />
                           <button
-                            className={`text-[11px] rounded-[2rem] w-[62px] h-[18px] self-end ${
-                              nomineeData?.length > 1
+                            className={`text-[11px] rounded-[2rem] w-[62px] cursor-auto h-[18px] self-end ${
+                              car.has_nominee
                                 ? "text-[#099137] bg-[#B5E3C4]"
                                 : "text-[#D9534F] bg-[#F2D1D1]"
                             }`}
                           >
-                            {nomineeData?.length > 1 ? "Added" : "Not Added"}
+                            {car.has_nominee ? "Added" : "Not Added"}
                           </button>
                         </h2>
                       </div>

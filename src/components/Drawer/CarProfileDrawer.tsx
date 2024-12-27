@@ -1,5 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
-import ThirdPartyNominees, { AddThirdPartyNominee } from "../card/ThirdPartyNominee";
+import ThirdPartyNominees, {
+  AddThirdPartyNominee,
+} from "../card/ThirdPartyNominee";
 import DrawerHeader from "./DrawerHeader";
 import CarProfileSlider from "../CarProfileSlider";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -14,7 +16,7 @@ interface CarProfileDrawerProps {
   form: boolean;
   openNominationHistory: () => void;
   autoScrollToForm?: boolean;
-  vehicles:any
+  vehicles: any;
 }
 
 const CarProfileDrawer = ({
@@ -23,7 +25,7 @@ const CarProfileDrawer = ({
   form,
   openNominationHistory,
   autoScrollToForm = false,
-  vehicles
+  vehicles,
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
@@ -43,8 +45,6 @@ const CarProfileDrawer = ({
 
   const { nominees, error, isLoading } = useGetNominees(registrationNumber);
 
-
-
   useEffect(() => {
     if (autoScrollToForm && formRef.current) {
       formRef.current.scrollIntoView({ behavior: "smooth" });
@@ -53,11 +53,19 @@ const CarProfileDrawer = ({
 
   const renderNomineeSection = () => {
     if (isLoading) {
-      return <Spinner/>;
+      return (
+        <div className="flex flex-col justify-center h-[300px] items-center">
+          <Spinner />;
+        </div>
+      );
     }
 
     if (error) {
-      return <p>Error loading nominees: {error.message || "Unknown error"}</p>;
+      return (
+        <div className="flex flex-col justify-center h-[300px] items-center">
+          <p>Error loading nominees: {error.message || "Unknown error"}</p>;
+        </div>
+      );
     }
 
     return isForm ? (

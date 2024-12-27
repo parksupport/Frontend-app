@@ -13,6 +13,7 @@ import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import InfoIconWithText from "../InfoIconWithText";
 import { MdHistory } from "react-icons/md";
 import { useAuthStore } from "@/lib/stores/authStore";
+import { useGetNominees } from "@/hooks/mutations/nominee";
 
 export const CorporateCarProfileDrawer = ({
   toggleDrawer,
@@ -22,6 +23,8 @@ export const CorporateCarProfileDrawer = ({
 }) => {
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
+
+ 
 
   console.log("user:", user);
 
@@ -40,7 +43,16 @@ export const CorporateCarProfileDrawer = ({
     setOpenDropdownIndex,
   } = useDeleteRow(vehicles, "vehicle");
 
-  const [selectedNominee, setSelectedNominee] = useState(data?.[0] || {});
+  const [selectedVehicle, setSelectedVehicle] = useState(data?.[0] || {});
+
+  const {nominees} = useGetNominees(selectedVehicle?.registration_number);
+
+
+
+console.log("selectedVehicle",nominees)
+
+
+
 
   const nextComponentRef = useRef<HTMLDivElement>(null);
 
@@ -131,11 +143,11 @@ export const CorporateCarProfileDrawer = ({
                     key={index}
                     className={` border-t border-gray-200 text-[18px] ${
                       item.registrationNumber ===
-                      selectedNominee?.registrationNumber
+                      selectedVehicle?.registrationNumber
                         ? "bg-gray-300 text-white"
                         : "hover:bg-gray-50"
                     } ${groteskText.className}`}
-                    onClick={() => setSelectedNominee(item)}
+                    onClick={() => setSelectedVehicle(item)}
                   >
                     <td
                       className={` ${groteskText.className} relative pt-2 text-[24px] text-center whitespace-nowrap w-[5%]`}
@@ -235,18 +247,18 @@ export const CorporateCarProfileDrawer = ({
       <div className="flex items-center justify-center" ref={nextComponentRef}>
         {form ? (
           <AddThirdPartyNominee
-            vehiclesRegNunbers={"a"}
+            vehiclesRegNunbers={selectedVehicle?.registration_number}
             toggleForm={setForm}
             openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
-            selectedVehicle={selectedNominee || []}
+            selectedVehicle={ []}
             user={user}
           />
         ) : (
           <ThirdPartyNominees
             user_type={user_type}
-            vehiclesRegNunbers={"a"}
+            vehiclesRegNunbers={selectedVehicle?.registration_number}
             toggleForm={setForm}
-            nominees={selectedNominee || []}
+            nominees={nominees?.nominations || []}
           />
         )}
       </div>

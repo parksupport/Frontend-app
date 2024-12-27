@@ -118,8 +118,8 @@ const NomineeDesktop = ({
   registarationNumber,
 }) => {
   return (
-    <div className="rounded-[12px] border border-gray-300 pb-2 overflow-x-auto">
-      <table className="bg-white text-black w-full">
+    <div className="   rounded-[12px] border border-gray-300 pb-2 ">
+      <table className=" bg-white text-black min-w-[600px] min-h-[200px] ">
         <thead>
           <tr
             className={`text-[#667185] text-[22px] border-b w-full ${groteskText.className}`}
@@ -146,7 +146,7 @@ const NomineeDesktop = ({
             return (
               <tr key={index} className="hover:bg-gray-50 relative">
                 {/* Action Column */}
-                <td className="cursor-pointer pt-2 text-end pr-2 whitespace-nowrap">
+                <td className="cursor-pointer pt-2 text-end pr-2 whitespace-nowrap relative">
                   <button
                     className="text-gray-500 px-1 hover:text-gray-900 hover:font-bold"
                     onClick={() => toggleDropdown(index)}
@@ -178,7 +178,7 @@ const NomineeDesktop = ({
                   className={`pt-2 px-2 whitespace-nowrap text-[18px] ${groteskText.className}`}
                 >
                   <TruncatedText
-                    text={nominee.name}
+                    text={nominee?.name}
                     maxLength={20}
                     className={groteskText.className}
                   />
@@ -203,7 +203,7 @@ const NomineeDesktop = ({
                   className={`pt-2 px-2 whitespace-nowrap text-[18px] ${groteskText.className}`}
                 >
                   <TruncatedText
-                    text={nominee.email}
+                    text={nominee?.email}
                     maxLength={25}
                     className={groteskText.className}
                   />
@@ -213,7 +213,7 @@ const NomineeDesktop = ({
                 <td
                   className={`pt-2 px-2 whitespace-nowrap text-[18px] ${groteskText.className}`}
                 >
-                  {nominee.phone}
+                  {nominee?.phone}
                 </td>
 
                 {/* Start/End Date for corporate */}
@@ -223,7 +223,7 @@ const NomineeDesktop = ({
                       className={`pt-2 px-2 text-[18px] whitespace-nowrap ${groteskText.className}`}
                     >
                       <TruncatedText
-                        text={nominee.startDate}
+                        text={nominee?.start_date}
                         maxLength={10}
                         className={groteskText.className}
                       />
@@ -232,7 +232,7 @@ const NomineeDesktop = ({
                       className={`pt-2 px-2 text-[18px] whitespace-nowrap ${groteskText.className}`}
                     >
                       <TruncatedText
-                        text={nominee.endDate}
+                        text={nominee?.end_date}
                         maxLength={10}
                         className={groteskText.className}
                       />
@@ -370,7 +370,7 @@ export const NomineeMobile = ({
         {/* Slider Component */}
         <Slider ref={sliderRef} {...settings}>
           {nominees?.map((nominee, index) => {
-            const endDate = new Date(nominee.endDate);
+            const endDate = new Date(nominee?.endDate);
             const today = new Date();
             const expiredLease = endDate < today;
 
@@ -383,7 +383,7 @@ export const NomineeMobile = ({
                 <div className={`flex justify-between ${groteskText.className}`}>
                   <span className="text-gray-500">Name</span>
                   <TruncatedText
-                    text={nominee.name}
+                    text={nominee?.name}
                     maxLength={22}
                     className="text-black"
                   />
@@ -392,7 +392,7 @@ export const NomineeMobile = ({
                 <div className="flex justify-between">
                   <span className="text-gray-500">Email Address</span>
                   <TruncatedText
-                    text={nominee.email}
+                    text={nominee?.email}
                     maxLength={22}
                     className="text-black"
                   />
@@ -402,18 +402,18 @@ export const NomineeMobile = ({
                   <span className="text-gray-500">Status</span>
                   <div
                     className={`flex items-center justify-center w-[100px] py-1 rounded-full text-xs font-semibold ${
-                      nominee.status === "active"
+                      nominee?.status === "active"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
                     }`}
                   >
-                    {nominee.status === "active" ? "Active" : "Not Active"}
+                    {nominee?.status === "active" ? "Active" : "Not Active"}
                   </div>
                 </div>
                 {/* Phone */}
                 <div className="flex justify-between">
                   <span className="text-gray-500">Phone Number</span>
-                  <span className="text-black">{nominee.phone}</span>
+                  <span className="text-black">{nominee?.phone}</span>
                 </div>
                 {/* Only show start/end dates if corporate */}
                 {user_type === "corporate" && (
@@ -421,7 +421,7 @@ export const NomineeMobile = ({
                     <div className="flex justify-between">
                       <span className="text-gray-500">Start Date</span>
                       <TruncatedText
-                        text={nominee.startDate}
+                        text={nominee?.start_date}
                         maxLength={22}
                         className="text-black"
                       />
@@ -429,7 +429,7 @@ export const NomineeMobile = ({
                     <div className="flex justify-between">
                       <span className="text-gray-500">End Date</span>
                       <TruncatedText
-                        text={nominee.endDate}
+                        text={nominee?.end_date}
                         maxLength={22}
                         className="text-black"
                       />

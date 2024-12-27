@@ -142,7 +142,11 @@ const CarProfileSlider = ({
                         index={index}
                         customStyles={`${globalText.className} text-[14px]`}
                         // (UPDATED) shift it below the icon
-                        position={{ top: "calc(100% + 6px)", left: "auto", right: 0 }}
+                        position={{
+                          top: "calc(100% + 6px)",
+                          left: "auto",
+                          right: 0,
+                        }}
                         isVehicle
                         onClose={() => setOpenDropdownIndex(null)}
                         onAddNominee={() => {
@@ -198,7 +202,17 @@ const CarProfileSlider = ({
                         {
                           icon: <GroupUserSVG />,
                           label: "Notification Recipient:",
-                          value: car.thirdPartyNominee,
+                          value: (
+                            <button
+                              className={`text-[11px] rounded-[2rem] w-[62px] cursor-auto h-[18px] self-end ${
+                                car.has_nominee
+                                  ? "text-[#099137] bg-[#B5E3C4]"
+                                  : "text-[#D9534F] bg-[#F2D1D1]"
+                              }`}
+                            >
+                              {car.has_nominee ? "Added" : "Not Added"}
+                            </button>
+                          ),
                         },
                         {
                           icon: <CarFilter />,
@@ -255,7 +269,7 @@ const CarProfileSlider = ({
           </Slider>
 
           {/* Slider Nav Buttons */}
-          <div className="w-full flex justify-between mt-4 gap-5 px-5 md:px-0 lg:w-[55%] mx-auto">
+          <div className="w-full flex justify-between mt-4 gap-5 px-5 md:px-0 lg:w-[55%]">
             <SliderButton
               direction="previous"
               isDisabled={currentSlide === 0}

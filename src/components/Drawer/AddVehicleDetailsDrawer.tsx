@@ -101,24 +101,26 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             variant="individual"
             className={`${groteskText.className} pb-4 w-full`}
           />
-          <Button
-            variant="quinary"
-            className="py-[10px] px-[12px] w-full"
-            icon={<IoMdCheckmark size={25} />}
-            iconPosition="right"
-            onClick={CheckVehicleOwner}
-          >
-            Save Vehicle
-          </Button>
-          {userRole === "Corporate" && (
+          {userRole === "individual" && (
+            <Button
+              variant="quinary"
+              className="py-[10px] px-[12px] w-full"
+              icon={<IoMdCheckmark size={25} />}
+              iconPosition="right"
+              onClick={CheckVehicleOwner}
+            >
+              Save Vehicle
+            </Button>
+          )}
+          {userRole === "corporate" && (
             <div className="flex flex-col gap-4 items-center pb-12 cursor-pointer w-full">
               <div className="w-full">
                 <div className="flex-shrink-0">
                   <Image
                     src={DownloadTemplate}
                     alt="Download Template for CSV"
-                    width={600}
-                    height={642}
+                    width={300}
+                    height={342}
                     className="rounded-lg object-cover h-full cursor-pointer"
                     onClick={handleImageClick}
                   />

@@ -516,10 +516,12 @@ export function AddThirdPartyNominee({
     email_address: "",
     vehicle: "",
     phone_number: "",
-    start_date: new Date(),
-    end_date: isIndefiniteEndDate
-      ? new Date(new Date().setFullYear(new Date().getFullYear() + 50))
-      : new Date(),
+    // start_date: new Date(),
+    // end_date: isIndefiniteEndDate
+    //   ? new Date(new Date().setFullYear(new Date().getFullYear() + 50))
+    //   : new Date(),
+       start_date: "05/11/2023",
+       end_date: "05/09/2024"
   });
 
   const UserInputFields = [

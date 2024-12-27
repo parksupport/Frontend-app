@@ -243,78 +243,7 @@ export const useLogout = () => {
 };
 
 // Fetch profile data from the API
-const fetchProfileData = async () => {
-  const router = useRouter();
-
-  try {
-    let token = localStorage.getItem("authToken"); // Get token from localStorage or state
-
-    if (!token) {
-      throw new Error("No token found");
-    }
-
-    // Attempt to fetch the profile data
-    let response = await axios.get(
-      "http://localhost:8000/api/accounts/profile",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    return response.data; // Return the profile data from the response
-  } catch (error) {
-    console.error("Error fetching profile data:", error);
-
-    // Handle token expiration (401 Unauthorized)
-    if (error.response?.status === 401) {
-      console.log("Token expired, attempting to refresh...");
-
-      const refreshToken = localStorage.getItem("refreshToken"); // Get refresh token
-
-      if (refreshToken) {
-        try {
-          // Make a request to refresh the token
-          const refreshResponse = await axios.post(
-            "http://localhost:8000/api/token/refresh/",
-            {
-              refresh: refreshToken,
-            }
-          );
-
-          // Extract the new access token from the response
-          const newAccessToken = refreshResponse.data.access;
-          localStorage.setItem("authToken", newAccessToken); // Save the new access token in localStorage
-
-          console.log("Token refreshed, retrying profile fetch...");
-          // Retry the profile fetch with the new access token
-          let response = await axios.get(
-            "http://localhost:8000/api/accounts/profile",
-            {
-              headers: {
-                Authorization: `Bearer ${newAccessToken}`,
-              },
-            }
-          );
-
-          return response.data; // Return the profile data from the new request
-        } catch (refreshError) {
-          console.error("Error refreshing token:", refreshError);
-          router.push("/auth/login");
-
-          throw new Error("Failed to refresh token. Please log in again.");
-        }
-      } else {
-        router.push("/auth/login"); // Adjust path as needed
-        throw new Error("Refresh token not found. Please log in again.");
-      }
-    }
-
-    // If the error is not related to token expiration, throw the error for higher-level handling
-    throw error;
-  }
-};
+const fetchProfileData = async () => {};
 
 export const useProfile = () => {
   // Use the query hook to fetch profile data

@@ -18,7 +18,7 @@ const DemoUser = {
   "uid": "8650052488",
   "full_name": "John Mike",
   "email_address": "tmoscotayo@gmail.com",
-  "user_type": "corportate",
+  "user_type": "corporate",
   "address": "20 Harrison Ojemen Street Abesan Estate Ipaja",
   "date_of_birth": "2024-12-02",
   "phone_number": "09060998169",

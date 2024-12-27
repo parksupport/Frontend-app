@@ -62,6 +62,8 @@ export default function DashboardPage() {
 
   const { full_name, user_type } = user || {};
 
+  const [isCorporate, setIsCorporate] = useState(user_type);
+
   const [firstName, lastName] =
     typeof full_name === "string" ? full_name.split(" ") : ["", ""];
 
@@ -85,7 +87,7 @@ export default function DashboardPage() {
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
-        user={user_type}
+        user={isCorporate}
         form={form}
         autoScrollToForm={autoScrollToForm}
       />
@@ -109,7 +111,7 @@ export default function DashboardPage() {
       <UserInfoDrawer
         back={toggleDrawer}
         onEdit={openProfileEditDrawer}
-        userInfo={user_type}
+        userInfo={isCorporate}
       />
     );
     scrollToTopFromParent();
@@ -141,7 +143,7 @@ export default function DashboardPage() {
       <AddVehicleDetailsDrawer
         CheckVehicleOwner={CheckVehicleOwner}
         back={() => openCarProfile(cars)}
-        userRole={user_type}
+        userRole={isCorporate}
       />
     );
     scrollToTopFromParent();
@@ -185,7 +187,7 @@ export default function DashboardPage() {
       <VehicleOwnerDetails
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
-        user={user_type}
+        user={isCorporate}
       />
     );
     scrollToTopFromParent();
@@ -255,6 +257,11 @@ export default function DashboardPage() {
     return randomOutcome;
   };
 
+  const toggleUserType = () => {
+    setIsCorporate(isCorporate === "corporate" ? "individual" : "corporate");
+  };
+  console.log("iscorporate", isCorporate);
+
   return (
     <>
       {user ? (
@@ -270,6 +277,7 @@ export default function DashboardPage() {
             onClose={onClose}
             onOpen={onOpen}
             toggleDrawer={toggleDrawer}
+            openAddBillingMethod={openAddBillingMethod}
           />
 
           {/* Main Content */}
@@ -302,6 +310,24 @@ export default function DashboardPage() {
                 </button>
               </div>
             </section>
+
+            <div className="flex items-center gap-4">
+              <span className="text-gray-700 font-medium">{isCorporate}</span>
+              <button
+                onClick={toggleUserType}
+                className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                  isCorporate === "corporate" ? "bg-blue-500" : "bg-green-500"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                    isCorporate === "corporate"
+                      ? "translate-x-0"
+                      : "translate-x-6"
+                  }`}
+                ></span>
+              </button>
+            </div>
 
             {/* Profile and Table Section */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">

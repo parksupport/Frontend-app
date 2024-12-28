@@ -7,8 +7,8 @@ import CarProfileSlider from "../CarProfileSlider";
 import useIsMobile from "@/hooks/useIsMobile";
 import CorporateCarProfileDrawer from "./CorporateCarProfileDrawer";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { useGetNominees } from "@/hooks/mutations/nominee";
 import Spinner from "../Spinner";
+import { useGetNominees } from "@/hooks/queries/nominee";
 
 interface CarProfileDrawerProps {
   toggleDrawer: () => void;

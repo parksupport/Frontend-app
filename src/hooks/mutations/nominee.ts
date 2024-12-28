@@ -1,17 +1,11 @@
 "use client";
-import { useToast } from "@chakra-ui/react";
-import { updateProfileData } from "@/api/profile";
-import {
-  useQueryClient,
-  useMutation,
-  useQuery,
-  UseQueryOptions,
-} from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { addNominee, deleteNominee } from "@/api/nominee";
 import { useAuthStore } from "@/lib/stores/authStore";
-import axios from "axios";
-import { useEffect } from "react";
-import { addNominee, deleteNominee, getNominee } from "@/api/nominee";
+import { useToast } from "@chakra-ui/react";
+import {
+  useMutation,
+  useQueryClient
+} from "@tanstack/react-query";
 
 export const useAddNominee = () => {
   const toast = useToast();
@@ -109,16 +103,7 @@ export const useAddNominee = () => {
   };
 };
 
-// Custom hook to fetch and cache nominees
-export const useGetNominees = (registration_number: string) => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["nominee", registration_number],
-    queryFn: () => getNominee(registration_number),
-    enabled: Boolean(registration_number),
-  });
 
-  return { nominees: data, error, isLoading };
-};
 
 export const useDeleteNominee = () => {
   const toast = useToast();

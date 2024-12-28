@@ -41,9 +41,9 @@ import ThirdPartyNominees, {
 import NominationHistoryTable from "@/components/Drawer/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
 
-import { useAddVehicle, useGetVehicles } from "@/hooks/mutations/vehicles";
-import { useGetNominees } from "@/hooks/mutations/nominee";
+import { useAddVehicle } from "@/hooks/mutations/vehicles";
 import VehicleVerificationDrawer from "@/components/Drawer/VehicleVerificationDrawer";
+import { useGetVehicles } from "@/hooks/queries/vehicles";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);

@@ -3,12 +3,10 @@
 import {
   confirmPasswordReset,
   loginUser,
-  refreshAccessToken,
   registerUser,
   passwordReset as sendPasswordReset,
-  verifyOtp,
+  verifyOtp
 } from "@/api/auth"; // Make sure this is your API function for registration
-import { fetchProfileData, updateProfileData } from "@/api/profile";
 import { checkEmail } from "@/api/register";
 import { useAuthStore } from "@/lib/stores/authStore";
 import {
@@ -21,8 +19,7 @@ import {
   VerifyOtpRequest,
 } from "@/types"; // Define types for signup
 import { useToast } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 

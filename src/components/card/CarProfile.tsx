@@ -20,7 +20,6 @@ import UserTickSVG from "@/assets/svg/nominee.svg";
 import InfoIconWithText from "../InfoIconWithText";
 import SliderButton from "../SliderButton";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { useGetNominees } from "@/hooks/mutations/nominee";
 
 interface CarProfileProps {
   openCarProfile: any;
@@ -278,13 +277,12 @@ const CarProfile = ({
                             }
                             className={`relative text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end overflow-hidden ${
                               car.verification_status === "Pending"
-                                ? "text-[#B38B00] bg-[#FFECB3]"
+                                ? "text-[#B38B00] bg-[#FFECB3] border-2 border-[#B38B00] border-dashed animate-gradient"
                                 : car.verification_status === "Verified"
                                 ? "text-[#099137] bg-[#B5E3C4]"
                                 : "text-[#B00020] bg-[#FFCDD2]"
                             }`}
                           >
-                            {/* Button Content */}
                             <span className="relative z-10">
                               {car.verification_status}
                             </span>

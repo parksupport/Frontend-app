@@ -1,19 +1,13 @@
 "use client";
-import { useToast } from "@chakra-ui/react";
-import { updateProfileData } from "@/api/profile";
 import {
-  useQueryClient,
-  useMutation,
-  useQuery,
-  UseQueryOptions,
-} from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/lib/stores/authStore";
-import vehicle, {
   addVehicles,
-  deleteVehicle,
-  getVehicles,
+  deleteVehicle
 } from "@/api/vehicle";
+import { useToast } from "@chakra-ui/react";
+import {
+  useMutation,
+  useQueryClient
+} from "@tanstack/react-query";
 
 export const useAddVehicle = () => {
   const toast = useToast();
@@ -58,16 +52,6 @@ export const useAddVehicle = () => {
   };
 };
 
-export const useGetVehicles = () => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["vehicle"],
-    queryFn: getVehicles,
-    staleTime: 1000 * 60 * 5, // Data is considered fresh for 5 minutes
-    refetchOnWindowFocus: false, // Prevent unnecessary refetching
-  });
-
-  return { vehiclesData: data, error, isLoading };
-};
 
 export const useDeleteVehicle = () => {
   const toast = useToast();

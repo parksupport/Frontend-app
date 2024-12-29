@@ -259,8 +259,26 @@ function CarProfile({
                             identity={`${car.id}-ownership`}
                             infoText="Ownership status information"
                           />
-                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[18px] self-end">
+                          {/* <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[18px] self-end">
                             {car.status}
+                          </button> */}
+                                                    <button
+                            onClick={
+                              car.status === "Pending"
+                                ? undefined
+                                : undefined
+                            }
+                            className={`relative text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end overflow-hidden ${
+                              car.status === "Pending"
+                                ? "text-[#B38B00] bg-[#FFECB3] border-2 border-[#B38B00] border-dashed animate-gradient"
+                                : car.status === "Verified"
+                                ? "text-[#099137] bg-[#B5E3C4]"
+                                : "text-[#B00020] bg-[#FFCDD2]"
+                            }`}
+                          >
+                            <span className="relative z-10">
+                              {car.status}
+                            </span>
                           </button>
                         </h2>
 

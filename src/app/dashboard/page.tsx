@@ -57,7 +57,13 @@ export default function DashboardPage() {
   // const {nominees} = useGetNominees()
   const { vehiclesData, isLoading } = useGetVehicles();
 
+  const [myVehicle, setMyVehicle]= useState()
+
+
+
   const { addVehicle, error } = useAddVehicle();
+
+  console.log("user",full_name)
 
   const [firstName, lastName] =
     typeof full_name === "string" ? full_name.split(" ") : ["", ""];
@@ -84,6 +90,7 @@ export default function DashboardPage() {
         form={form}
         vehicles={vehiclesData?.vehicles}
         autoScrollToForm={autoScrollToForm}
+        
       />
     );
 

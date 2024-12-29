@@ -2,14 +2,10 @@
 import { addNominee, deleteNominee } from "@/api/nominee";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useToast } from "@chakra-ui/react";
-import {
-  useMutation,
-  useQueryClient
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useAddNominee = () => {
   const toast = useToast();
-  const setUser = useAuthStore((state) => state.setUser);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -53,19 +49,6 @@ export const useAddNominee = () => {
       return { previousUserData };
     },
     onSuccess: async (updatedUserData) => {
-      setUser(updatedUserData);
-
-      const existingNomineeData = JSON.parse(
-        localStorage.getItem("nomineeData") || "[]"
-      );
-
-      // const updatedNomineeData = [...(existingNomineeData || []), updatedUserData];
-      const updatedNomineeData = Array.isArray(existingNomineeData)
-        ? [...existingNomineeData, updatedUserData]
-        : [updatedUserData]; // If it's not an array, just create a new array with the updatedUserData.
-
-      localStorage.setItem("nomineeData", JSON.stringify(updatedNomineeData));
-
       queryClient.setQueryData(["nominee"], updatedUserData);
       await queryClient.invalidateQueries({ queryKey: ["nominee"] });
 
@@ -102,8 +85,6 @@ export const useAddNominee = () => {
     //   isLoading: mutation.isLoading,
   };
 };
-
-
 
 export const useDeleteNominee = () => {
   const toast = useToast();

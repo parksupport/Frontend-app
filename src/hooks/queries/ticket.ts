@@ -10,7 +10,7 @@ export const useGetTicket = (registration_number: string) => {
   });
 
   return {
-    tickets: data,
+    ticketsData: data,
     error,
     isLoading,
   };

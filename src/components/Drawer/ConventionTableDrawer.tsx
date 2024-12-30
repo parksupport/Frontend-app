@@ -15,6 +15,7 @@ import ContraventionRow from "./ContraventionRow";
 import DetailedBreakdownItem from "./DetailedBreakDown";
 import Button from "../Buttons";
 import DetailedBreakdownItemHeader from "./DetailedBreakDownHeader";
+import { useGetTicket } from "@/hooks/queries/ticket";
 
 const ConventionTableDrawer = ({ toggleDrawer }) => {
   const itemsPerPage = 1; // Number of items to display per page
@@ -22,13 +23,17 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
 
+    const { ticketsData } = useGetTicket("Nissan");
+   
+
   const sliderRef = useRef(null);
 
   const handleRowClick = (invoice: any) => {
     setSelectedInvoice(invoice);
   };
 
-  const totalPages = Math.ceil(itemDetails.contravention.length / itemsPerPage);
+
+  const totalPages = Math.ceil( ticketsData?.tickets.length / itemsPerPage);
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -63,7 +68,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
   }, []);
 
   // Slice the data to get the items for the current page
-  const currentItems = itemDetails.contravention.slice(
+  const currentItems =  ticketsData?.tickets.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -102,7 +107,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             </thead>
 
             <tbody className="w-full lg:w-full lg:bg-[#F9FAFB]">
-              {(isSmallScreen ? currentItems : itemDetails.contravention).map(
+              {(isSmallScreen ? currentItems :  ticketsData?.tickets).map(
                 (invoice, index) => (
                   <ContraventionRow
                     key={index}
@@ -183,7 +188,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                   /> */}
                   <DetailedBreakdownItem
                     label="Ticket Type"
-                    value={selectedInvoice.ticket}
+                    value={selectedInvoice.details}
                   />
                   <DetailedBreakdownItem
                     label="Issuing Authority"
@@ -191,12 +196,12 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                   />
                   <DetailedBreakdownItem
                     label="Fine amount"
-                    value={selectedInvoice.fine_amount}
+                    value={`£${selectedInvoice.amount}`}
                   />
 
                   <DetailedBreakdownItem
                     label="Due Date"
-                    value={selectedInvoice.date}
+                    value={selectedInvoice.issue_date}
                   />
                   {/* <DetailedBreakdownItem
                     label="Ticket Type"

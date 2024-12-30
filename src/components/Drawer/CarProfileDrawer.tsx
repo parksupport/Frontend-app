@@ -9,6 +9,7 @@ import CorporateCarProfileDrawer from "./CorporateCarProfileDrawer";
 import { useAuthStore } from "@/lib/stores/authStore";
 import Spinner from "../Spinner";
 import { useGetNominees } from "@/hooks/queries/nominee";
+import { useGetVehicles } from "@/hooks/queries/vehicles";
 
 interface CarProfileDrawerProps {
   toggleDrawer: () => void;
@@ -16,7 +17,7 @@ interface CarProfileDrawerProps {
   form: boolean;
   openNominationHistory: () => void;
   autoScrollToForm?: boolean;
-  vehicles: any;
+  // vehicles: any;
 }
 
 const CarProfileDrawer = ({
@@ -25,11 +26,14 @@ const CarProfileDrawer = ({
   form,
   openNominationHistory,
   autoScrollToForm = false,
-  vehicles,
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const isMobile = useIsMobile();
+
+   const { vehiclesData } = useGetVehicles();
+ const vehicles = vehiclesData?.vehicles
+
 
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type = "individual" } = user || {};
@@ -44,6 +48,7 @@ const CarProfileDrawer = ({
   const registrationNumber = vehicleDetails?.registration_number;
 
   const { nominees, error, isLoading } = useGetNominees(registrationNumber);
+
 
   useEffect(() => {
     if (autoScrollToForm && formRef.current) {

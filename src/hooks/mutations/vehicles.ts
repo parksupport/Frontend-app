@@ -55,22 +55,22 @@ export const useDeleteVehicle = () => {
       return await deleteVehicle(vehicleId);
     },
 
-    onMutate: async (vehicleId: string) => {
-      await queryClient.cancelQueries({ queryKey: ["vehicle"] });
+    // onMutate: async (vehicleId: string) => {
+    //   await queryClient.cancelQueries({ queryKey: ["vehicle"] });
 
-      const previousVehicles = queryClient.getQueryData(["vehicle"]);
+    //   const previousVehicles = queryClient.getQueryData(["vehicle"]);
 
-      queryClient.setQueryData(["vehicle"], (oldData: any) => {
-        return {
-          ...oldData,
-          vehicles: oldData?.vehicles?.filter(
-            (vehicle: any) => vehicle.id !== vehicleId
-          ),
-        };
-      });
+    //   queryClient.setQueryData(["vehicle"], (oldData: any) => {
+    //     return {
+    //       ...oldData,
+    //       vehicles: oldData?.vehicles?.filter(
+    //         (vehicle: any) => vehicle.id !== vehicleId
+    //       ),
+    //     };
+    //   });
 
-      return { previousVehicles };
-    },
+    //   return { previousVehicles };
+    // },
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
@@ -84,8 +84,7 @@ export const useDeleteVehicle = () => {
       });
     },
 
-    onError: (error: any, vehicleId, context) => {
-      queryClient.setQueryData(["vehicle"], context?.previousVehicles);
+    onError: (error: any) => {
       toast({
         title: "Failed to delete vehicle",
         description:

@@ -12,3 +12,42 @@ export const useGetNominees = (registration_number: string) => {
   
     return { nominees: data, error, isLoading ,refetch};
   };
+
+
+
+
+
+
+// export const useGetNominees = () => {
+//   const queryClient = useQueryClient();
+//   const toast = useToast();
+
+//   const mutation = useMutation({
+//     mutationFn: (registration_number: string) => getNominee(registration_number),
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["nominee"] });
+//       // toast({
+//       //   title: "Fetching nominee successful",
+//       //   status: "success",
+//       //   duration: 3000,
+//       //   isClosable: true,
+//       // });
+//     },
+//     onError: (error: AxiosError) => {
+//       toast({
+//         title: "Cannot get nominee",
+//         description: error?.message || "An error occurred while fetching the nominee.",
+//         status: "error",
+//         duration: 3000,
+//         isClosable: true,
+//       });
+//     },
+//   });
+
+//   return {
+//     fetchNominee: mutation.mutateAsync,
+//     isError: mutation.isError,
+//     error: mutation.error,
+//     isLoading: mutation.isLoading, // Corrected from `isPending` to `isLoading`
+//   };
+// };

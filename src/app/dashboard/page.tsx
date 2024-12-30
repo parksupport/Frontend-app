@@ -88,7 +88,6 @@ export default function DashboardPage() {
         toggleDrawer={toggleDrawer}
         openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
         form={form}
-        vehicles={vehiclesData?.vehicles}
         autoScrollToForm={autoScrollToForm}
       />
     );

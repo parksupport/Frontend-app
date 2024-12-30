@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDeleteVehicle } from "./mutations/vehicles";
 import { useDeleteNominee } from "./mutations/nominee";
+import { useGetVehicles } from "./queries/vehicles";
 
 
 
@@ -23,6 +24,10 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
   const [data, setData] = useState<any[]>(externalData);
   const [showConfirmButton, setShowConfirmButton] = useState(false);
   const [selectedDataIndex, setSelectedDataIndex] = useState<number | null>(null);
+
+   const {refetch } = useGetVehicles();
+
+
 
   const {
     deleteVehicle: deleteVehicle,
@@ -52,7 +57,7 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
     setShowConfirmButton(false);
   };
 
-  const handleDelete = (index: number, registration_number?: string) => {
+  const handleDelete = async (index: number, registration_number?: string) => {
     // Get the item based on the index
     const item = data[index];
   
@@ -68,11 +73,10 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
       }
     }
 
-    setData((prevData) => prevData.filter((_, i) => i !== index));
+    // setData((prevData) => prevData.filter((_, i) => i !== index));
+    await refetch();
 
-    // console.log("dataa",data[index]?.registration_number)
-    // const id = data[index]?.registration_number;
-    // deleteVehicle(id)
+
 
     setShowConfirmButton(false);
     setOpenDropdownIndex(null);

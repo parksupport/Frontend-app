@@ -30,8 +30,7 @@ export const useAddNominee = () => {
         throw error;
       }
     },
-    onSuccess: async (updatedUserData) => {
-      queryClient.setQueryData(["nominee"], updatedUserData);
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["nominee"] });
       await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
     

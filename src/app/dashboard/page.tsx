@@ -57,13 +57,13 @@ export default function DashboardPage() {
   // const {nominees} = useGetNominees()
   const { vehiclesData, isLoading } = useGetVehicles();
 
-  const [myVehicle, setMyVehicle]= useState()
-
-
+  const [myVehicle, setMyVehicle] = useState();
 
   const { addVehicle, error } = useAddVehicle();
 
-  console.log("user",full_name)
+  console.log("user", full_name);
+
+  const [isCorporate, setIsCorporate] = useState(user_type);
 
   const [firstName, lastName] =
     typeof full_name === "string" ? full_name.split(" ") : ["", ""];
@@ -90,7 +90,6 @@ export default function DashboardPage() {
         form={form}
         vehicles={vehiclesData?.vehicles}
         autoScrollToForm={autoScrollToForm}
-        
       />
     );
 
@@ -118,7 +117,7 @@ export default function DashboardPage() {
       <UserInfoDrawer
         back={toggleDrawer}
         onEdit={openProfileEditDrawer}
-        userInfo={user_type}
+        userInfo={isCorporate}
       />
     );
     scrollToTopFromParent();
@@ -200,7 +199,7 @@ export default function DashboardPage() {
         vehicleData={data}
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
-        user={user_type}
+        user={isCorporate}
       />
     );
     scrollToTopFromParent();
@@ -338,7 +337,7 @@ export default function DashboardPage() {
 
             {/* Profile and Table Section */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
-              <div className="w-full">
+              <div className="w-full justify-center items-center ">
                 {/* <CarProfile
               addVehicleDetails={addVehicleDetails}
               openCarProfile={() => openCarProfile(cars)}
@@ -349,12 +348,12 @@ export default function DashboardPage() {
                   openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
                   openCarProfile={() => openCarProfile(vehicles)}
                   vehicles={vehiclesData?.vehicles}
-                  verify = {openVerifyMyVehicleDrawer}
+                  verify={openVerifyMyVehicleDrawer}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>
 
-              <div className="w-full justify-center flex">
+              <div className="items-center w-full justify-center flex">
                 <ContraventionTable
                   invoices={undefined}
                   openConventionTable={openConventionTable}

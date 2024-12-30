@@ -8,7 +8,7 @@ const page = () => {
     <div>
       <SubscriptionPlans onClick={() => console.log("subscribed")} />
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

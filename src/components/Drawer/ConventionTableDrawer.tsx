@@ -74,7 +74,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
   );
 
   return (
-    <div className="">
+    <div className="flex justify-center items-center flex-col">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Ticket Summary"
@@ -84,7 +84,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
       {/* Contravention Table */}
 
       <Slider {...sliderSettings}>
-        <div className="flex mx-0 flex-col mt-6 w-full border border-solid border-[#C5D5F8] rounded-lg ">
+        <div className="flex mx-0 flex-col mt-6 w-[900px!important] border border-solid border-[#C5D5F8] rounded-lg ">
           <table className="flex items-center  justify-between lg:flex lg:flex-col ">
             <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex pl-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">

@@ -121,6 +121,7 @@ const CarProfile = ({
                         variant="quinary"
                         className={`py-[9px] px-[12px] text-[16px] `}
                         onClick={openAddVehicleDetailsDrawer}
+                        
                       >
                         Add vehicle
                         <Plus className="inline-block" />
@@ -272,7 +273,7 @@ const CarProfile = ({
                           <button
                             onClick={
                               car.verification_status === "Pending"
-                                ? verify
+                                ? () => verify(car)
                                 : undefined
                             }
                             className={`relative text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end overflow-hidden ${

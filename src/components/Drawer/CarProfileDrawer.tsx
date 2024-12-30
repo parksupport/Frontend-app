@@ -17,10 +17,11 @@ interface CarProfileDrawerProps {
   form: boolean;
   openNominationHistory: () => void;
   autoScrollToForm?: boolean;
-  // vehicles: any;
+  verify?: any;
 }
 
 const CarProfileDrawer = ({
+  verify,
   toggleDrawer,
   openAddVehicleDetailsDrawer,
   form,
@@ -31,9 +32,8 @@ const CarProfileDrawer = ({
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const isMobile = useIsMobile();
 
-   const { vehiclesData } = useGetVehicles();
- const vehicles = vehiclesData?.vehicles
-
+  const { vehiclesData } = useGetVehicles();
+  const vehicles = vehiclesData?.vehicles;
 
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type = "individual" } = user || {};
@@ -48,7 +48,6 @@ const CarProfileDrawer = ({
   const registrationNumber = vehicleDetails?.registration_number;
 
   const { nominees, error, isLoading } = useGetNominees(registrationNumber);
-
 
   useEffect(() => {
     if (autoScrollToForm && formRef.current) {
@@ -104,10 +103,14 @@ const CarProfileDrawer = ({
       {user_type.toLowerCase() === "corporate" && !isMobile ? (
         // If the user is corporate and on a desktop, load corporate drawer
         <CorporateCarProfileDrawer
+          full_name={full_name}
+          user_type={user_type.toLowerCase()}
           openNominationHistory={openNominationHistory}
           openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
           toggleDrawer={toggleDrawer}
           isForm={isForm}
+          vehicles={vehicles}
+          verify={verify}
         />
       ) : (
         // Otherwise, use the individual + mobile flow

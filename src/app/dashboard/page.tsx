@@ -9,7 +9,6 @@ import ContraventionTable from "@/components/card/Contravention";
 import EducationalMaterials from "@/components/card/Educationalmaterials";
 import EducationalMaterialsDrawer from "@/components/Drawer/EducationMaterialsDrawer";
 import FAQComponents from "@/components/card/FAQComponents";
-import NotificationsTable from "@/components/NotificationTable";
 import DashboardHeader from "@/components/DashboardHeader";
 import AddVehicleDetailsDrawer from "@/components/Drawer/AddVehicleDetailsDrawer";
 import CarProfileDrawer from "@/components/Drawer/CarProfileDrawer";
@@ -22,7 +21,6 @@ import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
 import { useEffect, useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
-import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDrawer";
 import SettingsDrawer from "@/components/Drawer/SettingsDrawer";
 import AddBillingMethodDrawer from "@/components/Drawer/AddBillingMethodDrawer";
 import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer";
@@ -34,10 +32,6 @@ import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/Drawer/ModalComponent";
 import { useRouter } from "next/navigation";
-
-import ThirdPartyNominees, {
-  NomineeMobile,
-} from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/Drawer/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
 
@@ -51,17 +45,12 @@ export default function DashboardPage() {
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
 
   const drawerRef = useRef<any>(null);
-  const router = useRouter();
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
   // const {nominees} = useGetNominees()
   const { vehiclesData, isLoading } = useGetVehicles();
 
-  const [myVehicle, setMyVehicle] = useState();
-
   const { addVehicle, error } = useAddVehicle();
-
-  console.log("user", full_name);
 
   const [isCorporate, setIsCorporate] = useState(user_type);
 
@@ -89,6 +78,7 @@ export default function DashboardPage() {
         openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
         form={form}
         autoScrollToForm={autoScrollToForm}
+        verify={openVerifyMyVehicleDrawer}
       />
     );
 
@@ -105,8 +95,10 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openVerifyMyVehicleDrawer = () => {
-    setDrawerContent(<VehicleVerificationDrawer back={toggleDrawer} />);
+  const openVerifyMyVehicleDrawer = (data) => {
+    setDrawerContent(
+      <VehicleVerificationDrawer data={data} back={toggleDrawer} />
+    );
     scrollToTopFromParent();
     openDrawer();
   };
@@ -211,23 +203,12 @@ export default function DashboardPage() {
         back={toggleDrawer}
         CheckVehicleOwner={CheckVehicleOwner}
         user_type={user_type}
+        openCarProfile={openCarProfile}
       />
     );
     scrollToTopFromParent();
     openDrawer();
   };
-
-  // const openNotificationRep = () => {
-  //   setDrawerContent(
-  //     <ThirdPartyNominees
-  //       toggleForm={toggleDrawer}
-  //       nominees={NomineeMobile}
-  //       // OpenRecipient={OpenRecipient}
-  //     />
-  //   );
-
-  //   openDrawer();
-  // };
 
   const openEducationalMaterials = () => {
     setDrawerContent(
@@ -337,12 +318,6 @@ export default function DashboardPage() {
             {/* Profile and Table Section */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
               <div className="w-full justify-center items-center ">
-                {/* <CarProfile
-              addVehicleDetails={addVehicleDetails}
-              openCarProfile={() => openCarProfile(cars)}
-              vehicles={cars}
-              // openNominationHistory={openNominationHistory}
-            /> */}
                 <CarProfile
                   openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
                   openCarProfile={() => openCarProfile(vehicles)}

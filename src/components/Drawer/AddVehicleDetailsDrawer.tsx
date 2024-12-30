@@ -6,10 +6,12 @@ import { IoMdCheckmark } from "react-icons/io";
 import Button from "../Buttons";
 import InputField from "../InputField";
 import DrawerHeader from "./DrawerHeader";
+import { useUploadVehicles } from "@/hooks/mutations/vehicles";
 
 type VehicleDetailsDrawerProps = {
   back: any;
-  CheckVehicleOwner: (formData:any) => void;
+  CheckVehicleOwner: (formData: any) => void;
+  openCarProfile?: any;
   user_type?: string;
 };
 
@@ -17,6 +19,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   back,
   CheckVehicleOwner,
   user_type,
+  openCarProfile,
 }) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
@@ -24,16 +27,14 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     car_color: "",
     postcode: "", // Add postcode if needed for verification
     year: "", // Add year if needed for verification
-    make: "" // Add make if needed
+    make: "", // Add make if needed
   });
 
-
-
+  const [file, setFile] = useState<File | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle form submission if needed
-    
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,13 +53,27 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) setFileName(file.name);
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setFileName(selectedFile.name);
+      setFile(selectedFile); // Set the selected file in the state
+    }
   };
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
+
+  const handleBulkUpload = () => {
+    if (file) {
+      uploadVehicles(file);
+      openCarProfile();
+    } else {
+      console.error("No file selected");
+    }
+  };
+
+  const { uploadVehicles, error, isLoading } = useUploadVehicles();
 
   return (
     <div className="mx-auto ">
@@ -140,15 +155,17 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             className={`${groteskText.className} w-full`}
           />
 
-        { user_type === "individual" &&  <Button
-            variant="quinary"
-            className="py-[10px] px-[12px] w-full"
-            icon={<IoMdCheckmark size={25} />}
-            iconPosition="right"
-            onClick={() => CheckVehicleOwner(formData)}
-          >
-            Save Vehicle
-          </Button>}
+          {user_type === "individual" && (
+            <Button
+              variant="quinary"
+              className="py-[10px] px-[12px] w-full"
+              icon={<IoMdCheckmark size={25} />}
+              iconPosition="right"
+              onClick={() => CheckVehicleOwner(formData)}
+            >
+              Save Vehicle
+            </Button>
+          )}
 
           {user_type === "corporate" && (
             <div className="flex flex-col gap-4 items-center pb-12 cursor-pointer w-full">
@@ -181,7 +198,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
                 className="py-[10px] px-[12px] w-full"
                 icon={<IoMdCheckmark size={25} />}
                 iconPosition="right"
-                onClick={() => CheckVehicleOwner(formData)}
+                // onClick={() => CheckVehicleOwner(formData)}
+                onClick={handleBulkUpload}
               >
                 Save Vehicle
               </Button>

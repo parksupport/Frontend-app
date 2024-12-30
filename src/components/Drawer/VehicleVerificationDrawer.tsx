@@ -9,13 +9,15 @@ import DrawerHeader from "./DrawerHeader";
 
 type VehicleDetailsDrawerProps = {
   back: any;
+  data?:any;
 };
 
 const VehicleVerificationDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   back,
+  data,
 }) => {
   const [formData, setFormData] = useState({
-    vegRegNumber: "",
+    vegRegNumber: data?.registration_number || "",
     car_model: "",
     car_color: "",
     postcode: "", // Add postcode if needed for verification

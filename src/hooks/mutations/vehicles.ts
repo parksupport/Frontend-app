@@ -1,7 +1,49 @@
 "use client";
-import { addVehicles, deleteVehicle } from "@/api/vehicle";
+import { addVehicles, deleteVehicle, uploadVehicles } from "@/api/vehicle";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+export const useUploadVehicles = () => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  // Mutation hook to handle the file upload
+  const mutation = useMutation({
+    mutationFn: async (file: File) => {
+      return await uploadVehicles(file);
+    },
+
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
+      await queryClient.invalidateQueries({ queryKey: ["nominees"] });
+
+      toast({
+        title: "Vehicles uploaded successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+
+    onError: (error: any) => {
+      console.error("Error uploading vehicles:", error);
+      toast({
+        title: "Failed to upload vehicles",
+        description:
+          error?.message || "An error occurred while uploading the vehicles.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+  });
+  const isLoading = mutation.status === "pending";
+  return {
+    uploadVehicles: mutation.mutate,
+    isLoading,
+    error: mutation.error,
+  };
+};
 
 export const useAddVehicle = () => {
   const toast = useToast();

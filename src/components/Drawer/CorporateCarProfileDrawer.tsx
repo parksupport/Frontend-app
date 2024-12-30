@@ -1,7 +1,7 @@
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import DeleteRowModal from "../DeleteRowModal";
 import SearchSortModal from "../SearchSortModal";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useDeleteRow from "@/hooks/useDeleteRow";
 import useIsMobile from "@/hooks/useIsMobile";
 import ThirdPartyNominees, {
@@ -21,13 +21,11 @@ export const CorporateCarProfileDrawer = ({
   openAddVehicleDetailsDrawer,
   isForm,
   openNominationHistory,
+  vehicles,
+  full_name,
+  user_type,
+  verify,
 }) => {
-  const user = useAuthStore((state) => state.user);
-  const { full_name, user_type, vehicles } = user || {};
-
- 
-
-  console.log("user:", user);
 
   const [form, setForm] = useState(isForm);
 
@@ -46,13 +44,13 @@ export const CorporateCarProfileDrawer = ({
 
   const [selectedVehicle, setSelectedVehicle] = useState(data?.[0] || {});
 
-  const {nominees} = useGetNominees(selectedVehicle?.registration_number);
+  useEffect(() => {
+    setSelectedVehicle(data?.[0] || {}); // Update selectedVehicle with the first item of the data array
+  }, [data,setData]);
 
+  const { nominees,isLoading } = useGetNominees(selectedVehicle?.registration_number);
 
-
-console.log("selectedVehicle",nominees)
-
-
+  console.log("data",data)
 
 
   const nextComponentRef = useRef<HTMLDivElement>(null);
@@ -67,7 +65,7 @@ console.log("selectedVehicle",nominees)
     <>
       <div className=" flex flex-col min-w-[900px]  mx-auto">
         <div className="flex items-center justify-between  ">
-          <SearchSortModal data={data} setData={setData} />
+          <SearchSortModal name={full_name} data={data} setData={setData} />
           {/* <button
           onClick={openNominationHistory}
           className=" ml-4  w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center mt-8"
@@ -142,9 +140,9 @@ console.log("selectedVehicle",nominees)
                 {data?.map((item, index) => (
                   <tr
                     key={index}
-                    className={` border-t border-gray-200 text-[18px] ${
-                      item.registrationNumber ===
-                      selectedVehicle?.registrationNumber
+                    className={`border-t border-gray-200 text-[18px] ${
+                      item.registration_number ===
+                      selectedVehicle?.registration_number
                         ? "bg-gray-300 text-white"
                         : "hover:bg-gray-50"
                     } ${groteskText.className}`}
@@ -203,13 +201,21 @@ console.log("selectedVehicle",nominees)
                         className={` ${
                           groteskText.className
                         } w-[116px] py-1 text-[18px] flex items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowrap ${
-                          item.status === "Verified"
+                          item.verification_status === "Verified"
                             ? "bg-green-100 text-green-700"
+                            : item.verification_status === "Pending"
+                            ? "bg-yellow-100 text-yellow-700 cursor-pointer"
                             : "bg-red-100 text-red-700"
                         }`}
+                        onClick={
+                          item.verification_status === "Pending" ||
+                          item.verification_status === "Unverified"
+                            ? () => verify(item) // Add your onClick handler here
+                            : undefined
+                        }
                       >
                         <div className="flex items-center whitespace-nowrap">
-                          {item.contraventionStatus === "Verified" ? (
+                          {item.verification_status === "Verified" ? (
                             <IoMdCheckmark size={14} className="mr-1" />
                           ) : (
                             <IoMdClose size={14} className="mr-1" />
@@ -218,6 +224,7 @@ console.log("selectedVehicle",nominees)
                         </div>
                       </span>
                     </td>
+
                     <td
                       className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[25%] whitespace-nowrap`}
                     >
@@ -251,8 +258,9 @@ console.log("selectedVehicle",nominees)
             vehiclesRegNunbers={selectedVehicle?.registration_number}
             toggleForm={setForm}
             openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
-            selectedVehicle={ []}
-            user={user}
+            selectedVehicle={[]}
+            user_type={user_type}
+          
           />
         ) : (
           <ThirdPartyNominees
@@ -260,6 +268,7 @@ console.log("selectedVehicle",nominees)
             vehiclesRegNunbers={selectedVehicle?.registration_number}
             toggleForm={setForm}
             nominees={nominees?.nominations || []}
+            loading={isLoading}
           />
         )}
       </div>

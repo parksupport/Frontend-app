@@ -7,7 +7,7 @@ import CalendarSVG from "@/assets/svg/calendarOutline.svg";
 import RegSVG from "@/assets/svg/numbers_blue.svg";
 import { groteskText } from "@/app/fonts";
 
-const SearchSortModal = ({ data, setData }) => {
+const SearchSortModal = ({name, data, setData }) => {
   const [originalData] = useState(data); // Keep a reference to the original data
   const sortOptions = [
     { label: "Color", icon: <CarSVG /> },
@@ -31,10 +31,10 @@ const SearchSortModal = ({ data, setData }) => {
       // Filter the data based on the search term
       const filteredData = originalData.filter(
         (item) =>
-          item.owner.toLowerCase().includes(term) ||
-          item.color.toLowerCase().includes(term) ||
-          item.make.toLowerCase().includes(term) ||
-          item.registrationNumber.toLowerCase().includes(term)
+          name?.toLowerCase().includes(term) ||
+          item?.color?.toLowerCase().includes(term) ||
+          item?.make?.toLowerCase().includes(term) ||
+          item?.registration_number?.toLowerCase().includes(term)
       );
       setData(filteredData);
     }

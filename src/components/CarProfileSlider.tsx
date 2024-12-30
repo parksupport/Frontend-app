@@ -81,7 +81,7 @@ const CarProfileSlider = ({
     <article className="max-w-[428px] w-full md:max-w-[900px] mx-auto">
       {user_type === "Corporate" && (
         <div className="flex justify-end">
-          <SearchSortModal data={data} setData={setData} />
+          <SearchSortModal name={full_name} data={data} setData={setData} />
           <button
             onClick={() => console.log("hi")}
             className="ml-4 w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200 flex items-center justify-center mt-8"

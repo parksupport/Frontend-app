@@ -24,6 +24,7 @@ interface ThirdPartyNomineesProps {
   nominees: any[];
   vehiclesRegNunbers: string;
   user_type: "individual" | "corporate";
+  loading?: boolean;
 }
 
 export default function ThirdPartyNominees({
@@ -31,6 +32,7 @@ export default function ThirdPartyNominees({
   toggleForm,
   vehiclesRegNunbers,
   nominees,
+  loading,
 }: ThirdPartyNomineesProps) {
   const {
     openDropdownIndex,
@@ -71,32 +73,38 @@ export default function ThirdPartyNominees({
         </button>
       </div>
 
-      {isMobile ? (
-        <NomineeMobile
-          user_type={user_type}
-          registarationNumber={vehiclesRegNunbers}
-          nominees={data}
-          showDeleteConfirmation={showDeleteConfirmation}
-          showConfirmButton={showConfirmButton}
-          cancelDelete={cancelDelete}
-          handleDelete={handleDelete}
-          selectedDataIndex={selectedDataIndex}
-          setShowConfirmButton={setShowConfirmButton}
-        />
+      {loading ? (
+        <div>Loading...</div> // You can add a loading spinner or any other content here
       ) : (
-        <NomineeDesktop
-          user_type={user_type}
-          registarationNumber={vehiclesRegNunbers}
-          nominees={data}
-          showDeleteConfirmation={showDeleteConfirmation}
-          showConfirmButton={showConfirmButton}
-          cancelDelete={cancelDelete}
-          openDropdownIndex={openDropdownIndex}
-          toggleDropdown={toggleDropdown}
-          handleDelete={handleDelete}
-          selectedDataIndex={selectedDataIndex}
-          onCloseModal={() => setOpenDropdownIndex(null)}
-        />
+        <div>
+          {isMobile ? (
+            <NomineeMobile
+              user_type={user_type}
+              registarationNumber={vehiclesRegNunbers}
+              nominees={data}
+              showDeleteConfirmation={showDeleteConfirmation}
+              showConfirmButton={showConfirmButton}
+              cancelDelete={cancelDelete}
+              handleDelete={handleDelete}
+              selectedDataIndex={selectedDataIndex}
+              setShowConfirmButton={setShowConfirmButton}
+            />
+          ) : (
+            <NomineeDesktop
+              user_type={user_type}
+              registarationNumber={vehiclesRegNunbers}
+              nominees={data}
+              showDeleteConfirmation={showDeleteConfirmation}
+              showConfirmButton={showConfirmButton}
+              cancelDelete={cancelDelete}
+              openDropdownIndex={openDropdownIndex}
+              toggleDropdown={toggleDropdown}
+              handleDelete={handleDelete}
+              selectedDataIndex={selectedDataIndex}
+              onCloseModal={() => setOpenDropdownIndex(null)}
+            />
+          )}
+        </div>
       )}
     </div>
   );
@@ -292,7 +300,10 @@ export const NomineeMobile = ({
   // Close actions if clicked outside
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
+      if (
+        actionsRef.current &&
+        !actionsRef.current.contains(event.target as Node)
+      ) {
         setShowActions(false);
         setShowConfirmButton(false);
       }
@@ -380,7 +391,9 @@ export const NomineeMobile = ({
                 className="border p-4 rounded-[12px] bg-[#F9FAFB] space-y-2"
               >
                 {/* Name */}
-                <div className={`flex justify-between ${groteskText.className}`}>
+                <div
+                  className={`flex justify-between ${groteskText.className}`}
+                >
                   <span className="text-gray-500">Name</span>
                   <TruncatedText
                     text={nominee?.name}
@@ -493,7 +506,7 @@ interface AddThirdPartyNomineeProps {
   toggleForm?: (bool: boolean) => void;
   openAddVehicleDetailsDrawer?: () => void;
   selectedVehicle?: any;
-  user?: any;
+  user_type?: any;
 }
 
 export function AddThirdPartyNominee({
@@ -501,7 +514,7 @@ export function AddThirdPartyNominee({
   toggleForm,
   openAddVehicleDetailsDrawer,
   selectedVehicle,
-  user,
+  user_type,
 }: AddThirdPartyNomineeProps) {
   const [hasError, setHasError] = useState(false);
   const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
@@ -510,7 +523,7 @@ export function AddThirdPartyNominee({
     email_address: "",
     phone_number: "",
     start_date: "2024-01-01", // Example defaults
-    end_date: "2024-01-30",   // Example defaults
+    end_date: "2024-01-30", // Example defaults
   });
 
   const { addNominee } = useAddNominee();
@@ -611,7 +624,7 @@ export function AddThirdPartyNominee({
             ))}
 
             {/* Only show these date fields if user is "corporate" */}
-            {user === "corporate" && (
+            {user_type === "corporate" && (
               <div className="flex flex-col w-[90%] md:w-[500px]">
                 <div className="flex gap-3">
                   <CustomDatePicker

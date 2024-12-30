@@ -13,7 +13,8 @@ import { IoMdCheckmark, IoMdClose } from "react-icons/io";
 import InfoIconWithText from "../InfoIconWithText";
 import { MdHistory } from "react-icons/md";
 import { useAuthStore } from "@/lib/stores/authStore";
-import { useGetNominees } from "@/hooks/mutations/nominee";
+import { useGetNominees } from "@/hooks/queries/nominee";
+
 
 export const CorporateCarProfileDrawer = ({
   toggleDrawer,

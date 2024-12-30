@@ -244,24 +244,29 @@ const CarProfileSlider = ({
                   </div>
 
                   {/* Car Image: right box */}
-                  <div className="mt-4 md:mt-0 md:ml-4 max-w-[359px]">
-                    {car.type ? (
-                      <Image
-                        src={`/assets/images/${car.type}.png`}
-                        alt="Car Type"
-                        width={250}
-                        height={150}
-                        className="mx-auto"
-                      />
-                    ) : (
-                      <Image
-                        src={require(`@/assets/images/essentail-car.jpg`)}
-                        alt="Default Car"
-                        width={250}
-                        height={150}
-                        className="mx-auto"
-                      />
-                    )}
+                  <div className="flex flex-col justify-center items-center">
+                    <div className="mt-4 md:mt-0 md:ml-4 max-w-[359px]">
+                      {car.type ? (
+                        <Image
+                          src={`/assets/images/${car.type}.png`}
+                          alt="Car Type"
+                          width={250}
+                          height={150}
+                          className="mx-auto"
+                        />
+                      ) : (
+                        <Image
+                          src={require(`@/assets/images/essentail-car.jpg`)}
+                          alt="Default Car"
+                          width={250}
+                          height={150}
+                          className="mx-auto"
+                        />
+                      )}
+                    </div>
+                    <div className={`${groteskTextMedium.className} text-[36px]`}>
+                     {car.registration_number}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -30,28 +30,11 @@ export const useAddNominee = () => {
         throw error;
       }
     },
-    onMutate: async (newNominee) => {
-      // Optimistically update the cache
-      await queryClient.cancelQueries({ queryKey: ["nominee"] });
-
-      const previousUserData = queryClient.getQueryData(["nominee"]);
-
-      // Ensure the existing data is properly added to and the new nominee is appended
-      queryClient.setQueryData(["nominee"], (oldData: any) => {
-        return {
-          nominee: [
-            ...(oldData?.nominee || []),
-            newNominee, // Append the new nominee
-          ],
-        };
-      });
-
-      return { previousUserData };
-    },
     onSuccess: async (updatedUserData) => {
       queryClient.setQueryData(["nominee"], updatedUserData);
       await queryClient.invalidateQueries({ queryKey: ["nominee"] });
-
+      await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
+    
       toast({
         title: "User nominated successfully",
         status: "success",
@@ -59,13 +42,11 @@ export const useAddNominee = () => {
         isClosable: true,
       });
     },
+    
     onError: (mutationError: any, newNominee, context) => {
       console.log("Failed to add nominee:", newNominee);
 
-      // Rollback the cache to its previous state
-      queryClient.setQueryData(["nominee"], context?.previousUserData);
-
-      console.error("Error occurred:", mutationError);
+       console.error("Error occurred:", mutationError);
       toast({
         title: "Failed to add Nominee",
         description:

@@ -1,13 +1,7 @@
 "use client";
-import {
-  addVehicles,
-  deleteVehicle
-} from "@/api/vehicle";
+import { addVehicles, deleteVehicle } from "@/api/vehicle";
 import { useToast } from "@chakra-ui/react";
-import {
-  useMutation,
-  useQueryClient
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useAddVehicle = () => {
   const toast = useToast();
@@ -52,7 +46,6 @@ export const useAddVehicle = () => {
   };
 };
 
-
 export const useDeleteVehicle = () => {
   const toast = useToast();
   const queryClient = useQueryClient();
@@ -81,6 +74,8 @@ export const useDeleteVehicle = () => {
 
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
+      await queryClient.invalidateQueries({ queryKey: ["nominee"] });
+
       toast({
         title: "Vehicle deleted successfully",
         status: "success",

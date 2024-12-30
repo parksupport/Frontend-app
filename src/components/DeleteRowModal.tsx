@@ -7,7 +7,7 @@ import { groteskText } from "@/app/fonts";
 import { Plus } from "lucide-react";
 
 interface DeleteRowModalProps {
-  position?: { right: number; top: number; left?:any };
+  position?: { right: any; top: any; left?:any };
   showConfirmButton?: boolean;
   onEdit?: () => void;
   onRemove?: () => void;

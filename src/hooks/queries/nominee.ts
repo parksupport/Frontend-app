@@ -4,11 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 
 
 export const useGetNominees = (registration_number: string) => {
-    const { data, error, isLoading } = useQuery({
+    const { data, error, isLoading ,refetch} = useQuery({
       queryKey: ["nominee", registration_number],
       queryFn: () => getNominee(registration_number),
       enabled: Boolean(registration_number),
     });
   
-    return { nominees: data, error, isLoading };
+    return { nominees: data, error, isLoading ,refetch};
   };

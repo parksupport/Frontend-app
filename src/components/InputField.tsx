@@ -63,20 +63,20 @@ const InputField: React.FC<InputFieldProps> = ({
       <div className="flex justify-between items-center">
         <label
           htmlFor={name}
-          className={`text-[#000000] text-[16px] ${groteskText.className} lg`}
+          className={`text-[#000000] text-[16px] md:text-[20px] ${groteskText.className} lg`}
         >
           {label}
         </label>
         {loadingMessage && (
           <span
-            className={` ${groteskText.className} text-red-500 text-[12px] ml-2}`}
+            className={` ${groteskText.className} text-red-500 text-[12px] md:text-[16px] ml-2}`}
           >
             {loadingMessage}
           </span>
         )}
         {!loadingMessage && inputError && (
           <span
-            className={` ${groteskText.className} text-red-500 text-[12px] ml-2`}
+            className={` ${groteskText.className} text-red-500 text-[12px] md:text-[16px] ml-2`}
           >
             {inputError}
           </span>
@@ -102,7 +102,7 @@ const InputField: React.FC<InputFieldProps> = ({
           onBlur={handleBlur}
           className={`${
             groteskText.className
-          } w-full  h-full px-[2rem] py-4 rounded-[6px] text-[14px] mt-1 border border-solid text-gray-500 focus:outline-none ${
+          } w-full  h-full px-[2rem] py-4 rounded-[6px] text-[14px] md:text-[18px] mt-1 border border-solid text-gray-500 focus:outline-none ${
             error ? "border-red-500" : "border-gray-300"
           } ${error ? "focus:ring-red-500" : "focus:ring-blue-500"}`}
         />
@@ -118,7 +118,7 @@ const InputField: React.FC<InputFieldProps> = ({
         )}
       </div>
       {error && (
-        <p className={`${groteskText.className} mt-1 text-[12px] text-red-500`}>
+        <p className={`${groteskText.className} mt-1 text-[12px] md:text-[16px] text-red-500`}>
           {error}
         </p>
       )}

@@ -123,7 +123,7 @@ function DynamicForm({ formType, status }) {
       </h1>
       <form
         onSubmit={handleSubmit}
-        className="mt-[8px] md:mx-[60px] flex flex-col space-y-4 "
+        className="mt-[8px] flex flex-col space-y-4  "
       >
         {formConfig.fields.map((field) => (
           <div key={field.name}>
@@ -135,14 +135,14 @@ function DynamicForm({ formType, status }) {
               value={formData[field.name]}
               onChange={handleChange}
               variant="individual"
-              className={`w-full md:w-[75%] ${groteskText.className}`}
+              className={`w-full  ${groteskText.className}`}
             />
           </div>
         ))}
         <div className="pb-[150px] pt-[20px]">
           <Button
             variant="quinary"
-            className="py-[10px] px-[12px] w-full md:w-[75%]"
+            className="py-[10px] px-[12px] w-full"
             onClick={status}
           >
             Continue to validate
@@ -193,30 +193,34 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user }) => {
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Which of these best describes your ownership of the vehicle?"
-        className=""
+        
       />
-      <div
-        className={`flex flex-wrap ${
-          user === "user" ? "flex-col " : "flex-col md:flex-row"
-        } items-start gap-5 mb-4 mt-[44px] md:mx-[60px]`}
-      >
-        {Object.entries(owners).map(([key, topic]) => (
-          <button
-            key={key}
-            onClick={() => handleSelect(key)}
-            className={`${
-              groteskText.className
-            } inline-flex items-center px-4 py-[18px] border rounded-[8px] text-[18px] text-black md:w-[400px]  whitespace-nowrap ${
-              selectedKey === key ? "border-[#4169E1]" : "border-[#D0D5DD]"
-            }`}
-          >
-            {icons[key]}
-            {topic}
-          </button>
-        ))}
-      </div>
+      <div className="flex b flex-col md:items-center">
+        <div
+          className={`flex flex-wrap ${
+            user === "user" ? "flex-col " : "flex-col md:flex-row"
+          } items-start gap-5 mb-4 mt-[44px] md:mx-[60px]`}
+        >
+          {Object.entries(owners).map(([key, topic]) => (
+            <button
+              key={key}
+              onClick={() => handleSelect(key)}
+              className={`${
+                groteskText.className
+              } inline-flex items-center px-4 py-[18px] border rounded-[8px] text-[18px] text-black md:w-[300px]  whitespace-nowrap ${
+                selectedKey === key ? "border-[#4169E1]" : "border-[#D0D5DD]"
+              }`}
+            >
+              {icons[key]}
+              {topic}
+            </button>
+          ))}
+        </div>
 
-      <div className=" my-[94px] mx-[16px]">{renderForm()}</div>
+        <div className="flex flex-col md:items-center my-[94px] mx-[16px]  md:w-[50%]">
+          {renderForm()}
+        </div>
+      </div>
     </>
   );
 };

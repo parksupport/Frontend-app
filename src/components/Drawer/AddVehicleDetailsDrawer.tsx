@@ -58,7 +58,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   };
 
   return (
-    <div className="">
+    <div className="mx-auto ">
       <DrawerHeader
         toggleDrawer={back}
         title="Add Your Vehicle Details"
@@ -154,8 +154,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
                   <Image
                     src={DownloadTemplate}
                     alt="Download Template for CSV"
-                    width={600}
-                    height={642}
+                    width={300}
+                    height={342}
                     className="rounded-lg object-cover h-full cursor-pointer"
                     onClick={handleImageClick}
                   />

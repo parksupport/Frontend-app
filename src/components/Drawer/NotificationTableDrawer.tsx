@@ -138,7 +138,9 @@ const NotificationsTableDrawer = ({ back }) => {
         title="Notifications"
         subTitle="Stay updated with your latest contraventions and important alerts."
       />
-      <div className="px-4 md:px-2 flex justify-between items-center mt-8 ">
+
+    
+      <div className="px-4 md:px-2 md:w-[900px] md:mx-auto flex justify-between items-center mt-8 ">
         {/* Add the FiTrash2 icon only when selectedNotification is true */}
         {selectedNotificationsList.length > 0 && (
           <FiTrash2 className="ml-2 md:ml-0 cursor-pointer" size={20} color="red"  />
@@ -152,6 +154,7 @@ const NotificationsTableDrawer = ({ back }) => {
           Mark as read
         </div>
       </div>
+      <div className="flex flex-col items-center">
 
       {isMobile ? (
         <>
@@ -174,7 +177,7 @@ const NotificationsTableDrawer = ({ back }) => {
           </div>
         </>
       ) : (
-        <div className="">
+        <div className="w-[900px] mx-auto flex items-center">
           <DesktopViewNotification
             isDrawer={true}
             handleSelectAll={handleCheckedAll}
@@ -187,7 +190,7 @@ const NotificationsTableDrawer = ({ back }) => {
             itemsPerPage={itemsPerPage}
             totalNotifications={totalNotifications}
             onNotificationClick={handleNotificationClick}
-            textMaxLenght={40}
+            textMaxLenght={60}
             updateSelectedNotifications={updateSelectedNotifications}
             selectedNotificationsList={selectedNotificationsList}
             hasCheckbox
@@ -199,6 +202,7 @@ const NotificationsTableDrawer = ({ back }) => {
       {selectedNotification && (
         <ReadNotification selectedNotification={selectedNotification} />
       )}
+        </div>
     </>
   );
 };
@@ -207,19 +211,19 @@ export default NotificationsTableDrawer;
 
 const ReadNotification = ({ selectedNotification }) => {
   return (
-    <div>
+    <div className="flex items-center  md:w-[900px] mx-auto">
       {selectedNotification && (
         <div className="mt-4 p-4 border-t border-gray-300">
           <h3
-            className={` ${groteskText.className} text-black text-lg font-semibold`}
+            className={` ${groteskText.className} text-black md:text-[28px] font-semibold`}
           >
             {selectedNotification.type} Details
           </h3>
-          <h5 className={` ${groteskText.className} text-black text-sm`}>
+          <h5 className={` ${groteskText.className} text-black text-sm md:text-[16px]`}>
             {" "}
             {selectedNotification.time}
           </h5>
-          <p className={` text-black ${groteskText.className} mt-2`}>
+          <p className={` text-black md:text-[18px] ${groteskText.className} mt-2`}>
             {selectedNotification.details}
           </p>
         </div>

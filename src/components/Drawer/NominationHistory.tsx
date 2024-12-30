@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import DrawerHeader from "./Drawer/DrawerHeader";
+import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import { MdHistory } from "react-icons/md";
 import SortSVG from "@/assets/svg/sort.svg";
 import SearchSVG from "@/assets/svg/search-normal.svg";
-import TruncatedText from "./ToggleComponent/TruncatedText";
+import TruncatedText from "../ToggleComponent/TruncatedText";
 
 interface NominationHistoryTableProps {
   toggleDrawer: () => void;
@@ -101,28 +101,25 @@ const NominationHistoryTable = ({ back }: NominationHistoryTableProps) => {
   });
 
   return (
-    <div className="p-4">
+    <div className="p-4 flex flex-col justify-center items-center">
       <DrawerHeader
         toggleDrawer={back}
         title="Nomination History"
         subTitle="Here’s a quick summary of your vehicle’s key details. Keep this information up to date to stay in sync with your account."
       />
-      <div className="mb-4 flex justify-between items-center mt-[20px]">
-        <div
-          className={` ${groteskText.className} relative flex justify-center items-center gap-4`}
-        >
-          <SearchSVG
-            className={`${groteskText.className} absolute left-2 top-2 cursor-pointer`}
-          />
+ <section className="flex justify-center items-center w-[900px] flex-col">
+ <div className="mb-4 flex justify-between items-center mt-[20px] w-[83%]">
+ <div className={`${groteskText.className} relative flex justify-center items-center gap-4`}>
+  <SearchSVG className="absolute left-3 top-1/2 transform -translate-y-1/2 cursor-pointer" />
+  <input
+    type="text"
+    placeholder="Search..."
+    value={searchTerm}
+    onChange={handleSearchChange}
+    className={`${groteskText.className} pl-10 py-2 border rounded-md w-full max-w-xs`}
+  />
+</div>
 
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className={`${groteskText.className} px-10 py-2 border rounded-md w-full max-w-xs`}
-          />
-        </div>
 
         <div className="flex items-center text-[14px]">
           <SortSVG className="cursor-pointer" />
@@ -201,7 +198,7 @@ const NominationHistoryTable = ({ back }: NominationHistoryTableProps) => {
                   />
                 </td>
                 <td
-                  className={`h-[26px] mt-[2px] text-[18px] flex items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowraptext-center ${
+                  className={`h-[26px]  my-[8px] text-[18px] flex items-center justify-center rounded-full px-3 text-xs font-semibold whitespace-nowraptext-center ${
                     nomination.status === "Approved"
                       ? "bg-green-100 text-green-700"
                       : "bg-red-100 text-red-700"
@@ -238,6 +235,7 @@ const NominationHistoryTable = ({ back }: NominationHistoryTableProps) => {
           </tbody>
         </table>
       </div>
+ </section>
     </div>
   );
 };

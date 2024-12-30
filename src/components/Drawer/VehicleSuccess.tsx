@@ -5,13 +5,13 @@ import { groteskText, groteskTextMedium } from "@/app/fonts";
 
 const VehicleAddedSuccess = ({ toggleDrawer, openCarProfile }) => {
   return (
-    <div className="flex flex-col items-center justify-center bg-white p-4">
+    <div className="flex flex-col gap-10 bg-blue-600 items-center justify-center bg-white p-4">
       <DrawerHeader
         toggleDrawer={toggleDrawer}
         title="Vehicle Added Successfully"
         subTitle={
           <>
-            You can now track contraventions, manage fines, and receive
+            You cand now track contraventions, manage fines, and receive
             notifications for{" "}
             <span className={`${groteskTextMedium.className} `}>
               Vehicle Make/Model/Registration Number
@@ -21,7 +21,7 @@ const VehicleAddedSuccess = ({ toggleDrawer, openCarProfile }) => {
         }
       />
 
-      <div>
+      <div className="">
         <Image
           src={successMark}
           alt={"success"}

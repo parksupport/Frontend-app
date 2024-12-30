@@ -11,6 +11,12 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
+    Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
 } from "@chakra-ui/react";
 import useIsMobile from "@/hooks/useIsMobile";
 
@@ -59,25 +65,31 @@ const Drawer = forwardRef(
     return (
       <ChakraDrawer
         isOpen={isOpen}
-        placement={isMobile ? "bottom" : "right"}
+        placement={"bottom"}
         onClose={toggleDrawer}
-        size={isMobile ? "full" : ""}
+        size="full"
       >
         <DrawerOverlay onClick={toggleDrawer} />
         <DrawerContent
           ref={drawerContentRef}
           overflowY="auto"
           onScroll={handleScroll}
-          borderTopLeftRadius={isAtTop ? (isMobile ? "20px" : "40px") : "none"}
-          borderTopRightRadius={isAtTop ? (isMobile ? "20px" : "none") : "none"}
-          borderBottomLeftRadius={isAtBottom ? (isMobile ? "none" : "40px") : "none"}
-          borderBottomRightRadius={isAtBottom ? "none" : "none"}
-          sx={{
-            maxWidth: isMobile ? "100%" : "32%",
-            px: "8px",
-          }}
+          // borderTopLeftRadius={isAtTop ? (isMobile ? "20px" : "40px") : "none"}
+          // borderTopRightRadius={isAtTop ? (isMobile ? "20px" : "none") : "none"}
+          // borderBottomLeftRadius={isAtBottom ? (isMobile ? "none" : "40px") : "none"}
+          // borderBottomRightRadius={isAtBottom ? "none" : "none"}
+          maxW="100vw"
+          maxH="100vh"
+          height="100vh"
+          borderRadius="0"
+          m="0"
+
+          // sx={{
+          //   maxWidth: isMobile ? "100%" : "100%",
+          //   // px: "8px",
+          // }}
         >
-          <div>{children}</div>
+          <div className="flex flex-col">{children}</div>
         </DrawerContent>
       </ChakraDrawer>
     );
@@ -87,3 +99,40 @@ const Drawer = forwardRef(
 Drawer.displayName = "Drawer";
 
 export default Drawer;
+
+
+
+
+
+
+{/* <Modal
+isOpen={isOpen}
+// placement={"bottom"}
+onClose={toggleDrawer}
+size="full"
+>
+<ModalOverlay onClick={toggleDrawer} />
+<ModalContent
+  ref={drawerContentRef}
+  overflowY="auto"
+  onScroll={handleScroll}
+  // borderTopLeftRadius={isAtTop ? (isMobile ? "20px" : "40px") : "none"}
+  // borderTopRightRadius={isAtTop ? (isMobile ? "20px" : "none") : "none"}
+  // borderBottomLeftRadius={isAtBottom ? (isMobile ? "none" : "40px") : "none"}
+  // borderBottomRightRadius={isAtBottom ? "none" : "none"}
+  maxW="100vw"
+  maxH="100vh"
+  height="100vh"
+  borderRadius="0"
+  m="0"
+
+  // sx={{
+  //   maxWidth: isMobile ? "100%" : "100%",
+  //   // px: "8px",
+  // }}
+>
+  <ModalBody p="0">
+    <div className="flex flex-col">{children}</div>
+  </ModalBody>
+</ModalContent>
+</Modal> */}

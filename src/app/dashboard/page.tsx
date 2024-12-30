@@ -32,13 +32,13 @@ import { ProfileEditInfoDrawer } from "@/components/Drawer/ProfileEditInfoDrawer
 import ToggleButton from "@/components/ToggleComponent/ToggleComponent";
 import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
-import ModalComponent from "@/components/ModalComponent";
+import ModalComponent from "@/components/Drawer/ModalComponent";
 import { useRouter } from "next/navigation";
 
 import ThirdPartyNominees, {
   NomineeMobile,
 } from "@/components/card/ThirdPartyNominee";
-import NominationHistoryTable from "@/components/NominationHistory";
+import NominationHistoryTable from "@/components/Drawer/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
 import DisplayCarProfile from "@/components/card/CarProfile";
 
@@ -61,6 +61,8 @@ export default function DashboardPage() {
   }, [user, router]);
 
   const { full_name, user_type } = user || {};
+
+  const [isCorporate, setIsCorporate] = useState(user_type);
 
   const [firstName, lastName] =
     typeof full_name === "string" ? full_name.split(" ") : ["", ""];
@@ -85,7 +87,7 @@ export default function DashboardPage() {
         vehicles={cars}
         toggleDrawer={toggleDrawer}
         addVehicleDetails={addVehicleDetails}
-        user={user_type}
+        user={isCorporate}
         form={form}
         autoScrollToForm={autoScrollToForm}
       />
@@ -98,7 +100,7 @@ export default function DashboardPage() {
     setDrawerContent(
       <NominationHistoryTable
         toggleDrawer={toggleDrawer}
-        back={CarProfileDrawer}
+        back={openCarProfile}
       />
     );
     openDrawer();
@@ -109,7 +111,7 @@ export default function DashboardPage() {
       <UserInfoDrawer
         back={toggleDrawer}
         onEdit={openProfileEditDrawer}
-        userInfo={user_type}
+        userInfo={isCorporate}
       />
     );
     scrollToTopFromParent();
@@ -295,6 +297,7 @@ export default function DashboardPage() {
             onClose={onClose}
             onOpen={onOpen}
             toggleDrawer={toggleDrawer}
+            openAddBillingMethod={openAddBillingMethod}
           />
 
           {/* Main Content */}
@@ -328,9 +331,27 @@ export default function DashboardPage() {
               </div>
             </section>
 
+            <div className="flex items-center gap-4">
+              <span className="text-gray-700 font-medium">{isCorporate}</span>
+              <button
+                onClick={toggleUserType}
+                className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                  isCorporate === "corporate" ? "bg-blue-500" : "bg-green-500"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
+                    isCorporate === "corporate"
+                      ? "translate-x-0"
+                      : "translate-x-6"
+                  }`}
+                ></span>
+              </button>
+            </div>
+
             {/* Profile and Table Section */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
-              <div className="w-full">
+              <div className="w-full justify-center items-center ">
                 {/* <CarProfile
               addVehicleDetails={addVehicleDetails}
               openCarProfile={() => openCarProfile(cars)}
@@ -345,7 +366,7 @@ export default function DashboardPage() {
                 />
               </div>
 
-              <div className="w-full justify-center flex">
+              <div className="items-center w-full justify-center flex">
                 <ContraventionTable
                   invoices={undefined}
                   openConventionTable={openConventionTable}

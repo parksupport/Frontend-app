@@ -224,7 +224,7 @@ export default function LandingPage() {
         </section>
         {/* Subscription Plans Section */}
         <section ref={subscriptionPlan}>
-          <SubscriptionPlans />
+          <SubscriptionPlans onClick={() => router.push("/auth/login")} />
         </section>
         <section>
           <Footer

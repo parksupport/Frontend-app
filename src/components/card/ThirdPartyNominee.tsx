@@ -50,16 +50,18 @@ export default function ThirdPartyNominees({
       <div className="flex justify-center gap-4 mb-6">
         <div className="text-center">
           <h1
-            className={`text-wrap text-black text-[22px] md:text-[24px] ${groteskTextMedium.className}`}
+            className={`text-wrap text-black text-[22px] md:text-[30px] ${groteskTextMedium.className}`}
           >
             {`Vehicle ${nominees.registrationNumber}`}
           </h1>
-          <h1 className={`${groteskText.className} text-[18px] leading-none`}>
+          <h1
+            className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}
+          >
             Notification Recipient History
           </h1>
         </div>
         <button
-          className={`whitespace-nowrap hover:underline text-[#4169E1] text-[18px] ${groteskTextMedium.className}`}
+          className={`whitespace-nowrap hover:underline text-[#4169E1] md:text-[18px] text-[18px] ${groteskTextMedium.className}`}
           onClick={() => toggleForm(true)}
         >
           Add Recipient
@@ -105,45 +107,44 @@ const NomineeDesktop = ({
   onCloseModal,
 }) => {
   return (
-   <div className=" overflow-x-auto max-w-[calc(100vh-200px)] rounded-[12px] border border-gray-300 pb-2 ">
-
-      <table className="overflow-auto-y min-w-full bg-white text-black h-[200px] ">
+    <div className="   rounded-[12px] border border-gray-300 pb-2 ">
+      <table className=" bg-white text-black h-[200px] ">
         <thead>
           <tr
-            className={`text-[#667185] text-[18px] border-b w-full ${groteskText.className}`}
+            className={`text-[#667185] text-[22px] border-b w-full ${groteskText.className}`}
           >
             <th
-              className={`  ${groteskText.className} whitespace-nowrap  text-end px-2 w-[5%]`}
+              className={`  ${groteskText.className} whitespace-nowrap  text-end px-2`}
             >
               {" "}
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap py-2 px-2 text-left w-[15%] `}
+              className={` ${groteskText.className} whitespace-nowrap py-2 px-2 text-left `}
             >
               Name
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap px-2 text-left  w-[10%] `}
+              className={` ${groteskText.className} whitespace-nowrap px-2 text-left   `}
             >
               Status
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap px-2 text-left  w-[20%] `}
+              className={` ${groteskText.className} whitespace-nowrap px-2 text-left   `}
             >
               Email Address
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap  px-2  text-left  w-[20%]`}
+              className={` ${groteskText.className} whitespace-nowrap  px-2  text-left `}
             >
               Phone Number
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[15%] `}
+              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  `}
             >
               Start Date
             </th>
             <th
-              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  w-[15%] `}
+              className={` ${groteskText.className} whitespace-nowrap px-2   text-left  `}
             >
               End Date
             </th>
@@ -181,16 +182,16 @@ const NomineeDesktop = ({
                   )}
                 </td>
                 <td
-                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                  className={`pt-2 px-2 whitespace-nowrap text-[18px] ${groteskText.className}`}
                 >
                   <TruncatedText
                     text={nominee.name}
-                    maxLength={10}
+                    maxLength={20}
                     className={`${groteskText.className}`}
                   />
                 </td>
                 <td
-                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                  className={`pt-2 px-2 whitespace-nowrap text-[18px] ${groteskText.className}`}
                 >
                   <div
                     className={`flex items-center justify-center w-[100px] py-1 rounded-full text-xs font-semibold whitespace-nowrap  ${
@@ -204,21 +205,21 @@ const NomineeDesktop = ({
                 </td>
 
                 <td
-                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                  className={`pt-2 px-2 whitespace-nowrap text-[18px] ${groteskText.className}`}
                 >
                   <TruncatedText
                     text={nominee.email}
-                    maxLength={15}
+                    maxLength={25}
                     className={`${groteskText.className}`}
                   />
                 </td>
                 <td
-                  className={`pt-2 px-2 whitespace-nowrap text-[15px] ${groteskText.className}`}
+                  className={`pt-2 px-2 whitespace-nowrap text-[18px] ${groteskText.className}`}
                 >
                   {nominee.phone}
                 </td>
                 <td
-                  className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
+                  className={`pt-2 px-2  text-[18px] whitespace-nowrap ${groteskText.className}`}
                 >
                   <TruncatedText
                     text={nominee.startDate}
@@ -227,7 +228,7 @@ const NomineeDesktop = ({
                   />
                 </td>
                 <td
-                  className={`pt-2 px-2  text-[15px] whitespace-nowrap ${groteskText.className}`}
+                  className={`pt-2 px-2  text-[18px] whitespace-nowrap ${groteskText.className}`}
                 >
                   <TruncatedText
                     text={nominee.endDate}
@@ -515,10 +516,12 @@ export function AddThirdPartyNominee({
     email_address: "",
     vehicle: "",
     phone_number: "",
-    start_date: new Date(),
-    end_date: isIndefiniteEndDate
-      ? new Date(new Date().setFullYear(new Date().getFullYear() + 50))
-      : new Date(),
+    // start_date: new Date(),
+    // end_date: isIndefiniteEndDate
+    //   ? new Date(new Date().setFullYear(new Date().getFullYear() + 50))
+    //   : new Date(),
+       start_date: "05/11/2023",
+       end_date: "05/09/2024"
   });
 
   const UserInputFields = [
@@ -581,11 +584,13 @@ export function AddThirdPartyNominee({
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="flex flex-col items-center">
             <h1
-              className={`text-wrap text-black text-[22px] md:text-[24px] ${groteskText.className}`}
+              className={`text-wrap text-black text-[22px] md:text-[32px] leading-none ${groteskTextMedium.className}`}
             >
               {`Vehicle ${nominees.registrationNumber}`}
             </h1>
-            <h1 className={`${groteskText.className} text-[18px] leading-none`}>
+            <h1
+              className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}
+            >
               Add Notification Recipient
             </h1>
           </div>
@@ -598,7 +603,7 @@ export function AddThirdPartyNominee({
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col gap-4 items-center">
+          <div className="flex flex-col gap-4 items-center ">
             {UserInputFields.map((field) => (
               <InputField
                 key={field.name}
@@ -609,7 +614,7 @@ export function AddThirdPartyNominee({
                 value={field.value}
                 onChange={handleChange}
                 variant="individual"
-                className={`${groteskText.className} w-[90%] md:w-[75%]`}
+                className={`${groteskText.className}  w-[90%] md:w-[500px]`}
               />
             ))}
 
@@ -660,7 +665,7 @@ export function AddThirdPartyNominee({
             <Button
               type="submit"
               variant="quinary"
-              className="py-[10px] px-[12px] w-[80%] md:w-[65%]"
+              className="py-[10px] px-[12px] w-full "
             >
               Add Nominee
             </Button>

@@ -94,7 +94,11 @@ export const useDeleteVehicle = () => {
 
   const mutation = useMutation({
     mutationFn: async (vehicleId: string) => {
-      return await deleteVehicle(vehicleId);
+      try {
+        return await deleteVehicle(vehicleId);
+      } catch (error: any) {
+        throw error;
+      }
     },
 
     // onMutate: async (vehicleId: string) => {

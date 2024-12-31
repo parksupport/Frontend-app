@@ -159,7 +159,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
         handlePrevious={goToPreviousPage}
         itemsPerPage={itemsPerPage}
         totalNotifications={totalNotifications}
-        textMaxLenght={48}
+        textMaxLenght={40}
         cardNotificationClick={openNotificationsTable}
       />
     </div>

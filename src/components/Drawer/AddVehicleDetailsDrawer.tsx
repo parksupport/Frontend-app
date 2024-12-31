@@ -31,6 +31,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   });
 
   const [file, setFile] = useState<File | null>(null);
+  const [isBulk, setIsBulk] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,6 +58,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     if (selectedFile) {
       setFileName(selectedFile.name);
       setFile(selectedFile); // Set the selected file in the state
+      setIsBulk(true)
     }
   };
 
@@ -199,7 +201,9 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
                 icon={<IoMdCheckmark size={25} />}
                 iconPosition="right"
                 // onClick={() => CheckVehicleOwner(formData)}
-                onClick={handleBulkUpload}
+                onClick={
+                  isBulk ? handleBulkUpload : () => CheckVehicleOwner(formData)
+                }
               >
                 Save Vehicle
               </Button>

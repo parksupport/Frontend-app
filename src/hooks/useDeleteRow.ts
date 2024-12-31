@@ -27,8 +27,7 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
 
    const {refetch } = useGetVehicles();
 
-
-
+ 
   const {
     deleteVehicle: deleteVehicle,
     isError: isDeleteVehicleError,
@@ -58,13 +57,12 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
   };
 
   const handleDelete = async (index: number, registration_number?: string) => {
-    // Get the item based on the index
     const item = data[index];
   
     if (type === "vehicle") {
       const id = item?.registration_number;
       if (id) {
-        deleteVehicle(id); // Deleting vehicle by registration number
+        deleteVehicle(id); // Trigger the delete mutation
       }
     } else if (type === "nominee") {
       const user_id = item?.id;
@@ -72,16 +70,15 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
         deleteNominee({ registration_number, user_id }); // Pass both as an object
       }
     }
-
-    // setData((prevData) => prevData.filter((_, i) => i !== index));
+  
+    // Refetch to ensure data consistency
     await refetch();
-
-
-
+  
     setShowConfirmButton(false);
     setOpenDropdownIndex(null);
-    setSelectedDataIndex(null); 
+    setSelectedDataIndex(null);
   };
+  
 
   const showDeleteConfirmation = (index: number) => {
     setShowConfirmButton(true);

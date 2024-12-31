@@ -30,7 +30,7 @@ export const refreshAccessToken = async (refreshToken) => {
 
 export const registerUser = async (userType, userData) => {
 
-  console.log("data",userData)
+
   try {
     const response = await Axios.post(`/api/accounts/register/${userType}/`, {
       address: userData.company_registered_address,

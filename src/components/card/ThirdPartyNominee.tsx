@@ -66,8 +66,11 @@ export default function ThirdPartyNominees({
           </h1>
         </div>
         <button
-          className={`whitespace-nowrap hover:underline text-[#4169E1] md:text-[18px] text-[18px] ${groteskTextMedium.className}`}
+          className={`whitespace-nowrap hover:underline text-[#4169E1] md:text-[18px] text-[18px] ${
+            groteskTextMedium.className
+          } ${!vehiclesRegNunbers ? "opacity-50 cursor-not-allowed" : ""}`}
           onClick={() => toggleForm(true)}
+          disabled={!vehiclesRegNunbers} // Disable when vehiclesRegNumbers is an empty string
         >
           Add Recipient
         </button>
@@ -599,8 +602,14 @@ export function AddThirdPartyNominee({
             </h1>
           </div>
           <div
-            className={`text-[#4169E1] text-[18px] hover:underline ${groteskText.className}`}
-            onClick={() => toggleForm?.(false)}
+            className={`text-[#4169E1] text-[18px] hover:underline ${
+              groteskText.className
+            } ${
+              !vehiclesRegNunbers
+                ? "opacity-50 cursor-not-allowed pointer-events-none"
+                : ""
+            }`}
+            onClick={() => vehiclesRegNunbers && toggleForm?.(false)} // Prevent click when vehiclesRegNumbers is empty
           >
             View all
           </div>

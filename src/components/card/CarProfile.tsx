@@ -41,6 +41,8 @@ const CarProfile = ({
   const sliderRef = useRef(null);
   const totalPages = vehicles?.length || 0;
 
+
+
   const settings = {
     dots: true,
     infinite: false,
@@ -121,7 +123,7 @@ const CarProfile = ({
                         variant="quinary"
                         className={`py-[9px] px-[12px] text-[16px] `}
                         onClick={openAddVehicleDetailsDrawer}
-                        
+
                       >
                         Add vehicle
                         <Plus className="inline-block" />

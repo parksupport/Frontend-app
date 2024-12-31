@@ -25,7 +25,7 @@ const ContraventionTable = ({ invoices, openConventionTable }) => {
     }
   };
 
-  const { ticketsData } = useGetTicket("Nissan");
+  const { ticketsData } = useGetTicket("ABC123");
 
   useEffect(() => {
     // Update visibleCount on component mount
@@ -46,7 +46,7 @@ const ContraventionTable = ({ invoices, openConventionTable }) => {
   return (
     <>
       {ticketsData?.tickets.length === 0 ? (
-        <div className="max-w-[396px] h-[340px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-6 px-4 md:py-9 md:px-6 lg:px-8 flex items-center justify-center flex-col">
+        <div className="max-w-[396px] min-h-[340px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-6 px-4 md:py-9 md:px-6 lg:px-8 flex items-center justify-center flex-col">
           <div className="flex items-center gap-2">
             {/* Add your icon here */}
             <span className="text-[26px]">
@@ -72,7 +72,7 @@ const ContraventionTable = ({ invoices, openConventionTable }) => {
           </div>
         </div>
       ) : (
-        <div className="max-w-[396px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-6 px-4 md:py-9 md:px-6 lg:px-8 flex flex-col ">
+        <div className="max-w-[396px] min-h-[340px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-6 px-4 md:py-9 md:px-6 lg:px-8 flex flex-col ">
           <div className="flex justify-between flex-row items-center">
             <h1
               className={`text-[24px] md:text-[2rem] text-[#000000] ${groteskTextMedium.className} `}

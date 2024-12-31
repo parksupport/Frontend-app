@@ -28,7 +28,10 @@ export const addNominee = async (
   }
 };
 
-export const deleteNominee = async (registration_number: string, user_id: string) => {
+export const deleteNominee = async (
+  registration_number: string,
+  user_id: string
+) => {
   try {
     const response = await Axios.delete(
       `/api/vehicles/${registration_number}/nominations/${user_id}/delete/`
@@ -36,6 +39,21 @@ export const deleteNominee = async (registration_number: string, user_id: string
     return response.data;
   } catch (error: any) {
     console.error("Error deleting nominee data:", error);
+    throw error.response?.data || error.message || error;
+  }
+};
+
+export const endNomination = async (
+  registration_number: string,
+  user_id: string
+) => {
+  try {
+    const response = await Axios.post(
+      `/api/vehicles/${registration_number}/nominations/${user_id}/end-nomination/`
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Error ending nomination:", error);
     throw error.response?.data || error.message || error;
   }
 };

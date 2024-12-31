@@ -101,27 +101,12 @@ export const useDeleteVehicle = () => {
       }
     },
 
-    // onMutate: async (vehicleId: string) => {
-    //   await queryClient.cancelQueries({ queryKey: ["vehicle"] });
-
-    //   const previousVehicles = queryClient.getQueryData(["vehicle"]);
-
-    //   queryClient.setQueryData(["vehicle"], (oldData: any) => {
-    //     return {
-    //       ...oldData,
-    //       vehicles: oldData?.vehicles?.filter(
-    //         (vehicle: any) => vehicle.id !== vehicleId
-    //       ),
-    //     };
-    //   });
-
-    //   return { previousVehicles };
-    // },
-
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
       await queryClient.invalidateQueries({ queryKey: ["nominee"] });
-
+    
+  
+    
       toast({
         title: "Vehicle deleted successfully",
         status: "success",
@@ -129,6 +114,7 @@ export const useDeleteVehicle = () => {
         isClosable: true,
       });
     },
+    
 
     onError: (error: any) => {
       toast({

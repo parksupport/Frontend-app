@@ -152,7 +152,8 @@ const NomineeDesktop = ({
           {nominees?.map((nominee, index) => {
             const endDate = new Date(nominee.endDate);
             const today = new Date();
-            const expiredLease = endDate < today;
+            const expiredLease =
+              endDate < today || nominee?.status === "Inactive";
 
             return (
               <tr key={index} className="hover:bg-gray-50 relative">
@@ -200,12 +201,12 @@ const NomineeDesktop = ({
                 >
                   <div
                     className={`flex items-center justify-center w-[100px] py-1 rounded-full text-xs font-semibold whitespace-nowrap  ${
-                      nominee.status === "active"
+                      nominee.status === "Active"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
                     }`}
                   >
-                    {nominee.status === "active" ? "Active" : "Not Active"}
+                    {nominee.status === "Active" ? "Active" : "Not Active"}
                   </div>
                 </td>
 

@@ -51,9 +51,6 @@ export const CorporateCarProfileDrawer = ({
 
   const { nominees,isLoading } = useGetNominees(selectedVehicle?.registration_number);
 
-  console.log("data",data)
-
-
   const nextComponentRef = useRef<HTMLDivElement>(null);
 
   const handleButtonClick = () => {

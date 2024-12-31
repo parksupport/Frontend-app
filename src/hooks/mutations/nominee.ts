@@ -1,5 +1,5 @@
 "use client";
-import { addNominee, deleteNominee } from "@/api/nominee";
+import { addNominee, deleteNominee, endNomination } from "@/api/nominee";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -112,6 +112,60 @@ export const useDeleteNominee = () => {
 
   return {
     deleteNominee: mutation.mutate,
+    isError: mutation.isError,
+    error: mutation.error,
+    // isLoading: mutation.isLoading,
+  };
+};
+
+
+
+export const useEndNomination = () => {
+  const toast = useToast();
+  // const setNominee = useAuthStore((state) => state.setNominee);
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async ({
+      registration_number,
+      user_id,
+    }: {
+      registration_number: string;
+      user_id: string;
+    }) => {
+      try {
+        // This function should send the registration number and user ID to the backend for deletion
+        return await endNomination(registration_number, user_id);
+      } catch (error: any) {
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      // Invalidate the cache for nominees to trigger a refetch
+      queryClient.invalidateQueries({ queryKey: ["nominee"] });
+
+      // Show a success toast
+      toast({
+        title: "End nomination successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+    onError: (error: any) => {
+      // Show an error toast
+      toast({
+        title: "Error ending nomination",
+        description: error?.response?.data?.message || "Something went wrong.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+  });
+
+  return {
+    endNomination: mutation.mutate,
     isError: mutation.isError,
     error: mutation.error,
     // isLoading: mutation.isLoading,

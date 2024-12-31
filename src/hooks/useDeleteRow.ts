@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDeleteVehicle } from "./mutations/vehicles";
-import { useDeleteNominee } from "./mutations/nominee";
+import { useDeleteNominee, useEndNomination } from "./mutations/nominee";
 import { useGetVehicles } from "./queries/vehicles";
 
 
@@ -35,10 +35,10 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
   } = useDeleteVehicle();
   
   const {
-    deleteNominee: deleteNominee,
+    endNomination: endNomination,
     isError: isDeleteNomineeError,
     error: deleteNomineeError,
-  } = useDeleteNominee();
+  } = useEndNomination();
   
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
     } else if (type === "nominee") {
       const user_id = item?.id;
       if (registration_number && user_id) {
-        deleteNominee({ registration_number, user_id }); // Pass both as an object
+        endNomination({ registration_number, user_id }); // Pass both as an object
       }
     }
   

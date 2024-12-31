@@ -37,6 +37,7 @@ export const deleteVehicle = async (registration_number) => {
     const response = await Axios.delete(
       `/api/vehicles/${registration_number}/delete/`
     );
+    console.log("delete",response.data)
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;

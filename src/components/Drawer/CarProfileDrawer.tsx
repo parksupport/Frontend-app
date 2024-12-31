@@ -35,6 +35,17 @@ const CarProfileDrawer = ({
   const { vehiclesData } = useGetVehicles();
   const vehicles = vehiclesData?.vehicles;
 
+  console.log("vehicle",vehicles)
+  console.log("vehicleData",vehiclesData)
+
+  useEffect(() => {
+    if (vehiclesData && vehiclesData.length === 0) {
+      toggleDrawer();  // Trigger the drawer toggle
+    }
+  }, [vehicles, toggleDrawer]);
+
+
+
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type = "individual" } = user || {};
 

@@ -10,6 +10,7 @@ import {
   MobileViewNotification,
 } from "../NotificationTable";
 import useNotifications from "@/hooks/useNotification";
+import { useFetchNotifications } from "@/hooks/queries/notifications";
 
 interface NotificationProps {
   id: number;
@@ -21,89 +22,13 @@ interface NotificationProps {
 }
 
 const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
-  const notificationsData = [
-    {
-      id: 1,
-      type: "Insurance",
-      message:
-        "Congratulations! You’re now a part of the Unstoppable Family. Start exploring your new benefits and coverage today.",
-      date: "26 Sep",
-      read: true,
-    },
-    {
-      id: 2,
-      type: "Contravention",
-      message:
-        "Your recent traffic violation has been logged. Please check your account for further details and actions.",
-      date: "26 Sep",
-      read: true,
-    },
-    {
-      id: 3,
-      type: "Login",
-      message:
-        "We noticed a login to your account from a new device. If this wasn’t you, secure your account immediately.",
-      date: "26 Sep",
-      read: true,
-    },
-    {
-      id: 4,
-      type: "Insurance",
-      message:
-        "Reminder: Your insurance policy renewal is due soon. Ensure your coverage stays uninterrupted by renewing now.",
-      date: "26 Sep",
-      read: false,
-    },
-    {
-      id: 5,
-      type: "Insurance",
-      message:
-        "Thank you for choosing Unstoppable Insurance! Explore our app to manage your policies with ease.",
-      date: "26 Sep",
-      read: true,
-    },
-    {
-      id: 6,
-      type: "Insurance",
-      message:
-        "We’re offering an exclusive discount on new policies! Don’t miss out—contact us to learn more.",
-      date: "26 Sep",
-      read: false,
-    },
-    {
-      id: 7,
-      type: "Contravention",
-      message:
-        "Your contravention appeal has been reviewed. Visit your account to see the outcome and next steps.",
-      date: "26 Sep",
-      read: true,
-    },
-    {
-      id: 8,
-      type: "Logout",
-      message:
-        "You’ve successfully logged out. Remember to log in again to access your account securely at any time.",
-      date: "26 Sep",
-      read: false,
-    },
-    {
-      id: 9,
-      type: "Insurance",
-      message:
-        "We’ve updated our terms and conditions for insurance coverage. Visit our site to review the latest changes.",
-      date: "26 Sep",
-      read: true,
-    },
-    {
-      id: 10,
-      type: "Insurance",
-      message:
-        "Your recent claim has been processed successfully. Check your email for confirmation and further details.",
-      date: "26 Sep",
-      read: true,
-    },
-  ];
-
+  const {
+    data: notificationsData = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useFetchNotifications();
   const {
     currentNotifications,
     currentPage,
@@ -119,6 +44,18 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
   } = useNotifications(notificationsData, 7);
 
   const isMobile = useIsMobile();
+
+  if (isLoading) {
+    return <div>Loading notifications...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="text-red-600">
+        Error loading notifications: {String(error)}
+      </div>
+    );
+  }
 
   return isMobile ? (
     <MobileViewNotification

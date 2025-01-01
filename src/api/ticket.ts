@@ -3,7 +3,7 @@ import { Axios } from "@/api/axios";
 export const fetchTicketData = async (registration_number: string) => {
   try {
     const response = await Axios.get(
-      `/api/tickets/${registration_number}/get-ticket/`
+      `/api/vehicles/${registration_number}/tickets/`
     );
     return response.data;
   } catch (error: any) {

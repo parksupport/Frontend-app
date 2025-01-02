@@ -101,26 +101,26 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
         {invoice.ticket}
       </td>
       <td
-        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem]  lg:w-[23%] ${groteskText.className}`}
+        className={`text-[#212121]   text-[1rem] py-[0.75rem]  lg:w-[23%] ${groteskText.className}`}
        
       >
         {invoice.reg_num}
       </td>
       <td
-        className={`text-[#212121] self-end text-center text-[1rem] py-[0.75rem] lg:pl-[1.8rem] lg:w-[33%] ${groteskText.className}`}
+        className={`text-[#212121]   text-[1rem] py-[0.75rem] lg:pl-[1.8rem] lg:w-[33%] ${groteskText.className}`}
       
       >
         {invoice.issuing_auth}
       </td>
       <td
-        className={`text-[#212121] self-end  text-[1rem] py-[0.75rem] lg:w-[14%] lg:pl-[5px]  ${groteskText.className}`}
+        className={`text-[#212121]   text-[1rem] py-[0.75rem] lg:w-[14%] lg:pl-[5px]  ${groteskText.className}`}
      
       >
         {invoice.fine_amount}
       </td>
-      <span className="bg-[#B5E3C4] self-end  rounded-[22px] my-[0.75rem] flex justify-center w-[65px] h-[22px]">
+      <span className="bg-[#B5E3C4]   rounded-[22px] my-[0.75rem] flex justify-center w-[65px] h-[22px]">
         <td
-          className={`text-center text-[#099137] text-[13px] ${groteskText.className}`}
+          className={` text-[#099137] text-[13px] ${groteskText.className}`}
          
         >
           {invoice.status}

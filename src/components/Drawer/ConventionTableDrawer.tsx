@@ -79,10 +79,10 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
       {/* Contravention Table */}
 
       <Slider {...sliderSettings}>
-        <div className="flex mx-0 flex-col mt-6 w-[900px!important] border border-solid border-[#C5D5F8] rounded-lg ">
-          <table className="flex items-center  justify-between lg:flex lg:flex-col ">
+        <div className="flex mx-0 flex-col mt-6 w-[396px!important] md:w-[700px!important] lg:w-[900px!important] border border-solid border-[#C5D5F8] rounded-lg ">
+          <table className="flex  justify-between lg:flex lg:flex-col ">
             <thead className="border-b border-b-[#C5D5F8] w-full ">
-              <tr className="flex px-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
+              <tr className="flex lg:px-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
                 <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Contravention Type
@@ -101,7 +101,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
               </tr>
             </thead>
 
-            <tbody className="w-full lg:w-full lg:bg-[#F9FAFB]">
+            <tbody className="w-full lg:w-full lg:bg-[#F9FAFB] px-[1rem] lg:p-0">
               {(isSmallScreen ? currentItems : itemDetails.contravention).map(
                 (invoice, index) => (
                   <ContraventionRow

@@ -273,21 +273,26 @@ function CarProfile({
         : "text-[#B00020] bg-[#FFCDD2]"
     }`}
   >
-    <div className="absolute inset-0">
-      <div 
-        className="absolute w-[9999px] h-[9999px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin-slow"
-        style={{
-          backgroundImage: `conic-gradient(rgba(0, 0, 0, 0), ${
-            car.status === "Pending"
-              ? "#FFD700"
-              : car.status === "Verified"
-              ? "#099137"
-              : "#B00020"
-          }, rgba(0, 0, 0, 0) 25%)`,
-          animation: 'glow 5s linear infinite'
-        }}
-      />
-    </div>
+    {car.status === "Pending" && (
+      <>
+        <div className="absolute inset-0">
+          <div 
+            className="absolute w-[9999px] h-[9999px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin-slow"
+            style={{
+              backgroundImage: `conic-gradient(rgba(0, 0, 0, 0), #FFD700, rgba(0, 0, 0, 0) 25%)`,
+              animation: 'glow 5s linear infinite'
+            }}
+          />
+        </div>
+        <div 
+          className="absolute inset-0 blur-2xl"
+          style={{
+            backgroundImage: `conic-gradient(rgba(0, 0, 0, 0), #FFD700, rgba(0, 0, 0, 0) 25%)`,
+            animation: 'glow 5s linear infinite'
+          }}
+        />
+      </>
+    )}
     <div 
       className="absolute inset-[2px] rounded-[6.25rem]"
       style={{ 
@@ -300,19 +305,6 @@ function CarProfile({
     />
     <span className="relative z-10">{car.status}</span>
   </button>
-  <div 
-    className="absolute inset-0 blur-2xl"
-    style={{
-      backgroundImage: `conic-gradient(rgba(0, 0, 0, 0), ${
-        car.status === "Pending"
-          ? "#FFD700"
-          : car.status === "Verified"
-          ? "#099137"
-          : "#B00020"
-      }, rgba(0, 0, 0, 0) 25%)`,
-      animation: 'glow 5s linear infinite'
-    }}
-  />
 </div>
 </h2>
 

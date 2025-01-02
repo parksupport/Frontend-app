@@ -8,7 +8,7 @@ import TruncatedText from "../ToggleComponent/TruncatedText";
 const ContraventionRow = ({ invoice, handleRowClick }) => {
   return (
     <tr
-      className={`flex flex-col pl-[1rem] 
+      className={`flex flex-col px-[1rem] 
                   lg:flex lg:flex-row 
                   lg:border-b-[#D0D5DD] lg:border 
                   cursor-pointer hover:bg-[#FFFFFF] 

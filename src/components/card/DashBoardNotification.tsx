@@ -9,8 +9,9 @@ import {
   DesktopViewNotification,
   MobileViewNotification,
 } from "../NotificationTable";
+import { useFetchNotifications } from "@/hooks/queries/notifications";
 import useNotifications from "@/hooks/useNotification";
-import { useGetNotifications } from "@/hooks/queries/notification";
+
 
 interface NotificationProps {
   id: number;
@@ -22,9 +23,13 @@ interface NotificationProps {
 }
 
 const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
-  const {notificationsData} = useGetNotifications();
-
-
+  const {
+    notificationsData = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useFetchNotifications();
   const {
     currentNotifications,
     currentPage,
@@ -40,6 +45,18 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
   } = useNotifications(notificationsData, 7);
 
   const isMobile = useIsMobile();
+
+  if (isLoading) {
+    return <div>Loading notifications...</div>;
+  }
+
+  if (isError) {
+    return (
+      <div className="text-red-600">
+        Error loading notifications: {String(error)}
+      </div>
+    );
+  }
 
   return isMobile ? (
     <MobileViewNotification

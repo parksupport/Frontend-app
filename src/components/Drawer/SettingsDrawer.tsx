@@ -1,5 +1,5 @@
 // SettingsDrawer.tsx
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import Button from "../Buttons";
@@ -13,6 +13,7 @@ import ThirdPartyNominees from "../card/ThirdPartyNominee";
 import Drawer from "./Drawer";
 
 import { useLogout } from "@/hooks/mutations/auth";
+import { useNotificationPreferences } from "@/hooks/queries/notifications";
 
 const SettingsDrawer = ({
   toggleDrawer,
@@ -23,9 +24,41 @@ const SettingsDrawer = ({
   // const [isOpen, setIsOpen] = useState(false);
 
   const { logout } = useLogout();
+  const {
+    preferences,
+    isLoadingPrefs,
+    prefsError,
+    savePreferences,
+    isSaving,
+  } = useNotificationPreferences();
 
-  const [smsNotifications, setSmsNotifications] = useState(true);
-  const [emailNotifications, setEmailNotifications] = useState(true);
+  // 3) We’ll keep local state for toggles
+  const [smsNotifications, setSmsNotifications] = useState(false);
+  const [emailNotifications, setEmailNotifications] = useState(false);
+
+  // 4) On load (or whenever preferences changes), sync the toggles
+  useEffect(() => {
+    if (preferences) {
+      setSmsNotifications(preferences.prefers_sms);
+      setEmailNotifications(preferences.prefers_email);
+    }
+  }, [preferences]);
+
+  // 5) Function to handle toggling SMS
+  const handleToggleSms = (checked: boolean) => {
+    setSmsNotifications(checked);
+  };
+
+  const handleToggleEmail = (checked: boolean) => {
+    setEmailNotifications(checked);
+  };
+
+  const handleSavePreferences = () => {
+    savePreferences({
+      prefers_sms: smsNotifications,
+      prefers_email: emailNotifications,
+    });
+  };
   const [isPopup, setIsPopup] = useState(false);
   const router = useRouter();
 
@@ -117,47 +150,61 @@ const SettingsDrawer = ({
         </div>
         {/* Notification Settings */}
         <div className="mt-[40px]">
-          <h2
-            className={`${groteskTextMedium.className} text-[#000000] text-[22px] md:text-[30px] leading-none`}
-          >
-            Notification Settings
-          </h2>
-          <p
-            className={`${groteskText.className}  text-[#667185] text-[16px] md:text-[18px] leading-none `}
-          >
-            Choose how you want receive your notification
-          </p>
+        <h2
+          className={`${groteskTextMedium.className} text-[#000000] text-[22px] md:text-[30px] leading-none`}
+        >
+          Notification Settings
+        </h2>
+        <p
+          className={`${groteskText.className} text-[#667185] text-[16px] md:text-[18px] leading-none`}
+        >
+          Choose how you want receive your notification
+        </p>
 
-          <div className="flex items-center gap-[3rem]">
-            <div className="flex items-center gap-[1rem]">
-              <label
-                className={`text-[24px] text-[#000000] ${groteskText.className} `}
-              >
-                Sms
-              </label>
-              <Switch />
-
-              {/* <input
-              type="checkbox"
+        {/* Toggles */}
+        <div className="flex items-center gap-[3rem] mt-2">
+          <div className="flex items-center gap-[1rem]">
+            <label
+              className={`text-[24px] text-[#000000] ${groteskText.className}`}
+            >
+              Sms
+            </label>
+            <Switch
               checked={smsNotifications}
-              onChange={() => setSmsNotifications(!smsNotifications)}
-            /> */}
-            </div>
-            <div className="flex items-center gap-[1rem] ">
-              <label
-                className={`text-[24px] text-[#000000] ${groteskText.className} `}
-              >
-                Email{" "}
-              </label>
-              <Switch />
-              {/* <input
-              type="checkbox"
+              onCheckedChange={handleToggleSms}
+            />
+          </div>
+          <div className="flex items-center gap-[1rem]">
+            <label
+              className={`text-[24px] text-[#000000] ${groteskText.className}`}
+            >
+              Email
+            </label>
+            <Switch
               checked={emailNotifications}
-              onChange={() => setEmailNotifications(!emailNotifications)}
-            /> */}
-            </div>
+              onCheckedChange={handleToggleEmail}
+            />
           </div>
         </div>
+
+        {/* Save button */}
+        <div className="mt-4">
+          <Button
+            variant="quinary"
+            onClick={handleSavePreferences}
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save Preferences"}
+          </Button>
+        </div>
+
+        {/* Error or loading states */}
+        {prefsError && (
+          <p className="text-red-500 mt-2">
+            Error loading/updating preferences: {String(prefsError)}
+          </p>
+        )}
+      </div>
 
         {/* Password and Security */}
         <div className="flex items-center gap-[1rem] mt-[40px]">

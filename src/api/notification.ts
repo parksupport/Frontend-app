@@ -47,8 +47,6 @@ export const markAllAsRead = async () => {
   }
 };
 
-
-
 export const deleteNotification = async (
     id: string
   ) => {
@@ -62,3 +60,15 @@ export const deleteNotification = async (
       throw error.response?.data || error.message || error;
     }
   };
+// notifications.api.ts
+
+
+export const getNotificationPreferences = async () => {
+  const response = await Axios.get("/api/notifications/preferences/");
+  return response.data;
+};
+
+export const updateNotificationPreferences = async (data: { prefers_email: boolean; prefers_sms: boolean }) => {
+  const response = await Axios.post("/api/notifications/preferences/", data);
+  return response.data;
+};

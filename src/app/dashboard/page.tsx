@@ -38,6 +38,7 @@ import { useAuthStore } from "@/lib/stores/authStore";
 import { useAddVehicle } from "@/hooks/mutations/vehicles";
 import VehicleVerificationDrawer from "@/components/Drawer/VehicleVerificationDrawer";
 import { useGetVehicles } from "@/hooks/queries/vehicles";
+import { useGetNotifications } from "@/hooks/queries/notification";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,6 +52,7 @@ export default function DashboardPage() {
   const { vehiclesData, isLoading } = useGetVehicles();
 
   const { addVehicle, error } = useAddVehicle();
+
 
   const [isCorporate, setIsCorporate] = useState(user_type);
 

@@ -77,6 +77,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
 
   const { uploadVehicles, error, isLoading } = useUploadVehicles();
 
+  console.log("isLoading", isLoading)
+
   return (
     <div className="mx-auto ">
       <DrawerHeader

@@ -16,7 +16,7 @@ interface NotificationProps {
   type: string;
   message: string;
   date: string;
-  read: boolean;
+  is_read: boolean;
   checked?: boolean;
 }
 
@@ -204,7 +204,7 @@ export const MobileViewNotification = ({
                   <div
                     className={`w-[40px] h-[40px] bg-[#D9D9D9] rounded-full flex items-center justify-center text-[20px] font-bold text-gray-700 ${groteskText.className}`}
                   >
-                    {notification.type.charAt(0)}
+                    {notification?.notification_type?.charAt(0)}
                   </div>
 
                   {/* Text Details */}
@@ -215,19 +215,19 @@ export const MobileViewNotification = ({
                       </div>
                       <p
                         className={`text-[16px]  ${
-                          notification.read ? "text-gray-400" : "text-black"
+                          notification?.is_read ? "text-gray-400" : "text-black"
                         } ${groteskTextMedium.className}`}
                       >
-                        {notification.type}
+                        {notification?.notification_type}
                       </p>
                     </div>
                     <p
                       className={`  text-[16px] ${
-                        notification.read ? "text-gray-400" : "text-black"
+                        notification?.is_read ? "text-gray-400" : "text-black"
                       } ${groteskTextMedium.className}`}
                     >
                       <TruncatedText
-                        text={notification.message}
+                        text={notification?.message}
                         maxLength={40}
                         className={`${groteskTextMedium.className}`}
                         showFullOnHover={false}
@@ -242,7 +242,7 @@ export const MobileViewNotification = ({
                   >
                     <span
                       className={`text-[12px] ${
-                        notification.read ? "text-gray-400" : "text-black"
+                        notification?.is_read ? "text-gray-400" : "text-black"
                       } ${groteskTextMedium.className}`}
                     >
                       {notification.date}
@@ -383,17 +383,21 @@ export const DesktopViewNotification = ({
               {currentNotifications?.map((notification) => (
                 <tr
                   key={notification.id}
-                  className={`border-t border-gray-300 cursor-pointer ${
-                    notification.read ? "text-gray-400" : "text-black"
+                  className={`border-t border-gray-300 ${
+                    hasCheckbox ? "cursor-pointer" : "cursor-default"
+                  } ${
+                    notification.is_read ? "text-gray-400" : "text-black"
                   } hover:bg-gray-100`}
                   onClick={() => {
-                    // Clear all selected checkboxes
-                    updateSelectedNotifications([]); // Reset selected notifications list
-                    // Handle the rest of the row click logic
-                    if (isDrawer) {
-                      onNotificationClick(notification);
-                    } else {
-                      cardNotificationClick(notification);
+                    if (hasCheckbox) {
+                      // Clear all selected checkboxes
+                      updateSelectedNotifications([]); // Reset selected notifications list
+                      // Handle the rest of the row click logic
+                      if (isDrawer) {
+                        onNotificationClick(notification);
+                      } else {
+                        cardNotificationClick(notification);
+                      }
                     }
                   }}
                 >
@@ -420,7 +424,7 @@ export const DesktopViewNotification = ({
                         <LabelImportantSVG />
                       </div>
                       <span className={`${groteskText.className}`}>
-                        {notification.type}
+                        {notification.notification_type}
                       </span>
                     </div>
                   </td>
@@ -437,7 +441,7 @@ export const DesktopViewNotification = ({
                   <td
                     className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'} py-2 text-center w-[10%]`}
                   >
-                    {notification.date}
+                    {notification.created_at}
                   </td>
                 </tr>
               ))}

@@ -65,10 +65,11 @@ export const deleteNotification = async (
 
 export const getNotificationPreferences = async () => {
   const response = await Axios.get("/api/notifications/preferences/");
+  console.log(response)
   return response.data;
 };
 
 export const updateNotificationPreferences = async (data: { prefers_email: boolean; prefers_sms: boolean }) => {
-  const response = await Axios.post("/api/notifications/preferences/", data);
+  const response = await Axios.put("/api/notifications/preferences/", data);
   return response.data;
 };

@@ -9,6 +9,7 @@ import { groteskText, groteskTextMedium } from "@/app/fonts";
 import useNotifications from "@/hooks/useNotification";
 import { FiTrash2 } from "react-icons/fi";
 import { useFetchNotifications } from "@/hooks/queries/notifications";
+import { useGetNominees } from "@/hooks/queries/nominee";
 
 type NotificationProps = {
   id: number;
@@ -139,6 +140,15 @@ const NotificationsTableDrawer = ({ back }) => {
 export default NotificationsTableDrawer;
 
 const ReadNotification = ({ selectedNotification }) => {
+
+  const [emails, setEmails] = useState<string[]>([
+    "user1@example.com",
+    "user2@example.com",
+  ]);
+
+  const removeEmail = (emailToRemove: string) => {
+    setEmails(emails.filter((email) => email !== emailToRemove));
+  };
   return (
     <div className="flex items-center  md:w-[900px] mx-auto">
       {selectedNotification && (
@@ -154,6 +164,28 @@ const ReadNotification = ({ selectedNotification }) => {
             {" "}
             {selectedNotification.time}
           </h5>
+          <div className="border border-gray-300 rounded-lg p-2">
+            <div className="flex flex-wrap gap-2">
+              {emails.map((email) => (
+                <div
+                  key={email}
+                  className="flex flex-row bg-gray-200 text-gray-800 text-[12px] items-center rounded-full px-4 space-x-2"
+                >
+                  <span>{email}</span>
+                  <button
+                    onClick={() => removeEmail(email)}
+                    className="text-red-500 font-bold hover:text-red-700"
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+            {emails.length === 0 && (
+              <p className="text-gray-400 italic">No emails added yet</p>
+            )}
+          </div>
+
           <p
             className={` text-black md:text-[18px] ${groteskText.className} mt-2`}
           >

@@ -20,6 +20,7 @@ import { MoveDiagonal } from "lucide-react";
 import UserTickSVG from "@/assets/svg/nominee.svg";
 import InfoIconWithText from "../InfoIconWithText";
 import SliderButton from "../SliderButton";
+ import  "./CarProfile.css"
 
 interface CarProfileProps {
   openCarProfile: any;
@@ -250,37 +251,68 @@ function CarProfile({
                             {car.owner}
                           </span>
                         </h2>
+                      
                         <h2
-                          className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
-                        >
-                          <InfoIconWithText
-                            icon={<UserTickSVG />}
-                            text="Ownership status:"
-                            identity={`${car.id}-ownership`}
-                            infoText="Ownership status information"
-                          />
-                          {/* <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[18px] self-end">
-                            {car.status}
-                          </button> */}
-                                                    <button
-                            onClick={
-                              car.status === "Pending"
-                                ? undefined
-                                : undefined
-                            }
-                            className={`relative text-[11px] rounded-[6.25rem] w-[68px] h-[18px] self-end overflow-hidden ${
-                              car.status === "Pending"
-                                ? "text-[#B38B00] bg-[#FFECB3] border-2 border-[#B38B00] border-dashed animate-gradient"
-                                : car.status === "Verified"
-                                ? "text-[#099137] bg-[#B5E3C4]"
-                                : "text-[#B00020] bg-[#FFCDD2]"
-                            }`}
-                          >
-                            <span className="relative z-10">
-                              {car.status}
-                            </span>
-                          </button>
-                        </h2>
+  className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575] justify-between ${groteskText.className}`}
+>
+  <InfoIconWithText
+    icon={<UserTickSVG />}
+    text="Ownership status:"
+    identity={`${car.id}-ownership`}
+    infoText="Ownership status information"
+  />
+
+<div className="relative w-[68px] h-[18px]">
+  <button
+    onClick={car.status === "Pending" ? undefined : undefined}
+    className={`absolute inset-0 flex items-center justify-center text-[11px] rounded-[6.25rem] overflow-hidden ${
+      car.status === "Pending"
+        ? "text-[#B38B00] bg-[#FFECB3]"
+        : car.status === "Verified"
+        ? "text-[#099137] bg-[#B5E3C4]"
+        : "text-[#B00020] bg-[#FFCDD2]"
+    }`}
+  >
+    {car.status === "Pending" && (
+      <>
+        <div className="absolute inset-0">
+          <div 
+            className="absolute w-[9999px] h-[9999px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin-slow"
+            style={{
+              backgroundImage: `conic-gradient(rgba(0, 0, 0, 0), #FFD700, rgba(0, 0, 0, 0) 25%)`,
+              animation: 'glow 5s linear infinite'
+            }}
+          />
+        </div>
+        <div 
+          className="absolute inset-0 blur-2xl"
+          style={{
+            backgroundImage: `conic-gradient(rgba(0, 0, 0, 0), #FFD700, rgba(0, 0, 0, 0) 25%)`,
+            animation: 'glow 5s linear infinite'
+          }}
+        />
+      </>
+    )}
+    <div 
+      className="absolute inset-[2px] rounded-[6.25rem]"
+      style={{ 
+        background: car.status === "Pending"
+          ? "#FFECB3"
+          : car.status === "Verified"
+          ? "#B5E3C4"
+          : "#FFCDD2"
+      }} 
+    />
+    <span className="relative z-10">{car.status}</span>
+  </button>
+</div>
+</h2>
+
+
+
+
+
+
 
                         <h2
                           className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}

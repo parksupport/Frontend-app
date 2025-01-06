@@ -8,7 +8,7 @@ import TruncatedText from "../ToggleComponent/TruncatedText";
 const ContraventionRow = ({ invoice, handleRowClick }) => {
   return (
     <tr
-      className={`flex flex-col pl-[1rem] 
+      className={`flex flex-col lg:px-[1rem]
                   lg:flex lg:flex-row 
                   lg:border-b-[#D0D5DD] lg:border 
                   cursor-pointer hover:bg-[#FFFFFF] 
@@ -17,9 +17,9 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
     >
       {/* Ticket */}
       <td
-        className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap 
-                    text-end lg:text-left 
-                    w-full lg:w-2/12 
+        className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0
+                     lg:text-left 
+                    lg:w-full lg:w-2/12 
                     ${groteskText.className}`}
       >
         <TruncatedText
@@ -31,10 +31,10 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
 
       {/* Date */}
       <td
-        className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap 
-                    text-end lg:text-left
-                    w-full lg:w-2/12 
-                    lg:pl-[2.5rem] 
+        className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0
+                     lg:text-left
+                    lg:w-full lg:w-2/12 
+                    lg:pl-[3.5rem] 
                     ${groteskText.className}`}
       >
         {invoice.date}
@@ -42,9 +42,9 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
 
       {/* Fine Amount */}
       <td
-        className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap 
-                    text-end lg:text-left
-                    w-full lg:w-2/12 
+        className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0
+                     lg:text-left
+                    lg:w-full lg:w-2/12 
                     lg:pl-[1.5rem] 
                     ${groteskText.className}`}
       >
@@ -53,7 +53,7 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
 
       {/* Status */}
       <td
-        className={`flex w-full items-center justify-end 
+        className={`flex w-0 items-center lg:justify-end  
                     lg:w-0 lg:pl-0`}
       >
         <span

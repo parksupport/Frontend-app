@@ -1,0 +1,7 @@
+
+
+@keyframes glow {
+  100% {
+      transform: translate(-50%, -50%) rotate(1turn); /* Fixed translate syntax */
+  }
+}

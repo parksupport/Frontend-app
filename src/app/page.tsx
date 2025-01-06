@@ -84,6 +84,7 @@ export default function LandingPage() {
         faqRef={faq}
         subPlanRef={subscriptionPlan}
         router={router}
+        isAuth={isAuthenticated}
       />
 
       <main className="pt-4 bg-[#FFFFFF]">
@@ -116,10 +117,10 @@ export default function LandingPage() {
                   Search now
                 </Button>
 
-                <AniminateButton
+               {!isAuthenticated && <AniminateButton
                   text="Sign Up"
                   onClick={() => router.push("/auth/onboarding")}
-                />
+                />}
               </div>
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
@@ -207,7 +208,7 @@ export default function LandingPage() {
                 icon={<InstantNoficationIcon />}
                 title="Instant Notifications"
                 description="Get real-time alerts for parking tickets, driving fines, and vehicle-related contraventions directly to your phone or email. Never miss a deadline again."
-                button
+                button={!isAuthenticated}
               />
             </div>
             <FeatureCard
@@ -242,7 +243,6 @@ export default function LandingPage() {
             featuresRef={features}
             faqRef={faq}
             subPlanRef={subscriptionPlan}
-            router={router}
           />
         </section>
       </main>

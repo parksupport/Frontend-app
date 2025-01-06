@@ -5,12 +5,19 @@ import { Button } from "@/components";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/authStore"; // Assume this is your auth store
+import { useGetProfile } from "@/hooks/queries/profile";
 
 const SubscriptionPlans = ({ onClick }) => {
   const isAuthenticated = useAuthStore((state) => state.token !== null); // Check authentication status
+  const { profile } = useGetProfile();
+
+  
+  const plan_id = profile?.userplan?.plan
+
 
   const plans = [
     {
+      id:1,
       name: "Starter Plan",
       price: "Free",
       features: [
@@ -26,6 +33,7 @@ const SubscriptionPlans = ({ onClick }) => {
       isHighlighted: false,
     },
     {
+      id:2,
       name: "Personal Plan",
       price: "£5/month",
       features: [
@@ -43,6 +51,7 @@ const SubscriptionPlans = ({ onClick }) => {
       isHighlighted: false,
     },
     {
+      id:3,
       name: "Family Plan",
       price: "£9/month",
       features: [
@@ -61,6 +70,7 @@ const SubscriptionPlans = ({ onClick }) => {
       isHighlighted: false,
     },
     {
+      id:4,
       name: "Corporate plan ",
       price: "£15/month",
       features: [
@@ -76,9 +86,15 @@ const SubscriptionPlans = ({ onClick }) => {
         "Access to educational materials",
         "Access to customer support",
       ],
-      isHighlighted: true,
+      isHighlighted: false,
     },
   ];
+
+  const updatedPlans = plans.map((plan) => ({
+    ...plan,
+    isHighlighted: plan.id === plan_id, // Set to true if id matches plan_id
+  }));
+
 
   return (
     <section className="py-16 bg-gray-100" id="subscription">
@@ -95,7 +111,7 @@ const SubscriptionPlans = ({ onClick }) => {
 
         {/* Plans Container */}
         <div className="flex flex-col md:flex-row justify-center items-stretch gap-6">
-          {plans.map((plan, index) => (
+          {updatedPlans?.map((plan, index) => (
             <div
               key={index}
               className={`flex flex-col rounded-lg shadow-lg overflow-hidden w-full md:w-1/4 transition transform hover:scale-105 hover:cursor-pointer ${
@@ -117,7 +133,7 @@ const SubscriptionPlans = ({ onClick }) => {
                 {/* Get Started Button */}
                 <div className="flex items-center mb-6">
                   <Button
-                    onClick={onClick}
+                    onClick={() => onClick(plan?.id)}
                     variant={plan.isHighlighted ? "secondary" : "primary"}
                     className={` ${groteskText.className} px-4 py-2 rounded ${
                       plan.isHighlighted

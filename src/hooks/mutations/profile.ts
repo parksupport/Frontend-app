@@ -12,7 +12,6 @@ export const useEditProfile = () => {
  
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      let token = localStorage.getItem("authToken");
       try {
         return await updateProfileData(data);
       } catch (error: any) {

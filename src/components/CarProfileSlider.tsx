@@ -95,7 +95,7 @@ const CarProfileSlider = ({
         <div className="bg-white rounded-[20px] border border-solid border-[#C5D5F8] px-2 pt-5 pb-3 mt-2">
           <Slider ref={sliderRef} {...settings}>
             {data.map((car, index) => (
-              <div key={car.id} className="px-2">
+              <div key={car.id || index} className="px-2">
                 {/* Header */}
                 <div className="flex justify-between mb-2">
                   <h1

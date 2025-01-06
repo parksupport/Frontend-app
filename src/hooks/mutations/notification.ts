@@ -7,13 +7,13 @@ import {
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useAddVehicle = () => {
+export const useNotifications = () => {
   const toast = useToast();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      console.log("vehicle data", data);
+      console.log("Notification data", data);
       return await addNotification(data);
     },
 

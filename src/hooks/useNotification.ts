@@ -44,7 +44,6 @@ const useNotifications = (
   const [isAllSelected, setSelectAll] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedNotification, setSelectedNotification] = useState(null);
-  const [checkedNotification, setCheckedNotification] = useState(null);
   const [selectedNotificationsList, SetselectedNotificationsList] = useState(
     []
   );
@@ -53,7 +52,7 @@ const useNotifications = (
   const { markAllAsRead } = useMarkAllRead();
   const { deleteNotification } = useDeleteNotification();
 
-  console.log("selectedNotifi", selectedNotificationsList);
+
 
   useEffect(() => {
     // Check if the notifications have changed before setting state

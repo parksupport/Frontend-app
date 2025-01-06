@@ -45,11 +45,11 @@ export const deleteNominee = async (
 
 export const endNomination = async (
   registration_number: string,
-  user_id: string
+  nominee_id: string
 ) => {
   try {
-    const response = await Axios.post(
-      `/api/vehicles/${registration_number}/nominations/${user_id}/end-nomination/`
+    const response = await Axios.patch(
+      `/api/vehicles/${registration_number}/nominations/${nominee_id}/end-nomination/`
     );
     return response.data;
   } catch (error: any) {

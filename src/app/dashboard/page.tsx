@@ -38,7 +38,7 @@ import { useAuthStore } from "@/lib/stores/authStore";
 import { useAddVehicle } from "@/hooks/mutations/vehicles";
 import VehicleVerificationDrawer from "@/components/Drawer/VehicleVerificationDrawer";
 import { useGetVehicles } from "@/hooks/queries/vehicles";
-import { useGetNotifications } from "@/hooks/queries/notification";
+import { useGetProfile } from "@/hooks/queries/profile";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,8 +51,12 @@ export default function DashboardPage() {
   // const {nominees} = useGetNominees()
   const { vehiclesData, isLoading } = useGetVehicles();
 
-  const { addVehicle, error } = useAddVehicle();
+  const { addVehicle, error,isError } = useAddVehicle();
+  const { profile } = useGetProfile();
 
+  
+  const plan_id = profile?.userplan?.plan
+  console.log("profile", plan_id);
 
   const [isCorporate, setIsCorporate] = useState(user_type);
 
@@ -137,10 +141,36 @@ export default function DashboardPage() {
     openDrawer();
   };
 
+  // const checkVehicleStatus = async (vehicleData) => {
+  //   try {
+  //     console.log("vehicleDataStatus:", vehicleData);
+
+  //     const data = {
+  //       registration_number: vehicleData?.vegRegNumber,
+  //       make: vehicleData?.make,
+  //       model: vehicleData?.car_model,
+  //       year: vehicleData?.year,
+  //       postcode: vehicleData?.postcode,
+  //     };
+  //     const response = await addVehicle(data);
+
+  //     // console.log("response:", isError);
+  //     // console.log("respoeeense:", error);
+
+  //     // const verificationStatus = response?.vehicle?.verification_status ;
+  //     const verificationStatus = "Verified";
+
+  //     return verificationStatus === "Verified" ? "success" : "failed";
+  //   } catch (error) {
+  //     console.error("Fetch failed:", error);
+  //     return "failed";
+  //   }
+  // };
+
   const checkVehicleStatus = async (vehicleData) => {
     try {
       console.log("vehicleDataStatus:", vehicleData);
-
+  
       const data = {
         registration_number: vehicleData?.vegRegNumber,
         make: vehicleData?.make,
@@ -148,25 +178,33 @@ export default function DashboardPage() {
         year: vehicleData?.year,
         postcode: vehicleData?.postcode,
       };
-      const response = await addVehicle(data);
-
-      console.log("response:", response);
-
-      // const verificationStatus = response?.vehicle?.verification_status ;
-      const verificationStatus = "Verified";
-
-      return verificationStatus === "Verified" ? "success" : "failed";
+  
+   
+  
+      // Wait for the mutation result
+      await addVehicle(data);
+  
+      // If no error occurred, return "success"
+      return "success";
     } catch (error) {
-      console.error("Fetch failed:", error);
-      return "failed";
+      console.error("Error in checkVehicleStatus:", error);
+      return "error"; // Return "error" for any failure
     }
   };
-
+  
+  
+  
+  
+  
+  
   const VehicleStatus = async (vehicleData) => {
     const status = await checkVehicleStatus(vehicleData);
 
+    console.log("staus",status)
+    console.log(typeof(status))
+
     // Handle success or failure based on the status
-    if (status === "failed") {
+    if (status === "error") {
       handleFailed();
     } else if (status === "success") {
       handleSuccess();
@@ -234,8 +272,6 @@ export default function DashboardPage() {
   const handleFailed = () => {
     setDrawerContent(
       <VehicleAddedFailed
-        toggleDrawer={toggleDrawer}
-        Success={handleSuccess}
         back={openAddVehicleDetailsDrawer}
       />
     );
@@ -257,11 +293,12 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openAddBillingMethod = () => {
+  const openAddBillingMethod = (id: string) => {
     setDrawerContent(
       <AddBillingMethodDrawer
         back={openSettingsDrawer}
         toggleDrawer={toggleDrawer}
+        planId={id}
       />
     );
     scrollToTopFromParent();
@@ -305,7 +342,15 @@ export default function DashboardPage() {
                     className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
                     onClick={onOpen}
                   >
-                    Free plan
+                    {plan_id === 1
+                      ? "Starter Plan"
+                      : plan_id === 2
+                      ? "Personal Plan"
+                      : plan_id === 3
+                      ? "Family Plan"
+                      : plan_id === 4
+                      ? "Corporate Plan"
+                      : "Starter Plan"}
                   </button>
                 </div>
                 <button

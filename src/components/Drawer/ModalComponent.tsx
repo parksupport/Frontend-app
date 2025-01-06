@@ -14,6 +14,8 @@ import SubscriptionPlans from '../Subscription';
 
 function ModalComponent({ isOpen, onClose, onOpen, toggleDrawer,openAddBillingMethod }) {
 
+  
+
   return (
     
 <Modal isOpen={isOpen} onClose={onClose} size="full">
@@ -34,9 +36,15 @@ function ModalComponent({ isOpen, onClose, onOpen, toggleDrawer,openAddBillingMe
       width="48px"
       height="48px"
     />
-    <ModalBody p="0">
-      <SubscriptionPlans onClick={openAddBillingMethod} />
-    </ModalBody>
+   <ModalBody p="0">
+  <SubscriptionPlans 
+    onClick={(id) => {
+      openAddBillingMethod(id);
+      onClose();  
+    }} 
+  />
+</ModalBody>
+
   </ModalContent>
 </Modal>
   );

@@ -81,7 +81,8 @@ export const useAddVehicle = () => {
   });
 
   return {
-    addVehicle: mutation.mutate,
+    // addVehicle: mutation.mutate,
+    addVehicle: mutation.mutateAsync,
     isError: mutation.isError,
     error: mutation.error,
     isLoading: mutation.isPending,

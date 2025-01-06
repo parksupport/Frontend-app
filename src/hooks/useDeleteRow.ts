@@ -65,9 +65,9 @@ export default function useDeleteRow(externalData: any, type: "vehicle" | "nomin
         deleteVehicle(id); // Trigger the delete mutation
       }
     } else if (type === "nominee") {
-      const user_id = item?.id;
-      if (registration_number && user_id) {
-        endNomination({ registration_number, user_id }); // Pass both as an object
+      const nominee_id = item?.id;
+      if (registration_number && nominee_id) {
+        endNomination({ registration_number, nominee_id }); // Pass both as an object
       }
     }
   

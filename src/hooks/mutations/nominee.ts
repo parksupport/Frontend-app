@@ -128,14 +128,14 @@ export const useEndNomination = () => {
   const mutation = useMutation({
     mutationFn: async ({
       registration_number,
-      user_id,
+      nominee_id,
     }: {
       registration_number: string;
-      user_id: string;
+      nominee_id: string;
     }) => {
       try {
         // This function should send the registration number and user ID to the backend for deletion
-        return await endNomination(registration_number, user_id);
+        return await endNomination(registration_number, nominee_id);
       } catch (error: any) {
         throw error;
       }

@@ -219,11 +219,6 @@ const CarProfileSlider = ({
                           label: "Color:",
                           value: car.color,
                         },
-                        {
-                          icon: <CarMake />,
-                          label: "Make:",
-                          value: car.make,
-                        },
                       ].map((item, idx) => (
                         <div
                           key={idx}
@@ -246,9 +241,9 @@ const CarProfileSlider = ({
                   {/* Car Image: right box */}
                   <div className="flex flex-col justify-center items-center">
                     <div className="mt-4 md:mt-0 md:ml-4 max-w-[359px]">
-                      {car.type ? (
+                      {car.make ? (
                         <Image
-                          src={`/assets/images/${car.type}.png`}
+                          src={require(`@/assets/images/${car.make.toLowerCase()}.jpg`)}
                           alt="Car Type"
                           width={250}
                           height={150}
@@ -256,7 +251,7 @@ const CarProfileSlider = ({
                         />
                       ) : (
                         <Image
-                          src={require(`@/assets/images/essentail-car.jpg`)}
+                          src={require(`@/assets/images/car.jpg`)}
                           alt="Default Car"
                           width={250}
                           height={150}
@@ -264,8 +259,10 @@ const CarProfileSlider = ({
                         />
                       )}
                     </div>
-                    <div className={`${groteskTextMedium.className} text-[36px]`}>
-                     {car.registration_number}
+                    <div
+                      className={`${groteskTextMedium.className} text-[36px]`}
+                    >
+                      {car.registration_number}
                     </div>
                   </div>
                 </div>

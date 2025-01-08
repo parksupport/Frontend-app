@@ -153,7 +153,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
               <p
                 className={` ${groteskText.className} text-[16px] md:text-[22px] leading-none text-gray-500`}
               >
-                {uid}
+                {`Customer ID: ${uid}`}
               </p>
             </div>
           </div>

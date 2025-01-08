@@ -204,7 +204,7 @@ export const MobileViewNotification = ({
                   <div
                     className={`w-[40px] h-[40px] bg-[#D9D9D9] rounded-full flex items-center justify-center text-[20px] font-bold text-gray-700 ${groteskText.className}`}
                   >
-                    {notification?.notification_type?.charAt(0)}
+                    {notification?.type?.charAt(0)}
                   </div>
 
                   {/* Text Details */}
@@ -218,7 +218,7 @@ export const MobileViewNotification = ({
                           notification?.is_read ? "text-gray-400" : "text-black"
                         } ${groteskTextMedium.className}`}
                       >
-                        {notification?.notification_type}
+                        {notification?.type}
                       </p>
                     </div>
                     <p
@@ -242,7 +242,7 @@ export const MobileViewNotification = ({
                   >
                     <span
                       className={`text-[12px] ${
-                        notification?.is_read ? "text-gray-400" : "text-black"
+                        notification.is_read ? "text-gray-400" : "text-black"
                       } ${groteskTextMedium.className}`}
                     >
                       {notification.date}
@@ -334,6 +334,8 @@ export const DesktopViewNotification = ({
   updateSelectedNotifications,
   selectedNotificationsList,
 }: DesktopViewNotificationProps) => {
+
+
   return (
     <>
       <div className="rounded-[12px] border border-gray-200  w-full">
@@ -383,21 +385,17 @@ export const DesktopViewNotification = ({
               {currentNotifications?.map((notification) => (
                 <tr
                   key={notification.id}
-                  className={`border-t border-gray-300 ${
-                    hasCheckbox ? "cursor-pointer" : "cursor-default"
-                  } ${
+                  className={`border-t border-gray-300 cursor-pointer ${
                     notification.is_read ? "text-gray-400" : "text-black"
                   } hover:bg-gray-100`}
                   onClick={() => {
-                    if (hasCheckbox) {
-                      // Clear all selected checkboxes
-                      updateSelectedNotifications([]); // Reset selected notifications list
-                      // Handle the rest of the row click logic
-                      if (isDrawer) {
-                        onNotificationClick(notification);
-                      } else {
-                        cardNotificationClick(notification);
-                      }
+                    // Clear all selected checkboxes
+                    updateSelectedNotifications([]); // Reset selected notifications list
+                    // Handle the rest of the row click logic
+                    if (isDrawer) {
+                      onNotificationClick(notification);
+                    } else {
+                      cardNotificationClick(notification);
                     }
                   }}
                 >

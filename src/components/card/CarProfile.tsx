@@ -135,19 +135,16 @@ const CarProfile = ({
                   <div className="flex flex-col  lg:flex lg:flex-row justify-center  mt-[14px] items-center">
                     <div className="order-2 w-full lg:order-1 flex flex-col lg:w-[257px]">
                       <div className=" self-center flex flex-col max-w-[253px] ">
-                        {vehicles?.type ? (
+                        {car?.make ? (
                           <Image
-                            src={
-                              require(`@/assets/images/${vehicles?.type}.imageUrl}`)
-                                .default
-                            }
+                            src={require(`@/assets/images/${car.make.toLowerCase()}.jpg`)}
                             alt=""
                             sizes="width: 222px"
                             // className="max-w-[222px] "
                           />
                         ) : (
                           <Image
-                            src={require(`@/assets/images/essentail-car.jpg`)}
+                            src={require(`@/assets/images/car.jpg`)}
                             alt=""
                             sizes="width: 222px"
                             // className="max-w-[222px] "

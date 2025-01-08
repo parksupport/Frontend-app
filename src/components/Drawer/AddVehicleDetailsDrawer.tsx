@@ -7,6 +7,7 @@ import Button from "../Buttons";
 import InputField from "../InputField";
 import DrawerHeader from "./DrawerHeader";
 import { useUploadVehicles } from "@/hooks/mutations/vehicles";
+import DropdownInputField from "../DropdownInputField";
 
 type VehicleDetailsDrawerProps = {
   back: any;
@@ -46,6 +47,17 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     }));
   };
 
+  // For dropdown
+  const handleSelectChange = (
+    selected: { value: string; label: string } | null,
+    fieldName: keyof typeof formData
+  ) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [fieldName]: selected?.value || "",
+    }));
+  };
+
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState("");
 
@@ -58,7 +70,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     if (selectedFile) {
       setFileName(selectedFile.name);
       setFile(selectedFile); // Set the selected file in the state
-      setIsBulk(true)
+      setIsBulk(true);
     }
   };
 
@@ -77,7 +89,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
 
   const { uploadVehicles, error, isLoading } = useUploadVehicles();
 
-  console.log("isLoading", isLoading)
+  console.log("isLoading", isLoading);
 
   return (
     <div className="mx-auto ">
@@ -106,6 +118,23 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
               contravention information and keep you updated.
             </p>
           </div>
+          <div className="flex flex-col items-center w-full">
+            <DropdownInputField
+              options={[
+                { value: "Car", label: "Car" },
+                { value: "Truck", label: "Truck" },
+                { value: "Motorcycle", label: "Motorcycle" },
+                { value: "Bus", label: "Bus" },
+                { value: "Jeep", label: "Jeep" },
+              ]}
+              label="Vehicle Type"
+              onChange={(selected) => handleSelectChange(selected, "make")}
+              selectedValue={formData.make}
+              placeholder="Select vehicle type"
+              className={`${groteskText.className} w-full  `}
+            />
+          </div>
+
           <InputField
             type="text"
             placeholder="Enter your car model"
@@ -124,7 +153,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             value={formData.car_color}
             onChange={handleChange}
             variant="individual"
-            className={`${groteskText.className} pb-4 w-full`}
+            className={`${groteskText.className} w-full`}
           />
 
           {/* Add other necessary fields like Postcode, Year, Make if required by backend */}
@@ -140,18 +169,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           />
           <InputField
             type="text"
-            placeholder="Enter vehicle make"
-            label="Make"
-            name="make"
-            value={formData.make}
-            onChange={handleChange}
-            variant="individual"
-            className={`${groteskText.className} w-full`}
-          />
-          <InputField
-            type="text"
             placeholder="Enter vehicle year"
-            label="Year"
+            label="Year of manufacture"
             name="year"
             value={formData.year}
             onChange={handleChange}
@@ -160,15 +179,17 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           />
 
           {user_type === "individual" && (
-            <Button
-              variant="quinary"
-              className="py-[10px] px-[12px] w-full"
-              icon={<IoMdCheckmark size={25} />}
-              iconPosition="right"
-              onClick={() => CheckVehicleOwner(formData)}
-            >
-              Save Vehicle
-            </Button>
+            <div className="mt-4 w-full">
+              <Button
+                variant="quinary"
+                className="py-[10px] px-[12px] w-full"
+                icon={<IoMdCheckmark size={25} />}
+                iconPosition="right"
+                onClick={() => CheckVehicleOwner(formData)}
+              >
+                Save Vehicle
+              </Button>
+            </div>
           )}
 
           {user_type === "corporate" && (

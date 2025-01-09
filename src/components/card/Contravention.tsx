@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Button from "../Buttons";
 import "./Contravention.css";
 import { useGetAllTicket } from "@/hooks/queries/ticket";
+import TruncatedText from "../ToggleComponent/TruncatedText";
 
 const ContraventionTable = ({ invoices ,openConventionTable}) => {
   const [visibleCount, setVisibleCount] = useState(3);

@@ -15,6 +15,36 @@ export const fetchTicketData = async (registration_number: string) => {
   }
 };
 
+export const fetchAllTicketData = async () => {
+  try {
+    const response = await Axios.get(
+      `/api/vehicles/user-tickets/`
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      `Error fetching Ticket for vehicle`,
+      error
+    );
+    throw error.response?.data || error.message || error;
+  }
+};
+
+export const checkTicketData = async (registration_number: string) => {
+  try {
+    const response = await Axios.get(
+      `/api/tickets/check-ticket/${registration_number}`
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error(
+      `Error fetching Ticket for vehicle ${registration_number} data`,
+      error
+    );
+    throw error.response?.data || error.message || error;
+  }
+};
+
 
 
 async function syncTickets(registrationNumber) {
@@ -26,4 +56,6 @@ async function syncTickets(registrationNumber) {
       throw error.response?.data || error.message || error;
     }
   }
+
+  
   

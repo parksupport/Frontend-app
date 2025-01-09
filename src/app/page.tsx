@@ -26,10 +26,10 @@ import SubscriptionPlans from "@/components/Subscription";
 import useIsMobile from "@/hooks/useIsMobile";
 import AnimationText from "@/components/AnimationText";
 import { useAuthStore } from "@/lib/stores/authStore";
+import { useCheckVehicleTicket } from "@/hooks/queries/ticket";
 
 export default function LandingPage() {
   const [vehicleNo, setVehicleNo] = useState("");
-  const [hasTicket, setHasTicket] = useState(null);
   const [searchResult, setSearchResult] = useState(false);
 
   const isMobile = useIsMobile();
@@ -38,23 +38,19 @@ export default function LandingPage() {
 
    const isAuthenticated = useAuthStore((state) => state.token !== null);
 
+   const { hasTicket, isLoading, error, refetch } = useCheckVehicleTicket(vehicleNo);
+
+  // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setVehicleNo(value);
-    if (value === "") {
-      setHasTicket(null);
-    }
   };
 
+  // Handle search button click
   const handleSearch = () => {
-    const hasContraventions = true;
-
-    if (hasContraventions) {
-      setHasTicket(false);
-    } else {
-      setHasTicket(true);
+    if (vehicleNo) {
+      refetch(); // Trigger API call manually when search button is clicked
     }
-    setSearchResult(true);
   };
 
   const home = useRef(null);
@@ -173,31 +169,31 @@ export default function LandingPage() {
             />
             <div className="flex justify-between  ">
               <div className=" md:pt-4 ">
-                <Button
-                  type="button"
-                  className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
-                  variant="primary"
-                  onClick={handleSearch}
-                >
-                  Search
-                </Button>
+              <Button
+                type="button"
+                className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
+                variant="primary"
+                onClick={handleSearch}
+                disabled={isLoading || !vehicleNo}
+              >
+                {isLoading ? "Searching..." : "Search"}
+              </Button>
               </div>
 
-              {searchResult && vehicleNo && (
+              {vehicleNo && hasTicket !== null && (
                 <NotificationBox
-                  position={
-                    isMobile ? { right: 0, top: -10 } : { right: 300, top: 0 }
-                  }
+                  position={isMobile ? { right: 0, top: -10 } : { right: 300, top: 0 }}
                   hasTicket={hasTicket}
                   signUp={() => router.push("/auth/onboarding")}
                 />
               )}
-            </div>
+           
+          </div>
           </div>
         </section>
         <section
           ref={features}
-          className=" max-w-[1440px] mx-auto  flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
+          className=" max-w-[1440px] mx-auto flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
         >
           <div className=" text-center md:px-80 pt-2">
             <TextSection title="All-in-one vehicle contravention solution" />

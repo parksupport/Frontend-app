@@ -111,7 +111,7 @@ export const CorporateCarProfileDrawer = ({
                       verticalAligment={"-mt-[4px]"}
                     />
                   </th>
-                  <th
+                  {/* <th
                     className={`py-2 px-4 bg-gray-100 text-left font-semibold text-gray-500 w-[25%] ${groteskTextMedium.className}`}
                   >
                     <InfoIconWithText
@@ -121,7 +121,7 @@ export const CorporateCarProfileDrawer = ({
                       className={`${groteskTextMedium.className} text-[20px]`}
                       verticalAligment={"-mt-[4px]"}
                     />
-                  </th>
+                  </th> */}
                   <th
                     className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-[10%] ${groteskTextMedium.className}`}
                   >
@@ -130,7 +130,7 @@ export const CorporateCarProfileDrawer = ({
                   <th
                     className={`py-2 px-6 bg-gray-100 text-left font-semibold text-gray-500 w-[10%] ${groteskTextMedium.className}`}
                   >
-                    Make
+                    Type
                   </th>
                 </tr>
               </thead>
@@ -157,7 +157,7 @@ export const CorporateCarProfileDrawer = ({
                       </button>
                       {openDropdownIndex === index && (
                         <DeleteRowModal
-                          position={{ right: -110, top: 40 }}
+                          position={{ right: -82, top: 44 }}
                           showConfirmButton={showConfirmButton}
                           onEdit={() => {}}
                           onRemove={() => showDeleteConfirmation(index)}
@@ -223,7 +223,7 @@ export const CorporateCarProfileDrawer = ({
                       </span>
                     </td>
 
-                    <td
+                    {/* <td
                       className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[25%] whitespace-nowrap`}
                     >
                       <TruncatedText
@@ -231,7 +231,7 @@ export const CorporateCarProfileDrawer = ({
                         maxLength={20}
                         className={`${groteskText.className}`}
                       />
-                    </td>
+                    </td> */}
                     <td
                       className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[10%] whitespace-nowrap`}
                     >
@@ -240,7 +240,7 @@ export const CorporateCarProfileDrawer = ({
                     <td
                       className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[10%] whitespace-nowrap`}
                     >
-                      {item.make}
+                      {item.type}
                     </td>
                   </tr>
                 ))}

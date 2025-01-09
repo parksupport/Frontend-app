@@ -165,9 +165,9 @@ const CarProfile = ({
                   <div className="flex flex-col  lg:flex lg:flex-row justify-center  mt-[14px] items-center">
                     <div className="order-2 w-full lg:order-1 flex flex-col lg:w-[257px]">
                       <div className=" self-center flex flex-col max-w-[253px] ">
-                        {car?.make ? (
+                        {car?.type ? (
                           <Image
-                            src={require(`@/assets/images/${car.make.toLowerCase()}.jpg`)}
+                            src={require(`@/assets/images/${car.type.toLowerCase()}.jpg`)}
                             alt=""
                             sizes="width: 222px"
                             // className="max-w-[222px] "
@@ -307,9 +307,9 @@ const CarProfile = ({
                                   : undefined
                               }
                               className={`absolute inset-0 flex items-center justify-center text-[11px] rounded-[6.25rem] overflow-hidden ${
-                                car.status === "Pending"
-                                  ? "text-[#B38B00] bg-[#FFECB3]"
-                                  : car.status === "Verified"
+                                car.verification_status === "Pending"
+                                  ? "text-[#B38B00] bg-yellow-800"
+                                  : car.verification_status === "Verified"
                                   ? "text-[#099137] bg-[#B5E3C4]"
                                   : "text-[#B00020] bg-[#FFCDD2]"
                               }`}
@@ -340,7 +340,7 @@ const CarProfile = ({
                                   background:
                                     car.verification_status === "Pending"
                                       ? "#FFECB3"
-                                      : car.status === "Verified"
+                                      : car.verification_status === "Verified"
                                       ? "#B5E3C4"
                                       : "#FFCDD2",
                                 }}

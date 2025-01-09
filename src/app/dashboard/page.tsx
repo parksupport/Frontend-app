@@ -148,7 +148,7 @@ export default function DashboardPage() {
 
   //     const data = {
   //       registration_number: vehicleData?.vegRegNumber,
-  //       make: vehicleData?.make,
+  //       type: vehicleData?.type,
   //       model: vehicleData?.car_model,
   //       year: vehicleData?.year,
   //       postcode: vehicleData?.postcode,
@@ -174,7 +174,8 @@ export default function DashboardPage() {
 
       const data = {
         registration_number: vehicleData?.vegRegNumber,
-        make: vehicleData?.make,
+        type: vehicleData?.type,
+        color: vehicleData?.car_color,
         model: vehicleData?.car_model,
         year: vehicleData?.year,
         postcode: vehicleData?.postcode,

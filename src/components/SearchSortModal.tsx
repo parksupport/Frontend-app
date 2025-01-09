@@ -12,7 +12,7 @@ const SearchSortModal = ({name, data, setData }) => {
   const sortOptions = [
     { label: "Color", icon: <CarSVG /> },
     { label: "Date added", icon: <CalendarSVG /> },
-    { label: "Make", icon: <MakeSVG /> },
+    { label: "Type", icon: <MakeSVG /> },
     { label: "Reg No", icon: <RegSVG /> },
   ];
 
@@ -33,7 +33,7 @@ const SearchSortModal = ({name, data, setData }) => {
         (item) =>
           name?.toLowerCase().includes(term) ||
           item?.color?.toLowerCase().includes(term) ||
-          item?.make?.toLowerCase().includes(term) ||
+          item?.type?.toLowerCase().includes(term) ||
           item?.registration_number?.toLowerCase().includes(term)
       );
       setData(filteredData);
@@ -61,8 +61,8 @@ const SearchSortModal = ({name, data, setData }) => {
             new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime()
         );
         break;
-      case "Make":
-        sortedData.sort((a, b) => a.make.localeCompare(b.make));
+      case "Type":
+        sortedData.sort((a, b) => a.type.localeCompare(b.type));
         break;
       case "Reg No":
         sortedData.sort((a, b) =>

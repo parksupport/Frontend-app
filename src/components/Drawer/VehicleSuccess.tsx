@@ -14,7 +14,7 @@ const VehicleAddedSuccess = ({ toggleDrawer, openCarProfile }) => {
             You cand now track contraventions, manage fines, and receive
             notifications for{" "}
             <span className={`${groteskTextMedium.className} `}>
-              Vehicle Make/Model/Registration Number
+              Vehicle Type/Model/Registration Number
             </span>
             .
           </>

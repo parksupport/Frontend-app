@@ -22,7 +22,7 @@ const VehicleVerificationDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     car_color: "",
     postcode: "", // Add postcode if needed for verification
     year: "", // Add year if needed for verification
-    make: "", // Add make if needed
+    type: "", // Add type if needed
   });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -102,7 +102,7 @@ const VehicleVerificationDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             className={`${groteskText.className} pb-4 w-full`}
           />
 
-          {/* Add other necessary fields like Postcode, Year, Make if required by backend */}
+          {/* Add other necessary fields like Postcode, Year, Type if required by backend */}
           <InputField
             type="text"
             placeholder="Enter your postcode"
@@ -115,10 +115,10 @@ const VehicleVerificationDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           />
           <InputField
             type="text"
-            placeholder="Enter vehicle make"
-            label="Make"
-            name="make"
-            value={formData.make}
+            placeholder="Enter vehicle type"
+            label="Type"
+            name="type"
+            value={formData.type}
             onChange={handleChange}
             variant="individual"
             className={`${groteskText.className} w-full`}

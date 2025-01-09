@@ -28,7 +28,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     car_color: "",
     postcode: "", // Add postcode if needed for verification
     year: "", // Add year if needed for verification
-    make: "", // Add make if needed
+    type: "", // Add type if needed
   });
 
   const [file, setFile] = useState<File | null>(null);
@@ -128,8 +128,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
                 { value: "Jeep", label: "Jeep" },
               ]}
               label="Vehicle Type"
-              onChange={(selected) => handleSelectChange(selected, "make")}
-              selectedValue={formData.make}
+              onChange={(selected) => handleSelectChange(selected, "type")}
+              selectedValue={formData.type}
               placeholder="Select vehicle type"
               className={`${groteskText.className} w-full  `}
             />
@@ -137,8 +137,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
 
           <InputField
             type="text"
-            placeholder="Enter your car model"
-            label="Car Model"
+            placeholder="Enter your vehicle model"
+            label="Vehicle Model"
             name="car_model"
             value={formData.car_model}
             onChange={handleChange}
@@ -156,7 +156,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             className={`${groteskText.className} w-full`}
           />
 
-          {/* Add other necessary fields like Postcode, Year, Make if required by backend */}
+          {/* Add other necessary fields like Postcode, Year, Type if required by backend */}
           <InputField
             type="text"
             placeholder="Enter your postcode"

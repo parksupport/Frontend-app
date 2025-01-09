@@ -7,7 +7,6 @@ import GroupUserSVG from "@/assets/svg/nominee.svg";
 import TicketSVG from "@/assets/svg/ticket-status.svg";
 import Outline from "@/assets/svg/outlined.svg";
 import CarFilter from "@/assets/svg/color.svg";
-import CarMake from "@/assets/svg/carMake.svg";
 import Slider from "react-slick";
 import Image from "next/image";
 import { useRef, useState } from "react";
@@ -153,7 +152,7 @@ const CarProfileSlider = ({
                       onClick={() => AddVehicleWithPlan(plan_id,data?.length)}
                       className="bg-[#3957D7] flex items-center text-white rounded-[8px] py-[0.2rem] px-[8px] text-[16px] hover:opacity-90"
                     >
-                      Add vehicleff
+                      Add vehicle
                       <Plus size={20} className="ml-1" />
                     </button>
 
@@ -284,9 +283,9 @@ const CarProfileSlider = ({
                   {/* Car Image: right box */}
                   <div className="flex flex-col justify-center items-center">
                     <div className="mt-4 md:mt-0 md:ml-4 max-w-[359px]">
-                      {car.make ? (
+                      {car.type ? (
                         <Image
-                          src={require(`@/assets/images/${car.make.toLowerCase()}.jpg`)}
+                          src={require(`@/assets/images/${car.type.toLowerCase()}.jpg`)}
                           alt="Car Type"
                           width={250}
                           height={150}

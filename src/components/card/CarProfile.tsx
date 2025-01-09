@@ -21,12 +21,19 @@ import InfoIconWithText from "../InfoIconWithText";
 import SliderButton from "../SliderButton";
 import { useAuthStore } from "@/lib/stores/authStore";
 import "./CarProfile.css";
+import { useDisclosure } from "@chakra-ui/react";
+import ModalComponent from "../Drawer/ModalComponent";
+import { MdClose } from "react-icons/md";
+import SubscriptionPlans from "../Subscription";
+import AddVehicleSubscription from "../VehicleNomineeRestriction";
 
 interface CarProfileProps {
   openCarProfile: any;
   openAddVehicleDetailsDrawer: any;
   vehicles: any;
   verify: any;
+  plan_id: any;
+  openAddBillingMethod?: any;
 }
 
 const CarProfile = ({
@@ -34,6 +41,8 @@ const CarProfile = ({
   openAddVehicleDetailsDrawer,
   vehicles,
   verify,
+  plan_id,
+  openAddBillingMethod,
 }: CarProfileProps) => {
   const user = useAuthStore((state) => state.user);
   const { full_name } = user || {};
@@ -41,6 +50,8 @@ const CarProfile = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);
   const totalPages = vehicles?.length || 0;
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const settings = {
     dots: true,
@@ -65,16 +76,33 @@ const CarProfile = ({
     }
   };
 
-  const handleMouseEnter = (id) => {
-    setHovered((prev) => ({ ...prev, [id]: true }));
-  };
-
-  const handleMouseLeave = (id) => {
-    setHovered((prev) => ({ ...prev, [id]: false }));
+  const AddVehicleWithPlan = (plan_id, vehicles) => {
+    console.log(plan_id, vehicles.length);
+    if (plan_id === 1) {
+      onOpen();
+    } else if (plan_id === 2 && vehicles === 2) {
+      onOpen();
+    } else if (plan_id === 3 && vehicles === 5) {
+      onOpen();
+    } else {
+      openAddVehicleDetailsDrawer();
+    }
   };
 
   return (
     <div>
+      <ModalComponent
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        display={
+          <AddVehicleSubscription
+            plan={plan_id}
+            closeModal={onClose}
+            openAddBillingMethod={openAddBillingMethod}
+          />
+        }
+      />
       {/* Show this if there are no vehicles */}
       {totalPages === 0 ? (
         <div className="max-w-[396px]  w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4">
@@ -97,7 +125,7 @@ const CarProfile = ({
             <Button
               variant="quinary"
               className=" py-[9px] px-[12px] text-[16px]"
-              onClick={openAddVehicleDetailsDrawer}
+              onClick={() => AddVehicleWithPlan(plan_id, vehicles.length)}
             >
               Add vehicle
               <Plus className="inline-block ml-[8px]" />
@@ -121,7 +149,9 @@ const CarProfile = ({
                       <Button
                         variant="quinary"
                         className={`py-[9px] px-[12px] text-[16px] `}
-                        onClick={openAddVehicleDetailsDrawer}
+                        onClick={() =>
+                          AddVehicleWithPlan(plan_id, vehicles.length)
+                        }
                       >
                         Add vehicle
                         <Plus className="inline-block" />
@@ -424,3 +454,4 @@ const CarProfile = ({
 };
 
 export default CarProfile;
+

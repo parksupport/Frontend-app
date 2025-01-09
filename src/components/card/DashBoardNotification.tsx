@@ -46,17 +46,24 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
 
   const isMobile = useIsMobile();
 
-  if (isLoading) {
-    return <div>Loading notifications...</div>;
+  function getNotificationMessage({
+    isLoading,
+    isError,
+    error,
+  }: {
+    isLoading: boolean;
+    isError: boolean;
+    error?: any;
+  }): string {
+    if (isLoading) {
+      return "Loading notifications...";
+    }
+    if (isError) {
+      return `Error loading notifications: ${String(error)}`;
+    }
+    return null;
   }
 
-  if (isError) {
-    return (
-      <div className="text-red-600">
-        Error loading notifications: {String(error)}
-      </div>
-    );
-  }
 
   return isMobile ? (
     <MobileViewNotification
@@ -72,6 +79,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
       handleNext={goToNextPage}
       handlePrevious={goToPreviousPage}
       cardNotificationClick={openNotificationsTable}
+      notificationStateMessage={getNotificationMessage({ isLoading, isError, error })}
     />
   ) : (
     <div className="hidden md:block bg-white p-4 rounded-[20px] border border-gray-200 w-full">
@@ -99,6 +107,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
         totalNotifications={totalNotifications}
         textMaxLenght={40}
         cardNotificationClick={openNotificationsTable}
+        notificationStateMessage={getNotificationMessage({ isLoading, isError, error })}
       />
     </div>
   );

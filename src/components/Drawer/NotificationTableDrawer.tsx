@@ -46,16 +46,22 @@ const NotificationsTableDrawer = ({ back }) => {
     handleDeleteNotification,
   } = useNotifications(notificationsData, 5);
 
-  if (isLoading) {
-    return <div>Loading notifications...</div>;
-  }
-
-  if (isError) {
-    return (
-      <div className="text-red-600">
-        Error loading notifications: {String(error)}
-      </div>
-    );
+  function getNotificationMessage({
+    isLoading,
+    isError,
+    error,
+  }: {
+    isLoading: boolean;
+    isError: boolean;
+    error?: any;
+  }): string {
+    if (isLoading) {
+      return "Loading notifications...";
+    }
+    if (isError) {
+      return `Error loading notifications: ${String(error)}`;
+    }
+    return null;
   }
 
   return (
@@ -103,6 +109,7 @@ const NotificationsTableDrawer = ({ back }) => {
                 onNotificationClick={handleNotificationClick}
                 updateSelectedNotifications={updateSelectedNotifications}
                 selectedNotificationsList={selectedNotificationsList}
+                notificationStateMessage={getNotificationMessage({ isLoading, isError, error })}
               />
             </div>
           </>
@@ -124,6 +131,7 @@ const NotificationsTableDrawer = ({ back }) => {
               updateSelectedNotifications={updateSelectedNotifications}
               selectedNotificationsList={selectedNotificationsList}
               hasCheckbox
+              notificationStateMessage={getNotificationMessage({ isLoading, isError, error })}
             />
           </div>
         )}

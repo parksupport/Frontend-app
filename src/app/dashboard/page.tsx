@@ -39,6 +39,7 @@ import { useAddVehicle } from "@/hooks/mutations/vehicles";
 import VehicleVerificationDrawer from "@/components/Drawer/VehicleVerificationDrawer";
 import { useGetVehicles } from "@/hooks/queries/vehicles";
 import { useGetProfile } from "@/hooks/queries/profile";
+import SubscriptionPlans from "@/components/Subscription";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,11 +52,10 @@ export default function DashboardPage() {
   // const {nominees} = useGetNominees()
   const { vehiclesData, isLoading } = useGetVehicles();
 
-  const { addVehicle, error,isError } = useAddVehicle();
+  const { addVehicle, error, isError } = useAddVehicle();
   const { profile } = useGetProfile();
 
-  
-  const plan_id = profile?.userplan?.plan
+  const plan_id = profile?.userplan?.plan;
   console.log("profile", plan_id);
 
   const [isCorporate, setIsCorporate] = useState(user_type);
@@ -85,6 +85,7 @@ export default function DashboardPage() {
         form={form}
         autoScrollToForm={autoScrollToForm}
         verify={openVerifyMyVehicleDrawer}
+        openAddBillingMethod={openAddBillingMethod}
       />
     );
 
@@ -170,7 +171,7 @@ export default function DashboardPage() {
   const checkVehicleStatus = async (vehicleData) => {
     try {
       console.log("vehicleDataStatus:", vehicleData);
-  
+
       const data = {
         registration_number: vehicleData?.vegRegNumber,
         make: vehicleData?.make,
@@ -178,12 +179,10 @@ export default function DashboardPage() {
         year: vehicleData?.year,
         postcode: vehicleData?.postcode,
       };
-  
-   
-  
+
       // Wait for the mutation result
       await addVehicle(data);
-  
+
       // If no error occurred, return "success"
       return "success";
     } catch (error) {
@@ -191,17 +190,12 @@ export default function DashboardPage() {
       return "error"; // Return "error" for any failure
     }
   };
-  
-  
-  
-  
-  
-  
+
   const VehicleStatus = async (vehicleData) => {
     const status = await checkVehicleStatus(vehicleData);
 
-    console.log("staus",status)
-    console.log(typeof(status))
+    console.log("staus", status);
+    console.log(typeof status);
 
     // Handle success or failure based on the status
     if (status === "error") {
@@ -270,11 +264,7 @@ export default function DashboardPage() {
   };
 
   const handleFailed = () => {
-    setDrawerContent(
-      <VehicleAddedFailed
-        back={openAddVehicleDetailsDrawer}
-      />
-    );
+    setDrawerContent(<VehicleAddedFailed back={openAddVehicleDetailsDrawer} />);
     scrollToTopFromParent();
     openDrawer();
   };
@@ -293,10 +283,10 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openAddBillingMethod = (id: string) => {
+  const openAddBillingMethod = (id: string,toDashboard?:boolean) => {
     setDrawerContent(
       <AddBillingMethodDrawer
-        back={openSettingsDrawer}
+        back={!toDashboard ? openSettingsDrawer : toggleDrawer}
         toggleDrawer={toggleDrawer}
         planId={id}
       />
@@ -319,8 +309,15 @@ export default function DashboardPage() {
             isOpen={isDisclosureOpen}
             onClose={onClose}
             onOpen={onOpen}
-            toggleDrawer={toggleDrawer}
-            openAddBillingMethod={openAddBillingMethod}
+            type="subscription"
+            display={
+              <SubscriptionPlans
+                onClick={(id) => {
+                  openAddBillingMethod(id);
+                  onClose();
+                }}
+              />
+            }
           />
 
           {/* Main Content */}
@@ -343,7 +340,7 @@ export default function DashboardPage() {
                     onClick={onOpen}
                   >
                     {plan_id === 1
-                      ? "Starter Plan"
+                      ? "Unsubscribed"
                       : plan_id === 2
                       ? "Personal Plan"
                       : plan_id === 3
@@ -370,6 +367,8 @@ export default function DashboardPage() {
                   openCarProfile={() => openCarProfile(vehicles)}
                   vehicles={vehiclesData?.vehicles}
                   verify={openVerifyMyVehicleDrawer}
+                  plan_id={plan_id}
+                  openAddBillingMethod={openAddBillingMethod}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>

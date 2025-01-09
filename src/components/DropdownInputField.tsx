@@ -9,8 +9,6 @@ interface DropdownInputFieldProps {
   label: string;
   placeholder?: string;
   className?: string;
-  value: string;
-  name: string;
   icon?: ReactNode | (() => ReactNode);
   options: { value: string; label: string }[];
   selectedValue?: string;

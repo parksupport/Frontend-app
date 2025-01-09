@@ -20,99 +20,6 @@ interface NotificationProps {
   checked?: boolean;
 }
 
-interface NotificationsTableProps {
-  openNotificationsTable: () => void;
-  notificationsData: NotificationProps[];
-  isDrawer: boolean;
-}
-
-const NotificationsTable: React.FC<NotificationsTableProps> = ({
-  openNotificationsTable,
-  notificationsData,
-  isDrawer,
-}) => {
-  const [notifications, setNotifications] =
-    useState<NotificationProps[]>(notificationsData);
-
-  const [selectAll, setSelectAll] = useState(false);
-  const isMobile = useIsMobile();
-  const itemsPerPage = 5;
-
-  const totalNotifications = notifications.length;
-  const totalPages = Math.ceil(totalNotifications / itemsPerPage);
-
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const handleSelectAll = () => {
-    setSelectAll((prevState) => !prevState);
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) => ({
-        ...notification,
-        checked: !selectAll,
-      }))
-    );
-  };
-
-  const handleCheckboxChange = (id: number) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.map((notification) =>
-        notification.id === id
-          ? { ...notification, checked: !notification.checked }
-          : notification
-      )
-    );
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 0) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  };
-
-  const currentNotifications = notifications.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
-
-  return isMobile ? (
-    <MobileViewNotification
-      openNotificationsDrawer={openNotificationsTable}
-      isDrawer={isDrawer}
-      handleSelectAll={handleSelectAll}
-      selectAll={selectAll}
-      handleCheckboxChange={handleCheckboxChange}
-      currentNotifications={currentNotifications}
-      totalPages={totalPages}
-      currentPage={currentPage}
-      setCurrentPage={setCurrentPage}
-      handleNext={handleNext}
-      handlePrevious={handlePrevious}
-    />
-  ) : (
-    <DesktopViewNotification
-      isDrawer={isDrawer}
-      handleSelectAll={handleSelectAll}
-      selectAll={selectAll}
-      handleCheckboxChange={handleCheckboxChange}
-      currentNotifications={currentNotifications}
-      totalPages={totalPages}
-      currentPage={currentPage}
-      setCurrentPage={setCurrentPage}
-      handleNext={handleNext}
-      handlePrevious={handlePrevious}
-      itemsPerPage={itemsPerPage}
-      totalNotifications={totalNotifications}
-    />
-  );
-};
-
-export default NotificationsTable;
 
 interface MobileViewNotificationProps {
   hasCheckbox?: boolean;
@@ -131,9 +38,11 @@ interface MobileViewNotificationProps {
   selectedNotificationsList?: any;
   updateSelectedNotifications?: any;
   cardNotificationClick?: any;
+  notificationStateMessage:any;
 }
 
 export const MobileViewNotification = ({
+  notificationStateMessage,
   cardNotificationClick,
   hasCheckbox = false,
   openNotificationsDrawer,
@@ -161,7 +70,7 @@ export const MobileViewNotification = ({
   };
   return (
     <>
-      <div className="bg-white px-2 py-3 rounded-[16px] max-w-[396px] sm:max-w-md md:max-w-[680px] w-full">
+      <div className="bg-white px-2 py-3 rounded-[16px] max-w-[396px]  sm:max-w-md md:max-w-[680px] w-full">
         {!isDrawer && (
           <div className="flex justify-between py-[10px]">
             <h2
@@ -185,6 +94,8 @@ export const MobileViewNotification = ({
             </div>
           </div>
         )}
+        <div className="min-h-[200px] ">
+        {notificationStateMessage}
         <Slider {...settings}>
           {Array.from({ length: totalPages }, (_, index) => (
             <div key={index} className=" w-full">
@@ -204,7 +115,7 @@ export const MobileViewNotification = ({
                   <div
                     className={`w-[40px] h-[40px] bg-[#D9D9D9] rounded-full flex items-center justify-center text-[20px] font-bold text-gray-700 ${groteskText.className}`}
                   >
-                    {notification?.type?.charAt(0)}
+                    {notification?.notification_type?.charAt(0)}
                   </div>
 
                   {/* Text Details */}
@@ -218,7 +129,7 @@ export const MobileViewNotification = ({
                           notification?.is_read ? "text-gray-400" : "text-black"
                         } ${groteskTextMedium.className}`}
                       >
-                        {notification?.type}
+                        {notification?.notification_type}
                       </p>
                     </div>
                     <p
@@ -245,7 +156,7 @@ export const MobileViewNotification = ({
                         notification.is_read ? "text-gray-400" : "text-black"
                       } ${groteskTextMedium.className}`}
                     >
-                      {notification.date}
+                      {notification.created_at}
                     </span>
                     {hasCheckbox && (
                       <input
@@ -265,6 +176,7 @@ export const MobileViewNotification = ({
             </div>
           ))}
         </Slider>
+        </div>
         {!isDrawer && (
           <div className="flex px-2 justify-between items-center mt-2">
             <SliderButton
@@ -314,9 +226,11 @@ interface DesktopViewNotificationProps {
   updateSelectedNotifications?: any;
   selectedNotificationsList?: any;
   cardNotificationClick?: any;
+  notificationStateMessage:any;
 }
 
 export const DesktopViewNotification = ({
+  notificationStateMessage,
   cardNotificationClick,
   hasCheckbox = false,
   isDrawer,
@@ -379,9 +293,10 @@ export const DesktopViewNotification = ({
             </div>
           </div>
         )}
-        <div className="overflow-x-auto">
-          <table className=" mx-auto min-w-full text-left mt-0">
+        <div className="overflow-x-auto ">
+          <table className=" mx-auto min-w-full text-left  mt-0">
             <tbody>
+            
               {currentNotifications?.map((notification) => (
                 <tr
                   key={notification.id}
@@ -444,7 +359,12 @@ export const DesktopViewNotification = ({
                 </tr>
               ))}
             </tbody>
+            
           </table>
+          <div className="flex items-center justify-center">
+          {notificationStateMessage}
+
+          </div>
         </div>
       </div>
     </>

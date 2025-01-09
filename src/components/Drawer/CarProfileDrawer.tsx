@@ -18,6 +18,7 @@ interface CarProfileDrawerProps {
   openNominationHistory: () => void;
   autoScrollToForm?: boolean;
   verify?: any;
+  openAddBillingMethod?: any;
 }
 
 const CarProfileDrawer = ({
@@ -26,6 +27,7 @@ const CarProfileDrawer = ({
   openAddVehicleDetailsDrawer,
   form,
   openNominationHistory,
+  openAddBillingMethod,
   autoScrollToForm = false,
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
@@ -96,6 +98,7 @@ const CarProfileDrawer = ({
           vehiclesRegNunbers={registrationNumber}
           toggleForm={setIsForm}
           nominees={nominees?.nominations || []}
+          openAddBillingMethod={openAddBillingMethod}
         />
       </div>
     );

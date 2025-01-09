@@ -14,6 +14,10 @@ import DeleteRowModal from "../DeleteRowModal";
 import TruncatedText from "../ToggleComponent/TruncatedText";
 import { CustomDatePicker } from "../dataPicker";
 import { useAddNominee } from "@/hooks/mutations/nominee";
+import { useGetProfile } from "@/hooks/queries/profile";
+import { useDisclosure } from "@chakra-ui/react";
+import ModalComponent from "../Drawer/ModalComponent";
+import SubscriptionPlans from "../Subscription";
 
 /* -------------------------------------------------------------------------- */
 /*                        ThirdPartyNominees (Listing)                        */
@@ -25,6 +29,7 @@ interface ThirdPartyNomineesProps {
   vehiclesRegNunbers: string;
   user_type: "individual" | "corporate";
   loading?: boolean;
+  openAddBillingMethod?:any;
 }
 
 export default function ThirdPartyNominees({
@@ -33,6 +38,7 @@ export default function ThirdPartyNominees({
   vehiclesRegNunbers,
   nominees,
   loading,
+  openAddBillingMethod,
 }: ThirdPartyNomineesProps) {
   const {
     openDropdownIndex,
@@ -48,6 +54,24 @@ export default function ThirdPartyNominees({
   } = useDeleteRow(nominees, "nominee");
 
   const isMobile = useIsMobile();
+
+  const { profile } = useGetProfile();
+  const plan_id = profile?.userplan?.plan;
+  console.log("profile", plan_id);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const AddRecipientsWithPlan = (plan_id, nominees) => {
+    if (plan_id === 1) {
+      onOpen();
+    } else if (plan_id === 2 && nominees === 1) {
+      onOpen();
+    } else if (plan_id === 3 && nominees === 3) {
+      onOpen();
+    } else {
+      toggleForm(true);
+    }
+  };
 
   return (
     <div className="py-12 mb-40">
@@ -69,11 +93,12 @@ export default function ThirdPartyNominees({
           className={`whitespace-nowrap hover:underline text-[#4169E1] md:text-[18px] text-[18px] ${
             groteskTextMedium.className
           } ${!vehiclesRegNunbers ? "opacity-50 cursor-not-allowed" : ""}`}
-          onClick={() => toggleForm(true)}
+          onClick={() => AddRecipientsWithPlan(plan_id, data.length)}
           disabled={!vehiclesRegNunbers} // Disable when vehiclesRegNumbers is an empty string
         >
           Add Recipient
         </button>
+        
       </div>
 
       {loading ? (
@@ -109,9 +134,99 @@ export default function ThirdPartyNominees({
           )}
         </div>
       )}
+            <ModalComponent
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        display={
+          <AddNOmineesSubscription
+            plan={plan_id}
+            closeModal={onClose}
+            openAddBillingMethod={openAddBillingMethod}
+          />
+        }
+
+        // toggleDrawer={toggleDrawer}
+        // openAddBillingMethod={openAddBillingMethod}
+      />
     </div>
   );
 }
+
+interface AddNOmineesSubscriptionProps {
+  plan: number;
+  closeModal: () => void;
+  openAddBillingMethod: (id: string, isSubscription: boolean) => void;
+}
+const AddNOmineesSubscription = ({
+  plan,
+  closeModal,
+  openAddBillingMethod,
+}: AddNOmineesSubscriptionProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const renderPlanMessage = () => {
+    if (plan === 2) {
+      return (
+        <p className="text-lg font-medium text-gray-800">
+          You can only add one (1) recipient per vehicle with your current plan.
+          Please upgrade to add more recipients .
+        </p>
+      );
+    }
+    if (plan === 3) {
+      return (
+        <p className="text-lg font-medium text-gray-800">
+          You can only add three (3) recipient per vehicle with your current plan.
+          Please upgrade to add more recipients.
+        </p>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="relative bg-white rounded-lg shadow-lg p-6 max-w-lg mx-auto">
+      {/* Modal for Subscription Plans */}
+      <ModalComponent
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        type="subscription"
+        display={
+          <SubscriptionPlans
+            onClick={(id) => {
+              openAddBillingMethod(id, true);
+              onClose();
+              closeModal();
+            }}
+          />
+        }
+      />
+
+      {/* Close Button */}
+      <button
+        className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+        onClick={closeModal}
+        aria-label="Close"
+      >
+        <MdClose size={24} />
+      </button>
+
+      {/* Subscription Message */}
+      <div className="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-lg">
+        {renderPlanMessage()}
+
+        <button
+          className="mt-4 w-full bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          onClick={onOpen}
+        >
+          Subscribe Now
+        </button>
+      </div>
+    </div>
+  );
+};
 
 /* --------------------------- NomineeDesktop Table -------------------------- */
 

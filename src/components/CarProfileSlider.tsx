@@ -18,6 +18,10 @@ import SliderButton from "./SliderButton";
 import { groteskText as globalText } from "@/assets/fonts";
 import SearchSortModal from "./SearchSortModal";
 import { MdHistory } from "react-icons/md";
+import ModalComponent from "./Drawer/ModalComponent";
+import { useDisclosure } from "@chakra-ui/react";
+import AddVehicleSubscription from "./VehicleNomineeRestriction";
+import { useGetProfile } from "@/hooks/queries/profile";
 
 interface CarProfileSliderProps {
   vehicles: any[];
@@ -27,6 +31,7 @@ interface CarProfileSliderProps {
   scrollToForm: () => void;
   user_type: string;
   full_name: string;
+  openAddBillingMethod?:any;
 }
 
 const CarProfileSlider = ({
@@ -37,6 +42,7 @@ const CarProfileSlider = ({
   scrollToForm,
   user_type,
   full_name,
+  openAddBillingMethod,
 }: CarProfileSliderProps) => {
   const {
     openDropdownIndex,
@@ -51,9 +57,16 @@ const CarProfileSlider = ({
     setOpenDropdownIndex,
   } = useDeleteRow(vehicles, "vehicle");
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef<Slider>(null);
   const totalPages = data?.length || 0;
+
+
+   const { profile } = useGetProfile();
+  
+    const plan_id = profile?.userplan?.plan;
+   
 
   const settings = {
     dots: true,
@@ -77,8 +90,38 @@ const CarProfileSlider = ({
     sliderRef.current?.slickNext();
   };
 
+  const AddVehicleWithPlan = (plan_id, vehicles) => {
+    if (plan_id === 1) {
+      onOpen();
+    } else if (plan_id === 2 && vehicles === 2) {
+      onOpen();
+    } else if (plan_id === 3 && vehicles === 5) {
+      onOpen();
+    } else {
+      openAddVehicleDetailsDrawer();
+      // onOpen();
+    }
+  };
+
+  
+
   return (
     <article className="max-w-[428px] w-full md:max-w-[900px] mx-auto">
+      <ModalComponent
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        display={
+          <AddVehicleSubscription
+            plan={plan_id}
+            closeModal={onClose}
+            openAddBillingMethod={openAddBillingMethod}
+          />
+        }
+
+        // toggleDrawer={toggleDrawer}
+        // openAddBillingMethod={openAddBillingMethod}
+      />
       {user_type === "Corporate" && (
         <div className="flex justify-end">
           <SearchSortModal name={full_name} data={data} setData={setData} />
@@ -107,10 +150,10 @@ const CarProfileSlider = ({
                   {/* (UPDATED) Wrap the entire button+icon+modal in a relative container */}
                   <div className="flex items-center space-x-3 relative">
                     <button
-                      onClick={openAddVehicleDetailsDrawer}
+                      onClick={() => AddVehicleWithPlan(plan_id,data?.length)}
                       className="bg-[#3957D7] flex items-center text-white rounded-[8px] py-[0.2rem] px-[8px] text-[16px] hover:opacity-90"
                     >
-                      Add vehicle
+                      Add vehicleff
                       <Plus size={20} className="ml-1" />
                     </button>
 

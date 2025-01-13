@@ -17,9 +17,10 @@ export const fetchTicketData = async (registration_number: string) => {
 
 export const fetchAllTicketData = async () => {
   try {
-    const response = await Axios.get(
-      `/api/vehicles/user-tickets/`
+    const response = await Axios.post(
+      `/api/tickets/populate-ticket/`
     );
+    console.log("datattaa",response.data)
     return response.data;
   } catch (error: any) {
     console.error(

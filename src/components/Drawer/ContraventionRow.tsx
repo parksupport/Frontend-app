@@ -23,7 +23,7 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
                     ${groteskText.className}`}
       >
         <TruncatedText
-          text={invoice.ticket}
+          text={invoice.details}
           maxLength={15}
           className={`${groteskText.className}`}
         />
@@ -37,7 +37,7 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
                     lg:pl-[3.5rem] 
                     ${groteskText.className}`}
       >
-        {invoice.date}
+        {invoice.issue_date}
       </td>
 
       {/* Fine Amount */}
@@ -48,21 +48,28 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
                     lg:pl-[1.5rem] 
                     ${groteskText.className}`}
       >
-        {invoice.fine_amount}
+        {`£${invoice.amount}`}
       </td>
 
       {/* Status */}
-      <td
-        className={`flex w-0 items-center lg:justify-end  
-                    lg:w-0 lg:pl-0`}
-      >
+      <td className={`flex w-0 items-center lg:justify-end lg:w-0 lg:pl-0`}>
         <span
-          className="bg-[#B5E3C4] rounded-[22px] my-[0.75rem]
-                     flex justify-center w-[44px] h-[22px]"
+          className={`self-end px-[25px] rounded-[22px] my-[0.75rem] flex justify-center w-[65px] h-[22px] ${
+            invoice.status === "Unpaid"
+              ? "bg-[#F8D7DA]" 
+              : invoice.status === "Disputed"
+              ? "bg-[#FFF3CD]" 
+              : "bg-[#B5E3C4]" 
+          }`}
         >
           <span
-            className={`text-center text-[#099137] text-[13px] 
-                        ${groteskText.className}`}
+            className={`text-center text-[13px] ${
+              invoice.status === "Unpaid"
+                ? "text-[#D9534F]" 
+                : invoice.status === "Disputed"
+                ? "text-[#F0AD4E]" 
+                : "text-[#099137]" 
+            } ${groteskText.className}`}
           >
             {invoice.status}
           </span>

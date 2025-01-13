@@ -40,6 +40,7 @@ import VehicleVerificationDrawer from "@/components/Drawer/VehicleVerificationDr
 import { useGetVehicles } from "@/hooks/queries/vehicles";
 import { useGetProfile } from "@/hooks/queries/profile";
 import SubscriptionPlans from "@/components/Subscription";
+import { useGetAllTicket } from "@/hooks/queries/ticket";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,10 +51,14 @@ export default function DashboardPage() {
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
   // const {nominees} = useGetNominees()
-  const { vehiclesData, isLoading } = useGetVehicles();
+  const { vehiclesData } = useGetVehicles();
+    const { ticketsData } = useGetAllTicket();
+  
 
   const { addVehicle, error, isError } = useAddVehicle();
   const { profile } = useGetProfile();
+
+  
 
   const plan_id = profile?.userplan?.plan;
   console.log("profile", plan_id);
@@ -376,8 +381,11 @@ export default function DashboardPage() {
 
               <div className="items-center w-full justify-center flex">
                 <ContraventionTable
-                  invoices={undefined}
                   openConventionTable={openConventionTable}
+                  addVehicle ={openAddVehicleDetailsDrawer}
+                  plan_id={plan_id}
+                  openAddBillingMethod={openAddBillingMethod}
+                  vehicles={vehiclesData?.vehicles}
                 />
               </div>
             </section>

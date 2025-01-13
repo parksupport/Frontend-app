@@ -9,7 +9,7 @@ import Outline from "@/assets/svg/outlined.svg";
 import CarFilter from "@/assets/svg/color.svg";
 import Slider from "react-slick";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Plus } from "lucide-react";
 import DeleteRowModal from "./DeleteRowModal";
 import useDeleteRow from "@/hooks/useDeleteRow";
@@ -30,7 +30,8 @@ interface CarProfileSliderProps {
   scrollToForm: () => void;
   user_type: string;
   full_name: string;
-  openAddBillingMethod?:any;
+  openAddBillingMethod?: any;
+  backToDashboard?: any;
 }
 
 const CarProfileSlider = ({
@@ -42,7 +43,14 @@ const CarProfileSlider = ({
   user_type,
   full_name,
   openAddBillingMethod,
+  backToDashboard,
 }: CarProfileSliderProps) => {
+  useEffect(() => {
+    if (vehicles?.length === 0) {
+      backToDashboard();
+    }
+  }, [vehicles, backToDashboard]);
+
   const {
     openDropdownIndex,
     data,
@@ -61,11 +69,9 @@ const CarProfileSlider = ({
   const sliderRef = useRef<Slider>(null);
   const totalPages = data?.length || 0;
 
+  const { profile } = useGetProfile();
 
-   const { profile } = useGetProfile();
-  
-    const plan_id = profile?.userplan?.plan;
-   
+  const plan_id = profile?.userplan?.plan;
 
   const settings = {
     dots: true,
@@ -101,8 +107,6 @@ const CarProfileSlider = ({
       // onOpen();
     }
   };
-
-  
 
   return (
     <article className="max-w-[428px] w-full md:max-w-[900px] mx-auto">
@@ -149,7 +153,7 @@ const CarProfileSlider = ({
                   {/* (UPDATED) Wrap the entire button+icon+modal in a relative container */}
                   <div className="flex items-center space-x-3 relative">
                     <button
-                      onClick={() => AddVehicleWithPlan(plan_id,data?.length)}
+                      onClick={() => AddVehicleWithPlan(plan_id, data?.length)}
                       className="bg-[#3957D7] flex items-center text-white rounded-[8px] py-[0.2rem] px-[8px] text-[16px] hover:opacity-90"
                     >
                       Add vehicle

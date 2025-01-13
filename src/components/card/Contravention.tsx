@@ -1,21 +1,33 @@
 "use client";
 
 import { groteskText, groteskTextMedium } from "@/app/fonts";
+import Image from "next/image";
 import itemDetails from "@/data/data.json";
-import { MoveDiagonal } from "lucide-react";
+import { MoveDiagonal, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import Button from "../Buttons";
 import "./Contravention.css";
 import { useGetAllTicket } from "@/hooks/queries/ticket";
 import TruncatedText from "../ToggleComponent/TruncatedText";
+import { useDisclosure } from "@chakra-ui/react";
+import ModalComponent from "../Drawer/ModalComponent";
+import AddVehicleSubscription from "../VehicleNomineeRestriction";
 
-const ContraventionTable = ({ invoices ,openConventionTable}) => {
+const ContraventionTable = ({
+  addVehicle,
+  openConventionTable,
+  vehicles,
+  plan_id,
+  openAddBillingMethod,
+}) => {
   const [visibleCount, setVisibleCount] = useState(3);
 
   const { ticketsData } = useGetAllTicket();
+
+  console.log("ticketsData", ticketsData);
   const updateVisibleCount = () => {
-    const isSmallScreen = window.matchMedia('(max-width: 1024px)').matches;
-    const isLargeScreen = window.matchMedia('(min-width: 3000px)').matches;
+    const isSmallScreen = window.matchMedia("(max-width: 1024px)").matches;
+    const isLargeScreen = window.matchMedia("(min-width: 3000px)").matches;
 
     if (isSmallScreen) {
       setVisibleCount(1);
@@ -31,44 +43,68 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
     updateVisibleCount();
 
     // Add event listener to update visibleCount on resize
-    window.addEventListener('resize', updateVisibleCount);
+    window.addEventListener("resize", updateVisibleCount);
 
     // Clean up event listener on component unmount
-    return () => window.removeEventListener('resize', updateVisibleCount);
+    return () => window.removeEventListener("resize", updateVisibleCount);
   }, []);
-
 
   const handleButtonClick = () => {
     // setVisibleCount((prevCount) => prevCount + 1);
-    openConventionTable()
+    openConventionTable();
+  };
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const AddVehicleWithPlan = (plan_id, vehicles) => {
+    if (plan_id === 1) {
+      onOpen();
+    } else if (plan_id === 2 && vehicles === 2) {
+      onOpen();
+    } else if (plan_id === 3 && vehicles === 5) {
+      onOpen();
+    } else {
+      addVehicle();
+    }
   };
 
   return (
-   <>
+    <>
+      <ModalComponent
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        display={
+          <AddVehicleSubscription
+            plan={plan_id}
+            closeModal={onClose}
+            openAddBillingMethod={openAddBillingMethod}
+          />
+        }
+      />
       {ticketsData?.tickets.length === 0 ? (
-        <div className="max-w-[396px] min-h-[340px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-6 px-4 md:py-9 md:px-6 lg:px-8 flex items-center justify-center flex-col">
-          <div className="flex items-center gap-2">
-            {/* Add your icon here */}
-            <span className="text-[26px]">
-              {/* Replace with the icon component */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.75 9V6a3 3 0 116 0v3m-9 0h12a2.25 2.25 0 012.25 2.25v9A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75v-9A2.25 2.25 0 015.25 9z"
-                />
-              </svg>
-            </span>
-            <div className={`${groteskTextMedium.className} text-[26px]`}>
-              No ticket Available
+        <div className="max-w-[396px] min-h-[340px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-2 px-4 md:py-2 md:px-6 lg:px-8 flex items-center justify-center flex-col">
+          <div className="flex flex-col items-center justify-center ">
+            <div className={`${groteskTextMedium.className} text-[32px]`}>
+              No Contravention Yet
             </div>
+            <Image
+              src={require(`@/assets/images/contravention_emptyState.png`)}
+              alt=""
+              sizes="width: 200px"
+              // className="max-w-[222px] "
+            />
+
+            <Button
+              variant="quinary"
+              className=" py-[9px] px-[12px] text-[16px]"
+              onClick={() => {
+                AddVehicleWithPlan(plan_id, vehicles.length);
+              }}
+            >
+              Add vehicle
+              <Plus className="inline-block ml-[8px]" />
+            </Button>
           </div>
         </div>
       ) : (
@@ -81,13 +117,13 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
             </h1>{" "}
             <div className="hidden lg:flex  items-center flex-row justify-end mb-[1.25rem] mr-[8px] lg:self-end">
               {/* {visibleCount < ticketsData?.tickets.length && ( */}
-                <Button
-                  variant="quinary"
-                  onClick={handleButtonClick}
-                  className={`py-[9px] px-[12px] text-[16px] `}
-                >
-                  Expand tickets
-                </Button>
+              <Button
+                variant="quinary"
+                onClick={handleButtonClick}
+                className={`py-[9px] px-[12px] text-[16px] `}
+              >
+                Expand tickets
+              </Button>
               {/* )} */}
             </div>
           </div>
@@ -155,6 +191,8 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
                     className={`self-end rounded-[22px] my-[0.75rem] flex justify-center w-[65px] h-[22px] ${
                       invoice.status === "Unpaid"
                         ? "bg-[#F8D7DA]"
+                        : invoice.status === "Disputed"
+                        ? "bg-[#FFF3CD]"
                         : "bg-[#B5E3C4]"
                     }`}
                   >
@@ -162,6 +200,8 @@ const ContraventionTable = ({ invoices ,openConventionTable}) => {
                       className={`text-center text-[13px] ${
                         invoice.status === "Unpaid"
                           ? "text-[#D9534F]"
+                          : invoice.status === "Disputed"
+                          ? "text-[#F0AD4E]"
                           : "text-[#099137]"
                       } ${groteskText.className}`}
                     >

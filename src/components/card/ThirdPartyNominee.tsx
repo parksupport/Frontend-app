@@ -1,5 +1,5 @@
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -18,6 +18,7 @@ import { useGetProfile } from "@/hooks/queries/profile";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "../Drawer/ModalComponent";
 import SubscriptionPlans from "../Subscription";
+import Image from "next/image";
 
 /* -------------------------------------------------------------------------- */
 /*                        ThirdPartyNominees (Listing)                        */
@@ -26,16 +27,16 @@ import SubscriptionPlans from "../Subscription";
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
   nominees: any[];
-  vehiclesRegNunbers: string;
+  selectedVehicle: any;
   user_type: "individual" | "corporate";
   loading?: boolean;
-  openAddBillingMethod?:any;
+  openAddBillingMethod?: any;
 }
 
 export default function ThirdPartyNominees({
   user_type,
   toggleForm,
-  vehiclesRegNunbers,
+  selectedVehicle,
   nominees,
   loading,
   openAddBillingMethod,
@@ -53,6 +54,9 @@ export default function ThirdPartyNominees({
     setOpenDropdownIndex,
   } = useDeleteRow(nominees, "nominee");
 
+  const vehiclesRegNunbers = selectedVehicle?.registration_number;
+  const status = selectedVehicle?.verification_status;
+
   const isMobile = useIsMobile();
 
   const { profile } = useGetProfile();
@@ -61,17 +65,47 @@ export default function ThirdPartyNominees({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const AddRecipientsWithPlan = (plan_id, nominees) => {
-    if (plan_id === 1) {
-      onOpen();
-    } else if (plan_id === 2 && nominees === 1) {
-      onOpen();
-    } else if (plan_id === 3 && nominees === 3) {
-      onOpen();
-    } else {
-      toggleForm(true);
+  console.log("nominees", nominees);
+  console.log("selectedVehicle", selectedVehicle);
+
+  const AddRecipientsWithPlan = (plan_id, nominees, status) => {
+
+    if (status === "Verified") {
+      // Filter nominees with status "Active"
+      const activeNominees = nominees.filter(nominee => nominee.status === "Active");
+  
+      if (plan_id === 1) {
+        onOpen();
+      } else if (plan_id === 2 && activeNominees.length === 1) {
+        onOpen();
+      } else if (plan_id === 3 && activeNominees.length === 3) {
+        onOpen();
+      } else {
+        toggleForm(true);
+      }
     }
   };
+  
+
+  function updateNomineesWithEndDate(
+    data: { end_date: string }[]
+  ): { end_date: string }[] {
+    const ONE_HUNDRED_YEARS = 100 * 365 * 24 * 60 * 60 * 1000; // 100 years in milliseconds
+    const now = new Date();
+
+    return data.map((nominee) => {
+      const endDate = new Date(nominee.end_date);
+
+      // Use .getTime() to convert Date objects to timestamps for comparison
+      if (endDate.getTime() - now.getTime() > ONE_HUNDRED_YEARS) {
+        return { ...nominee, end_date: "Infinite" };
+      }
+
+      return nominee;
+    });
+  }
+
+  const updatedNominees = updateNomineesWithEndDate(data);
 
   return (
     <div className="py-12 mb-40">
@@ -90,26 +124,44 @@ export default function ThirdPartyNominees({
           </h1>
         </div>
         <button
-          className={`whitespace-nowrap hover:underline text-[#4169E1] md:text-[18px] text-[18px] ${
-            groteskTextMedium.className
-          } ${!vehiclesRegNunbers ? "opacity-50 cursor-not-allowed" : ""}`}
-          onClick={() => AddRecipientsWithPlan(plan_id, data.length)}
-          disabled={!vehiclesRegNunbers} // Disable when vehiclesRegNumbers is an empty string
+          className={`whitespace-nowrap hover:${
+            status === "Verified" ? "underline" : "none"
+          } 
+          ${status === "Verified" ? " text-[#4169E1]" : "text-gray-400"} 
+          
+          md:text-[18px] text-[18px] ${groteskTextMedium.className} ${
+            !vehiclesRegNunbers ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          onClick={() => AddRecipientsWithPlan(plan_id, data, status)}
+          disabled={!vehiclesRegNunbers || status === "Unverified"}
         >
           Add Recipient
         </button>
-        
       </div>
 
       {loading ? (
         <div>Loading...</div> // You can add a loading spinner or any other content here
+      ) : data.length === 0 ? (
+        <div className="h-[300px] border  rounded-[8px] flex items-center justify-center flex-col">
+          <div className="flex flex-col items-center justify-center ">
+            <div className={`${groteskTextMedium.className} text-[32px]`}>
+              No Nominee Yet
+            </div>
+            <Image
+              src={require(`@/assets/images/contravention_emptyState.png`)}
+              alt=""
+              sizes="width: 200px"
+              // className="max-w-[222px] "
+            />
+          </div>
+        </div>
       ) : (
         <div>
           {isMobile ? (
             <NomineeMobile
               user_type={user_type}
               registarationNumber={vehiclesRegNunbers}
-              nominees={data}
+              nominees={updatedNominees}
               showDeleteConfirmation={showDeleteConfirmation}
               showConfirmButton={showConfirmButton}
               cancelDelete={cancelDelete}
@@ -121,7 +173,7 @@ export default function ThirdPartyNominees({
             <NomineeDesktop
               user_type={user_type}
               registarationNumber={vehiclesRegNunbers}
-              nominees={data}
+              nominees={updatedNominees}
               showDeleteConfirmation={showDeleteConfirmation}
               showConfirmButton={showConfirmButton}
               cancelDelete={cancelDelete}
@@ -134,7 +186,8 @@ export default function ThirdPartyNominees({
           )}
         </div>
       )}
-            <ModalComponent
+
+      <ModalComponent
         isOpen={isOpen}
         onClose={onClose}
         onOpen={onOpen}
@@ -177,8 +230,8 @@ const AddNOmineesSubscription = ({
     if (plan === 3) {
       return (
         <p className="text-lg font-medium text-gray-800">
-          You can only add three (3) recipient per vehicle with your current plan.
-          Please upgrade to add more recipients.
+          You can only add three (3) recipient per vehicle with your current
+          plan. Please upgrade to add more recipients.
         </p>
       );
     }
@@ -621,28 +674,55 @@ export const NomineeMobile = ({
 /* -------------------------------------------------------------------------- */
 
 interface AddThirdPartyNomineeProps {
-  vehiclesRegNunbers?: string;
   toggleForm?: (bool: boolean) => void;
   openAddVehicleDetailsDrawer?: () => void;
   selectedVehicle?: any;
   user_type?: any;
+  setSelectedVehicle?: any;
+  data?: any;
 }
 
 export function AddThirdPartyNominee({
-  vehiclesRegNunbers,
-  toggleForm,
-  openAddVehicleDetailsDrawer,
   selectedVehicle,
+  toggleForm,
   user_type,
+  setSelectedVehicle,
+  data,
 }: AddThirdPartyNomineeProps) {
   const [hasError, setHasError] = useState(false);
   const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
+  const vehiclesRegNunbers = selectedVehicle?.registration_number;
+
+  useEffect(() => {
+    if (isIndefiniteEndDate) {
+      // Set end_date to 500 years from now
+      const futureDate = new Date();
+      futureDate.setFullYear(futureDate.getFullYear() + 500);
+
+      // Convert to ISO string format without the time part
+      setEndDate(futureDate.toISOString().split("T")[0]);
+    } else {
+      setEndDate("");
+    }
+  }, [isIndefiniteEndDate]);
+
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      end_date: endDate,
+    }));
+  }, [endDate]);
+
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
     phone_number: "",
-    start_date: "2024-01-01", // Example defaults
-    end_date: "2024-01-30", // Example defaults
+    start_date: new Date().toISOString().split("T")[0],
+    end_date: endDate,
   });
 
   const { addNominee } = useAddNominee();
@@ -680,6 +760,14 @@ export function AddThirdPartyNominee({
         registration_number: vehiclesRegNunbers,
         data: formData,
       });
+
+      if (user_type === "corporate") {
+        const selectedVehicle = data.find(
+          (vehicle) => vehicle.registration_number === vehiclesRegNunbers
+        );
+        setSelectedVehicle(selectedVehicle);
+      }
+
       toggleForm?.(false);
     }
   };
@@ -778,9 +866,9 @@ export function AddThirdPartyNominee({
                     error={hasError}
                     indefinite
                     endDate={isIndefiniteEndDate}
-                    handleEndDateChange={() =>
-                      setIndefiniteEndDate(!isIndefiniteEndDate)
-                    }
+                    handleEndDateChange={() => {
+                      setIndefiniteEndDate(!isIndefiniteEndDate);
+                    }}
                   />
                 </div>
 

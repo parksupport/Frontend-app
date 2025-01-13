@@ -12,6 +12,7 @@ import TruncatedText from "../ToggleComponent/TruncatedText";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "../Drawer/ModalComponent";
 import AddVehicleSubscription from "../VehicleNomineeRestriction";
+import { useGetVehicles } from "@/hooks/queries/vehicles";
 
 const ContraventionTable = ({
   addVehicle,
@@ -23,8 +24,11 @@ const ContraventionTable = ({
   const [visibleCount, setVisibleCount] = useState(3);
 
   const { ticketsData } = useGetAllTicket();
+  const {vehiclesData} = useGetVehicles()
 
-  console.log("ticketsData", ticketsData);
+
+
+  console.log("ticketsData", vehiclesData);
   const updateVisibleCount = () => {
     const isSmallScreen = window.matchMedia("(max-width: 1024px)").matches;
     const isLargeScreen = window.matchMedia("(min-width: 3000px)").matches;
@@ -82,7 +86,7 @@ const ContraventionTable = ({
           />
         }
       />
-      {ticketsData?.tickets.length === 0 ? (
+      {ticketsData?.tickets.length === 0 || vehiclesData?.vehicles.length === 0 || ticketsData === undefined ? (
         <div className="max-w-[396px] min-h-[340px] w-full lg:max-w-[680px] bg-white rounded-[1.25rem] py-2 px-4 md:py-2 md:px-6 lg:px-8 flex items-center justify-center flex-col">
           <div className="flex flex-col items-center justify-center ">
             <div className={`${groteskTextMedium.className} text-[32px]`}>

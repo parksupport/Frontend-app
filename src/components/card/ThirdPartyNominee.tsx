@@ -31,6 +31,7 @@ interface ThirdPartyNomineesProps {
   user_type: "individual" | "corporate";
   loading?: boolean;
   openAddBillingMethod?: any;
+  vehiclesRegNunbers?: any;
 }
 
 export default function ThirdPartyNominees({
@@ -40,7 +41,8 @@ export default function ThirdPartyNominees({
   nominees,
   loading,
   openAddBillingMethod,
-}: ThirdPartyNomineesProps) {
+}: // vehiclesRegNunbers
+ThirdPartyNomineesProps) {
   const {
     openDropdownIndex,
     data,
@@ -69,11 +71,12 @@ export default function ThirdPartyNominees({
   console.log("selectedVehicle", selectedVehicle);
 
   const AddRecipientsWithPlan = (plan_id, nominees, status) => {
-
     if (status === "Verified") {
       // Filter nominees with status "Active"
-      const activeNominees = nominees.filter(nominee => nominee.status === "Active");
-  
+      const activeNominees = nominees.filter(
+        (nominee) => nominee.status === "Active"
+      );
+
       if (plan_id === 1) {
         onOpen();
       } else if (plan_id === 2 && activeNominees.length === 1) {
@@ -83,9 +86,10 @@ export default function ThirdPartyNominees({
       } else {
         toggleForm(true);
       }
+    } else {
+      onOpen();
     }
   };
-  
 
   function updateNomineesWithEndDate(
     data: { end_date: string }[]
@@ -115,7 +119,7 @@ export default function ThirdPartyNominees({
           <h1
             className={`text-wrap text-black text-[22px] md:text-[30px] ${groteskTextMedium.className}`}
           >
-            {`Vehicle ${vehiclesRegNunbers.toUpperCase()}`}
+            {`Vehicle ${vehiclesRegNunbers?.toUpperCase()}`}
           </h1>
           <h1
             className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}
@@ -124,16 +128,11 @@ export default function ThirdPartyNominees({
           </h1>
         </div>
         <button
-          className={`whitespace-nowrap hover:${
-            status === "Verified" ? "underline" : "none"
-          } 
-          ${status === "Verified" ? " text-[#4169E1]" : "text-gray-400"} 
-          
-          md:text-[18px] text-[18px] ${groteskTextMedium.className} ${
-            !vehiclesRegNunbers ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`whitespace-nowrap hover:underline text-[#4169E1] md:text-[18px] text-[18px] ${
+            groteskTextMedium.className
+          } ${!vehiclesRegNunbers ? "opacity-50 cursor-not-allowed" : ""}`}
           onClick={() => AddRecipientsWithPlan(plan_id, data, status)}
-          disabled={!vehiclesRegNunbers || status === "Unverified"}
+          disabled={!vehiclesRegNunbers} // Disable when vehiclesRegNumbers is an empty string
         >
           Add Recipient
         </button>
@@ -193,6 +192,7 @@ export default function ThirdPartyNominees({
         onOpen={onOpen}
         display={
           <AddNOmineesSubscription
+            status={status}
             plan={plan_id}
             closeModal={onClose}
             openAddBillingMethod={openAddBillingMethod}
@@ -208,11 +208,13 @@ export default function ThirdPartyNominees({
 
 interface AddNOmineesSubscriptionProps {
   plan: number;
+  status: string;
   closeModal: () => void;
   openAddBillingMethod: (id: string, isSubscription: boolean) => void;
 }
 const AddNOmineesSubscription = ({
   plan,
+  status,
   closeModal,
   openAddBillingMethod,
 }: AddNOmineesSubscriptionProps) => {
@@ -232,6 +234,13 @@ const AddNOmineesSubscription = ({
         <p className="text-lg font-medium text-gray-800">
           You can only add three (3) recipient per vehicle with your current
           plan. Please upgrade to add more recipients.
+        </p>
+      );
+    }
+    if (status === "Unverified") {
+      return (
+        <p className="text-lg font-medium text-gray-800">
+          You need to verify your vehicle to add recipients
         </p>
       );
     }
@@ -272,9 +281,15 @@ const AddNOmineesSubscription = ({
 
         <button
           className="mt-4 w-full bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          onClick={onOpen}
+          onClick={
+            status === "Unverified"
+              ? () => {
+                  console.log("Unverified");
+                }
+              : onOpen
+          }
         >
-          Subscribe Now
+          {status === "Unverified" ? "Verify Now" : "Subscribe Now"}
         </button>
       </div>
     </div>
@@ -680,6 +695,7 @@ interface AddThirdPartyNomineeProps {
   user_type?: any;
   setSelectedVehicle?: any;
   data?: any;
+  vehiclesRegNunbers?: any;
 }
 
 export function AddThirdPartyNominee({
@@ -688,7 +704,8 @@ export function AddThirdPartyNominee({
   user_type,
   setSelectedVehicle,
   data,
-}: AddThirdPartyNomineeProps) {
+}: // vehiclesRegNunbers,
+AddThirdPartyNomineeProps) {
   const [hasError, setHasError] = useState(false);
   const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
   const [endDate, setEndDate] = useState(

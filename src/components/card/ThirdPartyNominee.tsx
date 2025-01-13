@@ -115,7 +115,7 @@ export default function ThirdPartyNominees({
           <h1
             className={`text-wrap text-black text-[22px] md:text-[30px] ${groteskTextMedium.className}`}
           >
-            {`Vehicle ${vehiclesRegNunbers}`}
+            {`Vehicle ${vehiclesRegNunbers.toUpperCase()}`}
           </h1>
           <h1
             className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}
@@ -797,7 +797,7 @@ export function AddThirdPartyNominee({
             <h1
               className={`text-wrap text-black text-[22px] md:text-[32px] leading-none ${groteskTextMedium.className}`}
             >
-              {`Vehicle ${vehiclesRegNunbers || ""}`}
+              {`Vehicle ${vehiclesRegNunbers.toUpperCase() || ""}`}
             </h1>
             <h1
               className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}

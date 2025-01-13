@@ -266,7 +266,7 @@ const CarProfile = ({
                           <span
                             className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {car.registration_number}
+                            {car.registration_number.toUpperCase()}
                           </span>
                         </h2>
                         <h2

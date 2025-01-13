@@ -184,7 +184,7 @@ export default function LandingPage() {
                 <NotificationBox
                   position={isMobile ? { right: 0, top: -10 } : { right: 300, top: 0 }}
                   hasTicket={hasTicket}
-                  signUp={() => router.push("/auth/onboarding")}
+                  onClick={() => router.push("/auth/onboarding")}
                 />
               )}
            

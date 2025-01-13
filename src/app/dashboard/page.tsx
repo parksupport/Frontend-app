@@ -310,6 +310,7 @@ export default function DashboardPage() {
             openProfileSlider={openProfileDrawer}
             openNotificationsTable={openNotificationsTable}
             openNotification={OpenNotification}
+            openAddBillingMethod={openAddBillingMethod}
           />
           <ModalComponent
             isOpen={isDisclosureOpen}

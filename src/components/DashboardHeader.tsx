@@ -13,59 +13,106 @@ import { useState } from "react";
 import useStore from "@/lib/stores/notification";
 import { groteskText } from "@/app/fonts";
 import { useAuthStore } from "@/lib/stores/authStore";
+import NotificationBox from "./NotificationBox";
+import useIsMobile from "@/hooks/useIsMobile";
+import ModalComponent from "./Drawer/ModalComponent";
+import { useDisclosure } from "@chakra-ui/react";
+import SubscriptionPlans from "./Subscription";
+import { useCheckVehicleTicket } from "@/hooks/queries/ticket";
+import { useGetProfile } from "@/hooks/queries/profile";
 
 interface DashboardHeaderProps {
   openNotification: () => void;
   openSettingsDrawer: () => void;
   openProfileSlider: () => void;
   openNotificationsTable: () => void;
+  openAddBillingMethod?: (id?: any, isSubscription?: boolean) => void;
 }
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   openSettingsDrawer,
   openProfileSlider,
+  openAddBillingMethod,
 }) => {
-  const [isNotificationOpen, setIsNotificationOpen] = useState(true);
-  const [inputValue, setInputValue] = useState("");
-  const [message, setMessage] = useState("");
+  const [vehicleNo, setVehicleNo] = useState("");
 
-  const validateInput = (value) => {
-    if (value === "wrongword1") {
-      setMessage("Scenario 1: This is not a valid word.");
-    } else if (value === "wrongword2") {
-      setMessage("Scenario 2: This word is not allowed.");
-    } else {
-      setMessage("");
-    }
-  };
+  const [searchResult, setSearchResult] = useState(true);
 
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
-    validateInput(value);
-  };
+  const isMobile = useIsMobile();
+
+  const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
+
+  const { hasTicket, isLoading, error, refetch } =
+    useCheckVehicleTicket(vehicleNo);
+
   const profileUser = useAuthStore((state) => state.user);
   const { full_name } = profileUser || {};
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setVehicleNo(value);
+  };
+
+  const handleSearch = (e) => {
+    console.log("searching");
+    if (vehicleNo) {
+      e.preventDefault();
+      refetch();
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearch(e);
+    }
+  };
+
   return (
-    <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+    <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between relative">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center">
           <HeaderImage />
         </div>
 
         <form
+          onSubmit={(e) => handleSearch(e)}
           className={`${groteskText.className} hidden sm:flex sm:flex-grow sm:justify-center relative max-w-[600px] w-full h-[36px] rounded-[6px]`}
         >
           <input
             type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder="Find contravention"
+            value={vehicleNo}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            placeholder="click here to check if your vehicle has a ticket"
             className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
           />
           <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
         </form>
-        {message && <p className="mt-2 text-red-500">{message}</p>}
+        <div className="absolute ">
+          {vehicleNo && searchResult && (
+            <NotificationBox
+              position={
+                isMobile ? { right: -20, top: 145 } : { right: -660, top: 88 }
+              }
+              onClick={onOpen}
+              hasTicket={hasTicket}
+            />
+          )}
+        </div>
+        <ModalComponent
+          isOpen={isDisclosureOpen}
+          onClose={onClose}
+          onOpen={onOpen}
+          type="subscription"
+          display={
+            <SubscriptionPlans
+              onClick={() => {
+                openAddBillingMethod();
+                onClose();
+              }}
+            />
+          }
+        />
 
         <div className="flex items-center space-x-4">
           {/* <OpenNotification /> */}
@@ -102,7 +149,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       >
         <input
           type="text"
-          placeholder="Find contravention"
+          placeholder="click here to check if your vehicle has a ticket"
           className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
         />
         <SearchSVG className="absolute left-4 top-2 cursor-pointer" />

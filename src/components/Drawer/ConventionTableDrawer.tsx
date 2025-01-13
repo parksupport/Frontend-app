@@ -87,7 +87,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
       <Slider {...sliderSettings}>
         <div className="flex mx-0 flex-col mt-6 w-[396px!important] md:w-[700px!important] lg:w-[900px!important] border border-solid border-[#C5D5F8] rounded-lg ">
-          <table className="flex  justify-between lg:flex lg:flex-col ">
+          <table className="flex  justify-between lg:flex lg:flex-col overflow-y-scroll max-h-[378px] ">
             <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex lg:px-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
@@ -198,7 +198,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                   />
                   <DetailedBreakdownItem
                     label="Fine amount"
-                    value={selectedInvoice.amount}
+                    value={`£${selectedInvoice.amount}`}
                   />
 
                   <DetailedBreakdownItem

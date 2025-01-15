@@ -218,7 +218,7 @@ const AddNOmineesSubscription = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const renderPlanMessage = () => {
-    if (plan === 2) {
+    if (plan === 2 && status === "Verified") {
       return (
         <p className="text-lg font-medium text-gray-800">
           You can only add one (1) recipient per vehicle with your current plan.
@@ -226,7 +226,7 @@ const AddNOmineesSubscription = ({
         </p>
       );
     }
-    if (plan === 3) {
+    if (plan === 3 && status === "Verified") {
       return (
         <p className="text-lg font-medium text-gray-800">
           You can only add three (3) recipient per vehicle with your current

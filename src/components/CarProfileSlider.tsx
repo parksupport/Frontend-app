@@ -84,6 +84,7 @@ const CarProfileSlider = ({
       if (onVehicleChange) {
         onVehicleChange(current);
       }
+      setForm(false);
     },
   };
 

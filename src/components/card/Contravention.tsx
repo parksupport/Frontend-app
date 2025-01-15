@@ -27,8 +27,6 @@ const ContraventionTable = ({
   const {vehiclesData} = useGetVehicles()
 
 
-
-  console.log("ticketsData", vehiclesData);
   const updateVisibleCount = () => {
     const isSmallScreen = window.matchMedia("(max-width: 1024px)").matches;
     const isLargeScreen = window.matchMedia("(min-width: 3000px)").matches;

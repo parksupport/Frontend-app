@@ -226,7 +226,7 @@ const CarProfileSlider = ({
                         {
                           icon: <UserProfileSVG />,
                           label: "Owner:",
-                          value: full_name,
+                          value: car.owner ? car.owner : full_name,
                         },
                         {
                           icon: <TicketSVG />,
@@ -287,21 +287,22 @@ const CarProfileSlider = ({
                   {/* Car Image: right box */}
                   <div className="flex flex-col justify-center items-center">
                     <div className="mt-4 md:mt-0 md:ml-4 max-w-[359px]">
-                      {car.type ? (
+                      {car?.type &&
+                      ["Car", "Truck", "Jeep", "Bus", "Motorcycle"].includes(
+                        car.type.toLowerCase()
+                      ) ? (
                         <Image
                           src={require(`@/assets/images/${car.type.toLowerCase()}.jpg`)}
-                          alt="Car Type"
-                          width={250}
-                          height={150}
-                          className="mx-auto"
+                          alt={car.type}
+                          sizes="width: 222px"
+                          // className="max-w-[222px]"
                         />
                       ) : (
                         <Image
                           src={require(`@/assets/images/car.jpg`)}
-                          alt="Default Car"
-                          width={250}
-                          height={150}
-                          className="mx-auto"
+                          alt="car"
+                          sizes="width: 222px"
+                          // className="max-w-[222px]"
                         />
                       )}
                     </div>

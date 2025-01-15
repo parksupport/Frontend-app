@@ -61,7 +61,6 @@ export default function DashboardPage() {
   
 
   const plan_id = profile?.userplan?.plan;
-  console.log("profile", plan_id);
 
   const [isCorporate, setIsCorporate] = useState(user_type);
 
@@ -175,19 +174,12 @@ export default function DashboardPage() {
 
   const checkVehicleStatus = async (vehicleData) => {
     try {
-      console.log("vehicleDataStatus:", vehicleData);
+  
 
-      const data = {
-        registration_number: vehicleData?.vegRegNumber,
-        type: vehicleData?.type,
-        color: vehicleData?.car_color,
-        model: vehicleData?.car_model,
-        year: vehicleData?.year,
-        postcode: vehicleData?.postcode,
-      };
+
 
       // Wait for the mutation result
-      await addVehicle(data);
+      await addVehicle(vehicleData);
 
       // If no error occurred, return "success"
       return "success";

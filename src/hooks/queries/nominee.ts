@@ -1,4 +1,4 @@
-import { getNominee } from "@/api/nominee";
+import { getAllNominee, getNominee } from "@/api/nominee";
 import { useQuery } from "@tanstack/react-query";
 
 
@@ -11,6 +11,17 @@ export const useGetNominees = (registration_number: string) => {
     });
   
     return { nominees: data, error, isLoading ,refetch};
+  };
+
+
+
+export const useGetAllNominees = () => {
+    const { data, error, isLoading ,refetch} = useQuery({
+      queryKey: ["allNominee"],
+      queryFn: () => getAllNominee(),
+    });
+  
+    return { allNominees: data, error, isLoading ,refetch};
   };
 
 

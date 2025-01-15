@@ -12,6 +12,18 @@ export const getNominee = async (registration_number: string) => {
   }
 };
 
+export const getAllNominee = async () => {
+  try {
+    const response = await Axios.get(
+      `/api/vehicles/get-all-nominations/`
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Error fetching nominee data:", error);
+    throw error.response?.data || error.message || error;
+  }
+};
+
 export const addNominee = async (
   registration_number: string,
   userData: any

@@ -19,6 +19,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "../Drawer/ModalComponent";
 import SubscriptionPlans from "../Subscription";
 import Image from "next/image";
+import { Switch } from "@/components/ui/switch";
 
 /* -------------------------------------------------------------------------- */
 /*                        ThirdPartyNominees (Listing)                        */
@@ -63,12 +64,8 @@ ThirdPartyNomineesProps) {
 
   const { profile } = useGetProfile();
   const plan_id = profile?.userplan?.plan;
-  console.log("profile", plan_id);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  console.log("nominees", nominees);
-  console.log("selectedVehicle", selectedVehicle);
 
   const AddRecipientsWithPlan = (plan_id, nominees, status) => {
     if (status === "Verified") {
@@ -132,7 +129,7 @@ ThirdPartyNomineesProps) {
             groteskTextMedium.className
           } ${!vehiclesRegNunbers ? "opacity-50 cursor-not-allowed" : ""}`}
           onClick={() => AddRecipientsWithPlan(plan_id, data, status)}
-          disabled={!vehiclesRegNunbers} // Disable when vehiclesRegNumbers is an empty string
+          disabled={!vehiclesRegNunbers}
         >
           Add Recipient
         </button>
@@ -210,7 +207,7 @@ interface AddNOmineesSubscriptionProps {
   plan: number;
   status: string;
   closeModal: () => void;
-  openAddBillingMethod: (id: string, isSubscription: boolean) => void;
+  openAddBillingMethod: (id: string, isSubscription?: boolean) => void;
 }
 const AddNOmineesSubscription = ({
   plan,
@@ -237,7 +234,7 @@ const AddNOmineesSubscription = ({
         </p>
       );
     }
-    if (status === "Unverified") {
+    if (status !== "Verified") {
       return (
         <p className="text-lg font-medium text-gray-800">
           You need to verify your vehicle to add recipients
@@ -257,8 +254,8 @@ const AddNOmineesSubscription = ({
         type="subscription"
         display={
           <SubscriptionPlans
-            onClick={(id) => {
-              openAddBillingMethod(id, true);
+            onClick={(plan) => {
+              openAddBillingMethod(plan);
               onClose();
               closeModal();
             }}
@@ -282,14 +279,14 @@ const AddNOmineesSubscription = ({
         <button
           className="mt-4 w-full bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           onClick={
-            status === "Unverified"
+            status !== "Verified"
               ? () => {
                   console.log("Unverified");
                 }
               : onOpen
           }
         >
-          {status === "Unverified" ? "Verify Now" : "Subscribe Now"}
+          {status !== "Verified" ? "Verify Now" : "Subscribe Now"}
         </button>
       </div>
     </div>
@@ -585,7 +582,7 @@ export const NomineeMobile = ({
                   <TruncatedText
                     text={nominee?.name}
                     maxLength={22}
-                    className="text-black"
+                    className={`text-black text-[16px] ${groteskText.className}`}
                   />
                 </div>
                 {/* Email */}
@@ -594,26 +591,32 @@ export const NomineeMobile = ({
                   <TruncatedText
                     text={nominee?.email}
                     maxLength={22}
-                    className="text-black"
+                    className={`text-black text-[16px] ${groteskText.className}`}
                   />
                 </div>
                 {/* Status */}
                 <div className="flex justify-between">
                   <span className="text-gray-500">Status</span>
                   <div
-                    className={`flex items-center justify-center w-[100px] py-1 rounded-full text-xs font-semibold ${
-                      nominee?.status === "active"
+                    className={`${
+                      groteskText.className
+                    } flex items-center justify-center w-[100px] py-1 rounded-full text-sm font-semibold ${
+                      nominee?.status === "Active"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
                     }`}
                   >
-                    {nominee?.status === "active" ? "Active" : "Not Active"}
+                    {nominee?.status}
                   </div>
                 </div>
                 {/* Phone */}
                 <div className="flex justify-between">
                   <span className="text-gray-500">Phone Number</span>
-                  <span className="text-black">{nominee?.phone}</span>
+                  <span
+                    className={`text-black text-[16px] ${groteskText.className}`}
+                  >
+                    {nominee?.phone}
+                  </span>
                 </div>
                 {/* Only show start/end dates if corporate */}
                 {user_type === "corporate" && (
@@ -623,7 +626,7 @@ export const NomineeMobile = ({
                       <TruncatedText
                         text={nominee?.start_date}
                         maxLength={22}
-                        className="text-black"
+                        className={`text-black text-[16px] ${groteskText.className}`}
                       />
                     </div>
                     <div className="flex justify-between">
@@ -631,7 +634,7 @@ export const NomineeMobile = ({
                       <TruncatedText
                         text={nominee?.end_date}
                         maxLength={22}
-                        className="text-black"
+                        className={`text-black text-[16px] ${groteskText.className}`}
                       />
                     </div>
                   </>
@@ -713,6 +716,9 @@ AddThirdPartyNomineeProps) {
   );
 
   const vehiclesRegNunbers = selectedVehicle?.registration_number;
+
+  const [smsNotifications, setSmsNotifications] = useState(false);
+  const [emailNotifications, setEmailNotifications] = useState(false);
 
   useEffect(() => {
     if (isIndefiniteEndDate) {
@@ -803,6 +809,14 @@ AddThirdPartyNomineeProps) {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleToggleSms = (checked: boolean) => {
+    setSmsNotifications(checked);
+  };
+
+  const handleToggleEmail = (checked: boolean) => {
+    setEmailNotifications(checked);
   };
 
   return (
@@ -896,6 +910,36 @@ AddThirdPartyNomineeProps) {
                 )}
               </div>
             )}
+            <div className="flex items-center gap-[8px]  mt-2">
+              <div className={`flex text-[20px]  ${groteskText.className} `}>
+                {" "}
+                Receipent Notification Preference :
+              </div>
+              <div className={`flex ${groteskText.className} gap-[4px] `}>
+                <div className="flex items-center gap-[8px]">
+                  <label
+                    className={`text-[20px] text-[#000000] ${groteskText.className}`}
+                  >
+                    Sms
+                  </label>
+                  <Switch
+                    checked={smsNotifications}
+                    onCheckedChange={handleToggleSms}
+                  />
+                </div>
+                <div className="flex items-center gap-[8px]">
+                  <label
+                    className={`text-[20px] text-[#000000] ${groteskText.className}`}
+                  >
+                    Email
+                  </label>
+                  <Switch
+                    checked={emailNotifications}
+                    onCheckedChange={handleToggleEmail}
+                  />
+                </div>
+              </div>
+            </div>
 
             <Button
               type="submit"

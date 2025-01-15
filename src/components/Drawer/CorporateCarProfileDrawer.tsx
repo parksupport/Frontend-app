@@ -63,8 +63,6 @@ export const CorporateCarProfileDrawer = ({
     }
   };
 
-
-
   return (
     <>
       {loading ? (
@@ -199,7 +197,7 @@ export const CorporateCarProfileDrawer = ({
                           className={` ${groteskText.className} px-4 text-sm md:text-[18px] text-gray-700 leading-none w-[15%] whitespace-nowrap`}
                         >
                           <TruncatedText
-                            text={full_name}
+                            text={item.owner ? item.owner : full_name}
                             maxLength={20}
                             className={`${groteskText.className}`}
                           />

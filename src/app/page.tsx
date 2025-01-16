@@ -30,26 +30,35 @@ import { useCheckVehicleTicket } from "@/hooks/queries/ticket";
 
 export default function LandingPage() {
   const [vehicleNo, setVehicleNo] = useState("");
-  const [searchResult, setSearchResult] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const isMobile = useIsMobile();
 
   const router = useRouter();
 
-   const isAuthenticated = useAuthStore((state) => state.token !== null);
+  const isAuthenticated = useAuthStore((state) => state.token !== null);
 
-   const { hasTicket, isLoading, error, refetch } = useCheckVehicleTicket(vehicleNo);
+  const { hasTicket, isLoading, error, refetch } =
+    useCheckVehicleTicket(vehicleNo);
 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setVehicleNo(value);
+    setHasSearched(false); // Reset search status if vehicleNo changes
   };
 
   // Handle search button click
   const handleSearch = () => {
     if (vehicleNo) {
+      setHasSearched(true); // Mark that search has been initiated
       refetch(); // Trigger API call manually when search button is clicked
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
     }
   };
 
@@ -113,10 +122,12 @@ export default function LandingPage() {
                   Search now
                 </Button>
 
-               {!isAuthenticated && <AniminateButton
-                  text="Sign Up"
-                  onClick={() => router.push("/auth/onboarding")}
-                />}
+                {!isAuthenticated && (
+                  <AniminateButton
+                    text="Sign Up"
+                    onClick={() => router.push("/auth/onboarding")}
+                  />
+                )}
               </div>
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
@@ -165,30 +176,32 @@ export default function LandingPage() {
               placeholder="Enter your vehicle registration number"
               value={vehicleNo}
               onChange={handleChange}
-              className="py-4 md:py-3 md:w-[400px]"
+              onKeyPress={handleKeyPress}
+              className="py-4 md:py-1 md:w-[400px]"
             />
             <div className="flex justify-between  ">
-              <div className=" md:pt-4 ">
-              <Button
-                type="button"
-                className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
-                variant="primary"
-                onClick={handleSearch}
-                disabled={isLoading || !vehicleNo}
-              >
-                {isLoading ? "Searching..." : "Search"}
-              </Button>
+              <div className=" ">
+                <Button
+                  type="button"
+                  className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
+                  variant="primary"
+                  onClick={handleSearch}
+                  disabled={isLoading || !vehicleNo}
+                >
+                  {isLoading ? "Searching..." : "Search"}
+                </Button>
               </div>
 
-              {vehicleNo && hasTicket !== null && (
+              {hasSearched && vehicleNo && hasTicket !== null && (
                 <NotificationBox
-                  position={isMobile ? { right: 0, top: -10 } : { right: 300, top: 0 }}
+                  position={
+                    isMobile ? { right: 0, top: -10 } : { right: 300, top: 0 }
+                  }
                   hasTicket={hasTicket}
                   onClick={() => router.push("/auth/onboarding")}
                 />
               )}
-           
-          </div>
+            </div>
           </div>
         </section>
         <section
@@ -224,7 +237,13 @@ export default function LandingPage() {
         </section>
         {/* Subscription Plans Section */}
         <section ref={subscriptionPlan}>
-          <SubscriptionPlans onClick={isAuthenticated ? () => router.push("/dashboard") : () => router.push("/auth/login")} />
+          <SubscriptionPlans
+            onClick={
+              isAuthenticated
+                ? () => router.push("/dashboard")
+                : () => router.push("/auth/login")
+            }
+          />
           {/* onClick={() =>
                       isAuthenticated
                         ? router.push("/dashboard") // Redirect authenticated users

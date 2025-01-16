@@ -23,12 +23,22 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
                     ${groteskText.className}`}
       >
         <TruncatedText
-          text={invoice.details}
+          text={invoice.registration_number}
           maxLength={15}
           className={`${groteskText.className}`}
         />
       </td>
 
+      {/* Issuring Authority */}
+      <td
+        className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0
+                     lg:text-left
+                    lg:w-full lg:w-2/12 
+                    lg:pl-[3.5rem] 
+                    ${groteskText.className}`}
+      >
+        {invoice.borough}
+      </td>
       {/* Date */}
       <td
         className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0

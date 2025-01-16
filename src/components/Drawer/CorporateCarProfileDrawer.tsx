@@ -191,13 +191,31 @@ export const CorporateCarProfileDrawer = ({
                         <td
                           className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 w-[15%] whitespace-nowrap`}
                         >
-                          {item.registration_number}
+                          {item.registration_number.toUpperCase()}
                         </td>
                         <td
                           className={` ${groteskText.className} px-4 text-sm md:text-[18px] text-gray-700 leading-none w-[15%] whitespace-nowrap`}
                         >
                           <TruncatedText
-                            text={item.owner ? item.owner : full_name}
+                            text={
+                              item.owner
+                                ? item.owner
+                                    .split(" ")
+                                    .map(
+                                      (name) =>
+                                        name.charAt(0).toUpperCase() +
+                                        name.slice(1)
+                                    )
+                                    .join(" ")
+                                : full_name
+                                    .split(" ")
+                                    .map(
+                                      (name) =>
+                                        name.charAt(0).toUpperCase() +
+                                        name.slice(1)
+                                    )
+                                    .join(" ")
+                            }
                             maxLength={20}
                             className={`${groteskText.className}`}
                           />
@@ -245,12 +263,14 @@ export const CorporateCarProfileDrawer = ({
                         <td
                           className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[10%] whitespace-nowrap`}
                         >
-                          {item.color}
+                          {item.color.charAt(0).toUpperCase() +
+                            item.color.slice(1)}
                         </td>
                         <td
                           className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[10%] whitespace-nowrap`}
                         >
-                          {item.type}
+                             {item.type.charAt(0).toUpperCase() +
+                            item.type.slice(1)}
                         </td>
                       </tr>
                     ))}

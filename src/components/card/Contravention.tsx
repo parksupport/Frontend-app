@@ -117,7 +117,7 @@ const ContraventionTable = ({
             >
               Ticket
             </h1>{" "}
-            <div className="hidden lg:flex  items-center flex-row justify-end mb-[1.25rem] mr-[8px] lg:self-end">
+            <div className=" lg:flex  items-center flex-row justify-end mb-[1.25rem] mr-[8px] lg:self-end">
               {/* {visibleCount < ticketsData?.tickets.length && ( */}
               <Button
                 variant="quinary"
@@ -145,7 +145,7 @@ const ContraventionTable = ({
                 <th
                   className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskTextMedium.className}`}
                 >
-                  Issuing by
+                  Date of Issue
                 </th>
                 <th
                   className={`text-[#757575] text-[17px] self-start px-[4px] py-[0.75rem]    ${groteskTextMedium.className}`}

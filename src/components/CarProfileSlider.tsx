@@ -222,13 +222,28 @@ const CarProfileSlider = ({
                         {
                           icon: <NumberSVG />,
                           label: "Registration number:",
-                          value: car.registration_number,
+                          value: car.registration_number.toUpperCase(),
                         },
                         {
                           icon: <UserProfileSVG />,
                           label: "Owner:",
-                          value: car.owner ? car.owner : full_name,
+                          value: car.owner
+                            ? car.owner
+                                .split(" ")
+                                .map(
+                                  (name) =>
+                                    name.charAt(0).toUpperCase() + name.slice(1)
+                                )
+                                .join(" ")
+                            : full_name
+                                .split(" ")
+                                .map(
+                                  (name) =>
+                                    name.charAt(0).toUpperCase() + name.slice(1)
+                                )
+                                .join(" "),
                         },
+
                         {
                           icon: <TicketSVG />,
                           label: "Verification Status:",
@@ -264,7 +279,9 @@ const CarProfileSlider = ({
                         {
                           icon: <CarFilter />,
                           label: "Color:",
-                          value: car.color,
+                          value:
+                            car.color.charAt(0).toUpperCase() +
+                            car.color.slice(1),
                         },
                       ].map((item, idx) => (
                         <div
@@ -310,7 +327,7 @@ const CarProfileSlider = ({
                     <div
                       className={`${groteskTextMedium.className} text-[36px]`}
                     >
-                      {car.registration_number}
+                      {car.registration_number.toUpperCase()}
                     </div>
                   </div>
                 </div>

@@ -910,8 +910,8 @@ AddThirdPartyNomineeProps) {
                 )}
               </div>
             )}
-            <div className="flex items-center gap-[8px]  mt-2">
-              <div className={`flex text-[20px]  ${groteskText.className} `}>
+            <div className="flex items-center gap-[8px] w-[90%] md:w-[500px] mt-2">
+              <div className={`flex text-[16px] md:text-[20px]  ${groteskText.className} `}>
                 {" "}
                 Receipent Notification Preference :
               </div>
@@ -944,7 +944,7 @@ AddThirdPartyNomineeProps) {
             <Button
               type="submit"
               variant="quinary"
-              className="py-[10px] px-[12px] w-full md:w-[500px]"
+              className="py-[10px] px-[12px] w-[90%] md:w-[500px]"
             >
               Add Nominee
             </Button>

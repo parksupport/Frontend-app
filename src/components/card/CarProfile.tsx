@@ -166,7 +166,7 @@ const CarProfile = ({
                     <div className="order-2 w-full lg:order-1 flex flex-col lg:w-[257px]">
                       <div className="self-center flex flex-col max-w-[253px]">
                         {car?.type &&
-                        ["Car", "Truck", "Jeep", "Bus","Motorcycle"].includes(
+                        ["Car", "Truck", "Jeep", "Bus", "Motorcycle"].includes(
                           car.type.toLowerCase()
                         ) ? (
                           <Image
@@ -289,7 +289,23 @@ const CarProfile = ({
                           <span
                             className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {car.owner ? car.owner : full_name}
+                            {car.owner
+                              ? car.owner
+                                  .split(" ")
+                                  .map(
+                                    (name) =>
+                                      name.charAt(0).toUpperCase() +
+                                      name.slice(1)
+                                  )
+                                  .join(" ")
+                              : full_name
+                                  .split(" ")
+                                  .map(
+                                    (name) =>
+                                      name.charAt(0).toUpperCase() +
+                                      name.slice(1)
+                                  )
+                                  .join(" ")}
                           </span>
                         </h2>
 

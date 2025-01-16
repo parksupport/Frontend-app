@@ -92,7 +92,10 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
               <tr className="flex lg:px-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
                 <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
-                  Contravention Type
+                  Vehicle Reg No.
+                </th>
+                <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                  Issuing Authority
                 </th>
                 <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Date Issued

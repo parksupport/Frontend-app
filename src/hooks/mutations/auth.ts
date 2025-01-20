@@ -52,6 +52,8 @@ export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const toast = useToast();
+  const setToken = useAuthStore((state) => state.setToken);
+  const setUser = useAuthStore((state) => state.setUser);
 
   const mutation = useMutation<LoginResponse, Error, LoginInput>({
     mutationFn: async (credentials) => {
@@ -61,12 +63,12 @@ export const useLogin = () => {
     onSuccess: async (data) => {
       setLoading(true); // Start loading
       // Store token and user data
+      setToken(data.access);
       localStorage.setItem("authToken", data.access);
       localStorage.setItem("refreshToken", data.refresh);
       localStorage.setItem("userData", JSON.stringify(data.user));
-
-      // Specific routing after login success
-      router.push("/dashboard");
+      setUser(data.user);
+      await router.push("/dashboard");
     },
     onError: (error: any) => {
       const errorCode = error.response?.data?.code;

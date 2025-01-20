@@ -14,22 +14,31 @@ export const fetchTicketData = async (registration_number: string) => {
     throw error.response?.data || error.message || error;
   }
 };
-
 export const fetchAllTicketData = async () => {
   try {
-    const response = await Axios.post(
-      `/api/tickets/populate-ticket/`
-    );
-    console.log("datattaa",response.data)
+    const response = await Axios.get(`/api/vehicles/get-vehicles-tickets/`);
     return response.data;
   } catch (error: any) {
-    console.error(
-      `Error fetching Ticket for vehicle`,
-      error
-    );
+    console.error(`Error fetching Vehicles tickets`, error);
     throw error.response?.data || error.message || error;
   }
 };
+
+// export const fetchAllTicketData = async () => {
+//   try {
+//     const response = await Axios.post(
+//       `/api/tickets/populate-ticket/`
+//     );
+//     console.log("datattaa",response.data)
+//     return response.data;
+//   } catch (error: any) {
+//     console.error(
+//       `Error fetching Ticket for vehicle`,
+//       error
+//     );
+//     throw error.response?.data || error.message || error;
+//   }
+// };
 
 export const checkTicketData = async (registration_number: string) => {
   try {
@@ -46,17 +55,14 @@ export const checkTicketData = async (registration_number: string) => {
   }
 };
 
-
-
 async function syncTickets(registrationNumber) {
-    try {
-      const response = await Axios.post(`/sync-vehicle-tickets/${registrationNumber}/`);
-      return response.data;
-    } catch (error) {
-      console.error('Error during fetch:', error);
-      throw error.response?.data || error.message || error;
-    }
+  try {
+    const response = await Axios.post(
+      `/sync-vehicle-tickets/${registrationNumber}/`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error during fetch:", error);
+    throw error.response?.data || error.message || error;
   }
-
-  
-  
+}

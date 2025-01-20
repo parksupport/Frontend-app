@@ -15,8 +15,10 @@ import IconCode from "@/assets/svg/securitycode.svg";
 import CVVSVG from "@/assets/svg/cvv.svg";
 import LayerSVG from "@/assets/svg/Layer_1.svg";
 import { CircleHelp } from "lucide-react";
+import { useSubscribe } from "@/hooks/mutations/subscription";
+import { useRouter } from "next/navigation";
 
-const AddBillingMethodDrawer = ({ back, toggleDrawer }) => {
+const AddBillingMethodDrawer = ({ back, toggleDrawer,planId, }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [formData, setFormData] = useState({
     cardNumber: "",
@@ -27,15 +29,27 @@ const AddBillingMethodDrawer = ({ back, toggleDrawer }) => {
     securityCode: "",
   });
 
+
+  const {subscribe} = useSubscribe()
+
+
+  const handleRefresh = () => {
+    console.log("refrshed")
+    window.location.reload();
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
+  const handleSave = (planId) => {
+
     // Save billing information logic
     alert("Payment card saved");
+    subscribe(planId)
     toggleDrawer();
+    handleRefresh();
   };
 
   return (
@@ -174,7 +188,7 @@ const AddBillingMethodDrawer = ({ back, toggleDrawer }) => {
                 <Button
                   style={{ width: 77, height: 36, padding: 0 }}
                   variant="quinary"
-                  onClick={handleSave}
+                  onClick={() => handleSave(planId)}
                   className="w-full"
                 >
                   Save

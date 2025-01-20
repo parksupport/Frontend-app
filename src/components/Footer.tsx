@@ -17,7 +17,7 @@ export default function Footer({
   featuresRef,
   faqRef,
   subPlanRef,
-  router,
+
 
 }:HeaderProps) {
   return (

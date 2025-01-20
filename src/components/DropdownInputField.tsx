@@ -9,8 +9,6 @@ interface DropdownInputFieldProps {
   label: string;
   placeholder?: string;
   className?: string;
-  value: string;
-  name: string;
   icon?: ReactNode | (() => ReactNode);
   options: { value: string; label: string }[];
   selectedValue?: string;
@@ -51,7 +49,7 @@ const DropdownInputField = ({
     }),
     placeholder: (provided) => ({
       ...provided,
-      fontSize: '13px', 
+      fontSize: '15px', 
       color: '#667185', 
       // fontFamily: `${groteskText.className}`,
     }),
@@ -61,7 +59,7 @@ const DropdownInputField = ({
     <div className={` ${className}`}>
 
       {label && (
-        <label className={`${groteskText.className} text-black text-[16px] `}>
+        <label className={`${groteskText.className} text-black text-[18px] `}>
           {label}
         </label>
       )}

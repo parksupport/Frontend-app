@@ -25,33 +25,41 @@ import { groteskText, groteskTextMedium } from "./fonts";
 import SubscriptionPlans from "@/components/Subscription";
 import useIsMobile from "@/hooks/useIsMobile";
 import AnimationText from "@/components/AnimationText";
+import { useAuthStore } from "@/lib/stores/authStore";
+import { useCheckVehicleTicket } from "@/hooks/queries/ticket";
 
 export default function LandingPage() {
   const [vehicleNo, setVehicleNo] = useState("");
-  const [hasTicket, setHasTicket] = useState(null);
-  const [searchResult, setSearchResult] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const isMobile = useIsMobile();
 
   const router = useRouter();
 
+  const isAuthenticated = useAuthStore((state) => state.token !== null);
+
+  const { hasTicket, isLoading, error, refetch } =
+    useCheckVehicleTicket(vehicleNo);
+
+  // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setVehicleNo(value);
-    if (value === "") {
-      setHasTicket(null);
+    setHasSearched(false); // Reset search status if vehicleNo changes
+  };
+
+  // Handle search button click
+  const handleSearch = () => {
+    if (vehicleNo) {
+      setHasSearched(true); // Mark that search has been initiated
+      refetch(); // Trigger API call manually when search button is clicked
     }
   };
 
-  const handleSearch = () => {
-    const hasContraventions = true;
-
-    if (hasContraventions) {
-      setHasTicket(false);
-    } else {
-      setHasTicket(true);
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
     }
-    setSearchResult(true);
   };
 
   const home = useRef(null);
@@ -81,6 +89,7 @@ export default function LandingPage() {
         faqRef={faq}
         subPlanRef={subscriptionPlan}
         router={router}
+        isAuth={isAuthenticated}
       />
 
       <main className="pt-4 bg-[#FFFFFF]">
@@ -113,10 +122,12 @@ export default function LandingPage() {
                   Search now
                 </Button>
 
-                <AniminateButton
-                  text="Sign Up"
-                  onClick={() => router.push("/auth/onboarding")}
-                />
+                {!isAuthenticated && (
+                  <AniminateButton
+                    text="Sign Up"
+                    onClick={() => router.push("/auth/onboarding")}
+                  />
+                )}
               </div>
 
               <div className="relative -top-[50px] left-[35px] md:left-[45px] md:w-[360px] ">
@@ -165,27 +176,29 @@ export default function LandingPage() {
               placeholder="Enter your vehicle registration number"
               value={vehicleNo}
               onChange={handleChange}
-              className="py-4 md:py-3 md:w-[400px]"
+              onKeyPress={handleKeyPress}
+              className="py-4 md:py-1 md:w-[400px]"
             />
             <div className="flex justify-between  ">
-              <div className=" md:pt-4 ">
+              <div className=" ">
                 <Button
                   type="button"
                   className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
                   variant="primary"
                   onClick={handleSearch}
+                  disabled={isLoading || !vehicleNo}
                 >
-                  Search
+                  {isLoading ? "Searching..." : "Search"}
                 </Button>
               </div>
 
-              {searchResult && vehicleNo && (
+              {hasSearched && vehicleNo && hasTicket !== null && (
                 <NotificationBox
                   position={
                     isMobile ? { right: 0, top: -10 } : { right: 300, top: 0 }
                   }
                   hasTicket={hasTicket}
-                  signUp={() => router.push("/auth/onboarding")}
+                  onClick={() => router.push("/auth/onboarding")}
                 />
               )}
             </div>
@@ -193,7 +206,7 @@ export default function LandingPage() {
         </section>
         <section
           ref={features}
-          className=" max-w-[1440px] mx-auto  flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
+          className=" max-w-[1440px] mx-auto flex flex-col  items-center  md:justify-between space-y-10 md:space-y-0 md:space-x-6 pb-8 px-4 md:pb-[120px] "
         >
           <div className=" text-center md:px-80 pt-2">
             <TextSection title="All-in-one vehicle contravention solution" />
@@ -204,7 +217,7 @@ export default function LandingPage() {
                 icon={<InstantNoficationIcon />}
                 title="Instant Notifications"
                 description="Get real-time alerts for parking tickets, driving fines, and vehicle-related contraventions directly to your phone or email. Never miss a deadline again."
-                button
+                button={!isAuthenticated}
               />
             </div>
             <FeatureCard
@@ -224,7 +237,18 @@ export default function LandingPage() {
         </section>
         {/* Subscription Plans Section */}
         <section ref={subscriptionPlan}>
-          <SubscriptionPlans onClick={() => router.push("/auth/login")} />
+          <SubscriptionPlans
+            onClick={
+              isAuthenticated
+                ? () => router.push("/dashboard")
+                : () => router.push("/auth/login")
+            }
+          />
+          {/* onClick={() =>
+                      isAuthenticated
+                        ? router.push("/dashboard") // Redirect authenticated users
+                        : router.push("/auth/login") // Redirect unauthenticated users
+                    } */}
         </section>
         <section>
           <Footer
@@ -234,7 +258,6 @@ export default function LandingPage() {
             featuresRef={features}
             faqRef={faq}
             subPlanRef={subscriptionPlan}
-            router={router}
           />
         </section>
       </main>

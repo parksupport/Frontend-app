@@ -1,54 +1,62 @@
 "use client";
+import { addVehicles, deleteVehicle, uploadVehicles } from "@/api/vehicle";
 import { useToast } from "@chakra-ui/react";
-import { updateProfileData } from "@/api/profile";
-import {
-  useQueryClient,
-  useMutation,
-  useQuery,
-  UseQueryOptions,
-} from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/lib/stores/authStore";
-import vehicle, {
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-} from "@/api/vehicle";
-import axios from "axios";
-import { useEffect } from "react";
+export const useUploadVehicles = () => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  // Mutation hook to handle the file upload
+  const mutation = useMutation({
+    mutationFn: async (file: File) => {
+      return await uploadVehicles(file);
+    },
+
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
+      await queryClient.invalidateQueries({ queryKey: ["nominees"] });
+
+      toast({
+        title: "Vehicles uploaded successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+
+    onError: (error: any) => {
+      console.error("Error uploading vehicles:", error);
+      toast({
+        title: "Failed to upload vehicles",
+        description:
+          error?.message || "An error occurred while uploading the vehicles.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+  });
+  const isLoading = mutation.status === "pending";
+  return {
+    uploadVehicles: mutation.mutate,
+    isLoading,
+    error: mutation.error,
+  };
+};
 
 export const useAddVehicle = () => {
   const toast = useToast();
-  const setUser = useAuthStore((state) => state.setUser);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      try {
-        // return await addVehicles(data);
-      } catch (error: any) {
-        throw error;
-      }
+      console.log("vehicle data", data);
+      return await addVehicles(data);
     },
-    onMutate: async (newVehicle) => {
-      // Optimistically update the cache
-      await queryClient.cancelQueries({ queryKey: ["vehicle"] });
 
-      const previousUserData = queryClient.getQueryData(["vehicle"]);
-
-      queryClient.setQueryData(["vehicle"], (oldData: any) => {
-        return {
-          ...oldData, // Spread the old data if it exists
-          vehicles: [...(oldData?.vehicles || []), newVehicle], // Safely handle undefined oldData
-        };
-      });
-
-      return { previousUserData };
-    },
-    onSuccess: async (updatedUserData) => {
-      setUser(updatedUserData);
-      console.log("Updated user data:", updatedUserData);
-      localStorage.setItem("userData", JSON.stringify(updatedUserData));
-
-      queryClient.setQueryData(["vehicle"], updatedUserData);
+    onSuccess: async () => {
+      // Invalidate and refetch the 'vehicle' query after adding
       await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
 
       toast({
@@ -58,18 +66,13 @@ export const useAddVehicle = () => {
         isClosable: true,
       });
     },
-    onError: (mutationError: any, newVehicle, context) => {
-      console.log("Updated user data:", newVehicle);
 
-      // Rollback the cache to its previous state
-      queryClient.setQueryData(["profile"], context?.previousUserData);
-
-      console.error("Error occurred:", mutationError);
+    onError: (error: any) => {
+      console.error("Error adding vehicle:", error);
       toast({
         title: "Failed to add vehicle",
         description:
-          mutationError?.message ||
-          "An error occurred while updating the profile.",
+          error?.message || "An error occurred while adding the vehicle.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -78,86 +81,33 @@ export const useAddVehicle = () => {
   });
 
   return {
-    addVehicle: mutation.mutate,
+    // addVehicle: mutation.mutate,
+    addVehicle: mutation.mutateAsync,
     isError: mutation.isError,
     error: mutation.error,
-    //   isLoading: mutation.isLoading,
+    isLoading: mutation.isPending,
   };
-};
-
-export const useGetVehicles = () => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["vehicle"],
-    // queryFn: getVehicles,
-  });
-
-  useEffect(() => {
-    if (!isLoading && data) {
-      const storedUserData = JSON.parse(
-        localStorage.getItem("userData") || "{}"
-      );
-
-      const updatedUserData = {
-        ...storedUserData,
-        vehicles: data,
-      };
-      console.log("Updated  use vehicle user data:", updatedUserData);
-      // Save the updated userData to localStorage
-      localStorage.setItem("userData", JSON.stringify(updatedUserData));
-    }
-  }, [data, isLoading]); // Only run when data or isLoading changes
-
-  return { vehicles: data, error, isLoading };
 };
 
 export const useDeleteVehicle = () => {
   const toast = useToast();
-  const setUser = useAuthStore((state) => state.setUser);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async (vehicleId: string) => {
       try {
-        // This function should send the vehicle ID to the backend for deletion
-        // return await deleteVehicle(vehicleId);
+        return await deleteVehicle(vehicleId);
       } catch (error: any) {
         throw error;
       }
     },
-    onMutate: async (vehicleId: string) => {
-      // Cancel any ongoing queries for vehicles
-      await queryClient.cancelQueries({ queryKey: ["vehicle"] });
 
-      // Snapshot the previous user data
-      const previousUserData = queryClient.getQueryData(["vehicle"]);
-
-      // Optimistically update the cache with safeguards
-      queryClient.setQueryData(["vehicle"], (oldData: any) => {
-        const vehicles = oldData?.vehicles || [];
-        return {
-          ...oldData,
-          vehicles: vehicles.filter((vehicle: any) => vehicle.id !== vehicleId),
-        };
-      });
-
-      return { previousUserData };
-    },
-
-    onSuccess: async (data) => {
-      const storedUserData = JSON.parse(
-        localStorage.getItem("userData") || "{}"
-      );
-
-      const updatedUserData = {
-        ...storedUserData,
-        vehicles: data,
-      };
-      console.log("Updated User Data: ", updatedUserData);
-      setUser(updatedUserData); // Make sure this is updating the state correctly
-      localStorage.setItem("userData", JSON.stringify(updatedUserData));
-
-      queryClient.setQueryData(["vehicle"], data);
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
+      await queryClient.invalidateQueries({ queryKey: ["nominee"] });
+    
+  
+    
       toast({
         title: "Vehicle deleted successfully",
         status: "success",
@@ -165,17 +115,13 @@ export const useDeleteVehicle = () => {
         isClosable: true,
       });
     },
+    
 
-    onError: (mutationError: any, vehicleId, context) => {
-      // Rollback the cache to its previous state
-      queryClient.setQueryData(["vehicle"], context?.previousUserData);
-
-      console.error("Error occurred:", mutationError);
+    onError: (error: any) => {
       toast({
         title: "Failed to delete vehicle",
         description:
-          mutationError?.message ||
-          "An error occurred while deleting the vehicle.",
+          error?.message || "An error occurred while deleting the vehicle.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -187,6 +133,6 @@ export const useDeleteVehicle = () => {
     deleteVehicle: mutation.mutate,
     isError: mutation.isError,
     error: mutation.error,
-    // isLoading: mutation.isLoading,
+    isLoading: mutation.isPending,
   };
 };

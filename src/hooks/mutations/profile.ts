@@ -9,11 +9,9 @@ export const useEditProfile = () => {
   const toast = useToast();
   const setUser = useAuthStore((state) => state.setUser);
   const queryClient = useQueryClient();
-  const router = useRouter();
-
+ 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      let token = localStorage.getItem("authToken");
       try {
         return await updateProfileData(data);
       } catch (error: any) {

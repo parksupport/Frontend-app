@@ -22,7 +22,7 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
   const isFormValid =
     formData.password &&
     formData.confirmPassword &&
-    formData.car_verification_number &&
+    // formData.car_verification_number &&
     formData.post_code &&
     formData.password === formData.confirmPassword;
 
@@ -71,7 +71,7 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
         <form onSubmit={handleSubmit} className="mt-[24px] lg:mt-[2.5rem]  ">
         <div>
             <InputField
-              type="number"
+              type="text"
               placeholder="Enter your postal code"
               label="Postal Code"
               variant="individual"
@@ -81,7 +81,7 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
               onChange={handleChange}
             />
           </div>
-            <div>
+            {/* <div>
             <InputField
               type="text"
               placeholder="Enter your car verification number"
@@ -93,7 +93,7 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
               variant="individual"
               className="mt-[16px] "
             />
-            </div>
+            </div> */}
         
           <div>
             <InputField

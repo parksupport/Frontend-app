@@ -2,16 +2,34 @@
 
 import React from "react";
 import { Button } from "@/components";
-import { groteskTextMedium } from "@/app/fonts";
+import { groteskText, groteskTextMedium } from "@/app/fonts";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/lib/stores/authStore"; // Assume this is your auth store
+import { useGetProfile } from "@/hooks/queries/profile";
 
-const SubscriptionPlans = () => {
-  const router = useRouter();
+const SubscriptionPlans = ({ onClick }) => {
   const isAuthenticated = useAuthStore((state) => state.token !== null); // Check authentication status
+  const { profile } = useGetProfile();
+
+  const plan_id = profile?.userplan?.plan;
+  const user_type = profile?.user_type;
+
+  const updatePlans = (user_type, plan_id) => {
+    return plans.map((plan) => {
+      const isDisabled =
+        (user_type === "individual" && plan.name === "Corporate plan ") ||
+        (user_type === "corporate" &&
+          ["Starter Plan", "Personal Plan", "Family Plan"].includes(plan.name));
+
+      const isHighlighted = plan.id === plan_id;
+
+      return { ...plan, isDisabled, isHighlighted };
+    });
+  };
 
   const plans = [
     {
+      id: 1,
       name: "Starter Plan",
       price: "Free",
       features: [
@@ -25,10 +43,12 @@ const SubscriptionPlans = () => {
         "Access to customer support",
       ],
       isHighlighted: false,
+      isDisabled: true,
     },
     {
+      id: 2,
       name: "Personal Plan",
-      price: "£7/month",
+      price: "£5/month",
       features: [
         "Free vehicle check on the website",
         "Details of the contravention",
@@ -42,10 +62,12 @@ const SubscriptionPlans = () => {
         "Access to customer support",
       ],
       isHighlighted: false,
+      isDisabled: true,
     },
     {
+      id: 3,
       name: "Family Plan",
-      price: "£12/month",
+      price: "£9/month",
       features: [
         "Designed for families to manage multiple vehicles",
         "Free vehicle check on the website",
@@ -60,10 +82,12 @@ const SubscriptionPlans = () => {
         "Access to customer support",
       ],
       isHighlighted: false,
+      isDisabled: true,
     },
     {
-      name: "Unlimited Plan",
-      price: "£20/month",
+      id: 4,
+      name: "Corporate plan ",
+      price: "£15/month",
       features: [
         "Free vehicle check on the website",
         "Details of the contravention",
@@ -77,9 +101,12 @@ const SubscriptionPlans = () => {
         "Access to educational materials",
         "Access to customer support",
       ],
-      isHighlighted: true,
+      isHighlighted: false,
+      isDisabled: false,
     },
   ];
+
+  const updatedPlans = updatePlans(user_type, plan_id);
 
   return (
     <section className="py-16 bg-gray-100" id="subscription">
@@ -96,13 +123,15 @@ const SubscriptionPlans = () => {
 
         {/* Plans Container */}
         <div className="flex flex-col md:flex-row justify-center items-stretch gap-6">
-          {plans.map((plan, index) => (
+          {updatedPlans?.map((plan, index) => (
             <div
               key={index}
-              className={`flex flex-col rounded-lg shadow-lg overflow-hidden w-full md:w-1/4 transition transform hover:scale-105 hover:cursor-pointer ${
-                plan.isHighlighted
-                  ? "bg-gray-800 text-white"
-                  : "bg-white text-gray-900"
+              className={`flex flex-col rounded-lg shadow-lg overflow-hidden w-full md:w-1/4 transition transform ${
+                plan.isDisabled
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : plan.isHighlighted
+                  ? "bg-gray-800 text-white hover:scale-105 hover:cursor-pointer"
+                  : "bg-white text-gray-900 hover:scale-105 hover:cursor-pointer"
               }`}
               style={{ minHeight: "450px" }}
             >
@@ -118,19 +147,16 @@ const SubscriptionPlans = () => {
                 {/* Get Started Button */}
                 <div className="flex items-center mb-6">
                   <Button
-                    onClick={() =>
-                      isAuthenticated
-                        ? router.push("/dashboard") // Redirect authenticated users
-                        : router.push("/auth/login") // Redirect unauthenticated users
-                    }
+                    disabled={plan.isDisabled}
+                    onClick={() => onClick(plan?.id)}
                     variant={plan.isHighlighted ? "secondary" : "primary"}
-                    className={`px-4 py-2 rounded ${
+                    className={`${groteskText.className} px-4 py-2 rounded ${
                       plan.isHighlighted
                         ? "bg-white text-gray-800 hover:bg-gray-200"
                         : "bg-blue-600 text-white hover:bg-blue-700"
                     }`}
                   >
-                    {isAuthenticated ? "Go to Dashboard" : "Get Started"}
+                    Get Started
                   </Button>
                 </div>
 
@@ -140,7 +166,11 @@ const SubscriptionPlans = () => {
                     <li key={idx} className="flex items-start">
                       <svg
                         className={`h-5 w-5 flex-shrink-0 mr-2 ${
-                          plan.isHighlighted ? "text-white" : "text-green-500"
+                          plan.isDisabled
+                            ? "text-gray-400"
+                            : plan.isHighlighted
+                            ? "text-white"
+                            : "text-green-500"
                         }`}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

@@ -5,11 +5,11 @@ import { groteskText } from "@/app/fonts";
 
 type VehicleOwnerCheckProps = {
   back: () => void;
-  OwnerInfoDrawer: () => void;
+  selectownerDrawer: () => void;
   vehicleStatus: () => Promise<void>;
 };
 
-const VehicleOwnerCheck = ({ back, OwnerInfoDrawer, vehicleStatus }: VehicleOwnerCheckProps) => {
+const VehicleOwnerCheck = ({ back, selectownerDrawer, vehicleStatus }: VehicleOwnerCheckProps) => {
   return (
     <div>
       <DrawerHeader
@@ -35,7 +35,7 @@ const VehicleOwnerCheck = ({ back, OwnerInfoDrawer, vehicleStatus }: VehicleOwne
             Yes I am
           </button>
           <button
-            onClick={OwnerInfoDrawer}
+            onClick={selectownerDrawer}
             className={`${groteskText.className} w-[150px] md:w-[200px]  rounded-[8px]  px-8 py-2 text-blue-600  hover:bg-blue-700 hover:text-white  transition`}
           >
             No I am not

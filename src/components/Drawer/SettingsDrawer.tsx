@@ -1,5 +1,5 @@
 // SettingsDrawer.tsx
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
 import Button from "../Buttons";
@@ -13,6 +13,8 @@ import ThirdPartyNominees from "../card/ThirdPartyNominee";
 import Drawer from "./Drawer";
 
 import { useLogout } from "@/hooks/mutations/auth";
+import { useNotificationPreferences } from "@/hooks/queries/notifications";
+import SubscriptionPlans from "../Subscription";
 
 const SettingsDrawer = ({
   toggleDrawer,
@@ -22,10 +24,43 @@ const SettingsDrawer = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   // const [isOpen, setIsOpen] = useState(false);
 
-  const {logout} = useLogout();
+  const { logout } = useLogout();
+  const {
+    preferences,
+    isLoadingPrefs,
+    prefsError,
+    savePreferences,
+    isSaving,
+    success,
+  } = useNotificationPreferences();
 
-  const [smsNotifications, setSmsNotifications] = useState(true);
-  const [emailNotifications, setEmailNotifications] = useState(true);
+  // 3) We’ll keep local state for toggles
+  const [smsNotifications, setSmsNotifications] = useState(false);
+  const [emailNotifications, setEmailNotifications] = useState(false);
+
+  // 4) On load (or whenever preferences changes), sync the toggles
+  useEffect(() => {
+    if (preferences) {
+      setSmsNotifications(preferences.prefers_sms);
+      setEmailNotifications(preferences.prefers_email);
+    }
+  }, [preferences]);
+
+  // 5) Function to handle toggling SMS
+  const handleToggleSms = (checked: boolean) => {
+    setSmsNotifications(checked);
+  };
+
+  const handleToggleEmail = (checked: boolean) => {
+    setEmailNotifications(checked);
+  };
+
+  const handleSavePreferences = () => {
+    savePreferences({
+      prefers_sms: smsNotifications,
+      prefers_email: emailNotifications,
+    });
+  };
   const [isPopup, setIsPopup] = useState(false);
   const router = useRouter();
 
@@ -67,8 +102,15 @@ const SettingsDrawer = ({
         isOpen={isOpen}
         onClose={onClose}
         onOpen={onOpen}
-        toggleDrawer={toggleDrawer}
-        openAddBillingMethod={openAddBillingMethod}
+        type="subscription"
+        display={
+          <SubscriptionPlans
+            onClick={(id) => {
+              openAddBillingMethod(id);
+              onClose();
+            }}
+          />
+        }
       />
 
       <div className="px-4 mt-[3rem] mb-[200px]">
@@ -123,40 +165,55 @@ const SettingsDrawer = ({
             Notification Settings
           </h2>
           <p
-            className={`${groteskText.className}  text-[#667185] text-[16px] md:text-[18px] leading-none `}
+            className={`${groteskText.className} text-[#667185] text-[16px] md:text-[18px] leading-none`}
           >
             Choose how you want receive your notification
           </p>
 
-          <div className="flex items-center gap-[3rem]">
+          {/* Toggles */}
+          <div className="flex items-center gap-[3rem] mt-2">
             <div className="flex items-center gap-[1rem]">
               <label
-                className={`text-[24px] text-[#000000] ${groteskText.className} `}
+                className={`text-[24px] text-[#000000] ${groteskText.className}`}
               >
                 Sms
               </label>
-              <Switch />
-
-              {/* <input
-              type="checkbox"
-              checked={smsNotifications}
-              onChange={() => setSmsNotifications(!smsNotifications)}
-            /> */}
+              <Switch
+                checked={smsNotifications}
+                onCheckedChange={handleToggleSms}
+              />
             </div>
-            <div className="flex items-center gap-[1rem] ">
+            <div className="flex items-center gap-[1rem]">
               <label
-                className={`text-[24px] text-[#000000] ${groteskText.className} `}
+                className={`text-[24px] text-[#000000] ${groteskText.className}`}
               >
-                Email{" "}
+                Email
               </label>
-              <Switch />
-              {/* <input
-              type="checkbox"
-              checked={emailNotifications}
-              onChange={() => setEmailNotifications(!emailNotifications)}
-            /> */}
+              <Switch
+                checked={emailNotifications}
+                onCheckedChange={handleToggleEmail}
+              />
             </div>
           </div>
+
+          {/* Save button */}
+          <div className="mt-4 flex gap-4">
+            <Button
+              variant="quinary"
+              onClick={handleSavePreferences}
+              disabled={isSaving}
+            >
+              {isSaving ? "Saving..." : "Save Preferences"}
+            </Button>
+            {success && <p className="text-blue-500 mt-2">saved</p>}
+          </div>
+
+          {/* Error or loading states */}
+          {prefsError && (
+            <p className="text-red-500 mt-2">
+              Error loading/updating preferences: {String(prefsError)}
+            </p>
+          )}
         </div>
 
         {/* Password and Security */}
@@ -205,7 +262,7 @@ const SettingsDrawer = ({
                   placeholder="Enter new password"
                   value={formData.newPassword}
                   onChange={handleChange}
-                  className="py-4 md:py-3 w-[60%]"
+                  className="py-4 md:py-3 w-[100%]"
                 />
 
                 <InputField
@@ -215,11 +272,11 @@ const SettingsDrawer = ({
                   placeholder="Confirm new password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="py-4 md:py-3 w-[60%]"
+                  className="py-4 md:py-3 w-[100%]"
                 />
                 <Button
                   type="button"
-                  className="w-[30%] rounded-[0.75rem] whitespace-nowrap py-[8px] px-[12px] w-[60%] "
+                  className="w-[30%] mx-auto rounded-[0.75rem] whitespace-nowrap py-[8px] px-[12px] w-[60%] "
                   variant="quinary"
                   // onClick={CheckVehicleOwner}
                 >
@@ -230,15 +287,17 @@ const SettingsDrawer = ({
           </div>
 
           <div className="pt-10 flex flex-col gap-2">
-            <h1 className={` ${groteskTextMedium.className} text-[24px]`}>Logout your account</h1>
+            <h1 className={` ${groteskTextMedium.className} text-[24px]`}>
+              Logout your account
+            </h1>
             <div>
-          <button
-            className={` w-[60%]  ${groteskText.className} text-[16px] md:text-[18px] px-4 py-2 gap-2 border text-[#CB1A14] border-[#CB1A14] rounded-[8px]`}
-            onClick={()=>logout()}
-          >
-          Logout
-          </button>
-        </div>
+              <button
+                className={` w-[60%]  ${groteskText.className} text-[16px] md:text-[18px] px-4 py-2 gap-2 border text-[#CB1A14] border-[#CB1A14] rounded-[8px]`}
+                onClick={() => logout()}
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </div>

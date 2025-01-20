@@ -11,32 +11,47 @@ import TicketSVG from "@/assets/svg/ticket-status.svg";
 import { Button } from "@/components";
 import VehiclceInfoSVG from "@/assets/svg/infoOutline.svg";
 import "@/components/Slider.css";
-import { useAuthStore } from "@/lib/stores/useStore";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import Image from "next/image";
 import { AiOutlineExpand } from "react-icons/ai";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MoveDiagonal } from "lucide-react";
 import UserTickSVG from "@/assets/svg/nominee.svg";
 import InfoIconWithText from "../InfoIconWithText";
 import SliderButton from "../SliderButton";
+import { useAuthStore } from "@/lib/stores/authStore";
+import "./CarProfile.css";
+import { useDisclosure } from "@chakra-ui/react";
+import ModalComponent from "../Drawer/ModalComponent";
+import { MdClose } from "react-icons/md";
+import SubscriptionPlans from "../Subscription";
+import AddVehicleSubscription from "../VehicleNomineeRestriction";
 
 interface CarProfileProps {
   openCarProfile: any;
-  addVehicleDetails: any;
+  openAddVehicleDetailsDrawer: any;
   vehicles: any;
+  verify: any;
+  plan_id: any;
+  openAddBillingMethod?: any;
 }
 
-function CarProfile({
+const CarProfile = ({
   openCarProfile,
-  addVehicleDetails,
+  openAddVehicleDetailsDrawer,
   vehicles,
-}: CarProfileProps) {
+  verify,
+  plan_id,
+  openAddBillingMethod,
+}: CarProfileProps) => {
   const user = useAuthStore((state) => state.user);
+  const { full_name } = user || {};
   const [hovered, setHovered] = useState({});
   const [currentSlide, setCurrentSlide] = useState(0);
   const sliderRef = useRef(null);
-  const totalPages = vehicles?.carDetails?.length || 0;
+  const totalPages = vehicles?.length || 0;
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const settings = {
     dots: true,
@@ -61,16 +76,33 @@ function CarProfile({
     }
   };
 
-  const handleMouseEnter = (id) => {
-    setHovered((prev) => ({ ...prev, [id]: true }));
-  };
-
-  const handleMouseLeave = (id) => {
-    setHovered((prev) => ({ ...prev, [id]: false }));
+  const AddVehicleWithPlan = (plan_id, vehicles) => {
+    console.log(plan_id, vehicles?.length);
+    if (plan_id === 1) {
+      onOpen();
+    } else if (plan_id === 2 && vehicles === 2) {
+      onOpen();
+    } else if (plan_id === 3 && vehicles === 5) {
+      onOpen();
+    } else {
+      openAddVehicleDetailsDrawer();
+    }
   };
 
   return (
     <div>
+      <ModalComponent
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        display={
+          <AddVehicleSubscription
+            plan={plan_id}
+            closeModal={onClose}
+            openAddBillingMethod={openAddBillingMethod}
+          />
+        }
+      />
       {/* Show this if there are no vehicles */}
       {totalPages === 0 ? (
         <div className="max-w-[396px]  w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4">
@@ -93,7 +125,7 @@ function CarProfile({
             <Button
               variant="quinary"
               className=" py-[9px] px-[12px] text-[16px]"
-              onClick={addVehicleDetails}
+              onClick={() => AddVehicleWithPlan(plan_id, vehicles?.length)}
             >
               Add vehicle
               <Plus className="inline-block ml-[8px]" />
@@ -105,7 +137,7 @@ function CarProfile({
         <article className="flex justify-center">
           <div className="max-w-[396px] w-full lg:max-w-[680px] bg-[#FFFFFF] rounded-[20px] py-[20px] px-4 ">
             <Slider ref={sliderRef} {...settings}>
-              {vehicles.carDetails.map((car, index) => (
+              {vehicles?.map((car, index) => (
                 <div key={car.id} className="">
                   <div className="flex justify-between">
                     <h1
@@ -117,32 +149,42 @@ function CarProfile({
                       <Button
                         variant="quinary"
                         className={`py-[9px] px-[12px] text-[16px] `}
-                        onClick={addVehicleDetails}
+                        onClick={() =>
+                          AddVehicleWithPlan(plan_id, vehicles.length)
+                        }
                       >
                         Add vehicle
                         <Plus className="inline-block" />
                       </Button>
                       <button>
-                        <MoveDiagonal
-                          size={24}
-                          onClick={() => openCarProfile(car)}
-                        />
+                        <MoveDiagonal size={24} onClick={openCarProfile} />
                       </button>
                     </div>
                   </div>
 
                   <div className="flex flex-col  lg:flex lg:flex-row justify-center  mt-[14px] items-center">
                     <div className="order-2 w-full lg:order-1 flex flex-col lg:w-[257px]">
-                      <div className=" self-center flex flex-col max-w-[253px] ">
-                        <Image
-                          src={
-                            require(`@/assets/images/${car.imageUrl}`).default
-                          }
-                          alt=""
-                          sizes="width: 222px"
-                          // className="max-w-[222px] "
-                        />
+                      <div className="self-center flex flex-col max-w-[253px]">
+                        {car?.type &&
+                        ["Car", "Truck", "Jeep", "Bus", "Motorcycle"].includes(
+                          car.type.toLowerCase()
+                        ) ? (
+                          <Image
+                            src={require(`@/assets/images/${car.type.toLowerCase()}.jpg`)}
+                            alt={car.type}
+                            sizes="width: 222px"
+                            // className="max-w-[222px]"
+                          />
+                        ) : (
+                          <Image
+                            src={require(`@/assets/images/car.jpg`)}
+                            alt="car"
+                            sizes="width: 222px"
+                            // className="max-w-[222px]"
+                          />
+                        )}
                       </div>
+
                       <div className="flex justify-between  mt-auto items-center lg:hidden">
                         <SliderButton
                           direction="previous"
@@ -226,9 +268,9 @@ function CarProfile({
                             </span>
                           </div>
                           <span
-                            className={`${groteskText.className} text-[#212121] text-[11px] self-end`}
+                            className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {car.registrationNumber}
+                            {car.registration_number.toUpperCase()}
                           </span>
                         </h2>
                         <h2
@@ -245,13 +287,30 @@ function CarProfile({
                             </span>
                           </div>
                           <span
-                            className={`${groteskText.className} text-[#212121] text-[11px] self-end`}
+                            className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {car.owner}
+                            {car.owner
+                              ? car.owner
+                                  .split(" ")
+                                  .map(
+                                    (name) =>
+                                      name.charAt(0).toUpperCase() +
+                                      name.slice(1)
+                                  )
+                                  .join(" ")
+                              : full_name
+                                  .split(" ")
+                                  .map(
+                                    (name) =>
+                                      name.charAt(0).toUpperCase() +
+                                      name.slice(1)
+                                  )
+                                  .join(" ")}
                           </span>
                         </h2>
+
                         <h2
-                          className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575]  justify-between ${groteskText.className}`}
+                          className={`flex items-center mt-[10px] gap-[2.5px] text-[#757575] justify-between ${groteskText.className}`}
                         >
                           <InfoIconWithText
                             icon={<UserTickSVG />}
@@ -259,9 +318,58 @@ function CarProfile({
                             identity={`${car.id}-ownership`}
                             infoText="Ownership status information"
                           />
-                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[6.25rem] w-[68px] h-[18px] self-end">
-                            {car.status}
-                          </button>
+
+                          <div className="relative w-[68px] h-[18px]">
+                            <button
+                              onClick={
+                                car.verification_status === "Pending"
+                                  ? () => verify(car)
+                                  : undefined
+                              }
+                              className={`absolute inset-0 flex items-center justify-center text-[11px] rounded-[6.25rem] overflow-hidden ${
+                                car.verification_status === "Pending"
+                                  ? "text-[#B38B00] bg-yellow-800"
+                                  : car.verification_status === "Verified"
+                                  ? "text-[#099137] bg-[#B5E3C4]"
+                                  : "text-[#B00020] bg-[#FFCDD2]"
+                              }`}
+                            >
+                              {car.verification_status === "Pending" && (
+                                <>
+                                  <div className="absolute inset-0">
+                                    <div
+                                      className="absolute w-[9999px] h-[9999px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin-slow"
+                                      style={{
+                                        backgroundImage: `conic-gradient(rgba(0, 0, 0, 0), #FFD700, rgba(0, 0, 0, 0) 25%)`,
+                                        animation: "glow 5s linear infinite",
+                                      }}
+                                    />
+                                  </div>
+                                  <div
+                                    className="absolute inset-0 blur-2xl"
+                                    style={{
+                                      backgroundImage: `conic-gradient(rgba(0, 0, 0, 0), #FFD700, rgba(0, 0, 0, 0) 25%)`,
+                                      animation: "glow 5s linear infinite",
+                                    }}
+                                  />
+                                </>
+                              )}
+                              <div
+                                className="absolute inset-[2px] rounded-[6.25rem]"
+                                style={{
+                                  background:
+                                    car.verification_status === "Pending"
+                                      ? "#FFECB3"
+                                      : car.verification_status === "Verified"
+                                      ? "#B5E3C4"
+                                      : "#FFCDD2",
+                                }}
+                              />
+                              <span className="relative z-10">
+                                {car.verification_status}
+                              </span>
+                            </button>
+                          </div>
                         </h2>
 
                         <h2
@@ -274,7 +382,7 @@ function CarProfile({
                             infoText="Contravention status information"
                           />
 
-                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem] w-[97px]  h-[18px] self-end">
+                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4]  cursor-auto rounded-[2rem] w-[97px]  h-[18px] self-end">
                             {/* {car.contraventionStatus} */}
                             {"No existing ticket"}
                           </button>
@@ -289,8 +397,14 @@ function CarProfile({
                             identity={`${car.id}-notification`}
                             infoText=" Notification recipient information"
                           />
-                          <button className="text-[#099137] text-[11px] bg-[#B5E3C4] rounded-[2rem]  w-[62px] h-[18px]  self-end">
-                            {car.nominees.length > 1 ? "Added" : "Not Added"}
+                          <button
+                            className={`text-[11px] rounded-[2rem] w-[62px] cursor-auto h-[18px] self-end ${
+                              car.has_nominee
+                                ? "text-[#099137] bg-[#B5E3C4]"
+                                : "text-[#D9534F] bg-[#F2D1D1]"
+                            }`}
+                          >
+                            {car.has_nominee ? "Added" : "Not Added"}
                           </button>
                         </h2>
                       </div>
@@ -357,6 +471,6 @@ function CarProfile({
       )}
     </div>
   );
-}
+};
 
 export default CarProfile;

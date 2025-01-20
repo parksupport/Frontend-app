@@ -6,7 +6,7 @@ export interface VehicleInput {
   }
  export interface VehicleResponse {
     id: string;
-    make: string;
+    type: string;
     model: string;
     year: number;
     color: string;

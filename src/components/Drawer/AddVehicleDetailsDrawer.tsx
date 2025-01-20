@@ -6,27 +6,33 @@ import { IoMdCheckmark } from "react-icons/io";
 import Button from "../Buttons";
 import InputField from "../InputField";
 import DrawerHeader from "./DrawerHeader";
+import { useUploadVehicles } from "@/hooks/mutations/vehicles";
+import DropdownInputField from "../DropdownInputField";
 
 type VehicleDetailsDrawerProps = {
   back: any;
-  CheckVehicleOwner: (formData:any) => void;
-  userRole?: string;
+  CheckVehicleOwner: (formData: any) => void;
+  openCarProfile?: any;
+  user_type?: string;
 };
 
 const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   back,
   CheckVehicleOwner,
-  userRole,
+  user_type,
+  openCarProfile,
 }) => {
   const [formData, setFormData] = useState({
     vegRegNumber: "",
-    license_number: "",
     car_model: "",
     car_color: "",
     postcode: "", // Add postcode if needed for verification
     year: "", // Add year if needed for verification
-    make: "" // Add make if needed
+    type: "", // Add type if needed
   });
+
+  const [file, setFile] = useState<File | null>(null);
+  const [isBulk, setIsBulk] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,7 +43,20 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "vegRegNumber" ? value.toUpperCase() : value, 
+    }));
+  };
+  
+  
+
+  // For dropdown
+  const handleSelectChange = (
+    selected: { value: string; label: string } | null,
+    fieldName: keyof typeof formData
+  ) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [fieldName]: selected?.value || "",
     }));
   };
 
@@ -49,13 +68,30 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) setFileName(file.name);
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setFileName(selectedFile.name);
+      setFile(selectedFile); // Set the selected file in the state
+      setIsBulk(true);
+    }
   };
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
+
+  const handleBulkUpload = () => {
+    if (file) {
+      uploadVehicles(file);
+      openCarProfile();
+    } else {
+      console.error("No file selected");
+    }
+  };
+
+  const { uploadVehicles, error, isLoading } = useUploadVehicles();
+
+  console.log("isLoading", isLoading);
 
   return (
     <div className="mx-auto ">
@@ -84,10 +120,27 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
               contravention information and keep you updated.
             </p>
           </div>
+          <div className="flex flex-col items-center w-full">
+            <DropdownInputField
+              options={[
+                { value: "Car", label: "Car" },
+                { value: "Truck", label: "Truck" },
+                { value: "Motorcycle", label: "Motorcycle" },
+                { value: "Bus", label: "Bus" },
+                { value: "Jeep", label: "Jeep" },
+              ]}
+              label="Vehicle Type"
+              onChange={(selected) => handleSelectChange(selected, "type")}
+              selectedValue={formData.type}
+              placeholder="Select vehicle type"
+              className={`${groteskText.className} w-full  `}
+            />
+          </div>
+
           <InputField
             type="text"
-            placeholder="Enter your car model"
-            label="Car Model"
+            placeholder="Enter your vehicle model"
+            label="Vehicle Model"
             name="car_model"
             value={formData.car_model}
             onChange={handleChange}
@@ -102,10 +155,10 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             value={formData.car_color}
             onChange={handleChange}
             variant="individual"
-            className={`${groteskText.className} pb-4 w-full`}
+            className={`${groteskText.className} w-full`}
           />
 
-          {/* Add other necessary fields like Postcode, Year, Make if required by backend */}
+          {/* Add other necessary fields like Postcode, Year, Type if required by backend */}
           <InputField
             type="text"
             placeholder="Enter your postcode"
@@ -118,18 +171,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
           />
           <InputField
             type="text"
-            placeholder="Enter vehicle make"
-            label="Make"
-            name="make"
-            value={formData.make}
-            onChange={handleChange}
-            variant="individual"
-            className={`${groteskText.className} w-full`}
-          />
-          <InputField
-            type="text"
             placeholder="Enter vehicle year"
-            label="Year"
+            label="Year of manufacture"
             name="year"
             value={formData.year}
             onChange={handleChange}
@@ -137,17 +180,21 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
             className={`${groteskText.className} w-full`}
           />
 
-          <Button
-            variant="quinary"
-            className="py-[10px] px-[12px] w-full"
-            icon={<IoMdCheckmark size={25} />}
-            iconPosition="right"
-            onClick={() => CheckVehicleOwner(formData)}
-          >
-            Save Vehicle
-          </Button>
+          {user_type === "individual" && (
+            <div className="mt-4 w-full">
+              <Button
+                variant="quinary"
+                className="py-[10px] px-[12px] w-full"
+                icon={<IoMdCheckmark size={25} />}
+                iconPosition="right"
+                onClick={() => CheckVehicleOwner(formData)}
+              >
+                Save Vehicle
+              </Button>
+            </div>
+          )}
 
-          {userRole === "Corporate" && (
+          {user_type === "corporate" && (
             <div className="flex flex-col gap-4 items-center pb-12 cursor-pointer w-full">
               <div className="w-full">
                 <div className="flex-shrink-0">
@@ -178,7 +225,10 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
                 className="py-[10px] px-[12px] w-full"
                 icon={<IoMdCheckmark size={25} />}
                 iconPosition="right"
-                onClick={() => CheckVehicleOwner(formData)}
+                // onClick={() => CheckVehicleOwner(formData)}
+                onClick={
+                  isBulk ? handleBulkUpload : () => CheckVehicleOwner(formData)
+                }
               >
                 Save Vehicle
               </Button>

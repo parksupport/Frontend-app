@@ -9,7 +9,6 @@ import ContraventionTable from "@/components/card/Contravention";
 import EducationalMaterials from "@/components/card/Educationalmaterials";
 import EducationalMaterialsDrawer from "@/components/Drawer/EducationMaterialsDrawer";
 import FAQComponents from "@/components/card/FAQComponents";
-import NotificationsTable from "@/components/NotificationTable";
 import DashboardHeader from "@/components/DashboardHeader";
 import AddVehicleDetailsDrawer from "@/components/Drawer/AddVehicleDetailsDrawer";
 import CarProfileDrawer from "@/components/Drawer/CarProfileDrawer";
@@ -18,11 +17,10 @@ import VehicleAddedFailed from "@/components/Drawer/VehicleFailed";
 import VehicleOwnerCheck from "@/components/Drawer/VehicleOwnerCheck";
 import VehicleOwnerDetails from "@/components/Drawer/VehicleOwnerDetails";
 import VehicleAddedSuccess from "@/components/Drawer/VehicleSuccess";
-import cars from "@/data/data.json";
+// import cars from "@/data/data.json";
 import { useEffect, useRef, useState } from "react";
 import { groteskTextMedium } from "../fonts";
 import ConventionTableDrawer from "@/components/Drawer/ConventionTableDrawer";
-import CorporateCarProfileDrawer from "@/components/Drawer/CorporateCarProfileDrawer";
 import SettingsDrawer from "@/components/Drawer/SettingsDrawer";
 import AddBillingMethodDrawer from "@/components/Drawer/AddBillingMethodDrawer";
 import NotificationTableDrawer from "@/components/Drawer/NotificationTableDrawer";
@@ -34,33 +32,35 @@ import DashboardNotifications from "@/components/card/DashBoardNotification";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "@/components/Drawer/ModalComponent";
 import { useRouter } from "next/navigation";
-
-import ThirdPartyNominees, {
-  NomineeMobile,
-} from "@/components/card/ThirdPartyNominee";
 import NominationHistoryTable from "@/components/Drawer/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
-import DisplayCarProfile from "@/components/card/CarProfile";
+
+import { useAddVehicle } from "@/hooks/mutations/vehicles";
+import VehicleVerificationDrawer from "@/components/Drawer/VehicleVerificationDrawer";
+import { useGetVehicles } from "@/hooks/queries/vehicles";
+import { useGetProfile } from "@/hooks/queries/profile";
+import SubscriptionPlans from "@/components/Subscription";
+import { useGetAllTicket } from "@/hooks/queries/ticket";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [drawerContent, setDrawerContent] = useState<React.ReactNode>(null);
   const { isOpen: isDisclosureOpen, onOpen, onClose } = useDisclosure();
-  const [vehicleData, setVehicleData] = useState(null); 
+
   const drawerRef = useRef<any>(null);
-  const router = useRouter();
   const user = useAuthStore((state) => state.user);
+  const { full_name, user_type, vehicles } = user || {};
+  // const {nominees} = useGetNominees()
+  const { vehiclesData } = useGetVehicles();
+    const { ticketsData } = useGetAllTicket();
+  
 
-  useEffect(() => {
-    if (!user) {
-      console.log("User state is null or undefined, redirecting to login...");
-      router.push("/auth/login");
-    } else {
-      console.log("User state:", user);
-    }
-  }, [user, router]);
+  const { addVehicle, error, isError } = useAddVehicle();
+  const { profile } = useGetProfile();
 
-  const { full_name, user_type } = user || {};
+  
+
+  const plan_id = profile?.userplan?.plan;
 
   const [isCorporate, setIsCorporate] = useState(user_type);
 
@@ -77,19 +77,19 @@ export default function DashboardPage() {
   const openDrawer = () => !isOpen && setIsOpen(true);
 
   const openCarProfile = (
-    cars: any,
+    vehicles: any,
     form: any = false,
     autoScrollToForm?: boolean
   ) => {
     setDrawerContent(
       <CarProfileDrawer
         openNominationHistory={openNominationHistory}
-        vehicles={cars}
         toggleDrawer={toggleDrawer}
-        addVehicleDetails={addVehicleDetails}
-        user={isCorporate}
+        openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
         form={form}
         autoScrollToForm={autoScrollToForm}
+        verify={openVerifyMyVehicleDrawer}
+        openAddBillingMethod={openAddBillingMethod}
       />
     );
 
@@ -103,6 +103,14 @@ export default function DashboardPage() {
         back={openCarProfile}
       />
     );
+    openDrawer();
+  };
+
+  const openVerifyMyVehicleDrawer = (data) => {
+    setDrawerContent(
+      <VehicleVerificationDrawer data={data} back={toggleDrawer} />
+    );
+    scrollToTopFromParent();
     openDrawer();
   };
 
@@ -138,87 +146,99 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const checkVehicleStatus = async () => {
-    // Call backend to add vehicle and verify ownership
-    const response = await fetch("/api/vehicles/add/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        registration_number: vehicleData.vegRegNumber,
-        make: vehicleData.make,
-        model: vehicleData.car_model,
-        year: vehicleData.year,
-        postcode: vehicleData.postcode,
-      }),
-    });
+  // const checkVehicleStatus = async (vehicleData) => {
+  //   try {
+  //     console.log("vehicleDataStatus:", vehicleData);
+
+  //     const data = {
+  //       registration_number: vehicleData?.vegRegNumber,
+  //       type: vehicleData?.type,
+  //       model: vehicleData?.car_model,
+  //       year: vehicleData?.year,
+  //       postcode: vehicleData?.postcode,
+  //     };
+  //     const response = await addVehicle(data);
+
+  //     // console.log("response:", isError);
+  //     // console.log("respoeeense:", error);
+
+  //     // const verificationStatus = response?.vehicle?.verification_status ;
+  //     const verificationStatus = "Verified";
+
+  //     return verificationStatus === "Verified" ? "success" : "failed";
+  //   } catch (error) {
+  //     console.error("Fetch failed:", error);
+  //     return "failed";
+  //   }
+  // };
+
+  const checkVehicleStatus = async (vehicleData) => {
+    try {
   
-    if (!response.ok) {
-      return "failed";
-    }
-  
-    const data = await response.json();
-    const verificationStatus = data?.vehicle?.verification_status;
-    if (verificationStatus === "Verified") {
+
+
+
+      // Wait for the mutation result
+      await addVehicle(vehicleData);
+
+      // If no error occurred, return "success"
       return "success";
+    } catch (error) {
+      console.error("Error in checkVehicleStatus:", error);
+      return "error"; // Return "error" for any failure
     }
-    return "failed";
   };
-  
-  const VehicleStatus = async () => {
-    const status = await checkVehicleStatus();
-    if (status === "failed") {
+
+  const VehicleStatus = async (vehicleData) => {
+    const status = await checkVehicleStatus(vehicleData);
+
+    console.log("staus", status);
+    console.log(typeof status);
+
+    // Handle success or failure based on the status
+    if (status === "error") {
       handleFailed();
     } else if (status === "success") {
       handleSuccess();
     }
   };
-  
+
   const CheckVehicleOwner = (data) => {
-    setVehicleData(data); // Save form data to use in VehicleStatus check
+    console.log("vehicleData:", data);
     setDrawerContent(
       <VehicleOwnerCheck
-        back={addVehicleDetails}
-        OwnerInfoDrawer={OwnerInfoDrawer}
-        vehicleStatus={VehicleStatus}
+        back={openAddVehicleDetailsDrawer}
+        selectownerDrawer={() => selectownerDrawer(data)}
+        vehicleStatus={() => VehicleStatus(data)}
       />
     );
     scrollToTopFromParent();
     openDrawer();
   };
-  
-  const OwnerInfoDrawer = () => {
+
+  const selectownerDrawer = (data) => {
     setDrawerContent(
       <VehicleOwnerDetails
+        vehicleData={data}
         toggleDrawer={toggleDrawer}
         VehicleStatus={VehicleStatus}
-        user={user_type}
+        user={isCorporate}
       />
     );
     scrollToTopFromParent();
     openDrawer();
   };
-  
-  const addVehicleDetails = () => {
+
+  const openAddVehicleDetailsDrawer = () => {
     setDrawerContent(
       <AddVehicleDetailsDrawer
         back={toggleDrawer}
         CheckVehicleOwner={CheckVehicleOwner}
-        userRole={user_type}
+        user_type={user_type}
+        openCarProfile={openCarProfile}
       />
     );
     scrollToTopFromParent();
-    openDrawer();
-  };
-
-  const openNotificationRep = () => {
-    setDrawerContent(
-      <ThirdPartyNominees
-        toggleForm={toggleDrawer}
-        nominees={NomineeMobile}
-        // OpenRecipient={OpenRecipient}
-      />
-    );
-
     openDrawer();
   };
 
@@ -229,9 +249,6 @@ export default function DashboardPage() {
     scrollToTopFromParent();
     openDrawer();
   };
-
- 
-
 
   const handleSuccess = () => {
     setDrawerContent(
@@ -245,13 +262,7 @@ export default function DashboardPage() {
   };
 
   const handleFailed = () => {
-    setDrawerContent(
-      <VehicleAddedFailed
-        toggleDrawer={toggleDrawer}
-        Success={handleSuccess}
-        back={addVehicleDetails}
-      />
-    );
+    setDrawerContent(<VehicleAddedFailed back={openAddVehicleDetailsDrawer} />);
     scrollToTopFromParent();
     openDrawer();
   };
@@ -260,7 +271,7 @@ export default function DashboardPage() {
     setDrawerContent(
       <SettingsDrawer
         openCarProfile={() => {
-          openCarProfile(cars, true, true);
+          openCarProfile(vehicles, true, true);
         }}
         toggleDrawer={toggleDrawer}
         openAddBillingMethod={openAddBillingMethod}
@@ -270,17 +281,17 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openAddBillingMethod = () => {
+  const openAddBillingMethod = (id: string,toDashboard?:boolean) => {
     setDrawerContent(
       <AddBillingMethodDrawer
-        back={openSettingsDrawer}
+        back={!toDashboard ? openSettingsDrawer : toggleDrawer}
         toggleDrawer={toggleDrawer}
+        planId={id}
       />
     );
     scrollToTopFromParent();
     openDrawer();
   };
-
 
   return (
     <>
@@ -291,13 +302,21 @@ export default function DashboardPage() {
             openProfileSlider={openProfileDrawer}
             openNotificationsTable={openNotificationsTable}
             openNotification={OpenNotification}
+            openAddBillingMethod={openAddBillingMethod}
           />
           <ModalComponent
             isOpen={isDisclosureOpen}
             onClose={onClose}
             onOpen={onOpen}
-            toggleDrawer={toggleDrawer}
-            openAddBillingMethod={openAddBillingMethod}
+            type="subscription"
+            display={
+              <SubscriptionPlans
+                onClick={(id) => {
+                  openAddBillingMethod(id);
+                  onClose();
+                }}
+              />
+            }
           />
 
           {/* Main Content */}
@@ -319,7 +338,15 @@ export default function DashboardPage() {
                     className="rounded-[37px] bg-[#CEFDFF] py-[4px] px-[12px] text-[#039BB7] text-[10px] md:text-[12px]"
                     onClick={onOpen}
                   >
-                    Free plan
+                    {plan_id === 1
+                      ? "Unsubscribed"
+                      : plan_id === 2
+                      ? "Personal Plan"
+                      : plan_id === 3
+                      ? "Family Plan"
+                      : plan_id === 4
+                      ? "Corporate Plan"
+                      : "Starter Plan"}
                   </button>
                 </div>
                 <button
@@ -331,45 +358,27 @@ export default function DashboardPage() {
               </div>
             </section>
 
-            <div className="flex items-center gap-4">
-              <span className="text-gray-700 font-medium">{isCorporate}</span>
-              <button
-                onClick={toggleUserType}
-                className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
-                  isCorporate === "corporate" ? "bg-blue-500" : "bg-green-500"
-                }`}
-              >
-                <span
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-                    isCorporate === "corporate"
-                      ? "translate-x-0"
-                      : "translate-x-6"
-                  }`}
-                ></span>
-              </button>
-            </div>
-
             {/* Profile and Table Section */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px]  place-items-center">
               <div className="w-full justify-center items-center ">
-                {/* <CarProfile
-              addVehicleDetails={addVehicleDetails}
-              openCarProfile={() => openCarProfile(cars)}
-              vehicles={cars}
-              // openNominationHistory={openNominationHistory}
-            /> */}
-                <DisplayCarProfile
-                  addVehicleDetails={addVehicleDetails}
-                  openCarProfile={() => openCarProfile(cars)}
-                  vehicles={cars}
+                <CarProfile
+                  openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
+                  openCarProfile={() => openCarProfile(vehicles)}
+                  vehicles={vehiclesData?.vehicles}
+                  verify={openVerifyMyVehicleDrawer}
+                  plan_id={plan_id}
+                  openAddBillingMethod={openAddBillingMethod}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>
 
               <div className="items-center w-full justify-center flex">
                 <ContraventionTable
-                  invoices={undefined}
                   openConventionTable={openConventionTable}
+                  addVehicle ={openAddVehicleDetailsDrawer}
+                  plan_id={plan_id}
+                  openAddBillingMethod={openAddBillingMethod}
+                  vehicles={vehiclesData?.vehicles}
                 />
               </div>
             </section>

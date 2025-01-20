@@ -3,12 +3,10 @@
 import {
   confirmPasswordReset,
   loginUser,
-  refreshAccessToken,
   registerUser,
   passwordReset as sendPasswordReset,
-  verifyOtp,
+  verifyOtp
 } from "@/api/auth"; // Make sure this is your API function for registration
-import { fetchProfileData, updateProfileData } from "@/api/profile";
 import { checkEmail } from "@/api/register";
 import { useAuthStore } from "@/lib/stores/authStore";
 import {
@@ -21,8 +19,7 @@ import {
   VerifyOtpRequest,
 } from "@/types"; // Define types for signup
 import { useToast } from "@chakra-ui/react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -53,7 +50,7 @@ export const useSignup = (value: string) => {
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
   const toast = useToast();
 
   const mutation = useMutation<LoginResponse, Error, LoginInput>({
@@ -89,7 +86,12 @@ export const useLogin = () => {
     },
   });
 
-  return { login: mutation.mutate, isError: mutation.isError, error: mutation.error, loading };
+  return {
+    login: mutation.mutate,
+    isError: mutation.isError,
+    error: mutation.error,
+    loading,
+  };
 };
 
 export const useForgotPassword = () => {
@@ -228,8 +230,6 @@ export const useLogout = () => {
     // Clear Zustand store
     setToken(null);
     setUser(null);
-
-    // No need for explicit routing; let `isAuth` HOC redirect
   };
 
   return { logout };
@@ -243,5 +243,3 @@ export const useCheckEmail = (email) => {
     retry: false, // Disable retries (optional, for better control over error handling)
   });
 };
-
-

@@ -7,7 +7,7 @@ import { groteskText } from "@/app/fonts";
 import { Plus } from "lucide-react";
 
 interface DeleteRowModalProps {
-  position?: { right: number; top: number };
+  position?: { right: any; top: any; left?:any };
   showConfirmButton?: boolean;
   onEdit?: () => void;
   onRemove?: () => void;
@@ -24,7 +24,7 @@ interface DeleteRowModalProps {
 }
 
 const DeleteRowModal = ({
-  position = { right: 0, top: 0 },
+  position = { right: 0, top: 0},
   showConfirmButton = false,
   onEdit,
   onRemove,
@@ -56,11 +56,18 @@ const DeleteRowModal = ({
 
   return (
     <div
-      className={`rounded-[8px] bg-white absolute z-10 ${customStyles}`}
-      style={position}
+    style={{
+      position: "absolute",
+      top: position.top,
+      left: position.left,
+      right: position.right,
+      // e.g. a higher z-index
+      zIndex: 9999,
+    }}
+    className=""
       ref={modalRef} // Attach the ref to the modal container
     >
-      <div className="border shadow-lg border-gray-200 rounded-[8px] p-[1px] ">
+      <div className=" bg-white border shadow-lg border-gray-200 rounded-[8px] p-[1px] ">
         {!removeAddButton && (
           <button
             className={`w-full flex items-center px-[1px] pr-2 py-2 text-[14px] md:text-[16px] text-black hover:bg-gray-100 ${groteskText.className}`}

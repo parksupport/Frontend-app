@@ -4,7 +4,7 @@ import { groteskText, groteskTextMedium } from "@/app/fonts";
 import Image from "next/image";
 import rafiki from "@/assets/images/rafiki.png";
 
-const VehicleAddedFailed = ({ back, toggleDrawer, Success }) => {
+const VehicleAddedFailed = ({ back, }) => {
   return (
     <div className="flex flex-col items-center justify-center bg-white py-4">
       <DrawerHeader

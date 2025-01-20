@@ -10,7 +10,7 @@ export const useGetProfile = () => {
   });
 
   return {
-    data,
+    profile: data,
     error,
     isLoading,
   };

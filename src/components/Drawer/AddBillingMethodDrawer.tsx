@@ -46,10 +46,8 @@ const AddBillingMethodDrawer = ({ back, toggleDrawer,planId, }) => {
   const handleSave = (planId) => {
 
     // Save billing information logic
-    alert("Payment card saved");
     subscribe(planId)
     toggleDrawer();
-    handleRefresh();
   };
 
   return (

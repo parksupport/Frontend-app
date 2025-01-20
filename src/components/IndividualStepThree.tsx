@@ -71,7 +71,7 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
         <form onSubmit={handleSubmit} className="mt-[24px] lg:mt-[2.5rem]  ">
         <div>
             <InputField
-              type="number"
+              type="text"
               placeholder="Enter your postal code"
               label="Postal Code"
               variant="individual"

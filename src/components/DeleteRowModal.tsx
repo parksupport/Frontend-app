@@ -67,7 +67,7 @@ const DeleteRowModal = ({
     className=""
       ref={modalRef} // Attach the ref to the modal container
     >
-      <div className="border shadow-lg border-gray-200 rounded-[8px] p-[1px] ">
+      <div className=" bg-white border shadow-lg border-gray-200 rounded-[8px] p-[1px] ">
         {!removeAddButton && (
           <button
             className={`w-full flex items-center px-[1px] pr-2 py-2 text-[14px] md:text-[16px] text-black hover:bg-gray-100 ${groteskText.className}`}

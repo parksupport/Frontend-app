@@ -166,8 +166,8 @@ const CorporateSignupPage = ({ onContinue }) => {
           <div>
             <InputField
               type="number"
-              placeholder="Enter your company number"
-              label="Company Number"
+              placeholder="Enter your company Telephone number"
+              label="Company Telephone Number"
               name="company_phone_number"
               value={formData.company_phone_number}
               onChange={handleChange}

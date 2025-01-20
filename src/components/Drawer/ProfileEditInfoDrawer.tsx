@@ -135,8 +135,8 @@ export function ProfileEditInfoDrawer({
     },
     {
       type: "text",
-      placeholder: "Enter your state",
-      label: "State",
+      placeholder: "Enter your county",
+      label: "County",
       name: "state",
       value: formData.state,
     },
@@ -188,8 +188,8 @@ export function ProfileEditInfoDrawer({
     },
     {
       type: "text",
-      placeholder: "Enter company state",
-      label: "State",
+      placeholder: "Enter company County",
+      label: "County",
       name: "state",
       value: formData.state,
     },
@@ -202,8 +202,8 @@ export function ProfileEditInfoDrawer({
     },
     {
       type: "text",
-      placeholder: "Enter your company postal code",
-      label: "Company Postal Code",
+      placeholder: "Enter your company post code",
+      label: "Company Post Code",
       name: "post_code",
       value: formData.post_code,
     },

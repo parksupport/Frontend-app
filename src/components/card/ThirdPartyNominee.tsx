@@ -1,5 +1,5 @@
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiTrash2 } from "react-icons/fi";
 import { IoMdCheckmark } from "react-icons/io";
 import { IoEllipsisVertical } from "react-icons/io5";
@@ -18,6 +18,8 @@ import { useGetProfile } from "@/hooks/queries/profile";
 import { useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "../Drawer/ModalComponent";
 import SubscriptionPlans from "../Subscription";
+import Image from "next/image";
+import { Switch } from "@/components/ui/switch";
 
 /* -------------------------------------------------------------------------- */
 /*                        ThirdPartyNominees (Listing)                        */
@@ -26,20 +28,22 @@ import SubscriptionPlans from "../Subscription";
 interface ThirdPartyNomineesProps {
   toggleForm: (state: boolean) => void;
   nominees: any[];
-  vehiclesRegNunbers: string;
+  selectedVehicle: any;
   user_type: "individual" | "corporate";
   loading?: boolean;
-  openAddBillingMethod?:any;
+  openAddBillingMethod?: any;
+  vehiclesRegNunbers?: any;
 }
 
 export default function ThirdPartyNominees({
   user_type,
   toggleForm,
-  vehiclesRegNunbers,
+  selectedVehicle,
   nominees,
   loading,
   openAddBillingMethod,
-}: ThirdPartyNomineesProps) {
+}: // vehiclesRegNunbers
+ThirdPartyNomineesProps) {
   const {
     openDropdownIndex,
     data,
@@ -53,25 +57,56 @@ export default function ThirdPartyNominees({
     setOpenDropdownIndex,
   } = useDeleteRow(nominees, "nominee");
 
+  const vehiclesRegNunbers = selectedVehicle?.registration_number;
+  const status = selectedVehicle?.verification_status;
+
   const isMobile = useIsMobile();
 
   const { profile } = useGetProfile();
   const plan_id = profile?.userplan?.plan;
-  console.log("profile", plan_id);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const AddRecipientsWithPlan = (plan_id, nominees) => {
-    if (plan_id === 1) {
-      onOpen();
-    } else if (plan_id === 2 && nominees === 1) {
-      onOpen();
-    } else if (plan_id === 3 && nominees === 3) {
-      onOpen();
+  const AddRecipientsWithPlan = (plan_id, nominees, status) => {
+    if (status === "Verified") {
+      // Filter nominees with status "Active"
+      const activeNominees = nominees.filter(
+        (nominee) => nominee.status === "Active"
+      );
+
+      if (plan_id === 1) {
+        onOpen();
+      } else if (plan_id === 2 && activeNominees.length === 1) {
+        onOpen();
+      } else if (plan_id === 3 && activeNominees.length === 3) {
+        onOpen();
+      } else {
+        toggleForm(true);
+      }
     } else {
-      toggleForm(true);
+      onOpen();
     }
   };
+
+  function updateNomineesWithEndDate(
+    data: { end_date: string }[]
+  ): { end_date: string }[] {
+    const ONE_HUNDRED_YEARS = 100 * 365 * 24 * 60 * 60 * 1000; // 100 years in milliseconds
+    const now = new Date();
+
+    return data.map((nominee) => {
+      const endDate = new Date(nominee.end_date);
+
+      // Use .getTime() to convert Date objects to timestamps for comparison
+      if (endDate.getTime() - now.getTime() > ONE_HUNDRED_YEARS) {
+        return { ...nominee, end_date: "Infinite" };
+      }
+
+      return nominee;
+    });
+  }
+
+  const updatedNominees = updateNomineesWithEndDate(data);
 
   return (
     <div className="py-12 mb-40">
@@ -81,7 +116,7 @@ export default function ThirdPartyNominees({
           <h1
             className={`text-wrap text-black text-[22px] md:text-[30px] ${groteskTextMedium.className}`}
           >
-            {`Vehicle ${vehiclesRegNunbers}`}
+            {`Vehicle ${vehiclesRegNunbers?.toUpperCase()}`}
           </h1>
           <h1
             className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}
@@ -93,23 +128,36 @@ export default function ThirdPartyNominees({
           className={`whitespace-nowrap hover:underline text-[#4169E1] md:text-[18px] text-[18px] ${
             groteskTextMedium.className
           } ${!vehiclesRegNunbers ? "opacity-50 cursor-not-allowed" : ""}`}
-          onClick={() => AddRecipientsWithPlan(plan_id, data.length)}
-          disabled={!vehiclesRegNunbers} // Disable when vehiclesRegNumbers is an empty string
+          onClick={() => AddRecipientsWithPlan(plan_id, data, status)}
+          disabled={!vehiclesRegNunbers}
         >
           Add Recipient
         </button>
-        
       </div>
 
       {loading ? (
         <div>Loading...</div> // You can add a loading spinner or any other content here
+      ) : data.length === 0 ? (
+        <div className="h-[300px] border  rounded-[8px] flex items-center justify-center flex-col">
+          <div className="flex flex-col items-center justify-center ">
+            <div className={`${groteskTextMedium.className} text-[32px]`}>
+              No Nominee Yet
+            </div>
+            <Image
+              src={require(`@/assets/images/contravention_emptyState.png`)}
+              alt=""
+              sizes="width: 200px"
+              // className="max-w-[222px] "
+            />
+          </div>
+        </div>
       ) : (
         <div>
           {isMobile ? (
             <NomineeMobile
               user_type={user_type}
               registarationNumber={vehiclesRegNunbers}
-              nominees={data}
+              nominees={updatedNominees}
               showDeleteConfirmation={showDeleteConfirmation}
               showConfirmButton={showConfirmButton}
               cancelDelete={cancelDelete}
@@ -121,7 +169,7 @@ export default function ThirdPartyNominees({
             <NomineeDesktop
               user_type={user_type}
               registarationNumber={vehiclesRegNunbers}
-              nominees={data}
+              nominees={updatedNominees}
               showDeleteConfirmation={showDeleteConfirmation}
               showConfirmButton={showConfirmButton}
               cancelDelete={cancelDelete}
@@ -134,12 +182,14 @@ export default function ThirdPartyNominees({
           )}
         </div>
       )}
-            <ModalComponent
+
+      <ModalComponent
         isOpen={isOpen}
         onClose={onClose}
         onOpen={onOpen}
         display={
           <AddNOmineesSubscription
+            status={status}
             plan={plan_id}
             closeModal={onClose}
             openAddBillingMethod={openAddBillingMethod}
@@ -155,18 +205,20 @@ export default function ThirdPartyNominees({
 
 interface AddNOmineesSubscriptionProps {
   plan: number;
+  status: string;
   closeModal: () => void;
-  openAddBillingMethod: (id: string, isSubscription: boolean) => void;
+  openAddBillingMethod: (id: string, isSubscription?: boolean) => void;
 }
 const AddNOmineesSubscription = ({
   plan,
+  status,
   closeModal,
   openAddBillingMethod,
 }: AddNOmineesSubscriptionProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const renderPlanMessage = () => {
-    if (plan === 2) {
+    if (plan === 2 && status === "Verified") {
       return (
         <p className="text-lg font-medium text-gray-800">
           You can only add one (1) recipient per vehicle with your current plan.
@@ -174,11 +226,18 @@ const AddNOmineesSubscription = ({
         </p>
       );
     }
-    if (plan === 3) {
+    if (plan === 3 && status === "Verified") {
       return (
         <p className="text-lg font-medium text-gray-800">
-          You can only add three (3) recipient per vehicle with your current plan.
-          Please upgrade to add more recipients.
+          You can only add three (3) recipient per vehicle with your current
+          plan. Please upgrade to add more recipients.
+        </p>
+      );
+    }
+    if (status !== "Verified") {
+      return (
+        <p className="text-lg font-medium text-gray-800">
+          You need to verify your vehicle to add recipients
         </p>
       );
     }
@@ -195,8 +254,8 @@ const AddNOmineesSubscription = ({
         type="subscription"
         display={
           <SubscriptionPlans
-            onClick={(id) => {
-              openAddBillingMethod(id, true);
+            onClick={(plan) => {
+              openAddBillingMethod(plan);
               onClose();
               closeModal();
             }}
@@ -219,9 +278,15 @@ const AddNOmineesSubscription = ({
 
         <button
           className="mt-4 w-full bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          onClick={onOpen}
+          onClick={
+            status !== "Verified"
+              ? () => {
+                  console.log("Unverified");
+                }
+              : onOpen
+          }
         >
-          Subscribe Now
+          {status !== "Verified" ? "Verify Now" : "Subscribe Now"}
         </button>
       </div>
     </div>
@@ -517,7 +582,7 @@ export const NomineeMobile = ({
                   <TruncatedText
                     text={nominee?.name}
                     maxLength={22}
-                    className="text-black"
+                    className={`text-black text-[16px] ${groteskText.className}`}
                   />
                 </div>
                 {/* Email */}
@@ -526,26 +591,32 @@ export const NomineeMobile = ({
                   <TruncatedText
                     text={nominee?.email}
                     maxLength={22}
-                    className="text-black"
+                    className={`text-black text-[16px] ${groteskText.className}`}
                   />
                 </div>
                 {/* Status */}
                 <div className="flex justify-between">
                   <span className="text-gray-500">Status</span>
                   <div
-                    className={`flex items-center justify-center w-[100px] py-1 rounded-full text-xs font-semibold ${
-                      nominee?.status === "active"
+                    className={`${
+                      groteskText.className
+                    } flex items-center justify-center w-[100px] py-1 rounded-full text-sm font-semibold ${
+                      nominee?.status === "Active"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
                     }`}
                   >
-                    {nominee?.status === "active" ? "Active" : "Not Active"}
+                    {nominee?.status}
                   </div>
                 </div>
                 {/* Phone */}
                 <div className="flex justify-between">
                   <span className="text-gray-500">Phone Number</span>
-                  <span className="text-black">{nominee?.phone}</span>
+                  <span
+                    className={`text-black text-[16px] ${groteskText.className}`}
+                  >
+                    {nominee?.phone}
+                  </span>
                 </div>
                 {/* Only show start/end dates if corporate */}
                 {user_type === "corporate" && (
@@ -555,7 +626,7 @@ export const NomineeMobile = ({
                       <TruncatedText
                         text={nominee?.start_date}
                         maxLength={22}
-                        className="text-black"
+                        className={`text-black text-[16px] ${groteskText.className}`}
                       />
                     </div>
                     <div className="flex justify-between">
@@ -563,7 +634,7 @@ export const NomineeMobile = ({
                       <TruncatedText
                         text={nominee?.end_date}
                         maxLength={22}
-                        className="text-black"
+                        className={`text-black text-[16px] ${groteskText.className}`}
                       />
                     </div>
                   </>
@@ -621,28 +692,60 @@ export const NomineeMobile = ({
 /* -------------------------------------------------------------------------- */
 
 interface AddThirdPartyNomineeProps {
-  vehiclesRegNunbers?: string;
   toggleForm?: (bool: boolean) => void;
   openAddVehicleDetailsDrawer?: () => void;
   selectedVehicle?: any;
   user_type?: any;
+  setSelectedVehicle?: any;
+  data?: any;
+  vehiclesRegNunbers?: any;
 }
 
 export function AddThirdPartyNominee({
-  vehiclesRegNunbers,
-  toggleForm,
-  openAddVehicleDetailsDrawer,
   selectedVehicle,
+  toggleForm,
   user_type,
-}: AddThirdPartyNomineeProps) {
+  setSelectedVehicle,
+  data,
+}: // vehiclesRegNunbers,
+AddThirdPartyNomineeProps) {
   const [hasError, setHasError] = useState(false);
   const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
+  const [endDate, setEndDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
+  const vehiclesRegNunbers = selectedVehicle?.registration_number;
+
+  const [smsNotifications, setSmsNotifications] = useState(false);
+  const [emailNotifications, setEmailNotifications] = useState(false);
+
+  useEffect(() => {
+    if (isIndefiniteEndDate) {
+      // Set end_date to 500 years from now
+      const futureDate = new Date();
+      futureDate.setFullYear(futureDate.getFullYear() + 500);
+
+      // Convert to ISO string format without the time part
+      setEndDate(futureDate.toISOString().split("T")[0]);
+    } else {
+      setEndDate("");
+    }
+  }, [isIndefiniteEndDate]);
+
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      end_date: endDate,
+    }));
+  }, [endDate]);
+
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
     phone_number: "",
-    start_date: "2024-01-01", // Example defaults
-    end_date: "2024-01-30", // Example defaults
+    start_date: new Date().toISOString().split("T")[0],
+    end_date: endDate,
   });
 
   const { addNominee } = useAddNominee();
@@ -680,6 +783,14 @@ export function AddThirdPartyNominee({
         registration_number: vehiclesRegNunbers,
         data: formData,
       });
+
+      if (user_type === "corporate") {
+        const selectedVehicle = data.find(
+          (vehicle) => vehicle.registration_number === vehiclesRegNunbers
+        );
+        setSelectedVehicle(selectedVehicle);
+      }
+
       toggleForm?.(false);
     }
   };
@@ -700,6 +811,14 @@ export function AddThirdPartyNominee({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleToggleSms = (checked: boolean) => {
+    setSmsNotifications(checked);
+  };
+
+  const handleToggleEmail = (checked: boolean) => {
+    setEmailNotifications(checked);
+  };
+
   return (
     <div className="py-12 mb-24">
       <div className="flex flex-col">
@@ -709,7 +828,7 @@ export function AddThirdPartyNominee({
             <h1
               className={`text-wrap text-black text-[22px] md:text-[32px] leading-none ${groteskTextMedium.className}`}
             >
-              {`Vehicle ${vehiclesRegNunbers || ""}`}
+              {`Vehicle ${vehiclesRegNunbers.toUpperCase() || ""}`}
             </h1>
             <h1
               className={`${groteskText.className} text-[18px] md:text-[26px] leading-none`}
@@ -778,9 +897,9 @@ export function AddThirdPartyNominee({
                     error={hasError}
                     indefinite
                     endDate={isIndefiniteEndDate}
-                    handleEndDateChange={() =>
-                      setIndefiniteEndDate(!isIndefiniteEndDate)
-                    }
+                    handleEndDateChange={() => {
+                      setIndefiniteEndDate(!isIndefiniteEndDate);
+                    }}
                   />
                 </div>
 
@@ -791,11 +910,41 @@ export function AddThirdPartyNominee({
                 )}
               </div>
             )}
+            <div className="flex items-center gap-[8px] w-[90%] md:w-[500px] mt-2">
+              <div className={`flex text-[16px] md:text-[20px]  ${groteskText.className} `}>
+                {" "}
+                Receipent Notification Preference :
+              </div>
+              <div className={`flex ${groteskText.className} gap-[4px] `}>
+                <div className="flex items-center gap-[8px]">
+                  <label
+                    className={`text-[20px] text-[#000000] ${groteskText.className}`}
+                  >
+                    Sms
+                  </label>
+                  <Switch
+                    checked={smsNotifications}
+                    onCheckedChange={handleToggleSms}
+                  />
+                </div>
+                <div className="flex items-center gap-[8px]">
+                  <label
+                    className={`text-[20px] text-[#000000] ${groteskText.className}`}
+                  >
+                    Email
+                  </label>
+                  <Switch
+                    checked={emailNotifications}
+                    onCheckedChange={handleToggleEmail}
+                  />
+                </div>
+              </div>
+            </div>
 
             <Button
               type="submit"
               variant="quinary"
-              className="py-[10px] px-[12px] w-full md:w-[500px]"
+              className="py-[10px] px-[12px] w-[90%] md:w-[500px]"
             >
               Add Nominee
             </Button>

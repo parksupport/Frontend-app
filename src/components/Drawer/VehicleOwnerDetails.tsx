@@ -6,6 +6,7 @@ import DrawerHeader from "./DrawerHeader";
 import ProfileSVG from "@/assets/svg/profile.svg";
 import BuildingSVG from "@/assets/svg/building.svg";
 import GroupSVG from "@/assets/svg/group-2user.svg";
+import { useAddVehicle } from "@/hooks/mutations/vehicles";
 
 const formConfigurations = {
   0: {
@@ -41,7 +42,7 @@ const formConfigurations = {
     title: "Fill in your company information",
     fields: [
       {
-        name: "name",
+        name: "company_name",
         label: "Company Name",
         type: "text",
         placeholder: "Enter your company name",
@@ -70,7 +71,7 @@ const formConfigurations = {
     title: "Fill in the company information",
     fields: [
       {
-        name: "name",
+        name: "company_name",
         label: "Company Name",
         type: "text",
         placeholder: "Enter your company name",
@@ -91,7 +92,8 @@ const formConfigurations = {
   },
 };
 
-function DynamicForm({ formType, status ,clear, vehicleData}) {
+function DynamicForm({ formType, status, clear, vehicleData, back }) {
+  const { addVehicle, error, isError } = useAddVehicle();
   const [formData, setFormData] = useState(
     formConfigurations[formType]?.fields.reduce((acc, field) => {
       acc[field.name] = "";
@@ -99,18 +101,17 @@ function DynamicForm({ formType, status ,clear, vehicleData}) {
     }, {})
   );
 
-
-    // Reset form data when 'clear' prop is true
-    useEffect(() => {
-      if (clear) {
-        setFormData(
-          formConfigurations[formType]?.fields.reduce((acc, field) => {
-            acc[field.name] = "";
-            return acc;
-          }, {})
-        );
-      }
-    }, [clear, formType]); 
+  // Reset form data when 'clear' prop is true
+  useEffect(() => {
+    if (clear) {
+      setFormData(
+        formConfigurations[formType]?.fields.reduce((acc, field) => {
+          acc[field.name] = "";
+          return acc;
+        }, {})
+      );
+    }
+  }, [clear, formType]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -121,8 +122,6 @@ function DynamicForm({ formType, status ,clear, vehicleData}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
- 
 
     // Validation (optional, depending on your requirements)
     for (const field in formData) {
@@ -135,30 +134,8 @@ function DynamicForm({ formType, status ,clear, vehicleData}) {
     const mergedData = { ...formData, ...vehicleData };
     console.log("formData", mergedData);
     // You can create a form submission logic here
-    try {
-      // If you're sending this data to a server
-      const response = await fetch("/api/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    status(mergedData);
 
-      if (!response.ok) {
-        throw new Error("Failed to submit form");
-      }
-
-      // If successful, handle response (optional)
-      const result = await response.json();
-      console.log("Form submission successful", result);
-
-      // Optionally, navigate to a different page or show a success message
-      // status(); // Assuming `status` is passed as a prop to move to the next step
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      // Handle error (e.g., show an error message to the user)
-    }
   };
 
   const formConfig = formConfigurations[formType];
@@ -202,7 +179,13 @@ function DynamicForm({ formType, status ,clear, vehicleData}) {
   );
 }
 
-const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user ,vehicleData}) => {
+const VehicleOwnerDetails = ({
+  toggleDrawer,
+  VehicleStatus,
+  user,
+  vehicleData,
+  
+}) => {
   // Owner options
 
   const User = {
@@ -212,13 +195,15 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user ,vehicleData}) 
   };
 
   const Corporate = {
-    0: "Owned by company",
-    1: "Hired/Lease",
+    1: "Owned by company",
+    2: "Hired/Lease",
   };
 
   const owners = user === "individual" ? User : Corporate;
 
-  const [selectedKey, setSelectedKey] = useState("0");
+  const initialSelectKey = user === "individual" ? "0" : "1";
+
+  const [selectedKey, setSelectedKey] = useState(initialSelectKey);
   const [isClearForm, setClearForm] = useState(false);
 
   function clearForm() {
@@ -230,12 +215,19 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user ,vehicleData}) 
     setSelectedKey(key);
     console.log("Form confirmed for:", owners[key]);
     clearForm();
-
   };
 
   // Render the dynamic form based on selectedKey
-  const renderForm = () => {
-    return <DynamicForm formType={selectedKey} status={VehicleStatus} clear={isClearForm} vehicleData={vehicleData} />;
+  const renderForm = ({ toggleDrawer }) => {
+    return (
+      <DynamicForm
+        formType={selectedKey}
+        status={VehicleStatus}
+        clear={isClearForm}
+        vehicleData={vehicleData}
+        back={toggleDrawer}
+      />
+    );
   };
 
   const icons = {
@@ -273,7 +265,7 @@ const VehicleOwnerDetails = ({ toggleDrawer, VehicleStatus, user ,vehicleData}) 
         </div>
 
         <div className="flex flex-col md:items-center my-[94px] mx-[16px]  md:w-[50%]">
-          {renderForm()}
+          {renderForm({toggleDrawer})}
         </div>
       </div>
     </>

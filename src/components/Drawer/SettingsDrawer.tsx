@@ -25,8 +25,14 @@ const SettingsDrawer = ({
   // const [isOpen, setIsOpen] = useState(false);
 
   const { logout } = useLogout();
-  const { preferences, isLoadingPrefs, prefsError, savePreferences, isSaving } =
-    useNotificationPreferences();
+  const {
+    preferences,
+    isLoadingPrefs,
+    prefsError,
+    savePreferences,
+    isSaving,
+    success,
+  } = useNotificationPreferences();
 
   // 3) We’ll keep local state for toggles
   const [smsNotifications, setSmsNotifications] = useState(false);
@@ -191,7 +197,7 @@ const SettingsDrawer = ({
           </div>
 
           {/* Save button */}
-          <div className="mt-4">
+          <div className="mt-4 flex gap-4">
             <Button
               variant="quinary"
               onClick={handleSavePreferences}
@@ -199,6 +205,7 @@ const SettingsDrawer = ({
             >
               {isSaving ? "Saving..." : "Save Preferences"}
             </Button>
+            {success && <p className="text-blue-500 mt-2">saved</p>}
           </div>
 
           {/* Error or loading states */}

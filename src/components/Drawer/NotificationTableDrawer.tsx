@@ -44,7 +44,7 @@ const NotificationsTableDrawer = ({ back }) => {
     selectedNotificationsList,
     updateSelectedNotifications,
     handleDeleteNotification,
-  } = useNotifications(notificationsData, 5);
+  } = useNotifications(notificationsData, 10);
 
   function getNotificationMessage({
     isLoading,

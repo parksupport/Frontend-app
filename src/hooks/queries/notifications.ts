@@ -4,9 +4,12 @@ import {
   updateNotificationPreferences,
   getNotifications
 } from "@/api/notification";
+import { useEffect, useState } from "react";
+import { set } from "react-datepicker/dist/date_utils";
 
 export const useNotificationPreferences = () => {
   const queryClient = useQueryClient();
+  const [success, setSuccess] = useState<boolean | null>(null);
 
   // 1) useQuery with object syntax
   const {
@@ -29,10 +32,27 @@ export const useNotificationPreferences = () => {
     mutationFn: (newPrefs: { prefers_email: boolean; prefers_sms: boolean }) =>
       updateNotificationPreferences(newPrefs),
     onSuccess: () => {
+      setSuccess(true);
       // Invalidate so that the UI is updated with fresh data
       queryClient.invalidateQueries({ queryKey: ["notificationPreferences"] });
     },
+    onError: () => {
+      // Set success to false if mutation fails
+      setSuccess(false);
+    },
+
+
   });
+
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess(null); // Reset success after 10 seconds
+      }, 2000); // 10 seconds
+
+      return () => clearTimeout(timer); // Cleanup timeout on component unmount
+    }
+  }, [success]);
 
   return {
     preferences,
@@ -43,6 +63,7 @@ export const useNotificationPreferences = () => {
     isSaving,
     isSaveError,
     saveError,
+    success, 
   };
 };
 

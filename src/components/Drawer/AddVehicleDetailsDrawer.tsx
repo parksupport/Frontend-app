@@ -43,9 +43,11 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: name === "vegRegNumber" ? value.toUpperCase() : value, 
     }));
   };
+  
+  
 
   // For dropdown
   const handleSelectChange = (

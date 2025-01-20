@@ -37,7 +37,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
         { label: "First name", value: firstName },
         { label: "Last name", value: lastName },
         { label: "Email address", value: email_address },
-        { label: "Phone", value: phone_number },
+        { label: "Phone No.", value: phone_number },
       ],
     },
     {
@@ -46,7 +46,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
       fields: [
         { label: "Country", value: country || " ----" },
         {
-          label: "City / State",
+          label: "City / County",
           value: `${city || "----"}/${state || "----"}`,
         },
         { label: "Postal Code", value: post_code },
@@ -63,7 +63,7 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
         { label: "Last Name", value: lastName },
         { label: "Position", value: position },
         { label: "Email Address", value: email_address },
-        { label: "Phone", value: phone_number },
+        { label: "Phone No.", value: phone_number },
       ],
     },
     {
@@ -76,10 +76,10 @@ const UserInfoDrawer = ({ back, onEdit, userInfo }) => {
           value: company_registration_number,
         },
         { label: "Email Address", value: company_email },
-        { label: "Company Phone", value: company_phone_number },
+        { label: "Company Phone No.", value: company_phone_number },
         { label: "Country", value: country || " ----" },
         {
-          label: "City / State",
+          label: "City / County",
           value: `${city || "----"}/${state || "----"}`,
         },
         { label: "Postal Code", value: post_code || "----" },

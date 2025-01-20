@@ -16,6 +16,7 @@ import CVVSVG from "@/assets/svg/cvv.svg";
 import LayerSVG from "@/assets/svg/Layer_1.svg";
 import { CircleHelp } from "lucide-react";
 import { useSubscribe } from "@/hooks/mutations/subscription";
+import { useRouter } from "next/navigation";
 
 const AddBillingMethodDrawer = ({ back, toggleDrawer,planId, }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -31,6 +32,12 @@ const AddBillingMethodDrawer = ({ back, toggleDrawer,planId, }) => {
 
   const {subscribe} = useSubscribe()
 
+
+  const handleRefresh = () => {
+    console.log("refrshed")
+    window.location.reload();
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -42,6 +49,7 @@ const AddBillingMethodDrawer = ({ back, toggleDrawer,planId, }) => {
     alert("Payment card saved");
     subscribe(planId)
     toggleDrawer();
+    handleRefresh();
   };
 
   return (

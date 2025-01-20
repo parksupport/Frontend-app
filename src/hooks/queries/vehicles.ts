@@ -7,6 +7,6 @@ export const useGetVehicles = () => {
     queryFn: getVehicles,
     refetchOnWindowFocus: false, // Prevent unnecessary refetching
   });
-  return { vehiclesData: data, error, isLoading, refetch };
+  return { vehiclesData: data, error, vehicelIsLoading:isLoading, refetch };
 };
 

@@ -19,6 +19,7 @@ interface InputFieldProps {
   textLeft?: string;
   error?: string;
   loadingMessage?: ReactNode;
+  onKeyPress?:any;
 
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -40,6 +41,7 @@ const InputField: React.FC<InputFieldProps> = ({
   textRight,
   error: inputError,
   loadingMessage,
+  onKeyPress
 }) => {
   const [error, setError] = useState<string | null>(null);
 
@@ -96,6 +98,7 @@ const InputField: React.FC<InputFieldProps> = ({
         <input
           type={type}
           placeholder={placeholder}
+          onKeyUp={onKeyPress}
           value={value}
           name={name}
           onChange={onChange}

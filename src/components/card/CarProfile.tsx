@@ -77,7 +77,7 @@ const CarProfile = ({
   };
 
   const AddVehicleWithPlan = (plan_id, vehicles) => {
-    console.log(plan_id, vehicles.length);
+    console.log(plan_id, vehicles?.length);
     if (plan_id === 1) {
       onOpen();
     } else if (plan_id === 2 && vehicles === 2) {
@@ -125,7 +125,7 @@ const CarProfile = ({
             <Button
               variant="quinary"
               className=" py-[9px] px-[12px] text-[16px]"
-              onClick={() => AddVehicleWithPlan(plan_id, vehicles.length)}
+              onClick={() => AddVehicleWithPlan(plan_id, vehicles?.length)}
             >
               Add vehicle
               <Plus className="inline-block ml-[8px]" />
@@ -164,23 +164,27 @@ const CarProfile = ({
 
                   <div className="flex flex-col  lg:flex lg:flex-row justify-center  mt-[14px] items-center">
                     <div className="order-2 w-full lg:order-1 flex flex-col lg:w-[257px]">
-                      <div className=" self-center flex flex-col max-w-[253px] ">
-                        {car?.type ? (
+                      <div className="self-center flex flex-col max-w-[253px]">
+                        {car?.type &&
+                        ["Car", "Truck", "Jeep", "Bus", "Motorcycle"].includes(
+                          car.type.toLowerCase()
+                        ) ? (
                           <Image
                             src={require(`@/assets/images/${car.type.toLowerCase()}.jpg`)}
-                            alt=""
+                            alt={car.type}
                             sizes="width: 222px"
-                            // className="max-w-[222px] "
+                            // className="max-w-[222px]"
                           />
                         ) : (
                           <Image
                             src={require(`@/assets/images/car.jpg`)}
-                            alt=""
+                            alt="car"
                             sizes="width: 222px"
-                            // className="max-w-[222px] "
+                            // className="max-w-[222px]"
                           />
                         )}
                       </div>
+
                       <div className="flex justify-between  mt-auto items-center lg:hidden">
                         <SliderButton
                           direction="previous"
@@ -266,7 +270,7 @@ const CarProfile = ({
                           <span
                             className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {car.registration_number}
+                            {car.registration_number.toUpperCase()}
                           </span>
                         </h2>
                         <h2
@@ -285,7 +289,23 @@ const CarProfile = ({
                           <span
                             className={`${groteskText.className} text-[#212121] md:text-[16px] text-[11px] self-end`}
                           >
-                            {full_name}
+                            {car.owner
+                              ? car.owner
+                                  .split(" ")
+                                  .map(
+                                    (name) =>
+                                      name.charAt(0).toUpperCase() +
+                                      name.slice(1)
+                                  )
+                                  .join(" ")
+                              : full_name
+                                  .split(" ")
+                                  .map(
+                                    (name) =>
+                                      name.charAt(0).toUpperCase() +
+                                      name.slice(1)
+                                  )
+                                  .join(" ")}
                           </span>
                         </h2>
 
@@ -454,4 +474,3 @@ const CarProfile = ({
 };
 
 export default CarProfile;
-

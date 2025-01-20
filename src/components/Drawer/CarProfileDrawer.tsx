@@ -34,7 +34,7 @@ const CarProfileDrawer = ({
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const isMobile = useIsMobile();
 
-  const { vehiclesData } = useGetVehicles();
+  const { vehiclesData,vehicelIsLoading } = useGetVehicles();
   const vehicles = vehiclesData?.vehicles;
 
   useEffect(() => {
@@ -85,23 +85,46 @@ const CarProfileDrawer = ({
     return isForm ? (
       <div className="flex flex-col md:items-center" ref={formRef}>
         <AddThirdPartyNominee
-          vehiclesRegNunbers={registrationNumber}
+          user_type={user_type.toLowerCase() as "individual" | "corporate"}
+          selectedVehicle={vehicleDetails}
           toggleForm={setIsForm}
           openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
-          selectedVehicle={nominees?.nominations || []}
+          // selectedVehicle={nominees?.nominations || []}
         />
       </div>
     ) : (
       <div className="flex flex-col md:items-center" ref={formRef}>
         <ThirdPartyNominees
           user_type={user_type.toLowerCase() as "individual" | "corporate"}
-          vehiclesRegNunbers={registrationNumber}
+          selectedVehicle={vehicleDetails}
           toggleForm={setIsForm}
           nominees={nominees?.nominations || []}
           openAddBillingMethod={openAddBillingMethod}
         />
       </div>
     );
+
+
+    // return isForm ? (
+    //   <div className="flex flex-col md:items-center" ref={formRef}>
+    //     <AddThirdPartyNominee
+    //       vehiclesRegNunbers={registrationNumber}
+    //       toggleForm={setIsForm}
+    //       openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
+    //       selectedVehicle={nominees?.nominations || []}
+    //     />
+    //   </div>
+    // ) : (
+    //   <div className="flex flex-col md:items-center" ref={formRef}>
+    //     <ThirdPartyNominees
+    //       user_type={user_type.toLowerCase() as "individual" | "corporate"}
+    //       vehiclesRegNunbers={registrationNumber}
+    //       toggleForm={setIsForm}
+    //       nominees={nominees?.nominations || []}
+    //       openAddBillingMethod={openAddBillingMethod}
+    //     />
+    //   </div>
+    // );
   };
 
   return (
@@ -122,11 +145,14 @@ const CarProfileDrawer = ({
           isForm={isForm}
           vehicles={vehicles}
           verify={verify}
+          backToDashboard={toggleDrawer}
+          loading={vehicelIsLoading}
         />
       ) : (
         // Otherwise, use the individual + mobile flow
         <>
           <CarProfileSlider
+           backToDashboard={toggleDrawer}
             full_name={full_name}
             user_type={user_type.toLowerCase()}
             vehicles={vehicles}

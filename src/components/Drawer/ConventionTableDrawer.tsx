@@ -15,6 +15,7 @@ import ContraventionRow from "./ContraventionRow";
 import DetailedBreakdownItem from "./DetailedBreakDown";
 import Button from "../Buttons";
 import DetailedBreakdownItemHeader from "./DetailedBreakDownHeader";
+import { useGetAllTicket } from "@/hooks/queries/ticket";
 
 const ConventionTableDrawer = ({ toggleDrawer }) => {
   const itemsPerPage = 1; // Number of items to display per page
@@ -28,7 +29,13 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
     setSelectedInvoice(invoice);
   };
 
-  const totalPages = Math.ceil(itemDetails.contravention.length / itemsPerPage);
+  const {ticketsData} = useGetAllTicket()
+
+
+  console.log("ticketsData",ticketsData.tickets)
+  console.log("items",itemDetails.contravention)
+
+  const totalPages = Math.ceil(ticketsData?.length / itemsPerPage);
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -63,7 +70,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
   }, []);
 
   // Slice the data to get the items for the current page
-  const currentItems = itemDetails.contravention.slice(
+  const currentItems = ticketsData.tickets.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -80,12 +87,15 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
       <Slider {...sliderSettings}>
         <div className="flex mx-0 flex-col mt-6 w-[396px!important] md:w-[700px!important] lg:w-[900px!important] border border-solid border-[#C5D5F8] rounded-lg ">
-          <table className="flex  justify-between lg:flex lg:flex-col ">
+          <table className="flex  justify-between lg:flex lg:flex-col overflow-y-scroll max-h-[378px] ">
             <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex lg:px-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
 
                 <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
-                  Contravention Type
+                  Vehicle Reg No.
+                </th>
+                <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                  Issuing Authority
                 </th>
                 <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
                   Date Issued
@@ -102,7 +112,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             </thead>
 
             <tbody className="w-full lg:w-full lg:bg-[#F9FAFB] px-[1rem] lg:p-0">
-              {(isSmallScreen ? currentItems : itemDetails.contravention).map(
+              {(isSmallScreen ? currentItems : ticketsData.tickets).map(
                 (invoice, index) => (
                   <ContraventionRow
                     key={index}
@@ -183,20 +193,20 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                   /> */}
                   <DetailedBreakdownItem
                     label="Ticket Type"
-                    value={selectedInvoice.ticket}
+                    value={selectedInvoice.details}
                   />
                   <DetailedBreakdownItem
                     label="Issuing Authority"
-                    value={selectedInvoice.issuing_auth}
+                    value={selectedInvoice.borough}
                   />
                   <DetailedBreakdownItem
                     label="Fine amount"
-                    value={selectedInvoice.fine_amount}
+                    value={`£${selectedInvoice.amount}`}
                   />
 
                   <DetailedBreakdownItem
                     label="Due Date"
-                    value={selectedInvoice.date}
+                    value={selectedInvoice.issue_date}
                   />
                   {/* <DetailedBreakdownItem
                     label="Ticket Type"

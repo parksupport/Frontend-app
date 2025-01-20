@@ -37,7 +37,6 @@ export const deleteVehicle = async (registration_number) => {
     const response = await Axios.delete(
       `/api/vehicles/${registration_number}/delete/`
     );
-    console.log("delete",response.data)
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -47,8 +46,6 @@ export const deleteVehicle = async (registration_number) => {
 
 
 export const uploadVehicles = async (file) => {
-  console.log("File details:", file);  // Logs file properties like name, size, etc.
-
   try {
     // Create a FormData object and append the file
     const formData = new FormData();

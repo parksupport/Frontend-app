@@ -46,7 +46,7 @@ const CorporateStepFour = () => {
 
   const { verifyOtp, isPending, isError, error,loading } = useVerifyOtp();
 
-  console.log("loading",loading)
+
 
   useEffect(() => {
     if (firstInputRef.current) {

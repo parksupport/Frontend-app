@@ -19,33 +19,17 @@ const CorporateSignupPage = ({ onContinue }) => {
     formData.company_registration_number &&
     formData.company_registered_address;
 
-  const [emailErrorMessage, setEmailErrorMessage] = useState<string | null>(
-    null
-  );
-
-  const { data, isLoading } = useCheckEmail(formData.company_email);
-
-  useEffect(() => {
-    if (data?.message) {
-      setEmailErrorMessage("Email exists");
-    } else {
-      setEmailErrorMessage(null); // Clear the error message when no error
-    }
-  }, [data]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === "company_email") setEmailErrorMessage(null);
     updateFormData({ [name]: value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!data?.message) {
-      if (isFormValid) {
-        onContinue(); // Proceed to the next step
-      }
+    if (isFormValid) {
+      onContinue();
     }
   };
 
@@ -86,7 +70,7 @@ const CorporateSignupPage = ({ onContinue }) => {
     <div className="max-w-[400px] w-full lg:mt-[32px]">
       <div className="flex flex-col justify-center w-full">
         <CreateAccountText />
-        <form className="mt-[24px] lg:mt-[2.5rem] 4 ">
+        <form onSubmit={handleSubmit} className="mt-[24px] lg:mt-[2.5rem] 4 ">
           <div>
             <InputField
               type="text"
@@ -159,8 +143,6 @@ const CorporateSignupPage = ({ onContinue }) => {
               validationRules={validateCompanyEmail}
               variant="individual"
               className="mt-[16px]"
-              error={emailErrorMessage}
-              loadingMessage={isLoading && <p>Verifying your email...</p>}
             />
           </div>
           <div>
@@ -182,7 +164,6 @@ const CorporateSignupPage = ({ onContinue }) => {
               type="submit"
               className="w-full lg:mt-[40px]"
               variant="primary"
-              onClick={handleSubmit}
               disabled={!isFormValid}
             >
               Continue
@@ -200,11 +181,5 @@ const CorporateSignupPage = ({ onContinue }) => {
     </div>
   );
 };
-
-// const PageWithLayout = () => (
-//   <SignupLayout>
-//     <CorporateSignupPage />
-//   </SignupLayout>
-// );
 
 export default CorporateSignupPage;

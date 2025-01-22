@@ -18,14 +18,6 @@ const CorporateAdminSignupPage = ({ onContinue }) => {
   );
   const { data, isLoading } = useCheckEmail(formData.email_address);
 
-  useEffect(() => {
-    if (data?.message) {
-      setEmailErrorMessage("Email exists");
-    } else {
-      setEmailErrorMessage(null);
-    }
-  }, [data]);
-
   let isFormValid =
     formData.full_name &&
     formData.email_address &&
@@ -43,12 +35,31 @@ const CorporateAdminSignupPage = ({ onContinue }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isFormValid) {
-      try {
-        await signup(formData);
-        onContinue(); // Proceed to OTP step
-      } catch (error) {
-        console.error(error);
+
+    if (!isFormValid) {
+      console.error("Form is not valid. Please check the inputs.");
+      return;
+    }
+
+    try {
+      if (data?.message) {
+        setEmailErrorMessage("Email exists");
+        return; // Stop further processing if email exists
+      }
+
+      // Proceed with signup if email is valid
+      await signup(formData);
+
+      // Move to the next step
+      onContinue();
+    } catch (error: any) {
+      // Enhanced error handling
+      if (error.response) {
+        console.error("Signup failed:", error.response.data);
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+      } else {
+        console.error("An unexpected error occurred:", error.message);
       }
     }
   };
@@ -139,7 +150,6 @@ const CorporateAdminSignupPage = ({ onContinue }) => {
               variant="individual"
               className="mt-[16px]"
               error={emailErrorMessage}
-              loadingMessage={isLoading && <p>Verifying your email...</p>}
             />
           </div>
           <div>

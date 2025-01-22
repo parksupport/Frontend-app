@@ -37,12 +37,6 @@ export const checkEmail = async (email) => {
       }
     );
 
-    // Axios automatically parses the response as JSON
-    if (response.status === 200) {
-      console.log(response.data.message);
-    } else {
-      console.error(response.data.message);
-    }
     return response.data;
   } catch (error) {
     console.error("Error:", error);

@@ -18,16 +18,7 @@ const SignupPage: React.FC<SignupPageProps> = ({ onContinue }) => {
     null
   );
 
-  const { data, isLoading} = useCheckEmail(formData.email_address);
-
-
-  useEffect(() => {
-    if (data?.message) {
-      setEmailErrorMessage("Email exists");
-    } else {
-      setEmailErrorMessage(null); // Clear the error message when no error
-    }
-  }, [data]);
+  const { data} = useCheckEmail(formData.email_address);
 
   const isFormValid =
     formData.full_name &&
@@ -45,7 +36,9 @@ const SignupPage: React.FC<SignupPageProps> = ({ onContinue }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!data?.message) {
+    if (data?.message) {
+      setEmailErrorMessage("Email exists");
+    } else {
       if (isFormValid) {
         onContinue(); // Proceed to the next step
       }
@@ -125,7 +118,6 @@ const SignupPage: React.FC<SignupPageProps> = ({ onContinue }) => {
               variant="individual"
               className="mt-[16px]"
               error={emailErrorMessage}
-              loadingMessage={isLoading && <p>Verifying your email...</p>}
             />
           </div>
           <div>
@@ -174,7 +166,6 @@ const SignupPage: React.FC<SignupPageProps> = ({ onContinue }) => {
               className="w-full lg:mt-[40px] "
               variant="primary"
               disabled={!isFormValid}
-              // onClick={onContinue}
             >
               Continue
             </Button>

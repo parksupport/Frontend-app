@@ -44,12 +44,18 @@ export const CorporateCarProfileDrawer = ({
 
   const [selectedVehicle, setSelectedVehicle] = useState(data?.[0] || {});
 
+
   useEffect(() => {
-    // setSelectedVehicle(data?.[0] || {});
     if (data?.length === 0) {
-      backToDashboard();
+      backToDashboard(); // If no vehicles are left, navigate back to the dashboard
+    } else if (!data.some((vehicle) => vehicle.registration_number === selectedVehicle.registration_number)) {
+      // If the selected vehicle has been deleted and is no longer in data, select the first vehicle
+      setSelectedVehicle(data[0]);
     }
-  }, [data, setData]);
+  }, [data, selectedVehicle, setData]);
+  
+
+
 
   const { nominees, isLoading } = useGetNominees(
     selectedVehicle?.registration_number

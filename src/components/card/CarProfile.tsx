@@ -80,9 +80,9 @@ const CarProfile = ({
     console.log(plan_id, vehicles?.length);
     if (plan_id === 1) {
       onOpen();
-    } else if (plan_id === 2 && vehicles === 2) {
+    } else if (plan_id === 2 && vehicles >= 2) {
       onOpen();
-    } else if (plan_id === 3 && vehicles === 5) {
+    } else if (plan_id === 3 && vehicles >= 5) {
       onOpen();
     } else {
       openAddVehicleDetailsDrawer();

@@ -37,7 +37,7 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
                     lg:pl-[3.5rem] 
                     ${groteskText.className}`}
       >
-        {invoice.borough}
+        {invoice.issuing_authority}
       </td>
       {/* Date */}
       <td

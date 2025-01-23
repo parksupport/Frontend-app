@@ -197,7 +197,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                   />
                   <DetailedBreakdownItem
                     label="Issuing Authority"
-                    value={selectedInvoice.borough}
+                    value={selectedInvoice.issuing_authority}
                   />
                   <DetailedBreakdownItem
                     label="Fine amount"

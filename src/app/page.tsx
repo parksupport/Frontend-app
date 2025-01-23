@@ -41,6 +41,7 @@ export default function LandingPage() {
   const { hasTicket, isLoading, error, refetch } =
     useCheckVehicleTicket(vehicleNo);
 
+  const [localLoading, setLocalLoading] = useState(false);
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -49,10 +50,14 @@ export default function LandingPage() {
   };
 
   // Handle search button click
+
   const handleSearch = () => {
     if (vehicleNo) {
       setHasSearched(true); // Mark that search has been initiated
-      refetch(); // Trigger API call manually when search button is clicked
+      setLocalLoading(true); // Set local loading state to true
+      refetch().finally(() => {
+        setLocalLoading(false); // Reset local loading state once API call completes
+      });
     }
   };
 
@@ -186,9 +191,9 @@ export default function LandingPage() {
                   className="rounded-[0.75rem] whitespace-nowrap h-[2.5rem] py-0 px-[23px]"
                   variant="primary"
                   onClick={handleSearch}
-                  disabled={isLoading || !vehicleNo}
+                  disabled={localLoading || !vehicleNo}
                 >
-                  {isLoading ? "Searching..." : "Search"}
+                  {localLoading ? "Searching..." : "Search"}
                 </Button>
               </div>
 

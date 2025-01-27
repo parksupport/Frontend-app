@@ -34,6 +34,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   const [file, setFile] = useState<File | null>(null);
   const [isBulk, setIsBulk] = useState(false);
 
+  const { uploadVehicles, error, isLoading ,status} = useUploadVehicles();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle form submission if needed
@@ -78,8 +80,8 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
 
   const handleImageClick = () => {
     fileInputRef.current?.click();
+    
   };
-
   const handleBulkUpload = () => {
     if (file) {
       uploadVehicles(file);
@@ -89,9 +91,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
     }
   };
 
-  const { uploadVehicles, error, isLoading } = useUploadVehicles();
-
-  console.log("isLoading", isLoading);
+  
 
   return (
     <div className="mx-auto ">

@@ -298,6 +298,7 @@ export const CorporateCarProfileDrawer = ({
                 user_type={user_type}
                 setSelectedVehicle={setSelectedVehicle}
                 data={data}
+                
               />
             ) : (
               <ThirdPartyNominees
@@ -306,6 +307,7 @@ export const CorporateCarProfileDrawer = ({
                 toggleForm={setForm}
                 nominees={nominees?.nominations || []}
                 loading={isLoading}
+                openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
               />
             )}
           </div>

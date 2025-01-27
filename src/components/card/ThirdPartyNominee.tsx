@@ -15,7 +15,7 @@ import TruncatedText from "../ToggleComponent/TruncatedText";
 import { CustomDatePicker } from "../dataPicker";
 import { useAddNominee } from "@/hooks/mutations/nominee";
 import { useGetProfile } from "@/hooks/queries/profile";
-import { useDisclosure } from "@chakra-ui/react";
+import { Spinner, useDisclosure } from "@chakra-ui/react";
 import ModalComponent from "../Drawer/ModalComponent";
 import SubscriptionPlans from "../Subscription";
 import Image from "next/image";
@@ -138,7 +138,7 @@ ThirdPartyNomineesProps) {
       </div>
 
       {loading ? (
-        <div>Loading...</div> // You can add a loading spinner or any other content here
+        <div className="flex h-[200px]  justify-center items-center"><Spinner color="blue" /></div> // You can add a loading spinner or any other content here
       ) : data.length === 0 ? (
         <div className="h-[300px] border  rounded-[8px] flex items-center justify-center flex-col">
           <div className="flex flex-col items-center justify-center ">

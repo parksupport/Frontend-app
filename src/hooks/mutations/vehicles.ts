@@ -42,6 +42,7 @@ export const useUploadVehicles = () => {
     uploadVehicles: mutation.mutate,
     isLoading,
     error: mutation.error,
+    status:mutation.status
   };
 };
 

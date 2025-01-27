@@ -51,14 +51,11 @@ export default function DashboardPage() {
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
   // const {nominees} = useGetNominees()
-  const { vehiclesData,vehicelIsLoading } = useGetVehicles();
-    const { ticketsData } = useGetAllTicket();
-  
+  const { vehiclesData, vehicelIsLoading } = useGetVehicles();
+  const { ticketsData } = useGetAllTicket();
 
   const { addVehicle, error, isError } = useAddVehicle();
   const { profile } = useGetProfile();
-
-  
 
   const plan_id = profile?.userplan?.plan;
 
@@ -146,38 +143,8 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  // const checkVehicleStatus = async (vehicleData) => {
-  //   try {
-  //     console.log("vehicleDataStatus:", vehicleData);
-
-  //     const data = {
-  //       registration_number: vehicleData?.vegRegNumber,
-  //       type: vehicleData?.type,
-  //       model: vehicleData?.car_model,
-  //       year: vehicleData?.year,
-  //       postcode: vehicleData?.postcode,
-  //     };
-  //     const response = await addVehicle(data);
-
-  //     // console.log("response:", isError);
-  //     // console.log("respoeeense:", error);
-
-  //     // const verificationStatus = response?.vehicle?.verification_status ;
-  //     const verificationStatus = "Verified";
-
-  //     return verificationStatus === "Verified" ? "success" : "failed";
-  //   } catch (error) {
-  //     console.error("Fetch failed:", error);
-  //     return "failed";
-  //   }
-  // };
-
   const checkVehicleStatus = async (vehicleData) => {
     try {
-  
-
-
-
       // Wait for the mutation result
       await addVehicle(vehicleData);
 
@@ -281,7 +248,7 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openAddBillingMethod = (id: string,toDashboard?:boolean) => {
+  const openAddBillingMethod = (id: string, toDashboard?: boolean) => {
     setDrawerContent(
       <AddBillingMethodDrawer
         back={!toDashboard ? openSettingsDrawer : toggleDrawer}
@@ -376,12 +343,11 @@ export default function DashboardPage() {
               <div className="items-center w-full justify-center flex">
                 <ContraventionTable
                   openConventionTable={openConventionTable}
-                  addVehicle ={openAddVehicleDetailsDrawer}
+                  addVehicle={openAddVehicleDetailsDrawer}
                   plan_id={plan_id}
                   openAddBillingMethod={openAddBillingMethod}
                   vehicles={vehiclesData?.vehicles}
                   isLoading={vehicelIsLoading}
-
                 />
               </div>
             </section>

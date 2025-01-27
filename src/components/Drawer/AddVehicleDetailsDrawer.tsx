@@ -9,6 +9,9 @@ import DrawerHeader from "./DrawerHeader";
 import { useUploadVehicles } from "@/hooks/mutations/vehicles";
 import DropdownInputField from "../DropdownInputField";
 
+import { saveAs } from 'file-saver';
+import { downloadCSV } from "@/api/vehicle";
+
 type VehicleDetailsDrawerProps = {
   back: any;
   CheckVehicleOwner: (formData: any) => void;
@@ -65,9 +68,6 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileName, setFileName] = useState("");
 
-  const handleButtonClick = () => {
-    fileInputRef.current?.click();
-  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
@@ -209,7 +209,7 @@ const AddVehicleDetailsDrawer: React.FC<VehicleDetailsDrawerProps> = ({
                 </div>
                 <div
                   className="cursor-pointer text-[#039BB7] underline self-start mt-2"
-                  onClick={handleButtonClick}
+                  onClick={downloadCSV}
                 >
                   Download CSV template
                 </div>

@@ -64,3 +64,36 @@ export const uploadVehicles = async (file) => {
     throw error.response?.data || error.message;
   }
 };
+
+
+export const downloadCSV = async () => {
+  try {
+
+    const response = await Axios.get('/api/vehicles/download-csv/', {
+      responseType: 'blob', // Important to handle binary data
+    });
+
+    // Get the CSV content as a blob
+    const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
+
+    // Create a download link
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'vehicle_data.csv'); // Name of the file
+
+    // Trigger the download
+    document.body.appendChild(link);
+    link.click();
+
+    // Clean up
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    // Handle errors
+    throw error.response?.data || error.message;
+  }
+};
+
+
+

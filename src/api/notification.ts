@@ -40,7 +40,7 @@ export const markAllAsRead = async () => {
       {}
     );
 
- 
+    console.log(response.data); // Handle success
     // Optionally, update the UI to reflect that the notification is marked as read
   } catch (error) {
     console.error("Error:", error);

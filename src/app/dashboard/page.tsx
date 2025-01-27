@@ -36,11 +36,11 @@ import NominationHistoryTable from "@/components/Drawer/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
 
 import { useAddVehicle } from "@/hooks/mutations/vehicles";
-import VehicleVerificationDrawer from "@/components/Drawer/VehicleVerificationDrawer";
 import { useGetVehicles } from "@/hooks/queries/vehicles";
 import { useGetProfile } from "@/hooks/queries/profile";
 import SubscriptionPlans from "@/components/Subscription";
 import { useGetAllTicket } from "@/hooks/queries/ticket";
+import VehicleVerificationForm from "@/components/Verificationform";
 
 export default function DashboardPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -85,7 +85,8 @@ export default function DashboardPage() {
         openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
         form={form}
         autoScrollToForm={autoScrollToForm}
-        verify={openVerifyMyVehicleDrawer}
+        // verify={openVerifyMyVehicleDrawer
+        verify={openVerifyVehicleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />
     );
@@ -103,13 +104,6 @@ export default function DashboardPage() {
     openDrawer();
   };
 
-  const openVerifyMyVehicleDrawer = (data) => {
-    setDrawerContent(
-      <VehicleVerificationDrawer data={data} back={toggleDrawer} />
-    );
-    scrollToTopFromParent();
-    openDrawer();
-  };
 
   const openProfileDrawer = () => {
     setDrawerContent(
@@ -260,6 +254,16 @@ export default function DashboardPage() {
     openDrawer();
   };
 
+
+  const openVerifyVehicleDrawer= () =>{
+    setDrawerContent(
+    //  <VehicleVerificationForm back={toggleDrawer}/>
+     <VehicleVerificationForm back={() => openCarProfile(vehicles)}/>
+
+    );
+    scrollToTopFromParent();
+    openDrawer();
+  };
   return (
     <>
       {user ? (
@@ -332,7 +336,7 @@ export default function DashboardPage() {
                   openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
                   openCarProfile={() => openCarProfile(vehicles)}
                   vehicles={vehiclesData?.vehicles}
-                  verify={openVerifyMyVehicleDrawer}
+                  verify={openVerifyVehicleDrawer}
                   plan_id={plan_id}
                   openAddBillingMethod={openAddBillingMethod}
                   isLoading={vehicelIsLoading}

@@ -20,6 +20,7 @@ import ModalComponent from "../Drawer/ModalComponent";
 import SubscriptionPlans from "../Subscription";
 import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
+import VehicleVerificationForm from "../Verificationform";
 
 /* -------------------------------------------------------------------------- */
 /*                        ThirdPartyNominees (Listing)                        */
@@ -34,6 +35,7 @@ interface ThirdPartyNomineesProps {
   openAddBillingMethod?: any;
   vehiclesRegNunbers?: any;
   openAddVehicleDetailsDrawer?: any;
+  openVerifyVehicleDrawer?:any
 }
 
 export default function ThirdPartyNominees({
@@ -44,6 +46,7 @@ export default function ThirdPartyNominees({
   loading,
   openAddBillingMethod,
   openAddVehicleDetailsDrawer,
+  openVerifyVehicleDrawer
 }: // vehiclesRegNunbers
 ThirdPartyNomineesProps) {
   const {
@@ -138,7 +141,9 @@ ThirdPartyNomineesProps) {
       </div>
 
       {loading ? (
-        <div className="flex h-[200px]  justify-center items-center"><Spinner color="blue" /></div> // You can add a loading spinner or any other content here
+        <div className="flex h-[200px]  justify-center items-center">
+          <Spinner color="blue" />
+        </div> // You can add a loading spinner or any other content here
       ) : data.length === 0 ? (
         <div className="h-[300px] border  rounded-[8px] flex items-center justify-center flex-col">
           <div className="flex flex-col items-center justify-center ">
@@ -195,7 +200,7 @@ ThirdPartyNomineesProps) {
             plan={plan_id}
             closeModal={onClose}
             openAddBillingMethod={openAddBillingMethod}
-            openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
+            openVerifyVehicleDrawer={openVerifyVehicleDrawer}
           />
         }
 
@@ -211,14 +216,16 @@ interface AddNOmineesSubscriptionProps {
   status: string;
   closeModal: () => void;
   openAddBillingMethod: (id: string, isSubscription?: boolean) => void;
-  openAddVehicleDetailsDrawer?: () => void;
+  openVerifyVehicleDrawer?:any
+
 }
 const AddNomineesSubscription = ({
   plan,
   status,
   closeModal,
   openAddBillingMethod,
-  openAddVehicleDetailsDrawer,
+  openVerifyVehicleDrawer,
+  
 }: AddNOmineesSubscriptionProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -248,6 +255,7 @@ const AddNomineesSubscription = ({
     }
     return null;
   };
+
 
   return (
     <div className="relative bg-white rounded-lg shadow-lg p-6 max-w-lg mx-auto">
@@ -283,7 +291,7 @@ const AddNomineesSubscription = ({
 
         <button
           className="mt-4 w-full bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          onClick={status !== "Verified" ? openAddVehicleDetailsDrawer : onOpen}
+          onClick={status !== "Verified" ? openVerifyVehicleDrawer : onOpen}
         >
           {status !== "Verified" ? "Verify Now" : "Subscribe Now"}
         </button>
@@ -693,6 +701,7 @@ export const NomineeMobile = ({
 interface AddThirdPartyNomineeProps {
   toggleForm?: (bool: boolean) => void;
   openAddVehicleDetailsDrawer?: () => void;
+  openVerifyVehicleDrawer?: () => void;
   selectedVehicle?: any;
   user_type?: any;
   setSelectedVehicle?: any;

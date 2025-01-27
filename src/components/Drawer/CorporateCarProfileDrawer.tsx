@@ -17,7 +17,7 @@ import { useGetNominees } from "@/hooks/queries/nominee";
 
 export const CorporateCarProfileDrawer = ({
   toggleDrawer,
-  openAddVehicleDetailsDrawer,
+  openVerifyVehicleDrawer,
   isForm,
   openNominationHistory,
   vehicles,
@@ -26,6 +26,7 @@ export const CorporateCarProfileDrawer = ({
   verify,
   backToDashboard,
   loading,
+  openAddVehicleDetailsDrawer,
 }) => {
   const [form, setForm] = useState(isForm);
 
@@ -44,18 +45,19 @@ export const CorporateCarProfileDrawer = ({
 
   const [selectedVehicle, setSelectedVehicle] = useState(data?.[0] || {});
 
-
   useEffect(() => {
     if (data?.length === 0) {
       backToDashboard(); // If no vehicles are left, navigate back to the dashboard
-    } else if (!data.some((vehicle) => vehicle.registration_number === selectedVehicle.registration_number)) {
+    } else if (
+      !data.some(
+        (vehicle) =>
+          vehicle.registration_number === selectedVehicle.registration_number
+      )
+    ) {
       // If the selected vehicle has been deleted and is no longer in data, select the first vehicle
       setSelectedVehicle(data[0]);
     }
   }, [data, selectedVehicle, setData]);
-  
-
-
 
   const { nominees, isLoading } = useGetNominees(
     selectedVehicle?.registration_number
@@ -240,9 +242,8 @@ export const CorporateCarProfileDrawer = ({
                                 : "bg-red-100 text-red-700"
                             }`}
                             onClick={
-                              item.verification_status === "Pending" ||
-                              item.verification_status === "Unverified"
-                                ? () => verify(item) // Add your onClick handler here
+                              item.verification_status !== "Verified"
+                                ? () => openVerifyVehicleDrawer() // Add your onClick handler here
                                 : undefined
                             }
                           >
@@ -275,7 +276,7 @@ export const CorporateCarProfileDrawer = ({
                         <td
                           className={` ${groteskText.className} px-6 text-sm md:text-[18px] text-gray-700 leading-none w-[10%] whitespace-nowrap`}
                         >
-                             {item.type.charAt(0).toUpperCase() +
+                          {item.type.charAt(0).toUpperCase() +
                             item.type.slice(1)}
                         </td>
                       </tr>
@@ -298,7 +299,7 @@ export const CorporateCarProfileDrawer = ({
                 user_type={user_type}
                 setSelectedVehicle={setSelectedVehicle}
                 data={data}
-                
+                openVerifyVehicleDrawer={openVerifyVehicleDrawer}
               />
             ) : (
               <ThirdPartyNominees
@@ -308,6 +309,7 @@ export const CorporateCarProfileDrawer = ({
                 nominees={nominees?.nominations || []}
                 loading={isLoading}
                 openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
+                openVerifyVehicleDrawer={openVerifyVehicleDrawer}
               />
             )}
           </div>

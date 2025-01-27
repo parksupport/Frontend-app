@@ -25,6 +25,7 @@ import { useGetProfile } from "@/hooks/queries/profile";
 interface CarProfileSliderProps {
   vehicles: any[];
   openAddVehicleDetailsDrawer: () => void;
+  openVerifyVehicleDrawer: () => void;
   onVehicleChange?: (index: number) => void;
   setForm: (form: boolean) => void;
   scrollToForm: () => void;
@@ -37,6 +38,7 @@ interface CarProfileSliderProps {
 const CarProfileSlider = ({
   vehicles = [],
   openAddVehicleDetailsDrawer,
+  openVerifyVehicleDrawer,
   onVehicleChange,
   setForm,
   scrollToForm,
@@ -249,6 +251,11 @@ const CarProfileSlider = ({
                           label: "Verification Status:",
                           value: (
                             <button
+                              onClick={
+                                car.verification_status !== "Verified"
+                                  ? () => openVerifyVehicleDrawer() // Add your onClick handler here
+                                  : undefined
+                              }
                               className={`text-[11px] rounded-[6.25rem] px-2 py-1 self-end ${
                                 car.verification_status === "Pending"
                                   ? "text-[#B38B00] bg-[#FFECB3]"

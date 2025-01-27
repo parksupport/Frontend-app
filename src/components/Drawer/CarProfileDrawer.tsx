@@ -25,11 +25,11 @@ interface CarProfileDrawerProps {
 const CarProfileDrawer = ({
   verify,
   toggleDrawer,
-  openAddVehicleDetailsDrawer,
   form,
   openNominationHistory,
   openAddBillingMethod,
   autoScrollToForm = false,
+  openAddVehicleDetailsDrawer,
 }: CarProfileDrawerProps) => {
   const [isForm, setIsForm] = useState(form);
   const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
@@ -90,8 +90,9 @@ const CarProfileDrawer = ({
           user_type={user_type.toLowerCase() as "individual" | "corporate"}
           selectedVehicle={vehicleDetails}
           toggleForm={setIsForm}
-          openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
+          openVerifyVehicleDrawer={verify}
           addNominee={addNominee}
+          openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
           // selectedVehicle={nominees?.nominations || []}
           />
       </div>
@@ -103,6 +104,7 @@ const CarProfileDrawer = ({
           toggleForm={setIsForm}
           nominees={nominees?.nominations || []}
           openAddBillingMethod={openAddBillingMethod}
+          openVerifyVehicleDrawer={verify}
           openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
         />
       </div>
@@ -145,6 +147,7 @@ const CarProfileDrawer = ({
           user_type={user_type.toLowerCase()}
           openNominationHistory={openNominationHistory}
           openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
+          openVerifyVehicleDrawer={verify}
           toggleDrawer={toggleDrawer}
           isForm={isForm}
           vehicles={vehicles}
@@ -161,6 +164,7 @@ const CarProfileDrawer = ({
             user_type={user_type.toLowerCase()}
             vehicles={vehicles}
             openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
+            openVerifyVehicleDrawer={verify}
             onVehicleChange={handleVehicleChange}
             setForm={setIsForm}
             scrollToForm={() =>

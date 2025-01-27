@@ -32,9 +32,6 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
   const {ticketsData} = useGetAllTicket()
 
 
-  console.log("ticketsData",ticketsData.tickets)
-  console.log("items",itemDetails.contravention)
-
   const totalPages = Math.ceil(ticketsData?.length / itemsPerPage);
 
   const handlePreviousPage = () => {

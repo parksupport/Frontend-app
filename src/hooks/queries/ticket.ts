@@ -38,8 +38,6 @@ export const useCheckVehicleTicket = (registrationNumber: string) => {
     enabled: Boolean(registrationNumber), // Ensures query only runs if registrationNumber exists
   });
 
-  console.log("data",data)
-
   return {
     hasTicket: data?.has_tickets ?? null, // Extract hasTicket from API response
     error,

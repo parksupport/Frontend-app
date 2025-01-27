@@ -3,10 +3,12 @@ import { addNominee, deleteNominee, endNomination } from "@/api/nominee";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 export const useAddNominee = () => {
   const toast = useToast();
   const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false); // Local loading state
 
   const mutation = useMutation({
     mutationFn: async ({
@@ -22,18 +24,23 @@ export const useAddNominee = () => {
         phone: data.phone_number,
         start_date: data.start_date,
         end_date: data.end_date,
-        //   is_indefinite: data.is_indefinite
+        // is_indefinite: data.is_indefinite
       };
+
+      setIsLoading(true); // Set loading to true when the mutation starts
       try {
-        return await addNominee(registration_number, formattedData);
+        const response = await addNominee(registration_number, formattedData);
+        return response;
       } catch (error: any) {
         throw error;
+      } finally {
+        setIsLoading(false); // Set loading to false when the mutation completes
       }
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["nominee"] });
       await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
-    
+
       toast({
         title: "User nominated successfully",
         status: "success",
@@ -41,11 +48,10 @@ export const useAddNominee = () => {
         isClosable: true,
       });
     },
-    
     onError: (mutationError: any, newNominee, context) => {
       console.log("Failed to add nominee:", newNominee);
+      console.error("Error occurred:", mutationError);
 
-       console.error("Error occurred:", mutationError);
       toast({
         title: "Failed to add Nominee",
         description:
@@ -62,10 +68,9 @@ export const useAddNominee = () => {
     addNominee: mutation.mutate,
     isError: mutation.isError,
     error: mutation.error,
-    //   isLoading: mutation.isLoading,
+    addNomineeLoading: isLoading || mutation.isPending, // Combine local and mutation loading states
   };
 };
-
 export const useDeleteNominee = () => {
   const toast = useToast();
   // const setNominee = useAuthStore((state) => state.setNominee);

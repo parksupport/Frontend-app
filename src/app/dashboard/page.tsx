@@ -51,7 +51,7 @@ export default function DashboardPage() {
   const user = useAuthStore((state) => state.user);
   const { full_name, user_type, vehicles } = user || {};
   // const {nominees} = useGetNominees()
-  const { vehiclesData } = useGetVehicles();
+  const { vehiclesData,vehicelIsLoading } = useGetVehicles();
     const { ticketsData } = useGetAllTicket();
   
 
@@ -368,6 +368,7 @@ export default function DashboardPage() {
                   verify={openVerifyMyVehicleDrawer}
                   plan_id={plan_id}
                   openAddBillingMethod={openAddBillingMethod}
+                  isLoading={vehicelIsLoading}
                   // openNominationHistory={openNominationHistory}
                 />
               </div>
@@ -379,6 +380,8 @@ export default function DashboardPage() {
                   plan_id={plan_id}
                   openAddBillingMethod={openAddBillingMethod}
                   vehicles={vehiclesData?.vehicles}
+                  isLoading={vehicelIsLoading}
+
                 />
               </div>
             </section>

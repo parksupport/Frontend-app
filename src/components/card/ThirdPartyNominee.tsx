@@ -699,6 +699,7 @@ interface AddThirdPartyNomineeProps {
   setSelectedVehicle?: any;
   data?: any;
   vehiclesRegNunbers?: any;
+  addNominee?:any;
 }
 
 export function AddThirdPartyNominee({
@@ -707,6 +708,7 @@ export function AddThirdPartyNominee({
   user_type,
   setSelectedVehicle,
   data,
+  addNominee,
 }: // vehiclesRegNunbers,
 AddThirdPartyNomineeProps) {
   const [hasError, setHasError] = useState(false);
@@ -748,7 +750,7 @@ AddThirdPartyNomineeProps) {
     end_date: endDate,
   });
 
-  const { addNominee } = useAddNominee();
+  // const { addNominee, isLoading } = useAddNominee();
 
   const UserInputFields = [
     {
@@ -911,7 +913,9 @@ AddThirdPartyNomineeProps) {
               </div>
             )}
             <div className="flex items-center gap-[8px] w-[90%] md:w-[500px] mt-2">
-              <div className={`flex text-[16px] md:text-[20px]  ${groteskText.className} `}>
+              <div
+                className={`flex text-[16px] md:text-[20px]  ${groteskText.className} `}
+              >
                 {" "}
                 Receipent Notification Preference :
               </div>

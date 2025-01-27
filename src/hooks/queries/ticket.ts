@@ -1,4 +1,4 @@
-import { checkTicketData, fetchAllTicketData, fetchTicketData } from "@/api/ticket";
+import {  checkTickets, fetchAllTicketData, fetchTicketData } from "@/api/ticket";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetTicket = (registration_number: string) => {
@@ -34,12 +34,14 @@ export const useGetAllTicket = () => {
 export const useCheckVehicleTicket = (registrationNumber: string) => {
   const { data, error, isLoading,refetch } = useQuery({
     queryKey: ["check-ticket", registrationNumber],
-    queryFn: () => checkTicketData(registrationNumber),
+    queryFn: () => checkTickets(registrationNumber),
     enabled: Boolean(registrationNumber), // Ensures query only runs if registrationNumber exists
   });
 
+  console.log("data",data)
+
   return {
-    hasTicket: data?.hasTicket ?? null, // Extract hasTicket from API response
+    hasTicket: data?.has_tickets ?? null, // Extract hasTicket from API response
     error,
     isLoading,
     refetch

@@ -109,7 +109,11 @@ const NotificationsTableDrawer = ({ back }) => {
                 onNotificationClick={handleNotificationClick}
                 updateSelectedNotifications={updateSelectedNotifications}
                 selectedNotificationsList={selectedNotificationsList}
-                notificationStateMessage={getNotificationMessage({ isLoading, isError, error })}
+                notificationStateMessage={getNotificationMessage({
+                  isLoading,
+                  isError,
+                  error,
+                })}
               />
             </div>
           </>
@@ -131,7 +135,11 @@ const NotificationsTableDrawer = ({ back }) => {
               updateSelectedNotifications={updateSelectedNotifications}
               selectedNotificationsList={selectedNotificationsList}
               hasCheckbox
-              notificationStateMessage={getNotificationMessage({ isLoading, isError, error })}
+              notificationStateMessage={getNotificationMessage({
+                isLoading,
+                isError,
+                error,
+              })}
             />
           </div>
         )}
@@ -148,15 +156,17 @@ const NotificationsTableDrawer = ({ back }) => {
 export default NotificationsTableDrawer;
 
 const ReadNotification = ({ selectedNotification }) => {
+  const recipientsString = selectedNotification?.recipients
+    ? selectedNotification.recipients
+        .replace(/'/g, '"') // Replace single quotes with double quotes
+        .replace(/^\[|\]$/g, "") // Remove outer square brackets (if needed)
+    : ""; // Fallback to an empty string if recipients is null or undefined
 
-  const [emails, setEmails] = useState<string[]>([
-    "user1@example.com",
-    "user2@example.com",
-  ]);
+  const recipientsArray = recipientsString
+    ? JSON.parse(`[${recipientsString}]`)
+    : []; // Parse as JSON if string is valid
+  const mappedRecipients = recipientsArray?.map((email) => email.trim());
 
-  const removeEmail = (emailToRemove: string) => {
-    setEmails(emails.filter((email) => email !== emailToRemove));
-  };
   return (
     <div className="flex items-center  md:w-[900px] mx-auto">
       {selectedNotification && (
@@ -172,27 +182,20 @@ const ReadNotification = ({ selectedNotification }) => {
             {" "}
             {selectedNotification.time}
           </h5>
-          <div className="border border-gray-300 rounded-lg p-2">
-            <div className="flex flex-wrap gap-2">
-              {emails.map((email) => (
-                <div
-                  key={email}
-                  className="flex flex-row bg-gray-200 text-gray-800 text-[12px] items-center rounded-full px-4 space-x-2"
-                >
-                  <span>{email}</span>
-                  <button
-                    onClick={() => removeEmail(email)}
-                    className="text-red-500 font-bold hover:text-red-700"
+          {mappedRecipients?.length > 0 && (
+            <div className="border border-gray-300 rounded-lg p-2">
+              <div className="flex flex-wrap gap-2">
+                {mappedRecipients.map((email) => (
+                  <div
+                    key={email}
+                    className="flex flex-row bg-gray-200 text-gray-800 text-[12px] items-center rounded-full px-4 space-x-2"
                   >
-                    &times;
-                  </button>
-                </div>
-              ))}
+                    <span>{email}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            {emails.length === 0 && (
-              <p className="text-gray-400 italic">No emails added yet</p>
-            )}
-          </div>
+          )}
 
           <p
             className={` text-black md:text-[18px] ${groteskText.className} mt-2`}

@@ -45,6 +45,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
     totalNotifications,
   } = useNotifications(notificationsData, 7);
 
+
   const isMobile = useIsMobile();
 
   function getNotificationMessage({

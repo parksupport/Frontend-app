@@ -33,6 +33,7 @@ interface ThirdPartyNomineesProps {
   loading?: boolean;
   openAddBillingMethod?: any;
   vehiclesRegNunbers?: any;
+  openAddVehicleDetailsDrawer?: any;
 }
 
 export default function ThirdPartyNominees({
@@ -42,6 +43,7 @@ export default function ThirdPartyNominees({
   nominees,
   loading,
   openAddBillingMethod,
+  openAddVehicleDetailsDrawer,
 }: // vehiclesRegNunbers
 ThirdPartyNomineesProps) {
   const {
@@ -188,11 +190,12 @@ ThirdPartyNomineesProps) {
         onClose={onClose}
         onOpen={onOpen}
         display={
-          <AddNOmineesSubscription
+          <AddNomineesSubscription
             status={status}
             plan={plan_id}
             closeModal={onClose}
             openAddBillingMethod={openAddBillingMethod}
+            openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
           />
         }
 
@@ -208,12 +211,14 @@ interface AddNOmineesSubscriptionProps {
   status: string;
   closeModal: () => void;
   openAddBillingMethod: (id: string, isSubscription?: boolean) => void;
+  openAddVehicleDetailsDrawer?: () => void;
 }
-const AddNOmineesSubscription = ({
+const AddNomineesSubscription = ({
   plan,
   status,
   closeModal,
   openAddBillingMethod,
+  openAddVehicleDetailsDrawer,
 }: AddNOmineesSubscriptionProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -278,13 +283,7 @@ const AddNOmineesSubscription = ({
 
         <button
           className="mt-4 w-full bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-          onClick={
-            status !== "Verified"
-              ? () => {
-                  console.log("Unverified");
-                }
-              : onOpen
-          }
+          onClick={status !== "Verified" ? openAddVehicleDetailsDrawer : onOpen}
         >
           {status !== "Verified" ? "Verify Now" : "Subscribe Now"}
         </button>
@@ -699,7 +698,7 @@ interface AddThirdPartyNomineeProps {
   setSelectedVehicle?: any;
   data?: any;
   vehiclesRegNunbers?: any;
-  addNominee?:any;
+  addNominee?: any;
 }
 
 export function AddThirdPartyNominee({

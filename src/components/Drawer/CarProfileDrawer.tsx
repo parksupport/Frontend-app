@@ -93,7 +93,7 @@ const CarProfileDrawer = ({
           openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
           addNominee={addNominee}
           // selectedVehicle={nominees?.nominations || []}
-        />
+          />
       </div>
     ) : (
       <div className="flex flex-col md:items-center" ref={formRef}>
@@ -103,6 +103,7 @@ const CarProfileDrawer = ({
           toggleForm={setIsForm}
           nominees={nominees?.nominations || []}
           openAddBillingMethod={openAddBillingMethod}
+          openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
         />
       </div>
     );

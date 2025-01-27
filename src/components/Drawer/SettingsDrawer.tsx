@@ -12,7 +12,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import ThirdPartyNominees from "../card/ThirdPartyNominee";
 import Drawer from "./Drawer";
 
-import { useLogout } from "@/hooks/mutations/auth";
+import { useLogout, useResetPassword } from "@/hooks/mutations/auth";
 import { useNotificationPreferences } from "@/hooks/queries/notifications";
 import SubscriptionPlans from "../Subscription";
 
@@ -25,6 +25,8 @@ const SettingsDrawer = ({
   // const [isOpen, setIsOpen] = useState(false);
 
   const { logout } = useLogout();
+
+  const { changePassword, status } = useResetPassword();
   const {
     preferences,
     isLoadingPrefs,
@@ -67,14 +69,23 @@ const SettingsDrawer = ({
   const [showForm, setShowForm] = useState(false);
 
   const [formData, setFormData] = useState({
-    newPassword: "",
-    confirmPassword: "",
+    new_password: "",
+    confirm_password: "",
   });
   // const openDrawer = () => {
   //   if (!isOpen) {
   //     setIsOpen(true);
   //   }
   // };
+
+  const handleButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    changePassword(formData);
+    // Call form submission logic manually if needed
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -257,30 +268,31 @@ const SettingsDrawer = ({
               <form className="flex flex-col items-center md:items-start justify-center mt-[1rem]">
                 <InputField
                   type="password"
-                  name="newPassword"
+                  name="new_password"
                   label="New Password"
                   placeholder="Enter new password"
-                  value={formData.newPassword}
+                  value={formData.new_password}
                   onChange={handleChange}
                   className="py-4 md:py-3 w-[100%]"
                 />
 
                 <InputField
                   type="password"
-                  name="confirmPassword"
+                  name="confirm_password"
                   label="Confirm Password"
                   placeholder="Confirm new password"
-                  value={formData.confirmPassword}
+                  value={formData.confirm_password}
                   onChange={handleChange}
                   className="py-4 md:py-3 w-[100%]"
                 />
+                <div className="mt-4 flex gap-4"></div>
                 <Button
                   type="button"
                   className="w-[30%] mx-auto rounded-[0.75rem] whitespace-nowrap py-[8px] px-[12px] w-[60%] "
                   variant="quinary"
-                  // onClick={CheckVehicleOwner}
+                  onClick={(e) => handleButtonClick(e)}
                 >
-                  Save
+                  {status === "pending" ? "Loading" : "Saved"}
                 </Button>
               </form>
             )}

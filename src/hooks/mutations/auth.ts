@@ -4,8 +4,9 @@ import {
   confirmPasswordReset,
   loginUser,
   registerUser,
+  resetPassword,
   passwordReset as sendPasswordReset,
-  verifyOtp
+  verifyOtp,
 } from "@/api/auth"; // Make sure this is your API function for registration
 import { checkEmail } from "@/api/register";
 import { useAuthStore } from "@/lib/stores/authStore";
@@ -166,11 +167,37 @@ export const useConfirmPassword = () => {
       });
     },
   });
+};
+export const useResetPassword = () => {
+  const toast = useToast();
+  const mutation = useMutation<PasswordResetResponse, Error, any>({
+    mutationFn: async (data) => {
+      return await resetPassword(data);
+    },
+    onSuccess: (data) => {
+      // Handle success, maybe show a success message or redirect
+      toast({
+        title: "Password changed successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Password change failed",
+        description: error?.data?.message || "Link expired",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+  });
 
   // Destructure the mutation object for return
-  const { mutate: confirmPassword, isError, error, status } = mutation;
+  const { mutate: changePassword, isError, error, status } = mutation;
 
-  return { confirmPassword, isError, error, status };
+  return { changePassword, isError, error, status };
 };
 
 export const useVerifyOtp = () => {

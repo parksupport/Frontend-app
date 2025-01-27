@@ -62,14 +62,6 @@ export const getUserProfile = async () => {
 };
 
 export const passwordReset = async (userData) => {
-  // try {
-  //   const response = await Axios.post("/api/password_reset/", {
-  //     email_address: userData.email,
-  //   });
-  //   return response.data; // Contains access and refresh tokens
-  // } catch (error) {
-  //   throw error.data || error;
-  // }
 
   const response = await Axios.post("/api/password_reset/", {
         email_address: userData.email,
@@ -107,4 +99,18 @@ export const verifyOtp = async ({ email_address, otp_code }) => {
   } catch (error) {
     throw error.response?.data || error;
   }
+};
+
+
+export const resetPassword = async (userData) => {
+  try {
+    const response = await Axios.post("/api/accounts/reset-password/", {
+      new_password :userData.new_password,
+      confirm_password: userData.confirm_password
+    });
+    return response.data; // Contains access and refresh tokens
+  } catch (error) {
+    throw error.data || error;
+  }
+
 };

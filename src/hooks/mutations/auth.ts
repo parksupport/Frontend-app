@@ -167,6 +167,11 @@ export const useConfirmPassword = () => {
       });
     },
   });
+
+  // Destructure the mutation object for return
+  const { mutate: confirmPassword, isError, error, status } = mutation;
+
+  return { confirmPassword, isError, error, status };
 };
 export const useResetPassword = () => {
   const toast = useToast();

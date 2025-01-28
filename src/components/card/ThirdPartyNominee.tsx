@@ -785,8 +785,6 @@ AddThirdPartyNomineeProps) {
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
-    console.log(formData)
-    console.log(vehiclesRegNunbers)
     e.preventDefault();
     handleDateValidation(); // Ensure date logic is correct before final submit
 

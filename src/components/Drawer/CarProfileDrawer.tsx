@@ -7,10 +7,10 @@ import CarProfileSlider from "../CarProfileSlider";
 import useIsMobile from "@/hooks/useIsMobile";
 import CorporateCarProfileDrawer from "./CorporateCarProfileDrawer";
 import { useAuthStore } from "@/lib/stores/authStore";
-import Spinner from "../Spinner";
 import { useGetNominees } from "@/hooks/queries/nominee";
 import { useGetVehicles } from "@/hooks/queries/vehicles";
 import { useAddNominee } from "@/hooks/mutations/nominee";
+import { Spinner } from "@chakra-ui/react";
 
 interface CarProfileDrawerProps {
   toggleDrawer: () => void;
@@ -71,7 +71,7 @@ const CarProfileDrawer = ({
     if (isLoading || addNomineeLoading) {
       return (
         <div className="flex flex-col justify-center h-[300px] items-center">
-          <Spinner />;
+          <Spinner color="blue" />;
         </div>
       );
     }

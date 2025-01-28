@@ -707,7 +707,7 @@ interface AddThirdPartyNomineeProps {
   setSelectedVehicle?: any;
   data?: any;
   vehiclesRegNunbers?: any;
-  addNominee?: any;
+  addNominee: any;
 }
 
 export function AddThirdPartyNominee({
@@ -755,7 +755,7 @@ AddThirdPartyNomineeProps) {
     email_address: "",
     phone_number: "",
     start_date: new Date().toISOString().split("T")[0],
-    end_date: endDate,
+    end_date: isIndefiniteEndDate ? null : endDate, 
   });
 
   // const { addNominee, isLoading } = useAddNominee();
@@ -785,6 +785,8 @@ AddThirdPartyNomineeProps) {
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
+    console.log(formData)
+    console.log(vehiclesRegNunbers)
     e.preventDefault();
     handleDateValidation(); // Ensure date logic is correct before final submit
 

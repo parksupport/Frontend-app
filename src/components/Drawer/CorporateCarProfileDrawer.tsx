@@ -14,6 +14,8 @@ import InfoIconWithText from "../InfoIconWithText";
 import { MdHistory } from "react-icons/md";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useGetNominees } from "@/hooks/queries/nominee";
+import { useAddNominee } from "@/hooks/mutations/nominee";
+import { Spinner } from "@chakra-ui/react";
 
 export const CorporateCarProfileDrawer = ({
   toggleDrawer,
@@ -62,6 +64,7 @@ export const CorporateCarProfileDrawer = ({
   const { nominees, isLoading } = useGetNominees(
     selectedVehicle?.registration_number
   );
+  const { addNominee, addNomineeLoading } = useAddNominee();
 
   const nextComponentRef = useRef<HTMLDivElement>(null);
 
@@ -291,7 +294,11 @@ export const CorporateCarProfileDrawer = ({
             className="flex items-center justify-center"
             ref={nextComponentRef}
           >
-            {form ? (
+            {addNomineeLoading ? (
+              <div className="flex flex-col justify-center h-[300px] items-center">
+                <Spinner color="blue" />;
+              </div>
+            ) : form ? (
               <AddThirdPartyNominee
                 toggleForm={setForm}
                 openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
@@ -300,6 +307,7 @@ export const CorporateCarProfileDrawer = ({
                 setSelectedVehicle={setSelectedVehicle}
                 data={data}
                 openVerifyVehicleDrawer={openVerifyVehicleDrawer}
+                addNominee={addNominee}
               />
             ) : (
               <ThirdPartyNominees

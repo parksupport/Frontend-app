@@ -25,6 +25,8 @@ const NotificationsTableDrawer = ({ back }) => {
 
   const isMobile = useIsMobile();
 
+  const notificationPerPage = isMobile ? 5 : 6;
+
   const {
     currentNotifications,
     currentPage,
@@ -42,7 +44,7 @@ const NotificationsTableDrawer = ({ back }) => {
     selectedNotificationsList,
     updateSelectedNotifications,
     handleDeleteNotification,
-  } = useNotifications(notificationsData, 10);
+  } = useNotifications(notificationsData, notificationPerPage);
 
   function getNotificationMessage({
     isLoading,

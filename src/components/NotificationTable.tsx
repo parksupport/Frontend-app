@@ -100,7 +100,9 @@ export const MobileViewNotification = ({
                   return (
                     <div
                       key={notification.id}
-                      className={`${isSelected ? "bg-gray-200" : ""} rounded-lg flex items-center justify-between   w-full ${
+                      className={`${
+                        isSelected ? "bg-gray-200" : ""
+                      } rounded-lg flex items-center justify-between   w-full ${
                         isDrawer ? "py-2" : "py-1"
                       }`}
                       onClick={() =>
@@ -182,31 +184,30 @@ export const MobileViewNotification = ({
             ))}
           </Slider>
         </div>
-        {!isDrawer && (
-          <div className="flex px-2 justify-between items-center mt-2">
-            <SliderButton
-              direction="previous"
-              isDisabled={currentPage === 0}
-              onClick={handlePrevious}
-            />
-            <div className="flex space-x-1">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <span
-                  key={index}
-                  className={`w-2 h-2 rounded-full ${
-                    index === currentPage ? "bg-blue-500" : "bg-gray-300"
-                  }`}
-                ></span>
-              ))}
-            </div>
 
-            <SliderButton
-              direction="next"
-              isDisabled={currentPage === totalPages - 1}
-              onClick={handleNext}
-            />
+        <div className="flex px-2 justify-between items-center mt-2">
+          <SliderButton
+            direction="previous"
+            isDisabled={currentPage === 0}
+            onClick={handlePrevious}
+          />
+          <div className="flex space-x-1">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <span
+                key={index}
+                className={`w-2 h-2 rounded-full ${
+                  index === currentPage ? "bg-blue-500" : "bg-gray-300"
+                }`}
+              ></span>
+            ))}
           </div>
-        )}
+
+          <SliderButton
+            direction="next"
+            isDisabled={currentPage === totalPages - 1}
+            onClick={handleNext}
+          />
+        </div>
       </div>
     </>
   );

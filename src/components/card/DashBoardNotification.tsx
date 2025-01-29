@@ -1,6 +1,5 @@
 "use client";
 
-
 import { groteskTextMedium } from "@/app/fonts";
 import { useFetchNotifications } from "@/hooks/queries/notifications";
 import useIsMobile from "@/hooks/useIsMobile";
@@ -29,6 +28,10 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
     isError,
     error,
   } = useFetchNotifications();
+
+  const isMobile = useIsMobile();
+
+  const notificationPerPage = isMobile ? 5 : 6;
   const {
     currentNotifications,
     currentPage,
@@ -40,9 +43,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
     setCurrentPage,
     itemsPerPage,
     totalNotifications,
-  } = useNotifications(notificationsData, 7);
-
-  const isMobile = useIsMobile();
+  } = useNotifications(notificationsData, notificationPerPage);
 
   function getNotificationMessage({
     isLoading,

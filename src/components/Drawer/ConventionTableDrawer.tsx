@@ -128,7 +128,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                   </tr>
                 </thead>
 
-                <tbody className="w-full lg:w-full lg:bg-[#F9FAFB] px-[1rem] lg:p-0">
+                <tbody className="w-full  lg:w-full lg:bg-[#F9FAFB]  px-[1rem] lg:p-0">
                   {(isSmallScreen ? currentItems : ticketsData.tickets).map(
                     (invoice, index) => (
                       <ContraventionRow
@@ -144,7 +144,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
 
               {/* Pagination Controls for Small Screens */}
               {isSmallScreen && (
-                <div className="flex justify-between mt-4 px-4">
+                <div className="flex justify-between mt-4  px-4">
                   <button
                     onClick={handlePreviousPage}
                     disabled={currentPage === 1}
@@ -153,17 +153,46 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                     <ChevronLeft size={20} />
                     Previous
                   </button>
-                  <div className="flex items-center space-x-1">
-                    {Array.from({ length: totalPages }).map((_, index) => (
-                      <span
-                        key={index}
-                        className={`w-2 h-2 rounded-full ${
-                          currentPage === index + 1
-                            ? "bg-gray-500"
-                            : "bg-gray-200"
-                        }`}
-                      ></span>
-                    ))}
+                  <div className="flex items-center space-x-2">
+                    {totalPages <= 3 ? (
+                      Array.from({ length: totalPages }).map((_, index) => (
+                        <span
+                          key={index}
+                          className={`w-[8px] h-[8px] rounded-full ${
+                            currentPage === index + 1
+                              ? "bg-gray-500"
+                              : "bg-gray-200"
+                          }`}
+                        ></span>
+                      ))
+                    ) : (
+                      <>
+                        {/* First dot */}
+                        <span
+                          className={`w-[8px] h-[8px] rounded-full ${
+                            currentPage === 1 ? "bg-gray-500" : "bg-gray-200"
+                          }`}
+                        ></span>
+
+                        {/* Middle dot */}
+                        <span
+                          className={`w-[8px] h-[8px] rounded-full ${
+                            currentPage > 1 && currentPage < totalPages
+                              ? "bg-gray-500"
+                              : "bg-gray-200"
+                          }`}
+                        ></span>
+
+                        {/* Last dot */}
+                        <span
+                          className={`w-[8px] h-[8px] rounded-full ${
+                            currentPage === totalPages
+                              ? "bg-gray-500"
+                              : "bg-gray-200"
+                          }`}
+                        ></span>
+                      </>
+                    )}
                   </div>
                   <button
                     onClick={handleNextPage}

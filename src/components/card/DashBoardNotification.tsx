@@ -35,7 +35,6 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
     totalPages,
     isAllSelected,
     handleSelectAll,
-    handleCheckboxChange,
     goToNextPage,
     goToPreviousPage,
     setCurrentPage,
@@ -88,7 +87,6 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
           isDrawer={isDrawer}
           handleSelectAll={handleSelectAll}
           selectAll={isAllSelected}
-          handleCheckboxChange={handleCheckboxChange}
           currentNotifications={currentNotifications}
           totalPages={totalPages}
           currentPage={currentPage}

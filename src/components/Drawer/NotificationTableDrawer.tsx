@@ -38,7 +38,7 @@ const NotificationsTableDrawer = ({ back }) => {
     setCurrentPage,
     itemsPerPage,
     totalNotifications,
-    handleNotificationClick,
+    handleSelectNotification,
     handleCheckedAll,
     selectedNotification,
     selectedNotificationsList,
@@ -106,7 +106,7 @@ const NotificationsTableDrawer = ({ back }) => {
                 setCurrentPage={setCurrentPage}
                 handleNext={goToNextPage}
                 handlePrevious={goToPreviousPage}
-                onNotificationClick={handleNotificationClick}
+                handleSelectNotification={handleSelectNotification}
                 updateSelectedNotifications={updateSelectedNotifications}
                 selectedNotificationsList={selectedNotificationsList}
                 notificationStateMessage={getNotificationMessage({
@@ -130,7 +130,7 @@ const NotificationsTableDrawer = ({ back }) => {
               handlePrevious={goToPreviousPage}
               itemsPerPage={itemsPerPage}
               totalNotifications={totalNotifications}
-              onNotificationClick={handleNotificationClick}
+              handleSelectNotification={handleSelectNotification}
               textMaxLenght={60}
               updateSelectedNotifications={updateSelectedNotifications}
               selectedNotificationsList={selectedNotificationsList}

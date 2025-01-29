@@ -23,14 +23,13 @@ interface MobileViewNotificationProps {
   isDrawer: boolean;
   handleSelectAll: () => void;
   selectAll: boolean;
-  handleCheckboxChange?: (id: number) => void;
   currentNotifications: any;
   totalPages: number;
   currentPage: number;
   setCurrentPage?: (page: number) => void;
   handleNext: () => void;
   handlePrevious: () => void;
-  onNotificationClick?: any;
+  handleSelectNotification?: any;
   selectedNotificationsList?: any;
   updateSelectedNotifications?: any;
   notificationStateMessage: any;
@@ -49,7 +48,7 @@ export const MobileViewNotification = ({
   setCurrentPage,
   handlePrevious,
   handleNext,
-  onNotificationClick,
+  handleSelectNotification,
   selectedNotificationsList,
   updateSelectedNotifications,
 }: MobileViewNotificationProps) => {
@@ -100,7 +99,7 @@ export const MobileViewNotification = ({
                     }`}
                     onClick={() =>
                       isDrawer
-                        ? onNotificationClick(notification)
+                        ? handleSelectNotification(notification)
                         : openNotificationsDrawer()
                     }
                   >
@@ -207,7 +206,6 @@ interface DesktopViewNotificationProps {
   isDrawer?: boolean;
   handleSelectAll: any;
   selectAll: boolean;
-  handleCheckboxChange?: (id: number) => void;
   currentNotifications: any;
   totalPages: number;
   currentPage: number;
@@ -216,7 +214,7 @@ interface DesktopViewNotificationProps {
   handlePrevious: () => void;
   itemsPerPage: number;
   totalNotifications: number;
-  onNotificationClick?: any;
+  handleSelectNotification?: any;
   textMaxLenght?: number;
   updateSelectedNotifications?: any;
   selectedNotificationsList?: any;
@@ -236,7 +234,7 @@ export const DesktopViewNotification = ({
   handlePrevious,
   itemsPerPage,
   totalNotifications,
-  onNotificationClick,
+  handleSelectNotification,
   textMaxLenght,
   updateSelectedNotifications,
   selectedNotificationsList,
@@ -297,7 +295,7 @@ export const DesktopViewNotification = ({
                     }
                     // Handle the rest of the row click logic
                     if (isDrawer) {
-                      onNotificationClick(notification);
+                      handleSelectNotification(notification);
                     } else {
                       openNotificationsTable();
                     }

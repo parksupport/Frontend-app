@@ -1,15 +1,12 @@
-import React, { useState, useRef } from "react";
+import { groteskText, groteskTextMedium } from "@/app/fonts";
+import LabelImportantSVG from "@/assets/svg/label_important.svg";
+import { MoveDiagonal } from "lucide-react";
+import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { AiOutlineExpand } from "react-icons/ai";
-import LabelImportantSVG from "@/assets/svg/label_important.svg";
-import { groteskTextMedium, groteskText } from "@/app/fonts";
-import useIsMobile from "@/hooks/useIsMobile";
-import { GoChevronLeft, GoChevronRight } from "react-icons/go";
-import { MoveDiagonal } from "lucide-react";
-import TruncatedText from "./ToggleComponent/TruncatedText";
 import SliderButton from "./SliderButton";
+import TruncatedText from "./ToggleComponent/TruncatedText";
 
 interface NotificationProps {
   id: number;
@@ -19,7 +16,6 @@ interface NotificationProps {
   is_read: boolean;
   checked?: boolean;
 }
-
 
 interface MobileViewNotificationProps {
   hasCheckbox?: boolean;
@@ -37,20 +33,17 @@ interface MobileViewNotificationProps {
   onNotificationClick?: any;
   selectedNotificationsList?: any;
   updateSelectedNotifications?: any;
-  cardNotificationClick?: any;
-  notificationStateMessage:any;
+  notificationStateMessage: any;
 }
 
 export const MobileViewNotification = ({
   notificationStateMessage,
-  cardNotificationClick,
   hasCheckbox = false,
   openNotificationsDrawer,
   isDrawer,
   handleSelectAll,
   selectAll,
   currentNotifications,
-  handleCheckboxChange,
   totalPages,
   currentPage,
   setCurrentPage,
@@ -95,87 +88,89 @@ export const MobileViewNotification = ({
           </div>
         )}
         <div className="min-h-[200px] ">
-        {notificationStateMessage}
-        <Slider {...settings}>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <div key={index} className=" w-full">
-              {currentNotifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className={`rounded-lg flex items-center justify-between bg-white  w-full ${
-                    isDrawer ? "py-2" : "py-1"
-                  }`}
-                  onClick={() =>
-                    isDrawer
-                      ? onNotificationClick(notification)
-                      : cardNotificationClick(notification)
-                  }
-                >
-                  {/* Icon */}
+          {notificationStateMessage}
+          <Slider {...settings}>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <div key={index} className=" w-full">
+                {currentNotifications.map((notification) => (
                   <div
-                    className={`w-[40px] h-[40px] bg-[#D9D9D9] rounded-full flex items-center justify-center text-[20px] font-bold text-gray-700 ${groteskText.className}`}
+                    key={notification.id}
+                    className={`rounded-lg flex items-center justify-between bg-white  w-full ${
+                      isDrawer ? "py-2" : "py-1"
+                    }`}
+                    onClick={() =>
+                      isDrawer
+                        ? onNotificationClick(notification)
+                        : openNotificationsDrawer()
+                    }
                   >
-                    {notification?.notification_type?.charAt(0)}
-                  </div>
+                    {/* Icon */}
+                    <div
+                      className={`w-[40px] h-[40px] bg-[#D9D9D9] rounded-full flex items-center justify-center text-[20px] font-bold text-gray-700 ${groteskText.className}`}
+                    >
+                      {notification?.notification_type?.charAt(0)}
+                    </div>
 
-                  {/* Text Details */}
-                  <div className="flex-1 ml-1">
-                    <div className="flex fle items-center ">
-                      <div className="px-1 ">
-                        <LabelImportantSVG className="" />
+                    {/* Text Details */}
+                    <div className="flex-1 ml-1">
+                      <div className="flex fle items-center ">
+                        <div className="px-1 ">
+                          <LabelImportantSVG className="" />
+                        </div>
+                        <p
+                          className={`text-[16px]  ${
+                            notification?.is_read
+                              ? "text-gray-400"
+                              : "text-black"
+                          } ${groteskTextMedium.className}`}
+                        >
+                          {notification?.notification_type}
+                        </p>
                       </div>
                       <p
-                        className={`text-[16px]  ${
+                        className={`  text-[16px] ${
                           notification?.is_read ? "text-gray-400" : "text-black"
                         } ${groteskTextMedium.className}`}
                       >
-                        {notification?.notification_type}
+                        <TruncatedText
+                          text={notification?.message}
+                          maxLength={40}
+                          className={`${groteskTextMedium.className}`}
+                          showFullOnHover={false}
+                        />
                       </p>
                     </div>
-                    <p
-                      className={`  text-[16px] ${
-                        notification?.is_read ? "text-gray-400" : "text-black"
-                      } ${groteskTextMedium.className}`}
-                    >
-                      <TruncatedText
-                        text={notification?.message}
-                        maxLength={40}
-                        className={`${groteskTextMedium.className}`}
-                        showFullOnHover={false}
-                      />
-                    </p>
-                  </div>
 
-                  {/* Date and Checkbox */}
-                  <div
-                    className="flex flex-col items-end "
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <span
-                      className={`text-[12px] ${
-                        notification.is_read ? "text-gray-400" : "text-black"
-                      } ${groteskTextMedium.className}`}
+                    {/* Date and Checkbox */}
+                    <div
+                      className="flex flex-col items-end "
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      {notification.created_at}
-                    </span>
-                    {hasCheckbox && (
-                      <input
-                        type="checkbox"
-                        className="form-checkbox w-4 h-4 mt-2"
-                        checked={selectedNotificationsList?.some(
-                          (n) => n.id === notification.id
-                        )}
-                        onChange={() =>
-                          updateSelectedNotifications(notification)
-                        }
-                      />
-                    )}
+                      <span
+                        className={`text-[12px] ${
+                          notification.is_read ? "text-gray-400" : "text-black"
+                        } ${groteskTextMedium.className}`}
+                      >
+                        {notification.created_at}
+                      </span>
+                      {hasCheckbox && (
+                        <input
+                          type="checkbox"
+                          className="form-checkbox w-4 h-4 mt-2"
+                          checked={selectedNotificationsList?.some(
+                            (n) => n.id === notification.id
+                          )}
+                          onChange={() =>
+                            updateSelectedNotifications(notification)
+                          }
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </Slider>
+                ))}
+              </div>
+            ))}
+          </Slider>
         </div>
         {!isDrawer && (
           <div className="flex px-2 justify-between items-center mt-2">
@@ -225,17 +220,15 @@ interface DesktopViewNotificationProps {
   textMaxLenght?: number;
   updateSelectedNotifications?: any;
   selectedNotificationsList?: any;
-  cardNotificationClick?: any;
-  notificationStateMessage:any;
+  openNotificationsTable?: any;
+  notificationStateMessage: any;
 }
 
 export const DesktopViewNotification = ({
   notificationStateMessage,
-  cardNotificationClick,
+  openNotificationsTable,
   hasCheckbox = false,
   isDrawer,
-  handleSelectAll,
-  selectAll,
   currentNotifications,
   totalPages,
   currentPage,
@@ -248,13 +241,11 @@ export const DesktopViewNotification = ({
   updateSelectedNotifications,
   selectedNotificationsList,
 }: DesktopViewNotificationProps) => {
-
-
   return (
     <>
       <div className="rounded-[12px] border border-gray-200  w-full">
-               <div className="bg-white px-2 py-2 flex items-center justify-between w-full">
-            {/* <div className="flex items-center py-3">
+        <div className="bg-white px-2 py-2 flex items-center justify-between w-full">
+          {/* <div className="flex items-center py-3">
               <input
                 type="checkbox"
                 className="form-checkbox"
@@ -262,39 +253,38 @@ export const DesktopViewNotification = ({
                 checked={selectAll}
               />
             </div> */}
-            <div className="ml-auto text-end flex justify-end space-x-2 items-center">
-              <span className={`${groteskText.className}  text-gray-500`}>
-                {`${currentPage * itemsPerPage + 1} - ${Math.min(
-                  (currentPage + 1) * itemsPerPage,
-                  totalNotifications
-                )} of ${totalNotifications}`}
-              </span>
-              <div className="flex gap-5">
-                <GoChevronLeft
-                  size={20}
-                  className={`cursor-pointer ${
-                    currentPage === 0
-                      ? "text-gray-400"
-                      : "text-gray-900 hover:text-black"
-                  }`}
-                  onClick={handlePrevious}
-                />
-                <GoChevronRight
-                  size={20}
-                  className={`cursor-pointer ${
-                    currentPage === totalPages - 1
-                      ? "text-gray-400"
-                      : "text-gray-900 hover:text-black"
-                  }`}
-                  onClick={handleNext}
-                />
-              </div>
+          <div className="ml-auto text-end flex justify-end space-x-2 items-center">
+            <span className={`${groteskText.className}  text-gray-500`}>
+              {`${currentPage * itemsPerPage + 1} - ${Math.min(
+                (currentPage + 1) * itemsPerPage,
+                totalNotifications
+              )} of ${totalNotifications}`}
+            </span>
+            <div className="flex gap-5">
+              <GoChevronLeft
+                size={20}
+                className={`cursor-pointer ${
+                  currentPage === 0
+                    ? "text-gray-400"
+                    : "text-gray-900 hover:text-black"
+                }`}
+                onClick={handlePrevious}
+              />
+              <GoChevronRight
+                size={20}
+                className={`cursor-pointer ${
+                  currentPage === totalPages - 1
+                    ? "text-gray-400"
+                    : "text-gray-900 hover:text-black"
+                }`}
+                onClick={handleNext}
+              />
             </div>
           </div>
+        </div>
         <div className="overflow-x-auto ">
           <table className=" mx-auto min-w-full text-left  mt-0">
             <tbody>
-            
               {currentNotifications?.map((notification) => (
                 <tr
                   key={notification.id}
@@ -302,13 +292,14 @@ export const DesktopViewNotification = ({
                     notification.is_read ? "text-gray-400" : "text-black"
                   } hover:bg-gray-100`}
                   onClick={() => {
-                    // Clear all selected checkboxes
-                    updateSelectedNotifications([]); // Reset selected notifications list
+                    if (isDrawer) {
+                      updateSelectedNotifications([]); // Reset selected notifications list
+                    }
                     // Handle the rest of the row click logic
                     if (isDrawer) {
                       onNotificationClick(notification);
                     } else {
-                      cardNotificationClick(notification);
+                      openNotificationsTable();
                     }
                   }}
                 >
@@ -357,11 +348,9 @@ export const DesktopViewNotification = ({
                 </tr>
               ))}
             </tbody>
-            
           </table>
           <div className="flex items-center justify-center">
-          {notificationStateMessage}
-
+            {notificationStateMessage}
           </div>
         </div>
       </div>

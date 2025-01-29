@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
 
 import { groteskTextMedium } from "@/app/fonts";
-import { MoveDiagonal, Plus } from "lucide-react";
+import { useFetchNotifications } from "@/hooks/queries/notifications";
 import useIsMobile from "@/hooks/useIsMobile";
+import useNotifications from "@/hooks/useNotification";
+import { Spinner } from "@chakra-ui/react";
+import { MoveDiagonal } from "lucide-react";
+import Image from "next/image";
 import {
   DesktopViewNotification,
   MobileViewNotification,
 } from "../NotificationTable";
-import { useFetchNotifications } from "@/hooks/queries/notifications";
-import useNotifications from "@/hooks/useNotification";
-import Image from "next/image";
-import { Button, Spinner } from "@chakra-ui/react";
 
 interface NotificationProps {
   id: number;
@@ -29,7 +28,6 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
     isLoading,
     isError,
     error,
-    refetch,
   } = useFetchNotifications();
   const {
     currentNotifications,
@@ -97,7 +95,6 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
           setCurrentPage={setCurrentPage}
           handleNext={goToNextPage}
           handlePrevious={goToPreviousPage}
-          cardNotificationClick={openNotificationsTable}
           notificationStateMessage={getNotificationMessage({
             isLoading,
             isError,
@@ -132,7 +129,7 @@ const DashboardNotifications = ({ openNotificationsTable, isDrawer }) => {
             itemsPerPage={itemsPerPage}
             totalNotifications={totalNotifications}
             textMaxLenght={40}
-            cardNotificationClick={openNotificationsTable}
+            openNotificationsTable={openNotificationsTable}
             notificationStateMessage={getNotificationMessage({
               isLoading,
               isError,

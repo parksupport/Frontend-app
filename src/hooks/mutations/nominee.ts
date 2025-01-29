@@ -24,7 +24,7 @@ export const useAddNominee = () => {
         phone: data.phone_number,
         start_date: data.start_date,
         end_date: data.end_date,
-        // is_indefinite: data.is_indefinite
+        notification_preference: data.notification_preference,
       };
 
       setIsLoading(true); // Set loading to true when the mutation starts

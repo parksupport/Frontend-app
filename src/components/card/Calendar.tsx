@@ -4,13 +4,12 @@ import Button from '../Buttons'
 import { groteskText, groteskTextBold, groteskTextMedium, interNormal, interSemiBold } from '@/app/fonts'
 import { ChevronDown, ChevronLeft, ChevronRight, MoveDiagonal, RefreshCcw } from 'lucide-react'
 
-
 const Calendar = () => {
     const weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
-    const monthsOfYear = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const monthsOfYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
     const currentDate = new Date()
-    console.log(currentDate)
+    const dueDate = new Date(2025, 1, 11); 
 
     const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth())
     const [currentYear, setCurrenYear] = useState(currentDate.getFullYear())
@@ -21,8 +20,7 @@ const Calendar = () => {
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const currentDayOfWeek = daysOfWeek[currentDate.getDay()];
 
- const currentDayOfMonth = currentDate.getDate()
-  
+    const currentDayOfMonth = currentDate.getDate()
 
     const prevMonth = () => {
         setCurrentMonth((prevMonth) => (
@@ -51,10 +49,7 @@ const Calendar = () => {
                         variant="quinary"
                         className={`py-[9px] px-[12px] text-[16px] `}
                     >Sync Calendar <RefreshCcw size={20} className='ml-[8px]' /></Button>
-                    
-                    {/* <Button></Button> */}
                 </div>
-
             </section>
             <section className='flex flex-col justify-center items-center lg:flex lg:flex-row rounded-[0.75rem] bg-[#FFFFFF]  mt-[1rem] mb-[1.875rem] '>
                 <div className='bg-transparent h-[300px] max-w-[300px] w-full flex flex-col mr-[1.4375rem]'>
@@ -81,21 +76,26 @@ const Calendar = () => {
                             <span className='w-[38px] h-[38px] bg-[#F7F9FC] rounded-[0.625rem] text-[#000000] text-[12px]' key={`empty-${index}`} />
                         ))}
 
-                        {Array.from(Array(daysInMonth).keys()).map((day) => (
-                           <span
-                           key={day + 1}
-                           className={` w-[38px] h-[38px] rounded-[0.625rem] flex justify-center items-center text-[#000000] text-[12px] cursor-pointer ${
-                               day + 1 === currentDate.getDate() &&
-                               currentMonth === currentDate.getMonth() &&
-                               currentYear === currentDate.getFullYear()
-                                   ? `rounded-[0.625rem] border-2 border-[#4169E1] ${interSemiBold.className} text-[13px]`
-                                   : interNormal.className
-                           }`}
-                       >
-                           {day + 1}
-                       </span>
-                       
-                        ))}
+                        {Array.from(Array(daysInMonth).keys()).map((day) => {
+                            const date = new Date(currentYear, currentMonth, day + 1);
+                            const isDueDate = date.toDateString() === dueDate.toDateString();
+                            const isCurrentDate = date.toDateString() === currentDate.toDateString();
+
+                            return (
+                                <span
+                                    key={day + 1}
+                                    className={`w-[38px] h-[38px] rounded-[0.625rem] flex justify-center items-center text-[#000000] text-[12px] cursor-pointer ${
+                                        isCurrentDate
+                                            ? `rounded-[0.625rem] border-2 border-[#4169E1] ${interSemiBold.className} text-[13px]`
+                                            : isDueDate
+                                            ? `bg-[#FF0000] text-white ${interSemiBold.className} text-[13px]`
+                                            : interNormal.className
+                                    }`}
+                                >
+                                    {day + 1}
+                                </span>
+                            );
+                        })}
                     </div>
                 </div>
                 </div>

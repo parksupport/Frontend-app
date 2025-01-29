@@ -59,7 +59,11 @@ const CarProfileDrawer = ({
   const registrationNumber = vehicleDetails?.registration_number;
 
   const { nominees, error, isLoading } = useGetNominees(registrationNumber);
-    const { addNominee, addNomineeLoading } = useAddNominee();
+  const { addNominee, addNomineeLoading } = useAddNominee();
+
+
+
+
 
   useEffect(() => {
     if (autoScrollToForm && formRef.current) {
@@ -109,28 +113,6 @@ const CarProfileDrawer = ({
         />
       </div>
     );
-
-
-    // return isForm ? (
-    //   <div className="flex flex-col md:items-center" ref={formRef}>
-    //     <AddThirdPartyNominee
-    //       vehiclesRegNunbers={registrationNumber}
-    //       toggleForm={setIsForm}
-    //       openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
-    //       selectedVehicle={nominees?.nominations || []}
-    //     />
-    //   </div>
-    // ) : (
-    //   <div className="flex flex-col md:items-center" ref={formRef}>
-    //     <ThirdPartyNominees
-    //       user_type={user_type.toLowerCase() as "individual" | "corporate"}
-    //       vehiclesRegNunbers={registrationNumber}
-    //       toggleForm={setIsForm}
-    //       nominees={nominees?.nominations || []}
-    //       openAddBillingMethod={openAddBillingMethod}
-    //     />
-    //   </div>
-    // );
   };
 
   return (

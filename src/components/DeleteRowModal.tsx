@@ -21,9 +21,11 @@ interface DeleteRowModalProps {
   onAddNominee?: () => void;
   expiredLease?: boolean;
   onClose?: () => void; // New prop to handle modal close
+  nomineesPreference?: any;
 }
 
 const DeleteRowModal = ({
+  nomineesPreference,
   position = { right: 0, top: 0 },
   showConfirmButton = false,
   onEdit,
@@ -41,7 +43,16 @@ const DeleteRowModal = ({
 }: DeleteRowModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const smsNotifications = true;
+  function getNotificationFlags(notificationPreference) {
+    return {
+      smsNotification:
+        notificationPreference === "SMS" || notificationPreference === "Both",
+      emailNotification:
+        notificationPreference === "Email" || notificationPreference === "Both",
+    };
+  }
+  const { smsNotification, emailNotification } =
+    getNotificationFlags(nomineesPreference);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -66,7 +77,6 @@ const DeleteRowModal = ({
         top: position.top,
         left: position.left,
         right: position.right,
-        // e.g. a higher z-index
         zIndex: 9999,
       }}
       className=""
@@ -110,7 +120,7 @@ const DeleteRowModal = ({
                 // onClick={() => setSmsNotifications(!smsNotifications)}
               >
                 <span className="mr-2">SMS</span>
-                {smsNotifications ? (
+                {smsNotification ? (
                   <span className="text-green-600">✔</span>
                 ) : (
                   <span className="text-red-600">✖</span>
@@ -121,7 +131,7 @@ const DeleteRowModal = ({
                 // onClick={() => setSmsNotifications(!smsNotifications)}
               >
                 <span className="mr-2">Email</span>
-                {false ? (
+                {emailNotification ? (
                   <span className="text-green-600">✔</span>
                 ) : (
                   <span className="text-red-600">✖</span>

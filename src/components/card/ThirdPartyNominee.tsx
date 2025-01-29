@@ -35,7 +35,7 @@ interface ThirdPartyNomineesProps {
   openAddBillingMethod?: any;
   vehiclesRegNunbers?: any;
   openAddVehicleDetailsDrawer?: any;
-  openVerifyVehicleDrawer?:any
+  openVerifyVehicleDrawer?: any;
 }
 
 export default function ThirdPartyNominees({
@@ -46,7 +46,7 @@ export default function ThirdPartyNominees({
   loading,
   openAddBillingMethod,
   openAddVehicleDetailsDrawer,
-  openVerifyVehicleDrawer
+  openVerifyVehicleDrawer,
 }: // vehiclesRegNunbers
 ThirdPartyNomineesProps) {
   const {
@@ -92,26 +92,20 @@ ThirdPartyNomineesProps) {
       onOpen();
     }
   };
-
   function updateNomineesWithEndDate(
-    data: { end_date: string }[]
+    data: { end_date: string | null }[]
   ): { end_date: string }[] {
-    const ONE_HUNDRED_YEARS = 100 * 365 * 24 * 60 * 60 * 1000; // 100 years in milliseconds
-    const now = new Date();
-
     return data.map((nominee) => {
-      const endDate = new Date(nominee.end_date);
-
-      // Use .getTime() to convert Date objects to timestamps for comparison
-      if (endDate.getTime() - now.getTime() > ONE_HUNDRED_YEARS) {
-        return { ...nominee, end_date: "Infinite" };
+      if (!nominee.end_date || isNaN(new Date(nominee.end_date).getTime())) {
+        return { ...nominee, end_date: "Infinite" }; 
       }
-
+  
       return nominee;
     });
   }
-
+  
   const updatedNominees = updateNomineesWithEndDate(data);
+  
 
   return (
     <div className="py-12 mb-40">
@@ -216,8 +210,7 @@ interface AddNOmineesSubscriptionProps {
   status: string;
   closeModal: () => void;
   openAddBillingMethod: (id: string, isSubscription?: boolean) => void;
-  openVerifyVehicleDrawer?:any
-
+  openVerifyVehicleDrawer?: any;
 }
 const AddNomineesSubscription = ({
   plan,
@@ -225,7 +218,6 @@ const AddNomineesSubscription = ({
   closeModal,
   openAddBillingMethod,
   openVerifyVehicleDrawer,
-  
 }: AddNOmineesSubscriptionProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -255,7 +247,6 @@ const AddNomineesSubscription = ({
     }
     return null;
   };
-
 
   return (
     <div className="relative bg-white rounded-lg shadow-lg p-6 max-w-lg mx-auto">
@@ -354,6 +345,7 @@ const NomineeDesktop = ({
                   </button>
                   {openDropdownIndex === index && (
                     <DeleteRowModal
+                      nomineesPreference={nominee?.notification_preference}
                       showConfirmButton={showConfirmButton}
                       onEdit={() => {}}
                       onRemove={() => showDeleteConfirmation(index)}
@@ -721,44 +713,48 @@ export function AddThirdPartyNominee({
 AddThirdPartyNomineeProps) {
   const [hasError, setHasError] = useState(false);
   const [isIndefiniteEndDate, setIndefiniteEndDate] = useState(false);
-  const [endDate, setEndDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
-
   const vehiclesRegNunbers = selectedVehicle?.registration_number;
 
   const [smsNotifications, setSmsNotifications] = useState(false);
   const [emailNotifications, setEmailNotifications] = useState(false);
 
   useEffect(() => {
-    if (isIndefiniteEndDate) {
-      // Set end_date to 500 years from now
-      const futureDate = new Date();
-      futureDate.setFullYear(futureDate.getFullYear() + 500);
+    let preference = "Email";
 
-      // Convert to ISO string format without the time part
-      setEndDate(futureDate.toISOString().split("T")[0]);
-    } else {
-      setEndDate("");
+    if (smsNotifications && emailNotifications) {
+      preference = "Both";
+    } else if (smsNotifications) {
+      preference = "SMS";
+    } else if (emailNotifications) {
+      preference = "Email";
     }
-  }, [isIndefiniteEndDate]);
 
-  useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      end_date: endDate,
-    }));
-  }, [endDate]);
+    setFormData((prev) => ({ ...prev, notification_preference: preference }));
+  }, [smsNotifications, emailNotifications]);
 
   const [formData, setFormData] = useState({
     name: "",
     email_address: "",
     phone_number: "",
     start_date: new Date().toISOString().split("T")[0],
-    end_date: isIndefiniteEndDate ? null : endDate, 
+    end_date: new Date().toISOString().split("T")[0],
+    notification_preference: "Email",
   });
 
-  // const { addNominee, isLoading } = useAddNominee();
+  const handleEndDateChange = () => {
+    setIndefiniteEndDate((prev) => {
+      const newIndefiniteState = !prev; // This represents the updated value
+
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        end_date: newIndefiniteState
+          ? ""
+          : new Date().toISOString().split("T")[0], // Set to "∞" if indefinite, else today's date
+      }));
+
+      return newIndefiniteState;
+    });
+  };
 
   const UserInputFields = [
     {
@@ -786,34 +782,42 @@ AddThirdPartyNomineeProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleDateValidation(); // Ensure date logic is correct before final submit
 
-    if (!hasError) {
-      addNominee({
-        registration_number: vehiclesRegNunbers,
-        data: formData,
-      });
+    if (!handleDateValidation()) return;
 
-      if (user_type === "corporate") {
-        const selectedVehicle = data.find(
-          (vehicle) => vehicle.registration_number === vehiclesRegNunbers
-        );
-        setSelectedVehicle(selectedVehicle);
-      }
+    addNominee({
+      registration_number: vehiclesRegNunbers,
+      data: formData,
+    });
 
-      toggleForm?.(false);
+    if (user_type === "corporate") {
+      const selectedVehicle = data.find(
+        (vehicle) => vehicle.registration_number === vehiclesRegNunbers
+      );
+      setSelectedVehicle(selectedVehicle);
     }
+
+    toggleForm?.(false);
   };
 
-  const handleDateValidation = () => {
+  const handleDateValidation = (): boolean => {
     const startDate = new Date(formData.start_date);
-    const endDate = new Date(formData.end_date);
+    let endDate: Date | null = null;
 
-    if (!isIndefiniteEndDate && startDate >= endDate) {
-      setHasError(true);
-    } else {
-      setHasError(false);
+    if (!isIndefiniteEndDate && formData.end_date) {
+      endDate = new Date(formData.end_date);
     }
+
+    if (
+      !isIndefiniteEndDate &&
+      (!endDate || isNaN(endDate.getTime()) || startDate > endDate)
+    ) {
+      setHasError(true);
+      return false;
+    }
+
+    setHasError(false);
+    return true;
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -902,14 +906,16 @@ AddThirdPartyNomineeProps) {
                         end_date: date.toISOString().split("T")[0],
                       }))
                     }
-                    placeholder="Enter Lease end date"
+                    placeholder={
+                      isIndefiniteEndDate
+                        ? "Indefinite"
+                        : "Enter Lease end date"
+                    }
                     className={`${groteskText.className} w-[50%]`}
                     error={hasError}
                     indefinite
                     endDate={isIndefiniteEndDate}
-                    handleEndDateChange={() => {
-                      setIndefiniteEndDate(!isIndefiniteEndDate);
-                    }}
+                    handleEndDateChange={handleEndDateChange}
                   />
                 </div>
 

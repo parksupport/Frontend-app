@@ -1,15 +1,13 @@
-import { useState } from "react";
+import { groteskText, groteskTextMedium } from "@/app/fonts";
+import { useFetchNotifications } from "@/hooks/queries/notifications";
+import useIsMobile from "@/hooks/useIsMobile";
+import useNotifications from "@/hooks/useNotification";
+import { FiTrash2 } from "react-icons/fi";
 import {
   DesktopViewNotification,
   MobileViewNotification,
 } from "../NotificationTable";
 import DrawerHeader from "./DrawerHeader";
-import useIsMobile from "@/hooks/useIsMobile";
-import { groteskText, groteskTextMedium } from "@/app/fonts";
-import useNotifications from "@/hooks/useNotification";
-import { FiTrash2 } from "react-icons/fi";
-import { useFetchNotifications } from "@/hooks/queries/notifications";
-import { useGetNominees } from "@/hooks/queries/nominee";
 
 type NotificationProps = {
   id: number;

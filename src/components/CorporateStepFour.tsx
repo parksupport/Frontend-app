@@ -1,12 +1,10 @@
 "use client";
 
 import { groteskText, groteskTextMedium } from "@/app/fonts";
+import { useVerifyOtp } from "@/hooks/mutations/auth";
+import { useSignupStore } from "@/lib/stores/authStore";
 import React, { useEffect, useRef, useState } from "react";
 import Button from "./Buttons";
-import axios from "axios";
-import { useAuthStore, useSignupStore } from "@/lib/stores/authStore";
-import { useRouter } from "next/navigation";
-import { useVerifyOtp } from "@/hooks/mutations/auth";
 
 const CorporateStepFour = () => {
   // Set up OTP input handling when component mounts

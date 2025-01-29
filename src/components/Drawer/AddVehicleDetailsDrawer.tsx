@@ -8,8 +8,6 @@ import InputField from "../InputField";
 import DrawerHeader from "./DrawerHeader";
 import { useUploadVehicles } from "@/hooks/mutations/vehicles";
 import DropdownInputField from "../DropdownInputField";
-
-import { saveAs } from 'file-saver';
 import { downloadCSV } from "@/api/vehicle";
 
 type VehicleDetailsDrawerProps = {

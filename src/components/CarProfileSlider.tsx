@@ -68,11 +68,10 @@ const CarProfileSlider = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const sliderRef = useRef<Slider>(null);
+  const sliderRef = useRef<Slider>(null); 
   const totalPages = data?.length || 0;
 
   const { profile } = useGetProfile();
-
   const plan_id = profile?.userplan?.plan;
 
   const settings = {
@@ -107,7 +106,6 @@ const CarProfileSlider = ({
       onOpen();
     } else {
       openAddVehicleDetailsDrawer();
-      // onOpen();
     }
   };
 
@@ -124,11 +122,8 @@ const CarProfileSlider = ({
             openAddBillingMethod={openAddBillingMethod}
           />
         }
-
-        // toggleDrawer={toggleDrawer}
-        // openAddBillingMethod={openAddBillingMethod}
       />
-      {user_type === "Corporate" && (
+      {user_type === "corporate" && (
         <div className="flex justify-end">
           <SearchSortModal name={full_name} data={data} setData={setData} />
           <button
@@ -153,7 +148,6 @@ const CarProfileSlider = ({
                     My Vehicle
                   </h1>
 
-                  {/* (UPDATED) Wrap the entire button+icon+modal in a relative container */}
                   <div className="flex items-center space-x-3 relative">
                     <button
                       onClick={() => AddVehicleWithPlan(plan_id, data?.length)}
@@ -163,7 +157,6 @@ const CarProfileSlider = ({
                       <Plus size={20} className="ml-1" />
                     </button>
 
-                    {/* The Outline icon - we toggle the dropdown here */}
                     <div
                       className="cursor-pointer"
                       onClick={() => toggleDropdown(index)}
@@ -171,7 +164,6 @@ const CarProfileSlider = ({
                       <Outline />
                     </div>
 
-                    {/* If openDropdownIndex matches index, show the modal here */}
                     {openDropdownIndex === index && (
                       <DeleteRowModal
                         showConfirmButton={showConfirmButton}
@@ -190,7 +182,6 @@ const CarProfileSlider = ({
                         selectedDataIndex={selectedDataIndex}
                         index={index}
                         customStyles={`${globalText.className} text-[14px]`}
-                        // (UPDATED) shift it below the icon
                         position={{
                           top: "calc(100% + 6px)",
                           left: "auto",
@@ -253,7 +244,7 @@ const CarProfileSlider = ({
                             <button
                               onClick={
                                 car.verification_status !== "Verified"
-                                  ? () => openVerifyVehicleDrawer() // Add your onClick handler here
+                                  ? () => openVerifyVehicleDrawer()
                                   : undefined
                               }
                               className={`text-[11px] rounded-[6.25rem] px-2 py-1 self-end ${
@@ -320,14 +311,12 @@ const CarProfileSlider = ({
                           src={require(`@/assets/images/${car.type.toLowerCase()}.jpg`)}
                           alt={car.type}
                           sizes="width: 222px"
-                          // className="max-w-[222px]"
                         />
                       ) : (
                         <Image
                           src={require(`@/assets/images/car.jpg`)}
                           alt="car"
                           sizes="width: 222px"
-                          // className="max-w-[222px]"
                         />
                       )}
                     </div>

@@ -33,10 +33,6 @@ const AddBillingMethodDrawer = ({ back, toggleDrawer,planId, }) => {
   const {subscribe} = useSubscribe()
 
 
-  const handleRefresh = () => {
-    console.log("refrshed")
-    window.location.reload();
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;

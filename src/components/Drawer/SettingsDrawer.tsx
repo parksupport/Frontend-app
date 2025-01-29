@@ -1,16 +1,13 @@
 // SettingsDrawer.tsx
-import React, { useEffect, useRef, useState } from "react";
-import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import Button from "../Buttons";
 import PlusButtonSVG from "@/assets/svg/normal.svg";
 import { Switch } from "@/components/ui/switch";
-import InputField from "../InputField";
-import { useRouter } from "next/navigation";
-import ModalComponent from "./ModalComponent";
 import { useDisclosure } from "@chakra-ui/react";
-import ThirdPartyNominees from "../card/ThirdPartyNominee";
-import Drawer from "./Drawer";
+import React, { useEffect, useState } from "react";
+import Button from "../Buttons";
+import InputField from "../InputField";
+import DrawerHeader from "./DrawerHeader";
+import ModalComponent from "./ModalComponent";
 
 import { useLogout, useResetPassword } from "@/hooks/mutations/auth";
 import { useNotificationPreferences } from "@/hooks/queries/notifications";
@@ -22,10 +19,7 @@ const SettingsDrawer = ({
   openCarProfile,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const [isOpen, setIsOpen] = useState(false);
-
   const { logout } = useLogout();
-
   const { changePassword, status } = useResetPassword();
   const {
     preferences,
@@ -63,20 +57,12 @@ const SettingsDrawer = ({
       prefers_email: emailNotifications,
     });
   };
-  const [isPopup, setIsPopup] = useState(false);
-  const router = useRouter();
 
   const [showForm, setShowForm] = useState(false);
-
   const [formData, setFormData] = useState({
     new_password: "",
     confirm_password: "",
   });
-  // const openDrawer = () => {
-  //   if (!isOpen) {
-  //     setIsOpen(true);
-  //   }
-  // };
 
   const handleButtonClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -92,10 +78,6 @@ const SettingsDrawer = ({
       ...prevData,
       [name]: value,
     }));
-  };
-
-  const handleSubcription = () => {
-    console.log("subscribed");
   };
 
   const toggleForm = () => {

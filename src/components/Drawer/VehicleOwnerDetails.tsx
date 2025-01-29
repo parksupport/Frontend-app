@@ -132,7 +132,6 @@ function DynamicForm({ formType, status, clear, vehicleData, back }) {
     }
 
     const mergedData = { ...formData, ...vehicleData };
-    console.log("formData", mergedData);
     // You can create a form submission logic here
     status(mergedData);
 
@@ -213,7 +212,6 @@ const VehicleOwnerDetails = ({
   // Handle owner selection
   const handleSelect = (key) => {
     setSelectedKey(key);
-    console.log("Form confirmed for:", owners[key]);
     clearForm();
   };
 

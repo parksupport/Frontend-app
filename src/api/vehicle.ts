@@ -14,7 +14,6 @@ export default async function vehicle(userData) {
 export const getVehicles = async () => {
   try {
     const response = await Axios.get("/api/vehicles/get-vehicles/");
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;

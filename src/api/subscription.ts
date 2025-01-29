@@ -2,7 +2,6 @@ import { Axios } from "./axios";
 
 // 🚗 **Register Vehicle**
 export default async function subscribePlan(userData) {
-    console.log("userData", userData)
     const formatedData = {
         "plan_id": userData
     }

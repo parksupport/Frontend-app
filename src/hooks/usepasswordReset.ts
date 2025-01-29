@@ -20,9 +20,7 @@ export const useForgotPassword = () => {
         return await sendPasswordReset(data);
       },
       onSuccess: (data) => {
-        // Handle success, maybe show a success message or redirect
-        console.log("Password reset link sent successfully", data);
-      },
+         },
       onError: (error: any) => {
         // Handle error
         const errorMessage =
@@ -61,10 +59,7 @@ export const useConfirmPassword = () => {
       mutationFn: async (data) => {
         return await confirmPasswordReset(data);
       },
-      onSuccess: (data) => {
-        // Handle success, maybe show a success message or redirect
-        console.log("Password changed successfully", data);
-  
+      onSuccess: (data) => { 
       },
       onError: (error: any) => {
         // Handle error

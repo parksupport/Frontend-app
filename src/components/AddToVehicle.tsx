@@ -69,16 +69,6 @@ const AddToVehicle = ({ toggleDrawer, status }) => {
           <span className={`text-[#667185] text-[14px] ${groteskText.className}`}>
           We&apos;ll use your registration number to pull any available contravention information and keep you updated.
           </span>
-          {/* <InputField
-            type="text"
-            name="license_num"
-            label="Driver's License Number"
-            placeholder="Enter your driver's license number"
-            value={formData.license_num}
-            onChange={handleChange}
-            className="py-4 md:py-3"
-          /> */}
-          {/* {formErrors.license_num && <span className="text-red-500">{formErrors.license_num}</span>} */}
           <InputField
             type="text"
             name="car_model"
@@ -88,7 +78,6 @@ const AddToVehicle = ({ toggleDrawer, status }) => {
             onChange={handleChange}
             className="py-4 md:py-3"
           />
-          {/* {formErrors.car_model && <span className="text-red-500">{formErrors.car_model}</span>} */}
           <InputField
             type="text"
             name="color"
@@ -103,7 +92,6 @@ const AddToVehicle = ({ toggleDrawer, status }) => {
           <div className="mt-4">
             <div
               className="w-full h-[240px] border border-dashed border-gray-400 p-4 flex flex-col justify-center items-center cursor-pointer"
-              onClick={() => console.log('clicked')}
             >
               <GrDocumentDownload size={50} color="#4169E1" />
               <p className="text-[28px]">CSV and XLS</p>

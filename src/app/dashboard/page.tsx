@@ -153,9 +153,6 @@ export default function DashboardPage() {
   const VehicleStatus = async (vehicleData) => {
     const status = await checkVehicleStatus(vehicleData);
 
-    console.log("staus", status);
-    console.log(typeof status);
-
     // Handle success or failure based on the status
     if (status === "error") {
       handleFailed();
@@ -165,7 +162,6 @@ export default function DashboardPage() {
   };
 
   const CheckVehicleOwner = (data) => {
-    console.log("vehicleData:", data);
     setDrawerContent(
       <VehicleOwnerCheck
         back={openAddVehicleDetailsDrawer}

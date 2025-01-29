@@ -1,73 +1,15 @@
-import React, { useState } from "react";
-import DrawerHeader from "./DrawerHeader";
 import { groteskText, groteskTextMedium } from "@/app/fonts";
-import { MdHistory } from "react-icons/md";
-import SortSVG from "@/assets/svg/sort.svg";
 import SearchSVG from "@/assets/svg/search-normal.svg";
-import TruncatedText from "../ToggleComponent/TruncatedText";
+import SortSVG from "@/assets/svg/sort.svg";
 import { useGetAllNominees } from "@/hooks/queries/nominee";
+import { useState } from "react";
+import TruncatedText from "../ToggleComponent/TruncatedText";
+import DrawerHeader from "./DrawerHeader";
 
 interface NominationHistoryTableProps {
   toggleDrawer: () => void;
   back: any;
 }
-
-// const nominations = [
-//   {
-//     carRegNo: "ABC123",
-//     name: "John Doe",
-//     status: "Pending",
-//     startDate: "01/01/2023",
-//     endDate: "31/01/2023",
-//     email: "john.doe@example.com",
-//     phoneNumber: "123-456-7890",
-//   },
-//   {
-//     carRegNo: "XYZ789",
-//     name: "Jane Smith",
-//     status: "Approved",
-//     startDate: "01/02/2023",
-//     endDate: "28/02/2023",
-//     email: "jane.smith@example.com",
-//     phoneNumber: "987-654-3210",
-//   },
-//   {
-//     carRegNo: "ABC123",
-//     name: "John Doe",
-//     status: "Pending",
-//     startDate: "01/01/2023",
-//     endDate: "31/01/2023",
-//     email: "john.doe@example.com",
-//     phoneNumber: "123-456-7890",
-//   },
-//   {
-//     carRegNo: "XYZ789",
-//     name: "Jane Smith",
-//     status: "Approved",
-//     startDate: "01/02/2023",
-//     endDate: "28/02/2023",
-//     email: "jane.smith@example.com",
-//     phoneNumber: "987-654-3210",
-//   },
-//   {
-//     carRegNo: "ABC123",
-//     name: "John Doe",
-//     status: "Pending",
-//     startDate: "01/01/2023",
-//     endDate: "31/01/2023",
-//     email: "john.doe@example.com",
-//     phoneNumber: "123-456-7890",
-//   },
-//   {
-//     carRegNo: "XYZ789",
-//     name: "Jane Smith",
-//     status: "Approved",
-//     startDate: "01/02/2023",
-//     endDate: "28/02/2023",
-//     email: "jane.smith@example.com",
-//     phoneNumber: "987-654-3210",
-//   },
-// ];
 
 const NominationHistoryTable = ({ back }: NominationHistoryTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -78,8 +20,6 @@ const NominationHistoryTable = ({ back }: NominationHistoryTableProps) => {
 
   const nominations = allNominees?.nominations;
 
-  // console.log("histoary", allNominees?.nominations)
-  // console.log("nominations", nominations)
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);

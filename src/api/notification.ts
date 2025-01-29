@@ -65,7 +65,6 @@ export const deleteNotification = async (
 
 export const getNotificationPreferences = async () => {
   const response = await Axios.get("/api/notifications/preferences/");
-  console.log(response)
   return response.data;
 };
 

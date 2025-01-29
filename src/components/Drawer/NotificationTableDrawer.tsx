@@ -96,6 +96,7 @@ const NotificationsTableDrawer = ({ back }) => {
           <>
             <div className="border rounded-[20px] border-2">
               <MobileViewNotification
+                selectedNotification={selectedNotification}
                 hasCheckbox
                 isDrawer={true}
                 handleSelectAll={handleCheckedAll}
@@ -120,6 +121,7 @@ const NotificationsTableDrawer = ({ back }) => {
         ) : (
           <div className="w-[900px] mx-auto flex items-center">
             <DesktopViewNotification
+            selectedNotification={selectedNotification}
               isDrawer={true}
               handleSelectAll={handleCheckedAll}
               selectAll={isAllSelected}

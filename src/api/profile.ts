@@ -11,7 +11,6 @@ export const updateProfileData = async (data: any) => {
       ...data,
     });
 
-    console.log("Profile update successful:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error updating profile:", error.response?.data || error.message);

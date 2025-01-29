@@ -1,12 +1,11 @@
-import { useState } from "react";
-import InputField from "../InputField";
 import { groteskText } from "@/app/fonts";
-import Button from "../Buttons";
-import DrawerHeader from "./DrawerHeader";
-import { IoMdCheckmark } from "react-icons/io";
-import { useGetProfile } from "@/hooks/queries/profile";
-import { useAuthStore } from "@/lib/stores/authStore";
 import { useEditProfile } from "@/hooks/mutations/profile";
+import { useAuthStore } from "@/lib/stores/authStore";
+import { useState } from "react";
+import { IoMdCheckmark } from "react-icons/io";
+import Button from "../Buttons";
+import InputField from "../InputField";
+import DrawerHeader from "./DrawerHeader";
 
 interface ProfileEditInfoDrawerProps {
   back?: () => void;
@@ -42,7 +41,6 @@ export function ProfileEditInfoDrawer({
     id: id || "",
     name: full_name || "",
     email_address: email_address || "",
-    // vehicle: vehicle || "",
     phone_number: phone_number || "",
     company_phone_number: company_phone_number || "",
     address: address || "",
@@ -75,14 +73,7 @@ export function ProfileEditInfoDrawer({
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    // if (type === "!User") {
-    //   // Logic to send the changes for admin approval
-    //   alert(
-    //     "Changes to company information have been sent for admin approval."
-    //   );
-    // } else {
-    console.log(formData, "formdata");
-    updateProfile(formData);
+     updateProfile(formData);
     back();
     // }
     if (type === "!User") {
@@ -257,9 +248,6 @@ export function ProfileEditInfoDrawer({
         }
         subTitle="Put in the same details that exist with DVLA"
       />
-      {/* 
-      <form className="pt-5 md:pt-10 px-[20px] md:mx-auto ">
-        <div className="flex flex-col gap-4 items-center "> */}
       <form className="pt-12 px-[20px] md:mx-auto md:w-[55%]">
         <div className="flex flex-col gap-4 items-center md:w-[65%] mx-auto">
           {/* Map through the inputFields array */}

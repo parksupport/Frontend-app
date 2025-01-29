@@ -13,7 +13,6 @@ export const useNotifications = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      console.log("Notification data", data);
       return await addNotification(data);
     },
 
@@ -81,7 +80,6 @@ export const useMarkAllRead = () => {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      console.log("All read");
       return await markAllAsRead();
     },
 

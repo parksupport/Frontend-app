@@ -6,7 +6,7 @@ import TruncatedText from "../ToggleComponent/TruncatedText";
 
 const ContraventionRow = ({ invoice, handleRowClick, selectedInvoice }) => {
   const isSelected = selectedInvoice && selectedInvoice.ticket_id === invoice.ticket_id;
-  console.log(isSelected)
+
 
   return (
     <tr

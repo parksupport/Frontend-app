@@ -83,11 +83,7 @@ const useNotifications = (
         );
         SetselectedNotificationsList(updatedNotificationsList);
       }
-
-
-      console.log("All selected notifications deleted successfully");
     } catch (error) {
-      console.error("Error deleting notifications:", error);
     }
   };
 
@@ -137,7 +133,6 @@ const useNotifications = (
     const updatedNotifications = notifications.map((n) =>
       n.id === notification.id ? { ...n, is_read: true } : n
     );
-    console.log("updated", updatedNotifications);
     setNotifications(updatedNotifications);
   };
 

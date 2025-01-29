@@ -80,7 +80,6 @@ const CarProfile = ({
   };
 
   const AddVehicleWithPlan = (plan_id, vehicles) => {
-    console.log(plan_id, vehicles?.length);
     if (plan_id === 1) {
       onOpen();
     } else if (plan_id === 2 && vehicles >= 2) {

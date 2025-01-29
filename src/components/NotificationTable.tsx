@@ -33,6 +33,7 @@ interface MobileViewNotificationProps {
   selectedNotificationsList?: any;
   updateSelectedNotifications?: any;
   notificationStateMessage: any;
+  selectedNotification?: any;
 }
 
 export const MobileViewNotification = ({
@@ -51,6 +52,7 @@ export const MobileViewNotification = ({
   handleSelectNotification,
   selectedNotificationsList,
   updateSelectedNotifications,
+  selectedNotification,
 }: MobileViewNotificationProps) => {
   const settings = {
     infinite: false,
@@ -91,82 +93,91 @@ export const MobileViewNotification = ({
           <Slider {...settings}>
             {Array.from({ length: totalPages }, (_, index) => (
               <div key={index} className=" w-full">
-                {currentNotifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className={`rounded-lg flex items-center justify-between bg-white  w-full ${
-                      isDrawer ? "py-2" : "py-1"
-                    }`}
-                    onClick={() =>
-                      isDrawer
-                        ? handleSelectNotification(notification)
-                        : openNotificationsDrawer()
-                    }
-                  >
-                    {/* Icon */}
+                {currentNotifications.map((notification) => {
+                  const isSelected =
+                    selectedNotification &&
+                    selectedNotification.id === notification.id;
+                  return (
                     <div
-                      className={`w-[40px] h-[40px] bg-[#D9D9D9] rounded-full flex items-center justify-center text-[20px] font-bold text-gray-700 ${groteskText.className}`}
+                      key={notification.id}
+                      className={`${isSelected ? "bg-gray-200" : ""} rounded-lg flex items-center justify-between   w-full ${
+                        isDrawer ? "py-2" : "py-1"
+                      }`}
+                      onClick={() =>
+                        isDrawer
+                          ? handleSelectNotification(notification)
+                          : openNotificationsDrawer()
+                      }
                     >
-                      {notification?.notification_type?.charAt(0)}
-                    </div>
+                      {/* Icon */}
+                      <div
+                        className={`w-[40px] h-[40px] bg-[#D9D9D9] rounded-full flex items-center justify-center text-[20px] font-bold text-gray-700 ${groteskText.className}`}
+                      >
+                        {notification?.notification_type?.charAt(0)}
+                      </div>
 
-                    {/* Text Details */}
-                    <div className="flex-1 ml-1">
-                      <div className="flex fle items-center ">
-                        <div className="px-1 ">
-                          <LabelImportantSVG className="" />
+                      {/* Text Details */}
+                      <div className="flex-1 ml-1">
+                        <div className="flex fle items-center ">
+                          <div className="px-1 ">
+                            <LabelImportantSVG className="" />
+                          </div>
+                          <p
+                            className={`text-[16px]  ${
+                              notification?.is_read
+                                ? "text-gray-400"
+                                : "text-black"
+                            } ${groteskTextMedium.className}`}
+                          >
+                            {notification?.notification_type}
+                          </p>
                         </div>
                         <p
-                          className={`text-[16px]  ${
+                          className={`  text-[16px] ${
                             notification?.is_read
                               ? "text-gray-400"
                               : "text-black"
                           } ${groteskTextMedium.className}`}
                         >
-                          {notification?.notification_type}
+                          <TruncatedText
+                            text={notification?.message}
+                            maxLength={40}
+                            className={`${groteskTextMedium.className}`}
+                            showFullOnHover={false}
+                          />
                         </p>
                       </div>
-                      <p
-                        className={`  text-[16px] ${
-                          notification?.is_read ? "text-gray-400" : "text-black"
-                        } ${groteskTextMedium.className}`}
-                      >
-                        <TruncatedText
-                          text={notification?.message}
-                          maxLength={40}
-                          className={`${groteskTextMedium.className}`}
-                          showFullOnHover={false}
-                        />
-                      </p>
-                    </div>
 
-                    {/* Date and Checkbox */}
-                    <div
-                      className="flex flex-col items-end "
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span
-                        className={`text-[12px] ${
-                          notification.is_read ? "text-gray-400" : "text-black"
-                        } ${groteskTextMedium.className}`}
+                      {/* Date and Checkbox */}
+                      <div
+                        className="flex flex-col items-end "
+                        onClick={(e) => e.stopPropagation()}
                       >
-                        {notification.created_at}
-                      </span>
-                      {hasCheckbox && (
-                        <input
-                          type="checkbox"
-                          className="form-checkbox w-4 h-4 mt-2"
-                          checked={selectedNotificationsList?.some(
-                            (n) => n.id === notification.id
-                          )}
-                          onChange={() =>
-                            updateSelectedNotifications(notification)
-                          }
-                        />
-                      )}
+                        <span
+                          className={`text-[12px] ${
+                            notification.is_read
+                              ? "text-gray-400"
+                              : "text-black"
+                          } ${groteskTextMedium.className}`}
+                        >
+                          {notification.created_at}
+                        </span>
+                        {hasCheckbox && (
+                          <input
+                            type="checkbox"
+                            className="form-checkbox w-4 h-4 mt-2"
+                            checked={selectedNotificationsList?.some(
+                              (n) => n.id === notification.id
+                            )}
+                            onChange={() =>
+                              updateSelectedNotifications(notification)
+                            }
+                          />
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ))}
           </Slider>
@@ -220,6 +231,7 @@ interface DesktopViewNotificationProps {
   selectedNotificationsList?: any;
   openNotificationsTable?: any;
   notificationStateMessage: any;
+  selectedNotification?: any;
 }
 
 export const DesktopViewNotification = ({
@@ -238,19 +250,12 @@ export const DesktopViewNotification = ({
   textMaxLenght,
   updateSelectedNotifications,
   selectedNotificationsList,
+  selectedNotification,
 }: DesktopViewNotificationProps) => {
   return (
     <>
       <div className="rounded-[12px] border border-gray-200  w-full">
         <div className="bg-white px-2 py-2 flex items-center justify-between w-full">
-          {/* <div className="flex items-center py-3">
-              <input
-                type="checkbox"
-                className="form-checkbox"
-                onChange={handleSelectAll}
-                checked={selectAll}
-              />
-            </div> */}
           <div className="ml-auto text-end flex justify-end space-x-2 items-center">
             <span className={`${groteskText.className}  text-gray-500`}>
               {`${currentPage * itemsPerPage + 1} - ${Math.min(
@@ -283,68 +288,73 @@ export const DesktopViewNotification = ({
         <div className="overflow-x-auto ">
           <table className=" mx-auto min-w-full text-left  mt-0">
             <tbody>
-              {currentNotifications?.map((notification) => (
-                <tr
-                  key={notification.id}
-                  className={`border-t border-gray-300 cursor-pointer ${
-                    notification.is_read ? "text-gray-400" : "text-black"
-                  } hover:bg-gray-100`}
-                  onClick={() => {
-                    if (isDrawer) {
-                      updateSelectedNotifications([]); // Reset selected notifications list
-                    }
-                    // Handle the rest of the row click logic
-                    if (isDrawer) {
-                      handleSelectNotification(notification);
-                    } else {
-                      openNotificationsTable();
-                    }
-                  }}
-                >
-                  {hasCheckbox && (
+              {currentNotifications?.map((notification) => {
+                const isSelected =
+                  selectedNotification &&
+                  selectedNotification.id === notification.id;
+                return (
+                  <tr
+                    key={notification.id}
+                    className={`border-t border-gray-300 cursor-pointer ${
+                      notification.is_read ? "text-gray-400" : "text-black"
+                    } hover:bg-gray-100 ${isSelected ? "bg-gray-300" : ""}`}
+                    onClick={() => {
+                      if (isDrawer) {
+                        updateSelectedNotifications([]); // Reset selected notifications list
+                      }
+                      // Handle the rest of the row click logic
+                      if (isDrawer) {
+                        handleSelectNotification(notification);
+                      } else {
+                        openNotificationsTable();
+                      }
+                    }}
+                  >
+                    {hasCheckbox && (
+                      <td
+                        className="pl-2 py-2 w-[5%]"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <input
+                          type="checkbox"
+                          className="form-checkbox"
+                          checked={selectedNotificationsList?.some(
+                            (n) => n.id === notification.id
+                          )}
+                          onChange={() =>
+                            updateSelectedNotifications(notification)
+                          }
+                        />
+                      </td>
+                    )}
+                    <td className="px-1 py-2 md:text-[18px] w-[15%]">
+                      <div className="flex items-center">
+                        <div className="pl-2 pr-4">
+                          <LabelImportantSVG />
+                        </div>
+                        <span className={`${groteskText.className}`}>
+                          {notification.notification_type}
+                        </span>
+                      </div>
+                    </td>
                     <td
-                      className="pl-2 py-2 w-[5%]"
-                      onClick={(e) => e.stopPropagation()}
+                      className={`${groteskText.className} md:text-[18px] {isDrawer ? 'px-0' : 'px-2'} py-2 w-[50%]`}
                     >
-                      <input
-                        type="checkbox"
-                        className="form-checkbox"
-                        checked={selectedNotificationsList?.some(
-                          (n) => n.id === notification.id
-                        )}
-                        onChange={() =>
-                          updateSelectedNotifications(notification)
-                        }
+                      <TruncatedText
+                        text={notification.message}
+                        maxLength={textMaxLenght}
+                        className={`${groteskTextMedium.className}`}
+                        showFullOnHover={false}
                       />
                     </td>
-                  )}
-                  <td className="px-1 py-2 md:text-[18px] w-[15%]">
-                    <div className="flex items-center">
-                      <div className="pl-2 pr-4">
-                        <LabelImportantSVG />
-                      </div>
-                      <span className={`${groteskText.className}`}>
-                        {notification.notification_type}
-                      </span>
-                    </div>
-                  </td>
-                  <td
-                    className={`${groteskText.className} md:text-[18px] {isDrawer ? 'px-0' : 'px-2'} py-2 w-[50%]`}
-                  >
-                    <TruncatedText
-                      text={notification.message}
-                      maxLength={textMaxLenght}
-                      className={`${groteskTextMedium.className}`}
-                      showFullOnHover={false}
-                    />
-                  </td>
-                  <td
-                    className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'} py-2 text-center w-[10%]`}
-                  >
-                    {notification.created_at}
-                  </td>
-                </tr>
-              ))}
+                    <td
+                      className={`${groteskText.className} {isDrawer ? 'px-0' : 'px-2'} py-2 text-center w-[10%]`}
+                    >
+                      {notification.created_at}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
           <div className="flex items-center justify-center">

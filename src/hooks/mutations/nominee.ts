@@ -49,9 +49,6 @@ export const useAddNominee = () => {
       });
     },
     onError: (mutationError: any, newNominee, context) => {
-      console.log("Failed to add nominee:", newNominee);
-      console.error("Error occurred:", mutationError);
-
       toast({
         title: "Failed to add Nominee",
         description:

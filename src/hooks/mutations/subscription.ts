@@ -8,7 +8,6 @@ export const useSubscribe = () => {
   
     const mutation = useMutation({
       mutationFn: async (plan_id: any) => {
-        console.log("plan_id", plan_id);
         return await subscribePlan(plan_id);
       },
   

@@ -52,7 +52,6 @@ export const useAddVehicle = () => {
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
-      console.log("vehicle data", data);
       return await addVehicles(data);
     },
 

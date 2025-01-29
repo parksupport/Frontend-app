@@ -51,8 +51,6 @@ const useNotifications = (
   const { markAllAsRead } = useMarkAllRead();
   const { deleteNotification } = useDeleteNotification();
 
-
-
   useEffect(() => {
     // Check if the notifications have changed before setting state
     if (
@@ -64,7 +62,6 @@ const useNotifications = (
 
   const totalNotifications = notifications?.length;
   const totalPages = Math.ceil(totalNotifications / itemsPerPage);
-
 
   const handleDeleteNotification = () => {
     try {
@@ -83,8 +80,7 @@ const useNotifications = (
         );
         SetselectedNotificationsList(updatedNotificationsList);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const handleSelectAll = () => {
@@ -105,16 +101,17 @@ const useNotifications = (
     setNotifications(updatedNotifications);
   };
 
-
   const goToNextPage = () => {
     if (currentPage < totalPages - 1) {
       setCurrentPage((prevPage) => prevPage + 1);
+      setSelectedNotification(null);
     }
   };
 
   const goToPreviousPage = () => {
     if (currentPage > 0) {
       setCurrentPage((prevPage) => prevPage - 1);
+      setSelectedNotification(null);
     }
   };
 
@@ -123,10 +120,8 @@ const useNotifications = (
     (currentPage + 1) * itemsPerPage
   );
 
-
   const handleSelectNotification = (notification) => {
     setSelectedNotification(notification);
-
 
     // Update the local state to reflect the read status
     markAsRead(notification.id); // Assuming markAsRead is a function to call the API
@@ -136,7 +131,6 @@ const useNotifications = (
     setNotifications(updatedNotifications);
   };
 
- 
   const updateSelectedNotifications = (notificationOrList) => {
     SetselectedNotificationsList((prevSelected) => {
       if (Array.isArray(notificationOrList)) {

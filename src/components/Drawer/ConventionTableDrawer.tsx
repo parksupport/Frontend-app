@@ -1,21 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import DrawerHeader from "./DrawerHeader";
-import { groteskText, groteskTextMedium } from "@/app/fonts";
-import itemDetails from "@/data/data.json";
-import Slider from "react-slick";
+import { groteskTextMedium } from "@/app/fonts";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import LineHeight from "@/assets/svg/LineHelight.svg";
 import ContraImage from "@/assets/images/contraventioImage.jpg";
+import { useGetAllTicket } from "@/hooks/queries/ticket";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import Slider from "react-slick";
 import ContraventionRow from "./ContraventionRow";
 import DetailedBreakdownItem from "./DetailedBreakDown";
-import Button from "../Buttons";
-import DetailedBreakdownItemHeader from "./DetailedBreakDownHeader";
-import { useGetAllTicket } from "@/hooks/queries/ticket";
+import DrawerHeader from "./DrawerHeader";
 
 const ConventionTableDrawer = ({ toggleDrawer }) => {
   const itemsPerPage = 1; // Number of items to display per page
@@ -23,14 +19,12 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
 
-  const sliderRef = useRef(null);
 
-  const handleRowClick = (invoice: any) => {
+  const handleRowClick = (invoice) => {
     setSelectedInvoice(invoice);
   };
 
-  const {ticketsData} = useGetAllTicket()
-
+  const { ticketsData } = useGetAllTicket();
 
   const totalPages = Math.ceil(ticketsData?.length / itemsPerPage);
 
@@ -87,22 +81,34 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
           <table className="flex  justify-between lg:flex lg:flex-col overflow-y-scroll max-h-[378px] ">
             <thead className="border-b border-b-[#C5D5F8] w-full ">
               <tr className="flex lg:px-[1rem] flex-col lg:flex lg:flex-row border-b border-b-[#C5D5F8] lg:pl-0 lg:justify-between w-full">
-
-                <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th
+                  className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}
+                >
                   Vehicle Reg No.
                 </th>
-                <th className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th
+                  className={`py-2 pl-4  text-left  text-[#667185]  ${groteskTextMedium.className}`}
+                >
                   Issuing Authority
                 </th>
-                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th
+                  className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}
+                >
                   Date Issued
                 </th>
-                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
+                <th
+                  className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}
+                >
+                  Due Date
+                </th>
+                <th
+                  className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}
+                >
                   Fine
                 </th>
-                <th className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}>
-
-
+                <th
+                  className={`py-2 pl-4 text-left  text-[#667185]  ${groteskTextMedium.className}`}
+                >
                   Status
                 </th>
               </tr>
@@ -115,6 +121,7 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                     key={index}
                     invoice={invoice}
                     handleRowClick={handleRowClick}
+                    selectedInvoice={selectedInvoice}
                   />
                 )
               )}
@@ -154,7 +161,6 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
           )}
         </div>
       </Slider>
-
 
       {/* Detailed Breakdown */}
       {selectedInvoice && (
@@ -202,8 +208,12 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
                   />
 
                   <DetailedBreakdownItem
-                    label="Due Date"
+                    label="Date Issued"
                     value={selectedInvoice.issue_date}
+                  />
+                  <DetailedBreakdownItem
+                    label="Due Date"
+                    value={selectedInvoice.due_date}
                   />
                   {/* <DetailedBreakdownItem
                     label="Ticket Type"
@@ -248,10 +258,13 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
             </section>
 
             {/* Photo Evidence */}
-            <section className='mt-8 justify-center items-center flex flex-col '>
-              <h1 className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}>Photo Evidence</h1>
-              <div className='flex space-y-4 '>
-
+            <section className="mt-8 justify-center items-center flex flex-col ">
+              <h1
+                className={`text-xl text-[#000000] ${groteskTextMedium.className} mb-4`}
+              >
+                Photo Evidence
+              </h1>
+              <div className="flex space-y-4 ">
                 <Image
                   src={ContraImage}
                   alt="Contravention Evidence"

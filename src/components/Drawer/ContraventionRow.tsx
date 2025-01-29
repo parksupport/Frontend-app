@@ -1,18 +1,21 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { groteskText } from "@/app/fonts";
 import TruncatedText from "../ToggleComponent/TruncatedText";
 
-const ContraventionRow = ({ invoice, handleRowClick }) => {
+const ContraventionRow = ({ invoice, handleRowClick, selectedInvoice }) => {
+  const isSelected = selectedInvoice && selectedInvoice.ticket_id === invoice.ticket_id;
+  console.log(isSelected)
+
   return (
     <tr
       className={`flex flex-col lg:px-[1rem]
                   lg:flex lg:flex-row 
                   lg:border-b-[#D0D5DD] lg:border 
-                  cursor-pointer hover:bg-[#FFFFFF] 
-                  lg:w-full items-center justify-between`}
+                  cursor-pointer
+                  lg:w-full items-center justify-between
+                  ${isSelected ? "bg-gray-300" : ""}`} // Apply bg-gray-500 if selected
       onClick={() => handleRowClick(invoice)}
     >
       {/* Ticket */}
@@ -29,25 +32,35 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
         />
       </td>
 
-      {/* Issuring Authority */}
+      {/* Issuing Authority */}
       <td
         className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0
                      lg:text-left
                     lg:w-full lg:w-2/12 
-                    lg:pl-[3.5rem] 
                     ${groteskText.className}`}
       >
         {invoice.issuing_authority}
       </td>
+
       {/* Date */}
       <td
         className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0
                      lg:text-left
                     lg:w-full lg:w-2/12 
-                    lg:pl-[3.5rem] 
+                     lg:pl-[4rem] 
                     ${groteskText.className}`}
       >
         {invoice.issue_date}
+      </td>
+
+      {/* Due Date */}
+      <td
+        className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0
+                     lg:text-left
+                    lg:w-full lg:w-2/12 
+                    ${groteskText.className}`}
+      >
+        {invoice.due_date}
       </td>
 
       {/* Fine Amount */}
@@ -55,7 +68,6 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
         className={`py-2 text-sm text-gray-700 leading-none whitespace-nowrap w-0
                      lg:text-left
                     lg:w-full lg:w-2/12 
-                    lg:pl-[1.5rem] 
                     ${groteskText.className}`}
       >
         {`£${invoice.amount}`}
@@ -66,19 +78,19 @@ const ContraventionRow = ({ invoice, handleRowClick }) => {
         <span
           className={`self-end px-[25px] rounded-[22px] my-[0.75rem] flex justify-center w-[65px] h-[22px] ${
             invoice.status === "Unpaid"
-              ? "bg-[#F8D7DA]" 
+              ? "bg-[#F8D7DA]"
               : invoice.status === "Disputed"
-              ? "bg-[#FFF3CD]" 
-              : "bg-[#B5E3C4]" 
+              ? "bg-[#FFF3CD]"
+              : "bg-[#B5E3C4]"
           }`}
         >
           <span
             className={`text-center text-[13px] ${
               invoice.status === "Unpaid"
-                ? "text-[#D9534F]" 
+                ? "text-[#D9534F]"
                 : invoice.status === "Disputed"
-                ? "text-[#F0AD4E]" 
-                : "text-[#099137]" 
+                ? "text-[#F0AD4E]"
+                : "text-[#099137]"
             } ${groteskText.className}`}
           >
             {invoice.status}

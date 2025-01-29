@@ -36,11 +36,23 @@ const ConventionTableDrawer = ({ toggleDrawer }) => {
   );
 
   const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    setCurrentPage((prev) => {
+      const newPage = Math.max(prev - 1, 1);
+      setSelectedInvoice(
+        ticketsData?.tickets?.[(newPage - 1) * itemsPerPage] || null
+      );
+      return newPage;
+    });
   };
-
+  
   const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    setCurrentPage((prev) => {
+      const newPage = Math.min(prev + 1, totalPages);
+      setSelectedInvoice(
+        ticketsData?.tickets?.[(newPage - 1) * itemsPerPage] || null
+      );
+      return newPage;
+    });
   };
 
   const sliderSettings = {

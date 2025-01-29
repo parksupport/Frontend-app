@@ -13,15 +13,13 @@ const ContraventionRow = ({ invoice, handleRowClick, selectedInvoice }) => {
 
   return (
     <tr
-      className={`flex flex-col lg:px-[1rem] 
-
-                  lg:flex lg:flex-row 
-                  lg:border-b-[#D0D5DD] lg:border 
-                  cursor-pointer
-                  lg:w-full items-center justify-between
-                  ${isSelected ? "bg-gray-300" : ""}`} // Apply bg-gray-500 if selected
+      className={`flex flex-col lg:px-[1rem] lg:flex lg:flex-row lg:border-b-[#D0D5DD] lg:border cursor-pointer lg:w-full items-center justify-between ${
+        !isMobile && isSelected ? "bg-gray-300" : ""
+      }`}
       onClick={() => handleRowClick(invoice)}
     >
+      {/* Table row content */}
+
       {/* Ticket */}
       <td
         className={`py-2 text-gray-700 whitespace-nowrap w-0

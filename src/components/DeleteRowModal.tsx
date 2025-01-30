@@ -55,29 +55,41 @@ const DeleteRowModal = ({
       ? "Both"
       : "SMS";
 
-    editNomination({
-      nominee_id: nominee.id,
-      updatedData: { notification_preference: newPreference },
-    });
-    onClose();
+    try {
+      editNomination({
+        nominee_id: nominee.id,
+        updatedData: { notification_preference: newPreference },
+      });
+
+      if (status === "success") {
+        onClose();
+      }
+    } catch (error) {
+      console.error("Failed to update notification preference:", error);
+    }
   };
 
   // Function to handle Email notification toggle
   const handleEmailNotification = async () => {
-    const newPreference = emailNotification
-      ? smsNotification
-        ? "SMS"
+    const newPreference = smsNotification
+      ? emailNotification
+        ? "Email"
         : "None"
-      : smsNotification
+      : emailNotification
       ? "Both"
-      : "Email";
+      : "SMS";
 
-    editNomination({
-      nominee_id: nominee.id,
-      updatedData: { notification_preference: newPreference },
-    });
-    if (status === "success") {
-      onClose();
+    try {
+      editNomination({
+        nominee_id: nominee.id,
+        updatedData: { notification_preference: newPreference },
+      });
+
+      if (status === "success") {
+        onClose();
+      }
+    } catch (error) {
+      console.error("Failed to update notification preference:", error);
     }
   };
 

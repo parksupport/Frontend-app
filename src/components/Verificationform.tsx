@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import DrawerHeader from "./Drawer/DrawerHeader";
+import { useAddVehicle, useVerifyVehicle } from "@/hooks/mutations/vehicles";
 
 const VehicleVerificationForm = ({
     back,
 }) => {
   const [formData, setFormData] = useState({
-    registrationNumber: "",
+    registration_number: "",
     postcode: "",
   });
+
+const {verifyVehicle, status} = useVerifyVehicle();
+
+useEffect(() => {
+  if (status === "success") {
+    back();
+  }
+}, [status]); 
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    await verifyVehicle(formData); 
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,12 +36,7 @@ const VehicleVerificationForm = ({
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your form submission logic here
-    console.log("Form Data Submitted:", formData);
-  };
-
+  
   return (
     <>
           <DrawerHeader
@@ -39,16 +52,16 @@ const VehicleVerificationForm = ({
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
-            htmlFor="registrationNumber"
+            htmlFor="registration_number"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
             Vehicle Registration Number
           </label>
           <input
             type="text"
-            id="registrationNumber"
-            name="registrationNumber"
-            value={formData.registrationNumber}
+            id="registration_number"
+            name="registration_number"
+            value={formData.registration_number}
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-300"
             placeholder="e.g., AB12 CDE"

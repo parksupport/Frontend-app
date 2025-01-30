@@ -335,7 +335,7 @@ const CarProfile = ({
                               <div className="relative w-[68px] h-[18px]">
                                 <button
                                   onClick={
-                                    car.verification_status === "Pending"
+                                    car.verification_status !== "Verified"
                                       ? () => verify(car)
                                       : undefined
                                   }

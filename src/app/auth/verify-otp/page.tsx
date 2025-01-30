@@ -37,7 +37,7 @@ const VerifyOTPPage = () => {
         required
       />
       <button type="submit" disabled={isPending}>Verify OTP</button>
-      {isError && <p>{error?.message || 'Verification failed'}</p>}
+      {isError && <p>{error?.error || 'Verification failed'}</p>}
     </form>
   );
 };

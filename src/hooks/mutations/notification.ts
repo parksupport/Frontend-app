@@ -32,7 +32,7 @@ export const useNotifications = () => {
       toast({
         title: "Failed to add vehicle",
         description:
-          error?.message || "An error occurred while adding the vehicle.",
+          error?.error || "An error occurred while adding the vehicle.",
         status: "error",
         duration: 3000,
         isClosable: true,

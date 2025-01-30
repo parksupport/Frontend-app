@@ -47,7 +47,7 @@ export const useGetAllNominees = () => {
 //     onError: (error: AxiosError) => {
 //       toast({
 //         title: "Cannot get nominee",
-//         description: error?.message || "An error occurred while fetching the nominee.",
+//         description: error?.error || "An error occurred while fetching the nominee.",
 //         status: "error",
 //         duration: 3000,
 //         isClosable: true,

@@ -10,7 +10,7 @@ export default async function vehicle(userData) {
   }
 }
 
-// 📥 **Get All Vehicles**
+
 export const getVehicles = async () => {
   try {
     const response = await Axios.get("/api/vehicles/get-vehicles/");
@@ -20,10 +20,20 @@ export const getVehicles = async () => {
   }
 };
 
-// 🛠️ **Add Vehicle**
+
 export const addVehicles = async (userData) => {
   try {
     const response = await Axios.post("/api/vehicles/add/", userData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
+};
+
+export const verify_Vehicle = async (userData) => {
+  console.log(userData);
+  try {
+    const response = await Axios.post("/api/vehicles/verify-vehicle/", userData);
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;

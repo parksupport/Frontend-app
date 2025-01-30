@@ -40,7 +40,7 @@ export const useEditProfile = () => {
       console.error("Error occurred:", mutationError);
       toast({
         title: "Failed to update profile",
-        description: mutationError?.message || "An error occurred while updating the profile.",
+        description: mutationerror?.error || "An error occurred while updating the profile.",
         status: "error",
         duration: 3000,
         isClosable: true,

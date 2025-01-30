@@ -129,7 +129,7 @@ const IndividualStepFour = () => {
             </Button>
             {isError && (
               <p className="text-red-500 mt-2">
-                {error?.message || "Verification failed. Try again."}
+                {error?.error || "Verification failed. Try again."}
               </p>
             )}
           </div>

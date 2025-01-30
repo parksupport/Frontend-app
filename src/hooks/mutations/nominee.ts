@@ -52,7 +52,7 @@ export const useAddNominee = () => {
       toast({
         title: "Failed to add Nominee",
         description:
-          mutationError?.message ||
+          mutationError?.error ||
           "An error occurred while adding the nominee.",
         status: "error",
         duration: 3000,

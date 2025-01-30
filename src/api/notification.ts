@@ -13,7 +13,6 @@ export const addNotification = async (userData) => {
 export const getNotifications = async () => {
   try {
     const response = await Axios.get("/api/notifications/");
-    console.log(response.data);
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;

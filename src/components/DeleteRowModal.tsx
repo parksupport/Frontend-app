@@ -46,6 +46,12 @@ const DeleteRowModal = ({
 
   const { editNomination, isLoading, status } = useEditNomination();
 
+  useEffect(() => {
+    if (status === "success") {
+      onClose();
+    }
+  }, [status]);
+
   const handleSmsNotification = async () => {
     const newPreference = smsNotification
       ? emailNotification
@@ -60,10 +66,6 @@ const DeleteRowModal = ({
         nominee_id: nominee.id,
         updatedData: { notification_preference: newPreference },
       });
-
-      if (status === "success") {
-        onClose();
-      }
     } catch (error) {
       console.error("Failed to update notification preference:", error);
     }
@@ -84,10 +86,6 @@ const DeleteRowModal = ({
         nominee_id: nominee.id,
         updatedData: { notification_preference: newPreference },
       });
-
-      if (status === "success") {
-        onClose();
-      }
     } catch (error) {
       console.error("Failed to update notification preference:", error);
     }

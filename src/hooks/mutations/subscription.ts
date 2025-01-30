@@ -26,7 +26,7 @@ export const useSubscribe = () => {
         toast({
           title: "Failed to subcribe",
           description:
-            error?.message || "An error occurred while subscribing a plan.",
+            error?.error || "An error occurred while subscribing a plan.",
           status: "error",
           duration: 3000,
           isClosable: true,

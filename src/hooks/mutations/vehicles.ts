@@ -1,5 +1,5 @@
 "use client";
-import { addVehicles, deleteVehicle, uploadVehicles } from "@/api/vehicle";
+import { addVehicles, deleteVehicle, uploadVehicles, verify_Vehicle, } from "@/api/vehicle";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -30,7 +30,7 @@ export const useUploadVehicles = () => {
       toast({
         title: "Failed to upload vehicles",
         description:
-          error?.message || "An error occurred while uploading the vehicles.",
+          error?.error || "An error occurred while uploading the vehicles.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -72,7 +72,7 @@ export const useAddVehicle = () => {
       toast({
         title: "Failed to add vehicle",
         description:
-          error?.message || "An error occurred while adding the vehicle.",
+          error?.error || "An error occurred while adding the vehicle.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -88,6 +88,55 @@ export const useAddVehicle = () => {
     isLoading: mutation.isPending,
   };
 };
+
+
+export const useVerifyVehicle = () => {
+
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (data: any) => {
+      return await verify_Vehicle(data);
+    },
+
+    onSuccess: async () => {
+      // Invalidate and refetch the 'vehicle' query after adding
+      await queryClient.invalidateQueries({ queryKey: ["vehicle"] });
+
+      toast({
+        title: "Vehicle verification successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+
+    onError: (error: any) => {
+      console.error("Error verifiying vehicle:", error);
+      toast({
+        title: "Failed to verify vehicle",
+        description:
+          error?.error || "An error occurred while adding the vehicle.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+  });
+
+  return {
+    verifyVehicle: mutation.mutateAsync,
+    isError: mutation.isError,
+    error: mutation.error,
+    isLoading: mutation.isPending,
+    status:mutation.status
+  };
+};
+
+
+
+
 
 export const useDeleteVehicle = () => {
   const toast = useToast();
@@ -121,7 +170,7 @@ export const useDeleteVehicle = () => {
       toast({
         title: "Failed to delete vehicle",
         description:
-          error?.message || "An error occurred while deleting the vehicle.",
+          error?.error || "An error occurred while deleting the vehicle.",
         status: "error",
         duration: 3000,
         isClosable: true,

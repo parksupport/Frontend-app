@@ -60,7 +60,6 @@ ThirdPartyNomineesProps) {
     cancelDelete,
     setShowConfirmButton,
     setOpenDropdownIndex,
-    
   } = useDeleteRow(nominees, "nominee");
 
   const vehiclesRegNunbers = selectedVehicle?.registration_number;
@@ -98,15 +97,14 @@ ThirdPartyNomineesProps) {
   ): { end_date: string }[] {
     return data.map((nominee) => {
       if (!nominee.end_date || isNaN(new Date(nominee.end_date).getTime())) {
-        return { ...nominee, end_date: "Infinite" }; 
+        return { ...nominee, end_date: "Infinite" };
       }
-  
+
       return nominee;
     });
   }
-  
+
   const updatedNominees = updateNomineesWithEndDate(data);
-  
 
   return (
     <div className="py-12 mb-40">
@@ -180,7 +178,6 @@ ThirdPartyNomineesProps) {
               handleDelete={handleDelete}
               selectedDataIndex={selectedDataIndex}
               onCloseModal={() => setOpenDropdownIndex(null)}
-              
             />
           )}
         </div>
@@ -497,69 +494,64 @@ export const NomineeMobile = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [setShowConfirmButton]);
 
+  const { editNomination, isLoading, status } = useEditNomination();
 
-
-    const { editNomination, isLoading, status } = useEditNomination();
-  
-    useEffect(() => {
-      if (status === "success") {
-        setShowActions(false);
-      }
-    }, [status]);
-  
-    const handleSmsNotification = async () => {
-      const newPreference = smsNotification
-        ? emailNotification
-          ? "Email"
-          : "None"
-        : emailNotification
-        ? "Both"
-        : "SMS";
-  
-      try {
-        editNomination({
-          nominee_id:  nominees[currentIndex].id,
-          updatedData: { notification_preference: newPreference },
-        });
-      } catch (error) {
-        console.error("Failed to update notification preference:", error);
-      }
-    };
-  
-    // Function to handle Email notification toggle
-    const handleEmailNotification = async () => {
-      const newPreference = smsNotification
-        ? emailNotification
-          ? "Email"
-          : "None"
-        : emailNotification
-        ? "Both"
-        : "SMS";
-  
-      try {
-        editNomination({
-          nominee_id:  nominees[currentIndex].id,
-          updatedData: { notification_preference: newPreference },
-        });
-      } catch (error) {
-        console.error("Failed to update notification preference:", error);
-      }
-    };
-  
-    function getNotificationFlags(notificationPreference) {
-      return {
-        smsNotification:
-          notificationPreference === "SMS" || notificationPreference === "Both",
-        emailNotification:
-          notificationPreference === "Email" || notificationPreference === "Both",
-      };
+  useEffect(() => {
+    if (status === "success") {
+      setShowActions(false);
     }
-    const { smsNotification, emailNotification } = getNotificationFlags(
-      nominees[currentIndex].notification_preference
-    );
+  }, [status]);
 
-  
+  const handleSmsNotification = async () => {
+    const newPreference = smsNotification
+      ? emailNotification
+        ? "Email"
+        : "None"
+      : emailNotification
+      ? "Both"
+      : "SMS";
 
+    try {
+      editNomination({
+        nominee_id: nominees[currentIndex].id,
+        updatedData: { notification_preference: newPreference },
+      });
+    } catch (error) {
+      console.error("Failed to update notification preference:", error);
+    }
+  };
+
+  // Function to handle Email notification toggle
+  const handleEmailNotification = async () => {
+    const newPreference = smsNotification
+      ? emailNotification
+        ? "Email"
+        : "None"
+      : emailNotification
+      ? "Both"
+      : "SMS";
+
+    try {
+      editNomination({
+        nominee_id: nominees[currentIndex].id,
+        updatedData: { notification_preference: newPreference },
+      });
+    } catch (error) {
+      console.error("Failed to update notification preference:", error);
+    }
+  };
+
+  function getNotificationFlags(notificationPreference) {
+    return {
+      smsNotification:
+        notificationPreference === "SMS" || notificationPreference === "Both",
+      emailNotification:
+        notificationPreference === "Email" || notificationPreference === "Both",
+    };
+  }
+  const { smsNotification, emailNotification } = getNotificationFlags(
+    nominees[currentIndex].notification_preference
+  );
 
   return (
     <div className="flex flex-col items-center py-4">
@@ -603,65 +595,67 @@ export const NomineeMobile = ({
               </button>
             </div>
             <div>
-            <div className="border border-2 border-gray-200 rounded-[8px] flex space-x-2 relative">
-              <button
-                className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
-                onClick={() => {handleSmsNotification()
-                  // setShowActions(false);
-                }}
-                disabled={isLoading}
-              >
-                <span className="mr-2">SMS</span>
-                {isLoading ? (
-                  <Spinner size="sm" color="blue" />
-                ) : smsNotification ? (
-                  <span className="text-green-600">✔</span>
-                ) : (
-                  <span className="text-red-600">✖</span>
-                )}
-              </button>
-              <button
-                className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
-                onClick={() =>{handleEmailNotification()
-                  // setShowActions(false);
-                }}
-                disabled={isLoading}
-              >
-                <span className="mr-2">Email</span>
-                {isLoading ? (
-                  <Spinner size="sm" color="blue" />
-                ) : emailNotification ? (
-                  <span className="text-green-600">✔</span>
-                ) : (
-                  <span className="text-red-600">✖</span>
-                )}
-              </button>
-            {/* Confirm Buttons */}
-            {showConfirmButton && selectedDataIndex === currentIndex && (
-              <div className="flex justify-between gap-6 mt-1 bg-white ">
+              <div className="border border-2 border-gray-200 rounded-[8px] flex space-x-2 relative">
                 <button
-                  className="absolute bg-white border border-red-400 rounded-[8px] p-1 text-red-600 hover:bg-gray-100"
+                  className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
                   onClick={() => {
-                    cancelDelete();
-                    setShowActions(false);
+                    handleSmsNotification();
+                    // setShowActions(false);
                   }}
-                  style={{ top: 40, right: 100 }}
+                  disabled={isLoading}
                 >
-                  <MdClose size={25} />
+                  <span className="mr-2">SMS</span>
+                  {isLoading ? (
+                    <Spinner size="sm" color="blue" />
+                  ) : smsNotification ? (
+                    <span className="text-green-600">✔</span>
+                  ) : (
+                    <span className="text-red-600">✖</span>
+                  )}
                 </button>
                 <button
-                  className="absolute bg-white border border-green-400 rounded-[8px] p-1 text-green-700 hover:bg-gray-100"
-                  style={{ top: 40, right: 5 }}
+                  className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
                   onClick={() => {
-                    handleDelete(currentIndex);
-                    setShowActions(false);
+                    handleEmailNotification();
+                    // setShowActions(false);
                   }}
+                  disabled={isLoading}
                 >
-                  <IoMdCheckmark size={25} />
+                  <span className="mr-2">Email</span>
+                  {isLoading ? (
+                    <Spinner size="sm" color="blue" />
+                  ) : emailNotification ? (
+                    <span className="text-green-600">✔</span>
+                  ) : (
+                    <span className="text-red-600">✖</span>
+                  )}
                 </button>
+                {/* Confirm Buttons */}
+                {showConfirmButton && selectedDataIndex === currentIndex && (
+                  <div className="flex justify-between gap-6 mt-1 bg-white relative">
+                    <button
+                      className="absolute bg-white z-10 border border-red-400 rounded-[8px] p-1 text-red-600 hover:bg-gray-100"
+                      onClick={() => {
+                        cancelDelete();
+                        setShowActions(false);
+                      }}
+                      style={{ top: 40, right: 100 }}
+                    >
+                      <MdClose size={25} />
+                    </button>
+                    <button
+                      className="absolute bg-white z-10 border border-green-400 rounded-[8px] p-1 text-green-700 hover:bg-gray-100"
+                      style={{ top: 40, right: 5 }}
+                      onClick={() => {
+                        handleDelete(currentIndex);
+                        setShowActions(false);
+                      }}
+                    >
+                      <IoMdCheckmark size={25} />
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-            </div>
             </div>
           </div>
         )}

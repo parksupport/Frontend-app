@@ -17,6 +17,16 @@ export const useGetCalenderInfo = () => {
     queryFn: getCalenderInfo,
     refetchOnWindowFocus: false, // Prevent unnecessary refetching
   });
-  return { calenderData: data?.calendarData, error, calenderInfo:isLoading, refetch };
+  const transformed = data.calendarData.map((dayItem: any) => ({
+    // Convert the string into a Date object
+    date: new Date(dayItem.date),
+
+    // Convert tickets array -> array of strings (or your preferred object)
+    // Right now you have multiple tickets, so let's store them as strings:
+    events: dayItem.tickets.map((ticket: any) =>
+      `Ticket #${ticket.ticket_id} - Due: ${ticket.due_date}`
+    ),
+  }));
+  return { calenderData: transformed, error, calenderInfo:isLoading, refetch };
 };
 

@@ -11,9 +11,9 @@ import {
 import { ChevronDown, ChevronLeft, ChevronRight, RefreshCcw } from 'lucide-react'
 
 interface DateEvent {
-  date: Date
-  events: string[]
-}
+    date: Date            // a real JS Date object
+    events: string[]      // or any structure you prefer
+  }
 
 interface CalendarProps {
   /** 

@@ -39,6 +39,7 @@ export const checkTickets = async (registration_number: string) => {
 export const getCalenderInfo = async () => {
   try {
     const response = await Axios.get(`/api/vehicles/calender-info`);
+    
     return response.data;
   } catch (error: any) {
     console.error(`Error fetching Calender Info`, error);

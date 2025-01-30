@@ -14,9 +14,7 @@ export const getNominee = async (registration_number: string) => {
 
 export const getAllNominee = async () => {
   try {
-    const response = await Axios.get(
-      `/api/vehicles/get-all-nominations/`
-    );
+    const response = await Axios.get(`/api/vehicles/get-all-nominations/`);
     return response.data;
   } catch (error: any) {
     console.error("Error fetching nominee data:", error);
@@ -36,6 +34,19 @@ export const addNominee = async (
     return response.data;
   } catch (error: any) {
     console.error("Error adding nominee:", error);
+    throw error.response?.data || error.message || error;
+  }
+};
+
+export const editNominee = async (nominee_id: number, updatedData: any) => {
+  try {
+    const response = await Axios.patch(
+      `/api/vehicles/nominations/${nominee_id}/edit/`,
+      updatedData
+    );
+    return response.data;
+  } catch (error: any) {
+    console.error("Error editing nominee:", error);
     throw error.response?.data || error.message || error;
   }
 };

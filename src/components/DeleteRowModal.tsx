@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from "react";
-import { FiTrash2 } from "react-icons/fi";
-import { MdClose } from "react-icons/md";
-import { IoMdCheckmark } from "react-icons/io";
-import { CiEdit } from "react-icons/ci";
 import { groteskText } from "@/app/fonts";
+import { useEditNomination } from "@/hooks/mutations/nominee";
+import { Spinner } from "@chakra-ui/react";
 import { Plus } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { FiTrash2 } from "react-icons/fi";
+import { IoMdCheckmark } from "react-icons/io";
+import { MdClose } from "react-icons/md";
 
 interface DeleteRowModalProps {
   position?: { right: any; top: any; left?: any };
@@ -21,11 +22,11 @@ interface DeleteRowModalProps {
   onAddNominee?: () => void;
   expiredLease?: boolean;
   onClose?: () => void; // New prop to handle modal close
-  nomineesPreference?: any;
+  nominee?: any;
 }
 
 const DeleteRowModal = ({
-  nomineesPreference,
+  nominee,
   position = { right: 0, top: 0 },
   showConfirmButton = false,
   onEdit,
@@ -43,6 +44,45 @@ const DeleteRowModal = ({
 }: DeleteRowModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
+  const { editNomination, isLoading, status } = useEditNomination();
+
+  console.log("nominee", nominee);
+
+  const handleSmsNotification = async () => {
+    const newPreference = smsNotification
+      ? emailNotification
+        ? "Email"
+        : "None"
+      : emailNotification
+      ? "Both"
+      : "SMS";
+
+    editNomination({
+      nominee_id: nominee.id,
+      updatedData: { notification_preference: newPreference },
+    });
+    onClose();
+  };
+
+  // Function to handle Email notification toggle
+  const handleEmailNotification = async () => {
+    const newPreference = emailNotification
+      ? smsNotification
+        ? "SMS"
+        : "None"
+      : smsNotification
+      ? "Both"
+      : "Email";
+
+    editNomination({
+      nominee_id: nominee.id,
+      updatedData: { notification_preference: newPreference },
+    });
+    if (status === "success") {
+      onClose();
+    }
+  };
+
   function getNotificationFlags(notificationPreference) {
     return {
       smsNotification:
@@ -51,8 +91,9 @@ const DeleteRowModal = ({
         notificationPreference === "Email" || notificationPreference === "Both",
     };
   }
-  const { smsNotification, emailNotification } =
-    getNotificationFlags(nomineesPreference);
+  const { smsNotification, emailNotification } = getNotificationFlags(
+    nominee?.notification_preference
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -117,10 +158,13 @@ const DeleteRowModal = ({
             <div className="flex space-x-2">
               <button
                 className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
-                // onClick={() => setSmsNotifications(!smsNotifications)}
+                onClick={handleSmsNotification}
+                disabled={isLoading}
               >
                 <span className="mr-2">SMS</span>
-                {smsNotification ? (
+                {isLoading ? (
+                  <Spinner size="sm" color="blue" />
+                ) : smsNotification ? (
                   <span className="text-green-600">✔</span>
                 ) : (
                   <span className="text-red-600">✖</span>
@@ -128,10 +172,13 @@ const DeleteRowModal = ({
               </button>
               <button
                 className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
-                // onClick={() => setSmsNotifications(!smsNotifications)}
+                onClick={handleEmailNotification}
+                disabled={isLoading}
               >
                 <span className="mr-2">Email</span>
-                {emailNotification ? (
+                {isLoading ? (
+                  <Spinner size="sm" color="blue" />
+                ) : emailNotification ? (
                   <span className="text-green-600">✔</span>
                 ) : (
                   <span className="text-red-600">✖</span>

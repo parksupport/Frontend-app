@@ -60,6 +60,7 @@ ThirdPartyNomineesProps) {
     cancelDelete,
     setShowConfirmButton,
     setOpenDropdownIndex,
+    
   } = useDeleteRow(nominees, "nominee");
 
   const vehiclesRegNunbers = selectedVehicle?.registration_number;
@@ -179,6 +180,7 @@ ThirdPartyNomineesProps) {
               handleDelete={handleDelete}
               selectedDataIndex={selectedDataIndex}
               onCloseModal={() => setOpenDropdownIndex(null)}
+              
             />
           )}
         </div>
@@ -345,7 +347,7 @@ const NomineeDesktop = ({
                   </button>
                   {openDropdownIndex === index && (
                     <DeleteRowModal
-                      nomineesPreference={nominee?.notification_preference}
+                      nominee={nominee}
                       showConfirmButton={showConfirmButton}
                       onEdit={() => {}}
                       onRemove={() => showDeleteConfirmation(index)}

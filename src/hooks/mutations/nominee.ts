@@ -1,5 +1,5 @@
 "use client";
-import { addNominee, deleteNominee, endNomination } from "@/api/nominee";
+import { addNominee, deleteNominee, editNominee, endNomination } from "@/api/nominee";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useToast } from "@chakra-ui/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -171,5 +171,58 @@ export const useEndNomination = () => {
     isError: mutation.isError,
     error: mutation.error,
     // isLoading: mutation.isLoading,
+  };
+};
+
+
+export const useEditNomination = () => {
+  const toast = useToast();
+  const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const mutation = useMutation({
+    mutationFn: async ({
+      nominee_id,
+      updatedData,
+    }: {
+      nominee_id: number;
+      updatedData: any;
+    }) => {
+      try {
+        setIsLoading(true);
+        return await editNominee(nominee_id, updatedData);
+      } catch (error: any) {
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["nominee"] });
+
+      toast({
+        title: "Nominee updated successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error updating nominee",
+        description: error?.response?.data?.message || "Something went wrong.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    },
+  });
+
+  return {
+    editNomination: mutation.mutate,
+    isLoading,
+    status: mutation.status,
+    isError: mutation.isError,
+    error: mutation.error,
   };
 };

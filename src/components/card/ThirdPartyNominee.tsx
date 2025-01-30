@@ -595,7 +595,7 @@ export const NomineeMobile = ({
               </button>
             </div>
             <div>
-              <div className="border border-2 border-gray-200 rounded-[8px] flex space-x-2 relative">
+              <div className="border border-gray-200 rounded-[8px] flex space-x-2 relative">
                 <button
                   className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
                   onClick={() => {
@@ -639,13 +639,13 @@ export const NomineeMobile = ({
                         cancelDelete();
                         setShowActions(false);
                       }}
-                      style={{ top: 40, right: 100 }}
+                      style={{ top: 34, right: 110 }}
                     >
                       <MdClose size={25} />
                     </button>
                     <button
                       className="absolute bg-white z-10 border border-green-400 rounded-[8px] p-1 text-green-700 hover:bg-gray-100"
-                      style={{ top: 40, right: 5 }}
+                      style={{ top: 34, right: 5 }}
                       onClick={() => {
                         handleDelete(currentIndex);
                         setShowActions(false);

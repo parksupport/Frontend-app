@@ -124,7 +124,7 @@ const AdminSignupPage: React.FC<AdminSignupPageProps> = ({onContinue}) => {
           {confirmPasswordError && (
             <p className="text-red-500 text-sm">{confirmPasswordError}</p>
           )}
-          {isError && <p>{error?.error || 'An error occurred during signup'}</p>}
+          {isError && <p>{error?.message || 'An error occurred during signup'}</p>}
           </div>
           <div>
             <Button 

@@ -17,7 +17,7 @@ export const useGetCalenderInfo = () => {
     queryFn: getCalenderInfo,
     refetchOnWindowFocus: false, // Prevent unnecessary refetching
   });
-  const transformed = data.calendarData.map((dayItem: any) => ({
+  const transformed = data?.calendarData?.map((dayItem: any) => ({
     // Convert the string into a Date object
     date: new Date(dayItem.date),
 

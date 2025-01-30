@@ -46,8 +46,6 @@ const DeleteRowModal = ({
 
   const { editNomination, isLoading, status } = useEditNomination();
 
-  console.log("nominee", nominee);
-
   const handleSmsNotification = async () => {
     const newPreference = smsNotification
       ? emailNotification

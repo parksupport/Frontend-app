@@ -13,7 +13,7 @@ export const useSignup = (value:string) => {
     return registerUser('corporate', userData); // Adjust for user type if needed
   };
 
-  const mutation = useMutation<SignupResponse, Error, SignupInput>({
+  const mutation = useMutation<SignupResponse, any, SignupInput>({
     mutationFn: async (userData) => {
       return await registerUser(value, userData);
     },

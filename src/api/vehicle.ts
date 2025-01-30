@@ -31,7 +31,6 @@ export const addVehicles = async (userData) => {
 };
 
 export const verify_Vehicle = async (userData) => {
-  console.log(userData);
   try {
     const response = await Axios.post("/api/vehicles/verify-vehicle/", userData);
     return response.data;

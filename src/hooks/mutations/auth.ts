@@ -211,7 +211,7 @@ export const useVerifyOtp = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const router = useRouter();
 
-  const mutation = useMutation<any, Error, VerifyOtpRequest>({
+  const mutation = useMutation<any, any, VerifyOtpRequest>({
     mutationFn: async ({ email_address, otp }) => {
       return await verifyOtp({ email_address, otp_code: otp });
     },

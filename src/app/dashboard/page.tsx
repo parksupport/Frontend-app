@@ -36,7 +36,7 @@ import NominationHistoryTable from "@/components/Drawer/NominationHistory";
 import { useAuthStore } from "@/lib/stores/authStore";
 
 import { useAddVehicle } from "@/hooks/mutations/vehicles";
-import { useGetVehicles } from "@/hooks/queries/vehicles";
+import { useGetVehicles, useGetCalenderInfo } from "@/hooks/queries/vehicles";
 import { useGetProfile } from "@/hooks/queries/profile";
 import SubscriptionPlans from "@/components/Subscription";
 import { useGetAllTicket } from "@/hooks/queries/ticket";
@@ -49,6 +49,8 @@ export default function DashboardPage() {
 
   const drawerRef = useRef<any>(null);
   const user = useAuthStore((state) => state.user);
+  const {calenderData,calenderInfo} = useGetCalenderInfo()
+  console.log(calenderData,"calender data")
   const { full_name, user_type, vehicles } = user || {};
   // const {nominees} = useGetNominees()
   const { vehiclesData, vehicelIsLoading } = useGetVehicles();
@@ -356,7 +358,7 @@ export default function DashboardPage() {
 
             <section className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-[1380px] pt-[1.5rem] mt-6">
               <div className="w-full justify-center flex">
-                <Calendar />
+                <Calendar dateEvents={calenderData}/>
               </div>
               <div className="w-full flex justify-center">
                 {/* <NotificationsTable

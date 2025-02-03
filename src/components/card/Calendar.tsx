@@ -97,11 +97,11 @@ const Calendar: React.FC<CalendarProps> = ({ dateEvents = [] }) => {
         >
           Calendar
         </h1>
-        <div className={`items-center flex gap-[11px]`}>
+        {/* <div className={`items-center flex gap-[11px]`}>
           <Button variant="quinary" className="py-[9px] px-[12px] text-[16px]">
             Sync Calendar <RefreshCcw size={20} className="ml-[8px]" />
           </Button>
-        </div>
+        </div> */}
       </section>
 
       {/* Calendar + Right Pane */}

@@ -226,6 +226,7 @@ const ReadNotification = ({ selectedNotification }) => {
 
           <p
             className={` text-black md:text-[18px] ${groteskText.className} mt-2`}
+            style={{ whiteSpace: 'pre-line' }}
           >
             {selectedNotification.message}
           </p>

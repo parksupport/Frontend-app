@@ -8,6 +8,7 @@ import {
   MobileViewNotification,
 } from "../NotificationTable";
 import DrawerHeader from "./DrawerHeader";
+import { useGetProfile } from "@/hooks/queries/profile";
 
 type NotificationProps = {
   id: number;
@@ -121,7 +122,7 @@ const NotificationsTableDrawer = ({ back }) => {
         ) : (
           <div className="w-[900px] mx-auto flex items-center">
             <DesktopViewNotification
-            selectedNotification={selectedNotification}
+              selectedNotification={selectedNotification}
               isDrawer={true}
               handleSelectAll={handleCheckedAll}
               selectAll={isAllSelected}
@@ -158,6 +159,10 @@ const NotificationsTableDrawer = ({ back }) => {
 export default NotificationsTableDrawer;
 
 const ReadNotification = ({ selectedNotification }) => {
+  const {
+    profile: { email_address },
+  } = useGetProfile();
+
   const recipientsString = selectedNotification?.recipients
     ? selectedNotification.recipients
         .replace(/'/g, '"') // Replace single quotes with double quotes
@@ -184,18 +189,43 @@ const ReadNotification = ({ selectedNotification }) => {
             {" "}
             {selectedNotification.time}
           </h5>
+
           {mappedRecipients?.length > 0 && (
-            <div className="border border-gray-300 rounded-lg p-2">
-              <div className="flex flex-wrap gap-2">
-                {mappedRecipients.map((email) => (
-                  <div
-                    key={email}
-                    className="flex flex-row bg-gray-200 text-gray-800 text-[12px] items-center rounded-full px-4 space-x-2"
-                  >
-                    <span>{email}</span>
+            <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-sm space-y-3">
+              {/* <div className="flex items-center space-x-2">
+      <span className="font-semibold text-gray-700">From:</span>
+      <span className="text-gray-900">sender@example.com</span>
+    </div> */}
+
+              <div className="flex items-center space-x-2">
+                <span className="text-[12px] md:text-[14px]  font-semibold text-gray-700">
+                  To:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  <div className="text-[12px] md:text-[14px]  text-blue-600  px-3 py-1 rounded-full">
+                    {email_address}
                   </div>
-                ))}
+                  {/* ))} */}
+                </div>
               </div>
+
+              {mappedRecipients?.length > 0 && (
+                <div className="flex items-center space-x-2">
+                  <span className="text-[12px] md:text-[14px]  font-semibold text-gray-700">
+                    CC:
+                  </span>
+                  <div className="flex flex-wrap gap-1 md:gap-2">
+                    {mappedRecipients.map((email) => (
+                      <div
+                        key={email}
+                        className=" text-[12px] md:text-[14px]  bg-gray-200 text-gray-800  px-3 py-1 rounded-full"
+                      >
+                        {email}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

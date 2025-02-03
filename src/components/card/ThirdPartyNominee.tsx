@@ -600,7 +600,7 @@ export const NomineeMobile = ({
                   className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
                   onClick={() => {
                     handleSmsNotification();
-                    // setShowActions(false);
+                    // setShowActions(true);
                   }}
                   disabled={isLoading}
                 >
@@ -617,7 +617,7 @@ export const NomineeMobile = ({
                   className={`w-full flex items-center px-[1px] py-2 text-[14px] md:text-[14px] text-black hover:bg-gray-100 ${groteskText.className}`}
                   onClick={() => {
                     handleEmailNotification();
-                    // setShowActions(false);
+                    // setShowActions(true);
                   }}
                   disabled={isLoading}
                 >
@@ -647,7 +647,7 @@ export const NomineeMobile = ({
                       className="absolute bg-white z-10 border border-green-400 rounded-[8px] p-1 text-green-700 hover:bg-gray-100"
                       style={{ top: 34, right: 5 }}
                       onClick={() => {
-                        handleDelete(currentIndex);
+                        handleDelete(currentIndex,registarationNumber);
                         setShowActions(false);
                       }}
                     >

@@ -200,21 +200,21 @@ export const useEditNomination = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["nominee"] });
 
-      toast({
-        title: "Nominee updated successfully.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
+      // toast({
+      //   title: "Nominee updated successfully.",
+      //   status: "success",
+      //   duration: 3000,
+      //   isClosable: true,
+      // });
     },
     onError: (error: any) => {
-      toast({
-        title: "Error updating nominee",
-        description: error?.response?.data?.message || "Something went wrong.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      // toast({
+      //   title: "Error updating nominee",
+      //   description: error?.response?.data?.message || "Something went wrong.",
+      //   status: "error",
+      //   duration: 3000,
+      //   isClosable: true,
+      // });
     },
   });
 

@@ -9,7 +9,7 @@ import { useCheckVehicleTicket } from "@/hooks/queries/ticket";
 import useIsMobile from "@/hooks/useIsMobile";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import ModalComponent from "./Drawer/ModalComponent";
@@ -61,6 +61,19 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     }
   };
 
+  const boxRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (boxRef.current && !boxRef.current.contains(event.target as Node)) {
+        setHasSearched(false); // Hide NotificationBox
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <header className="bg-[#FFFFFF] border-solid p-2 md:p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between relative">
       <div className="flex items-center justify-between w-full">
@@ -74,16 +87,18 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         >
           <input
             type="text"
-            onKeyDown={(e) => handleKeyPress(e)}
+            onKeyDown={handleKeyPress}
             value={vehicleNo}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             placeholder="Search by vehicle number"
             className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
           />
           <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
         </form>
-        <div className="absolute ">
-          {hasSearched && vehicleNo && hasTicket !== null && (
+
+        {/* NotificationBox with ref */}
+        {hasSearched && vehicleNo && hasTicket !== null && (
+          <div className="absolute" ref={boxRef}>
             <NotificationBox
               position={
                 isMobile ? { right: -20, top: 145 } : { right: -660, top: 88 }
@@ -91,8 +106,9 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               onClick={onOpen}
               hasTicket={hasTicket}
             />
-          )}
-        </div>
+          </div>
+        )}
+
         <ModalComponent
           isOpen={isDisclosureOpen}
           onClose={onClose}
@@ -109,11 +125,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         />
 
         <div className="flex items-center space-x-4">
-          {/* <OpenNotification /> */}
-          {/* <button className="cursor-pointer"  onClick={toggleProfile}>
-          <IoNotifications size={24} color="grey" />
-         
-        </button> */}
           <button className="cursor-pointer" onClick={openSettingsDrawer}>
             <SettingSVG size={24} color="grey" />
           </button>
@@ -139,18 +150,17 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       </div>
 
       <form
-       onSubmit={handleSearch}
+        onSubmit={handleSearch}
         className={`${groteskText.className} block sm:hidden relative max-w-full w-full h-[36px] mt-4 rounded-[6px]`}
       >
         <input
           type="text"
-          onKeyDown={(e) => handleKeyPress(e)}
+          onKeyDown={handleKeyPress}
           value={vehicleNo}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           placeholder="Search by vehicle number"
           className="w-full h-full bg-[#F7F9FC] px-[44px] focus:outline-[#E0E0E0] rounded-[6px]"
         />
-
         <SearchSVG className="absolute left-4 top-2 cursor-pointer" />
       </form>
     </header>

@@ -87,7 +87,6 @@ export default function DashboardPage() {
         openAddVehicleDetailsDrawer={openAddVehicleDetailsDrawer}
         form={form}
         autoScrollToForm={autoScrollToForm}
-        // verify={openVerifyMyVehicleDrawer
         verify={openVerifyVehicleDrawer}
         openAddBillingMethod={openAddBillingMethod}
       />
